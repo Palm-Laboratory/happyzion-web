@@ -27,8 +27,8 @@ export const metadata: Metadata = {
     images: [DEFAULT_OG_IMAGE.url],
   },
   icons: {
-    icon: "/images/logo/site-mark.svg",
-    apple: "/images/logo/site-mark.svg",
+    icon: "/images/logo/happyzion-logo.png",
+    apple: "/images/logo/happyzion-logo.png",
   },
 };
 

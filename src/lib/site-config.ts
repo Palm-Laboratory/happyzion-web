@@ -4,12 +4,15 @@ const readEnv = (name: string, fallback: string) => {
 };
 
 export const SITE_URL = readEnv("NEXT_PUBLIC_SITE_URL", "http://localhost:3000");
-export const SITE_NAME = readEnv("NEXT_PUBLIC_SITE_NAME", "Happy Zion");
-export const SITE_ALTERNATE_NAME = readEnv("NEXT_PUBLIC_SITE_ALTERNATE_NAME", "해피시온");
-export const SITE_TAGLINE = readEnv("NEXT_PUBLIC_SITE_TAGLINE", "은혜와 평안이 머무는 공동체");
-export const CHURCH_ADDRESS = readEnv("NEXT_PUBLIC_CHURCH_ADDRESS", "서울시 어딘가 123");
-export const CHURCH_PHONE = readEnv("NEXT_PUBLIC_CHURCH_PHONE", "010-0000-0000");
-export const CHURCH_EMAIL = readEnv("NEXT_PUBLIC_CHURCH_EMAIL", "hello@example.com");
+export const SITE_NAME = readEnv("NEXT_PUBLIC_SITE_NAME", "행복이가득한 시온장로교회");
+export const SITE_ALTERNATE_NAME = readEnv("NEXT_PUBLIC_SITE_ALTERNATE_NAME", "HAPPY.Zion");
+export const SITE_TAGLINE = readEnv("NEXT_PUBLIC_SITE_TAGLINE", "우리는 복음으로 사람을 살리는 교회입니다");
+export const CHURCH_ADDRESS = readEnv(
+  "NEXT_PUBLIC_CHURCH_ADDRESS",
+  "경기 고양시 덕양구 호국로811번길 36",
+);
+export const CHURCH_PHONE = readEnv("NEXT_PUBLIC_CHURCH_PHONE", "010-1234-5678");
+export const CHURCH_EMAIL = readEnv("NEXT_PUBLIC_CHURCH_EMAIL", "happyzion@gmail.com");
 export const YOUTUBE_CHANNEL_URL = readEnv("NEXT_PUBLIC_YOUTUBE_URL", "https://www.youtube.com/");
 
 export const SITE_DESCRIPTION = `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 세워가는 공동체입니다.`;

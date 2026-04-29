@@ -1,34 +1,58 @@
+@import url("https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT.css");
+
+@font-face {
+  font-family: "CormorantGaramondFallback";
+  src: local("Times New Roman");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
-  --color-background: #f6f5f0;
+  --color-background: #fffcf8;
   --color-surface: #fffdf7;
-  --color-ink: #1f2b24;
-  --color-forest: #335c4a;
-  --color-sage: #7c9a7e;
-  --color-gold: #c7a45f;
-  --border-soft: rgba(51, 92, 74, 0.12);
-  --shadow-soft: rgba(31, 43, 36, 0.12);
+  --color-ink: #250030;
+  --color-plum: #3d1a46;
+  --color-mist: #928397;
+  --color-gold: #d5b16c;
+  --border-soft: rgba(61, 26, 70, 0.12);
+  --shadow-soft: rgba(20, 6, 26, 0.12);
+  --scroll-y: 0px;
+  --scroll-progress: 0;
+  --scroll-velocity: 0;
+  --scroll-direction: 0;
+  --scroll-limit: 0px;
+  --viewport-height: 100vh;
 }
 
 html {
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
-  scroll-behavior: smooth;
   background: var(--color-background);
 }
 
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top right, rgba(199, 164, 95, 0.14), transparent 28%),
-    linear-gradient(180deg, #f8f6f1 0%, #f6f5f0 100%);
+  background: var(--color-background);
   color: var(--color-ink);
+  font-family: "SUIT", var(--font-sans), sans-serif;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -40,20 +64,20 @@ body {
 @layer components {
   .type-page-title {
     font-size: 2.5rem;
-    line-height: 1.1;
-    font-family: var(--font-yeongwol);
+    line-height: 1.14;
+    font-family: var(--font-hahmlet), var(--font-serif), serif;
   }
 
   .type-section-title {
     font-size: 1.75rem;
     line-height: 1.2;
-    font-family: var(--font-section-title);
+    font-family: var(--font-hahmlet), var(--font-serif), serif;
   }
 
   .type-card-title {
     font-size: 1.25rem;
     line-height: 1.3;
-    font-family: var(--font-section-title);
+    font-family: var(--font-hahmlet), var(--font-serif), serif;
   }
 
   .type-body {
@@ -64,6 +88,18 @@ body {
   .type-label {
     font-size: 0.75rem;
     line-height: 1.2;
+  }
+
+  .font-hahmlet {
+    font-family: var(--font-hahmlet), var(--font-serif), serif;
+  }
+
+  .font-suit {
+    font-family: "SUIT", var(--font-sans), sans-serif;
+  }
+
+  .font-corinthia {
+    font-family: var(--font-corinthia), cursive;
   }
 }
 
@@ -82,4 +118,13 @@ body {
   background: rgba(255, 253, 247, 0.9);
   box-shadow: 0 14px 40px var(--shadow-soft);
   backdrop-filter: blur(8px);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }

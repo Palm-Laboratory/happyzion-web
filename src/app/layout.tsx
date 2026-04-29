@@ -1,7 +1,16 @@
 import type { Viewport } from "next";
 
 import "./globals.css";
-import { nanumMyeongjo, notoSansKr, notoSerifKr, yeongwol } from "@/lib/fonts";
+import SmoothScroll from "@/components/smooth-scroll";
+import {
+  corinthia,
+  cormorantGaramond,
+  hahmlet,
+  nanumMyeongjo,
+  notoSansKr,
+  notoSerifKr,
+  yeongwol,
+} from "@/lib/fonts";
 
 export const viewport: Viewport = {
   themeColor: "#f6f5f0",
@@ -16,8 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
+        className={`${corinthia.variable} ${cormorantGaramond.variable} ${hahmlet.variable} ${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
       >
+        <SmoothScroll />
         {children}
       </body>
     </html>

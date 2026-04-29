@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site-config";
 
 export const DEFAULT_OG_IMAGE = {
-  url: "/images/logo/site-mark.svg",
-  width: 160,
-  height: 160,
+  url: "/images/logo/happyzion-logo.png",
+  width: 512,
+  height: 512,
   alt: SITE_NAME,
 };
 
