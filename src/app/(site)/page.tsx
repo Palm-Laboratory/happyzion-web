@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import MissionStorySection from "@/components/home/mission-story-section";
@@ -13,6 +14,18 @@ export const metadata = createPageMetadata({
 });
 
 export default function HomePage() {
+  const aboutCardVars = {
+    "--about-card-width": "clamp(520px, 50vw, 860px)",
+    "--about-card-type-scale": "clamp(468px, 45vw, 774px)",
+    "--about-card-gap": "clamp(1rem, calc(var(--about-card-width) * 0.028), 1.5rem)",
+    "--about-label-gap": "clamp(2.5rem, 5vw, 3.5rem)",
+    "--about-card-padding": "calc(var(--about-card-type-scale) * 0.05)",
+    "--about-card-eyebrow": "clamp(10px, calc(var(--about-card-type-scale) * 0.0175), 14px)",
+    "--about-card-title": "clamp(20px, calc(var(--about-card-type-scale) * 0.0417), 32px)",
+    "--about-card-body": "clamp(14px, calc(var(--about-card-type-scale) * 0.026), 20px)",
+    "--about-card-watermark": "calc(var(--about-card-type-scale) * 0.167)",
+  } as CSSProperties;
+
   return (
     <div className="bg-[#fffcf8]">
       <section className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-[#241f25] pt-[88px]">
@@ -25,7 +38,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[linear-gradient(180deg,#d3c0dc_0%,#fffcf8_100%)] px-5 py-[240px] md:px-10 lg:px-20">
+      <section className="flex min-h-screen items-center bg-[linear-gradient(180deg,#d3c0dc_0%,#fffcf8_100%)] px-5 py-[240px] md:px-10 lg:px-20">
         <div className="mx-auto flex w-full flex-col items-center gap-16 lg:gap-[68px]">
           <div className="flex flex-col items-center gap-4">
             <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#341936] md:text-base">
@@ -34,15 +47,30 @@ export default function HomePage() {
             <div className="h-px w-[60px] bg-[#3d1a46]" />
           </div>
 
-          <div className="relative w-full max-w-[910px] overflow-hidden border border-[#eae2f0] bg-[rgba(246,241,248,0.7)] px-8 py-14 shadow-[0_8px_24px_rgba(242,215,255,0.2)] backdrop-blur-[40px] md:px-[60px] md:py-[80px]">
+          <div
+            className="relative w-full max-w-[clamp(320px,72vw,910px)] overflow-hidden border border-[#eae2f0] bg-[rgba(246,241,248,0.7)] px-[clamp(24px,4vw,60px)] py-[clamp(48px,6vw,80px)] shadow-[0_8px_24px_rgba(242,215,255,0.2)] backdrop-blur-[40px]"
+            style={
+              {
+                "--verse-card-width": "clamp(320px,72vw,910px)",
+                "--verse-watermark-size": "calc(var(--verse-card-width) * 0.158)",
+              } as CSSProperties
+            }
+          >
             <div className="flex flex-col items-center gap-9 text-center">
-              <p className="font-hahmlet text-[1.5rem] leading-[1.9] tracking-[0.01em] text-[#4f3657]">
+              <p className="font-hahmlet text-[1rem] leading-[1.9] tracking-[0.01em] text-[#4f3657] md:text-[1.25rem] lg:text-[1.5rem]">
                 “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
               </p>
               {/* <div className="h-px w-full max-w-[700px] bg-[linear-gradient(90deg,rgba(216,183,220,0)_0%,#845A88_50%,rgba(216,183,220,0)_100%)]" /> */}
-              <p className="font-hahmlet text-[1.5rem] text-[#4f3657]">사도행전 1:8</p>
+              <p className="font-hahmlet text-[1rem] text-[#4f3657] md:text-[1.25rem] lg:text-[1.5rem]">사도행전 1:8</p>
             </div>
-            <p className="pointer-events-none absolute bottom-[-8px] right-[-100px] font-corinthia text-[72px] uppercase text-[rgba(0,0,0,0.03)] md:bottom-[-40px] md:right-[-20px] md:text-[144px]">
+            <p
+              className="pointer-events-none absolute font-corinthia uppercase text-[rgba(0,0,0,0.03)]"
+              style={{
+                bottom: "calc(var(--verse-card-width) * -0.044)",
+                right: "calc(var(--verse-card-width) * -0.022)",
+                fontSize: "var(--verse-watermark-size)",
+              }}
+            >
               VERSE
             </p>
           </div>
@@ -51,9 +79,12 @@ export default function HomePage() {
 
       <section
         id="about"
-        className="relative overflow-hidden bg-[#fffcf8] px-5 py-24 md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px]"
+        className="relative min-h-screen overflow-hidden bg-[#fffcf8] bg-[url('/images/vision/vision-cloud.png')] bg-cover bg-top bg-no-repeat px-5 py-24 md:min-h-0 md:bg-none md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px] max-[560px]:[--about-card-width:100%] max-[560px]:[--about-card-gap:1rem] max-[560px]:[--about-card-padding:24px] max-[560px]:[--about-card-eyebrow:10px] max-[560px]:[--about-card-title:20px] max-[560px]:[--about-card-body:14px] max-[560px]:[--about-card-watermark:78px]"
+        style={aboutCardVars}
       >
-        <div className="absolute right-0 top-0 h-[520px] w-[82vw] md:h-[700px] md:w-[80vw] lg:h-[920px] lg:w-[78vw]">
+        <div className="absolute inset-0 bg-white/30 md:hidden" />
+
+        <div className="absolute hidden h-screen w-full md:block md:left-auto md:right-0 md:top-[60px] md:w-[70vw] lg:top-0 lg:h-[calc(var(--about-label-gap)+var(--about-card-width)*0.667+var(--about-card-gap)*2+20rem)]">
           <Image
             src="/images/vision/vision-cloud.png"
             alt="Vision background"
@@ -64,28 +95,47 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-white/30" />
         </div>
 
-        <div className="relative z-10 mx-auto w-full">
-          <div className="mb-14">
-            <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base">
+        <div className="relative z-10 mx-auto flex min-h-screen w-full flex-col justify-center md:block md:min-h-0">
+          <div className="mb-[var(--about-label-gap)] max-[767px]:mx-auto max-[767px]:w-fit">
+            <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base max-[767px]:text-center">
               about us
             </p>
-            <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />
+            <div className="mt-3 h-px w-[60px] bg-[#3d1a46] max-[767px]:mx-auto" />
           </div>
 
-          <div className="grid max-w-[629px] gap-6 uppercase">
+          <div className="grid w-[var(--about-card-width)] gap-[var(--about-card-gap)] uppercase max-[767px]:mx-auto max-[560px]:w-full">
             {aboutCards.map((card) => (
               <article
                 key={card.number}
-                className="relative overflow-hidden border border-white/30 bg-[rgba(255,255,255,0.7)] p-8 shadow-[4px_4px_20px_rgba(45,22,59,0.1)] backdrop-blur-[10px]"
+                className="relative overflow-hidden border border-white/30 bg-[rgba(255,255,255,0.7)] shadow-[4px_4px_20px_rgba(45,22,59,0.1)] backdrop-blur-[10px]"
+                style={{ padding: "var(--about-card-padding)" }}
               >
-                <p className="font-hahmlet text-[10px] tracking-[0.2em] text-[rgba(58,30,66,0.32)]">
+                <p
+                  className="font-hahmlet tracking-[0.2em] text-[rgba(58,30,66,0.32)]"
+                  style={{ fontSize: "var(--about-card-eyebrow)" }}
+                >
                   {card.eyebrow}
                 </p>
-                <h3 className="mt-3 font-hahmlet text-2xl font-semibold text-[#280631]">{card.title}</h3>
-                <p className="mt-3 font-suit text-[15px] leading-[1.6] tracking-[0.01em] text-[#7e6f87]">
+                <h3
+                  className="mt-1 font-hahmlet font-semibold text-[#280631] lg:mt-0"
+                  style={{ fontSize: "var(--about-card-title)" }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  className="mt-[calc(var(--about-card-width)*0.018)] font-suit leading-[1.6] tracking-[0.01em] text-[#7e6f87]"
+                  style={{ fontSize: "var(--about-card-body)" }}
+                >
                   {card.body}
                 </p>
-                <p className="pointer-events-none absolute left-4 top-[-18px] font-corinthia text-[96px] leading-none text-[rgba(58,30,66,0.04)] md:left-6 md:top-[-24px] md:text-[128px]">
+                <p
+                  className="pointer-events-none absolute font-corinthia leading-none text-[rgba(58,30,66,0.04)]"
+                  style={{
+                    left: "calc(var(--about-card-width) * 0.025)",
+                    top: "calc(var(--about-card-width) * -0.03)",
+                    fontSize: "var(--about-card-watermark)",
+                  }}
+                >
                   {card.number}
                 </p>
               </article>
