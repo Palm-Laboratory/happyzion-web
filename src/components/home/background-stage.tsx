@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 
 const BACKGROUND_STYLES: Record<string, string> = {
-  hero: "#000000",
   verse: "linear-gradient(180deg,#d3c0dc 0%,#fffcf8 100%)",
   cream: "#fffcf8",
   "mission-dark": "#1E1035",
@@ -11,6 +10,7 @@ const BACKGROUND_STYLES: Record<string, string> = {
 
 const BACKGROUND_KEYS = Object.keys(BACKGROUND_STYLES);
 const SECTION_SELECTOR = "[data-bg-key]";
+const MISSION_TO_CREAM_TRANSITION_DISTANCE = 700;
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const smoothstep = (value: number) => value * value * (3 - 2 * value);
@@ -98,7 +98,13 @@ export default function BackgroundStage() {
       if (current.key === "cream" && next.key === "mission-dark") {
         progress = smoothstep(clamp((320 - distanceToNext) / 320, 0, 1));
       } else if (current.key === "mission-dark" && next.key === "cream") {
-        progress = smoothstep(clamp((1000 - distanceToNext) / 1000, 0, 1));
+        progress = smoothstep(
+          clamp(
+            (MISSION_TO_CREAM_TRANSITION_DISTANCE - distanceToNext) / MISSION_TO_CREAM_TRANSITION_DISTANCE,
+            0,
+            1,
+          ),
+        );
       }
 
       const opacities = Object.fromEntries(BACKGROUND_KEYS.map((key) => [key, 0])) as Record<string, number>;

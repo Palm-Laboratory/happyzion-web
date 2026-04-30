@@ -106,11 +106,19 @@ export default function MissionStorySection() {
   }, []);
 
   const safeProgress = hydrated ? progress : 0;
+  const storyIntroEnd = 0.32;
+  const storyRevealStart = 0.24;
+  const storyRevealDuration = 0.08;
+  const storyTrackStart = 0.3;
+  const storyTrackDuration = 0.7;
+  const introExitProgress = clamp(safeProgress / storyIntroEnd, 0, 1);
   const introOpacity = 1;
-  const introExitOffset = safeProgress * 140;
-  const teamTrackProgress = clamp((safeProgress - 0.46) / 0.54, 0, 1);
+  const introExitOffset = introExitProgress * 140;
+  const teamTrackProgress = clamp((safeProgress - storyTrackStart) / storyTrackDuration, 0, 1);
   const teamPhaseProgress = teamTrackProgress;
-  const teamReveal = smoothstep(clamp((safeProgress - 0.44) / 0.1, 0, 1));
+  const teamReveal = smoothstep(
+    clamp((safeProgress - storyRevealStart) / storyRevealDuration, 0, 1),
+  );
   const teamEnterOffset = (1 - teamReveal) * 18;
   const activationFloat = teamPhaseProgress * missionStories.length - 1;
   const displayIndex = getClosestIndex(activationFloat, missionStories.length);
@@ -125,7 +133,7 @@ export default function MissionStorySection() {
   } as CSSProperties;
 
   return (
-    <section ref={ref} id="mission" data-bg-key="mission-dark" className="relative h-[300svh]">
+    <section ref={ref} id="mission" data-bg-key="mission-dark" className="relative h-[400svh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="relative mx-auto h-full w-full" style={desktopCounterVars}>
           <div

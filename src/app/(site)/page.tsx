@@ -34,8 +34,7 @@ export default function HomePage() {
 
       <div className="relative z-10">
       <section
-        data-bg-key="hero"
-        className="relative flex min-h-screen flex-col justify-between overflow-hidden pt-[88px]"
+        className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-black pt-[88px]"
       >
         <div className="flex-1" />
         <div className="flex items-center justify-center pb-5">
