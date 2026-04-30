@@ -5,7 +5,7 @@ import { CHURCH_ADDRESS, CHURCH_EMAIL, CHURCH_PHONE, SITE_NAME, YOUTUBE_CHANNEL_
 
 export default function SiteFooter() {
   return (
-    <footer id="footer" className="bg-[#1f0f28] text-white">
+    <footer id="footer" className="relative z-10 bg-[#1f0f28] text-white">
       <div className="mx-auto w-full px-5 py-10 md:px-10 lg:px-[80px] lg:py-[60px]">
         <div className="border-b border-white/20 pb-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
