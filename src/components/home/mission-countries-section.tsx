@@ -9,9 +9,9 @@ const smoothstep = (value: number) => value * value * (3 - 2 * value);
 const mixChannel = (from: number, to: number, amount: number) => from + (to - from) * amount;
 const mixColor = (amount: number) => {
   const eased = smoothstep(amount);
-  const r = Math.round(mixChannel(82, 37, eased));
-  const g = Math.round(mixChannel(66, 0, eased));
-  const b = Math.round(mixChannel(87, 48, eased));
+  const r = Math.round(mixChannel(179, 255, eased));
+  const g = Math.round(mixChannel(160, 250, eased));
+  const b = Math.round(mixChannel(205, 240, eased));
 
   return `rgb(${r}, ${g}, ${b})`;
 };
@@ -109,7 +109,7 @@ export default function MissionCountriesSection() {
   const { ref, progress } = useSectionProgress<HTMLElement>();
   const introEnd = 0.12;
   const arcStart = introEnd;
-  const outroStart = 0.78;
+  const outroStart = 0.88;
   const outroDuration = 1 - outroStart;
   const arcDuration = outroStart - arcStart;
   const releaseStart = outroStart - 0.04;
@@ -120,11 +120,11 @@ export default function MissionCountriesSection() {
   const releaseProgress = clamp((progress - releaseStart) / releaseDuration, 0, 1);
   const outroProgress = clamp((progress - outroStart) / outroDuration, 0, 1);
   const outroOpacityProgress = smoothstep(outroProgress);
-  const headingTranslate = (1 - introProgress) * 120 - releaseProgress * 24 - outroProgress * 436;
+  const headingTranslate = (1 - introProgress) * 120 - releaseProgress * 24 - outroProgress * 160;
   const groupOpacity = 1 - outroOpacityProgress * 0.2;
 
   return (
-    <section ref={ref} className="relative h-[300svh] bg-[#fffcf8]">
+    <section ref={ref} data-bg-key="mission-dark" className="relative h-[240svh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div
           className="relative mx-auto h-full w-full py-24"
@@ -143,10 +143,10 @@ export default function MissionCountriesSection() {
             }}
           >
             <div>
-              <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base">
+              <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#f0e8ff] md:text-base">
                 mission countries
               </p>
-              <div className="mt-3 h-px w-16 bg-[#3d1a46]" />
+              <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
             </div>
           </div>
 
@@ -156,7 +156,7 @@ export default function MissionCountriesSection() {
               transform: `translateY(calc(-50% + ${headingTranslate}px))`,
             }}
           >
-            <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#241126] md:text-xl">
+            <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#f0e8ff] md:text-xl">
               필리핀부터 미얀마, 태국과 말레이시아까지, 우리는 다양한 땅에서 복음을 전하며
               선교의 사명을 이어가고 있습니다.
             </p>

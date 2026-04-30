@@ -125,22 +125,22 @@ export default function MissionStorySection() {
   } as CSSProperties;
 
   return (
-    <section ref={ref} id="mission" className="relative h-[300svh] bg-[#fffcf8]">
+    <section ref={ref} id="mission" data-bg-key="mission-dark" className="relative h-[300svh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="relative mx-auto h-full w-full" style={desktopCounterVars}>
           <div
-            className="absolute left-1/2 top-[240px] z-30 flex w-full max-w-[900px] -translate-x-1/2 flex-col items-center px-5 text-center uppercase md:px-10"
+            className="absolute left-1/2 top-[300px] z-30 flex w-full max-w-[900px] -translate-x-1/2 flex-col items-center px-5 text-center uppercase md:px-10"
             style={{
               opacity: introOpacity,
               transform: `translate(-50%, -${introExitOffset}vh)`,
             }}
           >
-            <p className="font-hahmlet text-sm font-extralight tracking-[0.28em] text-[#3d1a46] md:text-base">
+            <p className="font-hahmlet text-sm font-extralight tracking-[0.28em] text-[#f0e8ff] md:text-base">
               OUR MISSION
             </p>
-            <div className="mt-3 h-px w-16 bg-[#3d1a46]" />
-            <p className="mt-5 font-hahmlet text-lg text-[#928397] md:text-2xl">LIFE THROUGH THE GOSPEL</p>
-            <h2 className="mt-5 font-hahmlet text-[2.25rem] font-semibold leading-[1.28] tracking-[-0.03em] text-[#250030] md:text-[3.75rem] md:leading-[1.38]">
+            <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
+            <p className="mt-5 font-hahmlet text-lg text-[#bfaed9] md:text-2xl">LIFE THROUGH THE GOSPEL</p>
+            <h2 className="mt-5 font-hahmlet text-[2.25rem] font-semibold leading-[1.28] tracking-[-0.03em] text-[#f0e8ff] md:text-[3.75rem] md:leading-[1.38]">
               우리는 복음으로
               <br />
               사람을 살리는 교회입니다
@@ -197,7 +197,7 @@ export default function MissionStorySection() {
                   {missionStories.map((story, index) => (
                     <p
                       key={story.country}
-                      className="col-start-1 row-start-1 font-suit text-xl leading-8 tracking-[0.01em] text-[#250030]"
+                      className="col-start-1 row-start-1 font-suit text-xl leading-8 tracking-[0.01em] text-[#f0e8ff]"
                       style={{
                         opacity: index === displayIndex ? 1 : 0,
                         visibility: index === displayIndex ? "visible" : "hidden",
@@ -219,7 +219,7 @@ export default function MissionStorySection() {
                       {missionStories.map((story, index) => (
                         <p
                           key={story.country}
-                          className="font-corinthia text-[2.375rem] leading-[40px] text-[#250030]"
+                          className="font-corinthia text-[2.375rem] leading-[40px] text-[#fffaf0]"
                           style={{
                             opacity: index === displayIndex ? 1 : 0.1,
                           }}
@@ -231,12 +231,12 @@ export default function MissionStorySection() {
                   </div>
 
                   <div className="flex items-center gap-4 pt-[110px]">
-                    <div className="h-px w-9 bg-[#3d1a46]" />
+                    <div className="h-px w-9 bg-[rgba(255,250,240,0.65)]" />
                     <div className="grid">
                       {missionStories.map((story, index) => (
                         <p
                           key={story.country}
-                          className="col-start-1 row-start-1 text-2xl italic leading-8 tracking-[0.08em] text-[#250030]"
+                          className="col-start-1 row-start-1 text-2xl italic leading-8 tracking-[0.08em] text-[#fffaf0]"
                           style={{
                             fontFamily: "var(--font-cormorant-garamond)",
                             opacity: index === displayIndex ? 1 : 0,
@@ -257,7 +257,7 @@ export default function MissionStorySection() {
               >
                 <div className="flex items-start">
                   <p
-                    className="font-suit text-[#250030]"
+                    className="font-suit text-[#f0e8ff]"
                     style={{
                       fontSize: "var(--counter-size)",
                       lineHeight: "var(--counter-size)",
@@ -279,7 +279,7 @@ export default function MissionStorySection() {
                       {["1", "2", "3"].map((item) => (
                         <p
                           key={item}
-                          className="flex items-center font-suit text-[#250030]"
+                          className="flex items-center font-suit text-[#f0e8ff]"
                           style={{
                             height: "var(--counter-size)",
                             fontSize: "var(--counter-size)",
@@ -304,7 +304,7 @@ export default function MissionStorySection() {
               >
                 <div className="flex items-start">
                   <p
-                    className="font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#250030]"
+                    className="font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#f0e8ff]"
                     style={{ fontWeight: 900 }}
                   >
                     0
@@ -317,7 +317,7 @@ export default function MissionStorySection() {
                       {["1", "2", "3"].map((item) => (
                         <p
                           key={item}
-                          className="flex h-[68px] items-center font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#250030]"
+                          className="flex h-[68px] items-center font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#f0e8ff]"
                           style={{ fontWeight: 900 }}
                         >
                           {item}

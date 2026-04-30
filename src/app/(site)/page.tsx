@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
+import BackgroundStage from "@/components/home/background-stage";
+import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import MissionStorySection from "@/components/home/mission-story-section";
 import { createPageMetadata } from "@/lib/seo";
@@ -27,8 +29,14 @@ export default function HomePage() {
   } as CSSProperties;
 
   return (
-    <div className="bg-[#fffcf8]">
-      <section className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-[#241f25] pt-[88px]">
+    <div className="relative">
+      <BackgroundStage />
+
+      <div className="relative z-10">
+      <section
+        data-bg-key="hero"
+        className="relative flex min-h-screen flex-col justify-between overflow-hidden pt-[88px]"
+      >
         <div className="flex-1" />
         <div className="flex items-center justify-center pb-5">
           <div className="flex flex-col items-center gap-3">
@@ -38,7 +46,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="flex min-h-screen items-center bg-[linear-gradient(180deg,#d3c0dc_0%,#fffcf8_100%)] px-5 py-[240px] md:px-10 lg:px-20">
+      <section
+        data-bg-key="verse"
+        className="flex min-h-screen items-center px-5 py-[240px] md:px-10 lg:px-20"
+      >
         <div className="mx-auto flex w-full flex-col items-center gap-16 lg:gap-[68px]">
           <div className="flex flex-col items-center gap-4">
             <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#341936] md:text-base">
@@ -79,7 +90,8 @@ export default function HomePage() {
 
       <section
         id="about"
-        className="relative min-h-screen overflow-hidden bg-[#fffcf8] bg-[url('/images/vision/vision-cloud.png')] bg-cover bg-top bg-no-repeat px-5 py-24 md:min-h-0 md:bg-none md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px] max-[560px]:[--about-card-width:100%] max-[560px]:[--about-card-gap:1rem] max-[560px]:[--about-card-padding:24px] max-[560px]:[--about-card-eyebrow:10px] max-[560px]:[--about-card-title:20px] max-[560px]:[--about-card-body:14px] max-[560px]:[--about-card-watermark:78px]"
+        data-bg-key="cream"
+        className="relative min-h-screen overflow-hidden bg-[url('/images/vision/vision-cloud.png')] bg-cover bg-top bg-no-repeat px-5 py-24 md:min-h-0 md:bg-none md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px] max-[560px]:[--about-card-width:100%] max-[560px]:[--about-card-gap:1rem] max-[560px]:[--about-card-padding:24px] max-[560px]:[--about-card-eyebrow:10px] max-[560px]:[--about-card-title:20px] max-[560px]:[--about-card-body:14px] max-[560px]:[--about-card-watermark:78px]"
         style={aboutCardVars}
       >
         <div className="absolute inset-0 bg-white/30 md:hidden" />
@@ -146,24 +158,12 @@ export default function HomePage() {
 
       <MissionStorySection />
       <MissionCountriesSection />
-
-      <section className="relative min-h-[640px] bg-[#fffcf8] px-5 md:px-10 lg:min-h-[820px] lg:px-20">
-        <div className="absolute left-1/2 top-[180px] w-full max-w-[1200px] -translate-x-1/2 px-5 text-center uppercase md:px-10 lg:px-20">
-          <div className="space-y-4">
-            <p className="font-hahmlet text-sm text-[#928397] md:text-2xl">Be Part of the Mission</p>
-            <p className="font-hahmlet text-[2rem] font-semibold text-[#250030] md:text-[3.75rem]">
-              선교는 지금도 계속되고 있습니다
-            </p>
-            <p className="font-hahmlet text-[2rem] font-semibold text-[#250030] md:text-[3.75rem]">
-              이 사명에 함께하세요
-            </p>
-          </div>
-        </div>
-      </section>
+      <MissionCtaSection />
 
       <section
         id="join"
-        className="bg-[#fffcf8] px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]"
+        data-bg-key="cream"
+        className="px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]"
       >
         <div className="mx-auto flex w-full flex-col gap-12 lg:flex-row lg:items-stretch lg:justify-between lg:gap-[80px]">
           <div className="flex flex-1 flex-col lg:self-stretch lg:justify-between">
@@ -222,6 +222,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      </div>
     </div>
   );
 }
