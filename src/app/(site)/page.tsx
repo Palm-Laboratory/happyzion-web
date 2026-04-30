@@ -39,29 +39,32 @@ export default function HomePage() {
               <p className="font-hahmlet text-[1.5rem] leading-[1.9] tracking-[0.01em] text-[#4f3657]">
                 “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
               </p>
-              <div className="h-px w-full max-w-[700px] bg-[linear-gradient(90deg,rgba(216,183,220,0)_0%,#845A88_50%,rgba(216,183,220,0)_100%)]" />
+              {/* <div className="h-px w-full max-w-[700px] bg-[linear-gradient(90deg,rgba(216,183,220,0)_0%,#845A88_50%,rgba(216,183,220,0)_100%)]" /> */}
               <p className="font-hahmlet text-[1.5rem] text-[#4f3657]">사도행전 1:8</p>
             </div>
-            <p className="pointer-events-none absolute bottom-[-8px] right-6 font-corinthia text-[72px] uppercase text-[rgba(0,0,0,0.03)] md:bottom-[-18px] md:right-8 md:text-[144px]">
+            <p className="pointer-events-none absolute bottom-[-8px] right-[-100px] font-corinthia text-[72px] uppercase text-[rgba(0,0,0,0.03)] md:bottom-[-40px] md:right-[-20px] md:text-[144px]">
               VERSE
             </p>
           </div>
         </div>
       </section>
 
-      <section id="about" className="relative overflow-hidden bg-[#fffcf8] px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]">
-        <div className="absolute right-0 top-0 h-[420px] w-[82%] md:h-[520px] lg:h-[781px] lg:w-[1172px]">
+      <section
+        id="about"
+        className="relative overflow-hidden bg-[#fffcf8] px-5 py-24 md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px]"
+      >
+        <div className="absolute right-0 top-0 h-[520px] w-[82vw] md:h-[700px] md:w-[80vw] lg:h-[920px] lg:w-[78vw]">
           <Image
             src="/images/vision/vision-cloud.png"
             alt="Vision background"
             fill
-            sizes="(max-width: 1024px) 82vw, 1172px"
-            className="object-cover object-center opacity-80"
+            sizes="78vw"
+            className="object-cover object-top opacity-80"
           />
           <div className="absolute inset-0 bg-white/30" />
         </div>
 
-        <div className="relative mx-auto w-full">
+        <div className="relative z-10 mx-auto w-full">
           <div className="mb-14">
             <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base">
               about us
@@ -94,8 +97,8 @@ export default function HomePage() {
       <MissionStorySection />
       <MissionCountriesSection />
 
-      <section className="bg-[#fffcf8] px-5 py-[220px] text-center uppercase md:px-10 lg:px-20 lg:py-[300px]">
-        <div className="mx-auto w-full">
+      <section className="relative min-h-[640px] bg-[#fffcf8] px-5 md:px-10 lg:min-h-[820px] lg:px-20">
+        <div className="absolute left-1/2 top-[180px] w-full max-w-[1200px] -translate-x-1/2 px-5 text-center uppercase md:px-10 lg:px-20">
           <div className="space-y-4">
             <p className="font-hahmlet text-sm text-[#928397] md:text-2xl">Be Part of the Mission</p>
             <p className="font-hahmlet text-[2rem] font-semibold text-[#250030] md:text-[3.75rem]">
@@ -112,8 +115,8 @@ export default function HomePage() {
         id="join"
         className="bg-[#fffcf8] px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]"
       >
-        <div className="mx-auto flex w-full flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-[80px]">
-          <div className="flex-1">
+        <div className="mx-auto flex w-full flex-col gap-12 lg:flex-row lg:items-stretch lg:justify-between lg:gap-[80px]">
+          <div className="flex flex-1 flex-col lg:self-stretch lg:justify-between">
             <div className="flex flex-col gap-9">
               <div>
                 <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base">
@@ -129,16 +132,16 @@ export default function HomePage() {
               </h2>
             </div>
 
-            <div className="mt-10 border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9">
-              <p className="font-suit text-lg leading-[1.75] tracking-[0.01em] text-[#3c2348] md:text-2xl">
+            <div className="mt-10 border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9 lg:mt-0">
+              <p className="font-suit text-[1.2rem] leading-[2.2rem] tracking-[0.01em] text-[#3c2348]">
                 “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과
                 <br />
                 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
               </p>
-              <p className="mt-4 font-suit text-lg text-[#3c2348] md:text-2xl">사도행전 1:8</p>
+              <p className="mt-4 font-suit text-[1.2rem] text-[#3c2348]">사도행전 1:8</p>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:mt-0">
               {[
                 { label: "service time", title: "예배안내", href: "/worship" },
                 { label: "newcomer", title: "새가족 안내", href: "/next-steps" },

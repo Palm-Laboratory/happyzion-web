@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { missionStories } from "@/lib/site-data";
 
@@ -62,15 +62,35 @@ function useSectionProgress<T extends HTMLElement>() {
 
 function getTeamCardState(index: number, progress: number, total: number) {
   const relPos = index + 1 - progress * total;
-  const stepX = 26;
-  const stepY = 58;
-  const x = relPos * stepX;
-  const y = relPos * stepY;
+  const x = `calc(${relPos} * var(--story-card-width) * 1.08)`;
+  const y = `calc(${relPos} * var(--story-card-height) * 1.08)`;
   const distance = Math.abs(relPos);
   const isActive = distance < 0.5;
-  const crossfade = clamp(1 - distance, 0, 1);
-  const easedCrossfade = smoothstep(crossfade);
-  const opacity = 0.2 + easedCrossfade * 0.8;
+  const incomingFadeStart = index === 0 ? 1.12 : 1.0;
+  const incomingFullOpacityAt = index === 0 ? 0.82 : 0.2;
+  const outgoingFadeStart = -0.18;
+  const outgoingFadeEnd = -1.0;
+
+  let opacity = 0.2;
+
+  if (relPos >= incomingFullOpacityAt) {
+    const incomingProgress = clamp(
+      (incomingFadeStart - relPos) / (incomingFadeStart - incomingFullOpacityAt),
+      0,
+      1,
+    );
+    opacity = 0.2 + smoothstep(incomingProgress) * 0.8;
+  } else if (relPos >= outgoingFadeStart) {
+    opacity = 1;
+  } else {
+    const outgoingProgress = clamp(
+      (outgoingFadeStart - relPos) / (outgoingFadeStart - outgoingFadeEnd),
+      0,
+      1,
+    );
+    opacity = 1 - smoothstep(outgoingProgress) * 0.8;
+  }
+
   const scale = clamp(1 - distance * 0.08, 0.82, 1);
   const zIndex = 40 - Math.round(distance * 10);
 
@@ -86,30 +106,33 @@ export default function MissionStorySection() {
   }, []);
 
   const safeProgress = hydrated ? progress : 0;
-  const introProgress = clamp(safeProgress / 0.14, 0, 1);
-  const introExitProgress = clamp((safeProgress - 0.16) / 0.28, 0, 1);
   const introOpacity = 1;
-  const introEnterOffset = (1 - introProgress) * 30;
-  const introExitOffset = introExitProgress * 56;
-  const teamPhaseProgress = clamp((safeProgress - 0.46) / 0.48, 0, 1);
-  const teamReveal = smoothstep(clamp((safeProgress - 0.44) / 0.10, 0, 1));
+  const introExitOffset = safeProgress * 140;
+  const teamTrackProgress = clamp((safeProgress - 0.46) / 0.54, 0, 1);
+  const teamPhaseProgress = teamTrackProgress;
+  const teamReveal = smoothstep(clamp((safeProgress - 0.44) / 0.1, 0, 1));
   const teamEnterOffset = (1 - teamReveal) * 18;
   const activationFloat = teamPhaseProgress * missionStories.length - 1;
   const displayIndex = getClosestIndex(activationFloat, missionStories.length);
   const counterIndex = displayIndex;
   const storyStripOffset = displayIndex * 2.45;
-  const bottomCounterOffset = counterIndex * 102;
   const mobileCounterOffset = counterIndex * 68;
+  const desktopCounterVars = {
+    "--counter-size": "min(12vw, 220px)",
+    "--counter-width": "min(7vw, 128px)",
+    "--story-card-width": "clamp(200px, 26vw, 580px)",
+    "--story-card-height": "calc(clamp(200px, 26vw, 580px) * 671 / 601)",
+  } as CSSProperties;
 
   return (
     <section ref={ref} id="mission" className="relative h-[300svh] bg-[#fffcf8]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="relative mx-auto h-full w-full">
+        <div className="relative mx-auto h-full w-full" style={desktopCounterVars}>
           <div
-            className="absolute left-1/2 top-[42%] z-30 flex w-full max-w-[900px] -translate-x-1/2 flex-col items-center px-5 text-center uppercase md:px-10"
+            className="absolute left-1/2 top-[240px] z-30 flex w-full max-w-[900px] -translate-x-1/2 flex-col items-center px-5 text-center uppercase md:px-10"
             style={{
               opacity: introOpacity,
-              transform: `translate(-50%, calc(-50% + ${introEnterOffset}vh - ${introExitOffset}vh))`,
+              transform: `translate(-50%, -${introExitOffset}vh)`,
             }}
           >
             <p className="font-hahmlet text-sm font-extralight tracking-[0.28em] text-[#3d1a46] md:text-base">
@@ -127,19 +150,19 @@ export default function MissionStorySection() {
           <div className="absolute inset-0 z-10" style={{ opacity: teamReveal }}>
             <div className="absolute inset-0 grid place-items-center">
               {missionStories.map((story, index) => {
-                const state = getTeamCardState(index, teamPhaseProgress, missionStories.length);
+                const state = getTeamCardState(index, teamTrackProgress, missionStories.length);
 
                 return (
                   <div
                     key={story.country}
                     className="absolute"
                     style={{
-                      transform: `translate(${state.x}vw, ${state.y}vh) scale(${state.scale})`,
+                      transform: `translate(${state.x}, ${state.y}) scale(${state.scale})`,
                       opacity: state.opacity,
                       zIndex: state.zIndex,
                     }}
                   >
-                    <div className="relative h-[308px] w-[224px] overflow-hidden bg-[#ece4e6] shadow-[0_16px_28px_rgba(0,0,0,0.08)] md:h-[420px] md:w-[308px] lg:h-[601px] lg:w-[671px]">
+                    <div className="relative aspect-[601/671] w-[224px] overflow-hidden bg-[#ece4e6] shadow-[0_16px_28px_rgba(0,0,0,0.08)] md:w-[308px] lg:w-[var(--story-card-width)]">
                       <div
                         className="absolute inset-0 will-change-transform"
                         style={{
@@ -162,8 +185,14 @@ export default function MissionStorySection() {
               })}
             </div>
 
-            <div className="absolute left-0 right-0 top-[12vh] mx-auto hidden w-full justify-end px-5 md:px-10 lg:flex lg:px-[80px]">
-              <div className="mr-[260px] w-full max-w-[400px]">
+            <div className="absolute inset-0 hidden lg:block">
+              <div
+                className="absolute right-[clamp(24px,5vw,80px)] top-[clamp(180px,20vh,300px)] w-[400px]"
+                style={{
+                  opacity: teamReveal,
+                  transform: `translateY(${teamEnterOffset}vh)`,
+                }}
+              >
                 <div className="grid">
                   {missionStories.map((story, index) => (
                     <p
@@ -179,75 +208,89 @@ export default function MissionStorySection() {
                   ))}
                 </div>
               </div>
-            </div>
 
-            <div className="absolute left-5 top-1/2 hidden -translate-y-1/2 lg:block lg:left-12">
-              <div className="flex items-start">
-                <div className="h-[300px] w-[40px] overflow-hidden">
-                  <div
-                    className="transition-transform duration-300 ease-out"
-                    style={{ transform: `translate3d(0, calc(6.625rem - ${storyStripOffset}rem), 0)` }}
-                  >
-                    {missionStories.map((story, index) => (
-                      <p
-                        key={story.country}
-                        className="font-corinthia text-[2.375rem] leading-[40px] text-[#250030]"
-                        style={{
-                          opacity: index === displayIndex ? 1 : 0.1,
-                        }}
-                      >
-                        {index + 1}
-                      </p>
-                    ))}
+              <div className="absolute left-[clamp(24px,4vw,48px)] top-1/2 -translate-y-1/2">
+                <div className="flex items-start">
+                  <div className="h-[300px] w-[40px] overflow-hidden">
+                    <div
+                      className="transition-transform duration-300 ease-out"
+                      style={{ transform: `translate3d(0, calc(6.625rem - ${storyStripOffset}rem), 0)` }}
+                    >
+                      {missionStories.map((story, index) => (
+                        <p
+                          key={story.country}
+                          className="font-corinthia text-[2.375rem] leading-[40px] text-[#250030]"
+                          style={{
+                            opacity: index === displayIndex ? 1 : 0.1,
+                          }}
+                        >
+                          {index + 1}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-4 pt-[110px]">
-                  <div className="h-px w-9 bg-[#3d1a46]" />
-                  <div className="grid">
-                    {missionStories.map((story, index) => (
-                      <p
-                        key={story.country}
-                        className="col-start-1 row-start-1 text-2xl italic leading-8 tracking-[0.08em] text-[#250030]"
-                        style={{
-                          fontFamily: "var(--font-cormorant-garamond)",
-                          opacity: index === displayIndex ? 1 : 0,
-                          visibility: index === displayIndex ? "visible" : "hidden",
-                        }}
-                      >
-                        {story.country.toUpperCase()}
-                      </p>
-                    ))}
+                  <div className="flex items-center gap-4 pt-[110px]">
+                    <div className="h-px w-9 bg-[#3d1a46]" />
+                    <div className="grid">
+                      {missionStories.map((story, index) => (
+                        <p
+                          key={story.country}
+                          className="col-start-1 row-start-1 text-2xl italic leading-8 tracking-[0.08em] text-[#250030]"
+                          style={{
+                            fontFamily: "var(--font-cormorant-garamond)",
+                            opacity: index === displayIndex ? 1 : 0,
+                            visibility: index === displayIndex ? "visible" : "hidden",
+                          }}
+                        >
+                          {story.country.toUpperCase()}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              className="absolute bottom-[8vh] left-[calc(1.25rem+250px)] hidden lg:block lg:left-[calc(3rem+250px)]"
-              style={{ transform: `translateY(${teamEnterOffset}vh)` }}
-            >
-              <div className="flex items-start">
-                <p
-                  className="font-suit text-[280px] leading-[280px] text-[#250030]"
-                  style={{ fontWeight: 900 }}
-                >
-                  0
-                </p>
-                <div className="h-[280px] w-[180px] overflow-hidden">
-                  <div
-                    className="transition-transform duration-300 ease-out"
-                    style={{ transform: `translate3d(0, -${(bottomCounterOffset / 102) * 280}px, 0)` }}
+              <div
+                className="absolute bottom-[8vh] left-[clamp(72px,12vw,298px)]"
+                style={{ ...desktopCounterVars, transform: `translateY(${teamEnterOffset}vh)` }}
+              >
+                <div className="flex items-start">
+                  <p
+                    className="font-suit text-[#250030]"
+                    style={{
+                      fontSize: "var(--counter-size)",
+                      lineHeight: "var(--counter-size)",
+                      fontWeight: 900,
+                    }}
                   >
-                    {["1", "2", "3"].map((item) => (
-                      <p
-                        key={item}
-                        className="flex h-[280px] items-center font-suit text-[280px] leading-[280px] text-[#250030]"
-                        style={{ fontWeight: 900 }}
-                      >
-                        {item}
-                      </p>
-                    ))}
+                    0
+                  </p>
+                  <div
+                    className="overflow-hidden"
+                    style={{ height: "var(--counter-size)", width: "var(--counter-width)" }}
+                  >
+                    <div
+                      className="transition-transform duration-300 ease-out"
+                      style={{
+                        transform: `translate3d(0, calc(-${counterIndex} * var(--counter-size)), 0)`,
+                      }}
+                    >
+                      {["1", "2", "3"].map((item) => (
+                        <p
+                          key={item}
+                          className="flex items-center font-suit text-[#250030]"
+                          style={{
+                            height: "var(--counter-size)",
+                            fontSize: "var(--counter-size)",
+                            lineHeight: "var(--counter-size)",
+                            fontWeight: 900,
+                          }}
+                        >
+                          {item}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

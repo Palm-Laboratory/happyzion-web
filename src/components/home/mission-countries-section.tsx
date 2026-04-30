@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { missionCountries } from "@/lib/site-data";
 
@@ -107,24 +107,37 @@ function getArcItemState(index: number, progress: number, total: number) {
 
 export default function MissionCountriesSection() {
   const { ref, progress } = useSectionProgress<HTMLElement>();
-  const introEnd = 0.18;
+  const introEnd = 0.12;
   const arcStart = introEnd;
-  const arcDuration = 0.54;
   const outroStart = 0.78;
-  const outroDuration = 0.14;
+  const outroDuration = 1 - outroStart;
+  const arcDuration = outroStart - arcStart;
+  const releaseStart = outroStart - 0.04;
+  const releaseDuration = 0.04;
 
   const introProgress = clamp(progress / introEnd, 0, 1);
   const arcProgress = clamp((progress - arcStart) / arcDuration, 0, 1);
-  const outroProgress = smoothstep(clamp((progress - outroStart) / outroDuration, 0, 1));
-  const headingTranslate = (1 - introProgress) * 120 - outroProgress * 460;
-  const groupOpacity = 1 - outroProgress * 0.2;
+  const releaseProgress = clamp((progress - releaseStart) / releaseDuration, 0, 1);
+  const outroProgress = clamp((progress - outroStart) / outroDuration, 0, 1);
+  const outroOpacityProgress = smoothstep(outroProgress);
+  const headingTranslate = (1 - introProgress) * 120 - releaseProgress * 24 - outroProgress * 436;
+  const groupOpacity = 1 - outroOpacityProgress * 0.2;
 
   return (
     <section ref={ref} className="relative h-[300svh] bg-[#fffcf8]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="relative mx-auto h-full w-full py-24">
+        <div
+          className="relative mx-auto h-full w-full py-24"
+          style={
+            {
+              "--countries-label-left": "clamp(32px, 5vw, 80px)",
+              "--countries-arc-left": "clamp(300px, 27vw, 420px)",
+              "--countries-copy-right": "clamp(32px, 5vw, 80px)",
+            } as CSSProperties
+          }
+        >
           <div
-            className="absolute left-[80px] top-1/2"
+            className="absolute left-[var(--countries-label-left)] top-1/2"
             style={{
               transform: `translateY(calc(-50% + ${headingTranslate}px))`,
             }}
@@ -138,7 +151,7 @@ export default function MissionCountriesSection() {
           </div>
 
           <div
-            className="absolute right-[80px] top-1/2"
+            className="absolute right-[var(--countries-copy-right)] top-1/2"
             style={{
               transform: `translateY(calc(-50% + ${headingTranslate}px))`,
             }}
@@ -159,7 +172,7 @@ export default function MissionCountriesSection() {
                 return (
                   <div
                     key={country}
-                    className="absolute left-[23.2vw] top-1/2 whitespace-nowrap"
+                    className="absolute left-[var(--countries-arc-left)] top-1/2 whitespace-nowrap"
                     style={{
                       transform: `translate(calc(-1 * ${state.x}rem), calc(-50% + ${state.y}rem + ${headingTranslate}px)) rotate(${state.degrees}deg)`,
                       transformOrigin: "left center",
