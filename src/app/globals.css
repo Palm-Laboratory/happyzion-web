@@ -101,6 +101,10 @@ html.lenis body {
   .font-corinthia {
     font-family: var(--font-corinthia), cursive;
   }
+
+  .font-estonia {
+    font-family: var(--font-estonia), cursive;
+  }
 }
 
 @media (min-width: 768px) {

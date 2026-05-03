@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { Corinthia, Cormorant_Garamond, Hahmlet } from "next/font/google";
+import { Corinthia, Cormorant_Garamond, Estonia, Hahmlet } from "next/font/google";
 
 export const hahmlet = Hahmlet({
   subsets: ["latin"],
@@ -12,6 +12,13 @@ export const corinthia = Corinthia({
   subsets: ["latin"],
   variable: "--font-corinthia",
   weight: ["400", "700"],
+  display: "swap",
+});
+
+export const estonia = Estonia({
+  subsets: ["latin"],
+  variable: "--font-estonia",
+  weight: ["400"],
   display: "swap",
 });
 

@@ -27,6 +27,15 @@ export default function HomePage() {
     "--about-card-body": "clamp(14px, calc(var(--about-card-type-scale) * 0.026), 20px)",
     "--about-card-watermark": "calc(var(--about-card-type-scale) * 0.167)",
   } as CSSProperties;
+  const welcomeSectionVars = {
+    "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
+  } as CSSProperties;
+  const quickLinks = [
+    { label: "교회 소개", href: "/about", icon: "church" },
+    { label: "예배 안내", href: "/worship", icon: "time" },
+    { label: "새가족 안내", href: "/next-steps", icon: "person" },
+    { label: "오시는 길", href: "#footer", icon: "location" },
+  ] as const;
 
   return (
     <div className="relative">
@@ -48,41 +57,217 @@ export default function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse"
-            className="flex min-h-screen items-center px-5 py-[240px] md:px-10 lg:px-20"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4eef5] px-5 py-[140px] md:px-10 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            style={welcomeSectionVars}
           >
-            <div className="mx-auto flex w-full flex-col items-center gap-16 lg:gap-[68px]">
-              <div className="flex flex-col items-center gap-4">
-                <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#341936] md:text-base">
-                  VERSE
+            <div className="absolute inset-0">
+              <Image
+                src="/images/vision/vision-cloud.png"
+                alt="Cloud background"
+                fill
+                sizes="100vw"
+                className="object-cover object-center opacity-78"
+              />
+            </div>
+            <div className="absolute inset-0 bg-white/20" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_14%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.3)_32%,rgba(255,255,255,0)_58%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.12)_42%,rgba(255,255,255,0.02)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(244,238,245,0.32)_0%,rgba(244,238,245,0.08)_22%,rgba(244,238,245,0.08)_78%,rgba(244,238,245,0.26)_100%)]" />
+
+            <div
+              className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
+              style={{
+                gap: "calc(3rem * var(--welcome-scale))",
+                paddingTop: "calc(2.5rem * var(--welcome-scale))",
+              }}
+            >
+              <div
+                className="flex flex-col items-center"
+                style={{
+                  gap: "calc(0.9rem * var(--welcome-scale))",
+                }}
+              >
+                <p className="font-hahmlet text-xs font-extralight uppercase tracking-[0.28em] text-[#5b3b63] md:text-base">
+                  welcome
                 </p>
-                <div className="h-px w-[60px] bg-[#3d1a46]" />
+                <div className="h-px w-[60px] bg-[#6d4f78]" />
+              </div>
+
+              <div className="max-w-[1000px]">
+                <h2
+                  className="font-hahmlet font-semibold leading-[1.28] tracking-[-0.03em] text-[#250030]"
+                  style={{
+                    fontSize: "clamp(2.5rem, calc(3.75rem * var(--welcome-scale)), 3.75rem)",
+                  }}
+                >
+                  행복이 가득한 시온장로교회에
+                  <br />
+                  오신 것을 환영합니다
+                </h2>
               </div>
 
               <div
-                className="relative w-full max-w-[clamp(320px,72vw,910px)] overflow-hidden border border-[#eae2f0] bg-[rgba(246,241,248,0.7)] px-[clamp(24px,4vw,60px)] py-[clamp(48px,6vw,80px)] shadow-[0_8px_24px_rgba(242,215,255,0.2)] backdrop-blur-[40px]"
-                style={
-                  {
-                    "--verse-card-width": "clamp(320px,72vw,910px)",
-                    "--verse-watermark-size": "calc(var(--verse-card-width) * 0.158)",
-                  } as CSSProperties
-                }
+                className="relative w-fit max-w-full overflow-hidden rounded-[8px] border border-white/30 bg-[rgba(255,255,255,0.42)] shadow-[0_8px_24px_rgba(97,60,116,0.2)] backdrop-blur-[10px]"
+                style={{
+                  paddingInline: "calc(7.5rem * var(--welcome-scale))",
+                  paddingBlock: "calc(3.75rem * var(--welcome-scale))",
+                }}
               >
-                <div className="flex flex-col items-center gap-9 text-center">
-                  <p className="font-hahmlet text-[1rem] leading-[1.9] tracking-[0.01em] text-[#4f3657] md:text-[1.25rem] lg:text-[1.5rem]">
-                    “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
+                <div
+                  className="flex flex-col items-center text-center uppercase"
+                  style={{
+                    gap: "calc(2.25rem * var(--welcome-scale))",
+                  }}
+                >
+                  <p
+                    className="max-w-[min(80vw,42rem)] font-hahmlet font-medium leading-[1.72] tracking-[0.01em] text-[#4f3657] md:max-w-[min(76vw,46rem)]"
+                    style={{
+                      fontSize: "clamp(1.05rem, calc(1.5rem * var(--welcome-scale)), 1.5rem)",
+                    }}
+                  >
+                    “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과
+                    <br className="hidden md:block" />
+                    온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
                   </p>
-                  <p className="font-hahmlet text-[1rem] text-[#4f3657] md:text-[1.25rem] lg:text-[1.5rem]">사도행전 1:8</p>
+                  <p
+                    className="font-estonia tracking-[0.14em] text-[#6f5576]"
+                    style={{
+                      fontSize: "clamp(1.5rem, calc(1.5rem * var(--welcome-scale)), 1.5rem)",
+                    }}
+                  >
+                    Acts 1:8
+                  </p>
                 </div>
                 <p
-                  className="pointer-events-none absolute font-corinthia uppercase text-[rgba(0,0,0,0.03)]"
+                  className="pointer-events-none absolute bottom-0 right-0 font-corinthia uppercase leading-none text-[rgba(255,255,255,0.35)]"
                   style={{
-                    bottom: "calc(var(--verse-card-width) * -0.044)",
-                    right: "calc(var(--verse-card-width) * -0.022)",
-                    fontSize: "var(--verse-watermark-size)",
+                    fontSize: "clamp(4.5rem, calc(8.5rem * var(--welcome-scale)), 8.5rem)",
                   }}
                 >
                   VERSE
                 </p>
+              </div>
+
+              <div
+                className="grid w-full max-w-[760px] grid-cols-2 md:flex md:flex-wrap md:items-start md:justify-center"
+                style={{
+                  columnGap: "calc(2.5rem * var(--welcome-scale))",
+                  rowGap: "calc(2.25rem * var(--welcome-scale))",
+                }}
+              >
+                {quickLinks.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="group flex flex-col items-center"
+                    style={{
+                      gap: "calc(1rem * var(--welcome-scale))",
+                    }}
+                  >
+                    <div
+                      className="relative flex items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5"
+                      style={{
+                        width: "calc(8.75rem * var(--welcome-scale))",
+                        height: "calc(8.75rem * var(--welcome-scale))",
+                      }}
+                    >
+                      <div
+                        className="absolute rounded-full bg-[rgba(183,166,196,0.58)]"
+                        style={{
+                          bottom: "calc(1.75rem * var(--welcome-scale))",
+                          left: "calc(1.95rem * var(--welcome-scale))",
+                          width: "calc(3.5rem * var(--welcome-scale))",
+                          height: "calc(3.5rem * var(--welcome-scale))",
+                        }}
+                      />
+                      <div className="relative z-10 text-[#4d2d61]">
+                        {item.icon === "church" ? (
+                          <svg
+                            viewBox="0 0 64 64"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                            style={{
+                              width: "calc(3.625rem * var(--welcome-scale))",
+                              height: "calc(3.625rem * var(--welcome-scale))",
+                            }}
+                          >
+                            <path d="M14 52V28l18-12 18 12v24H14Z" />
+                            <path d="M26 52V39h12v13" />
+                            <path d="M32 10v12" />
+                            <path d="M27 15h10" />
+                            <circle cx="32" cy="29" r="2.4" fill="currentColor" stroke="none" />
+                          </svg>
+                        ) : item.icon === "time" ? (
+                          <svg
+                            viewBox="0 0 64 64"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                            style={{
+                              width: "calc(3.625rem * var(--welcome-scale))",
+                              height: "calc(3.625rem * var(--welcome-scale))",
+                            }}
+                          >
+                            <circle cx="32" cy="32" r="22" />
+                            <path d="M32 20v14l10 8" />
+                            <path d="M50 18c2 2.6 3.4 5.6 4 8.9" />
+                          </svg>
+                        ) : item.icon === "person" ? (
+                          <svg
+                            viewBox="0 0 64 64"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                            style={{
+                              width: "calc(3.625rem * var(--welcome-scale))",
+                              height: "calc(3.625rem * var(--welcome-scale))",
+                            }}
+                          >
+                            <circle cx="28" cy="23" r="7" />
+                            <path d="M13 48c2.5-8 9.2-12 15-12s12.5 4 15 12" />
+                            <path d="M49 16v14" />
+                            <path d="M42 23h14" />
+                          </svg>
+                        ) : (
+                          <svg
+                            viewBox="0 0 64 64"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                            style={{
+                              width: "calc(3.625rem * var(--welcome-scale))",
+                              height: "calc(3.625rem * var(--welcome-scale))",
+                            }}
+                          >
+                            <path d="M32 54s18-15.2 18-28a18 18 0 1 0-36 0c0 12.8 18 28 18 28Z" />
+                            <circle cx="32" cy="26" r="4.5" fill="currentColor" stroke="none" />
+                          </svg>
+                        )}
+                      </div>
+                    </div>
+                    <p
+                      className="font-suit font-semibold text-[#341939]"
+                      style={{
+                        fontSize: "clamp(1.05rem, calc(1.35rem * var(--welcome-scale)), 1.35rem)",
+                      }}
+                    >
+                      {item.label}
+                    </p>
+                  </Link>
+                ))}
               </div>
             </div>
           </section>
