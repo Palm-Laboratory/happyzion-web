@@ -107,6 +107,7 @@ function getArcItemState(index: number, progress: number, total: number) {
 
 export default function MissionCountriesSection() {
   const { ref, progress } = useSectionProgress<HTMLElement>();
+  const [hydrated, setHydrated] = useState(false);
   const introEnd = 0.12;
   const arcStart = introEnd;
   const outroStart = 0.88;
@@ -115,10 +116,15 @@ export default function MissionCountriesSection() {
   const releaseStart = outroStart - 0.04;
   const releaseDuration = 0.04;
 
-  const introProgress = clamp(progress / introEnd, 0, 1);
-  const arcProgress = clamp((progress - arcStart) / arcDuration, 0, 1);
-  const releaseProgress = clamp((progress - releaseStart) / releaseDuration, 0, 1);
-  const outroProgress = clamp((progress - outroStart) / outroDuration, 0, 1);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  const safeProgress = hydrated ? progress : 0;
+  const introProgress = clamp(safeProgress / introEnd, 0, 1);
+  const arcProgress = clamp((safeProgress - arcStart) / arcDuration, 0, 1);
+  const releaseProgress = clamp((safeProgress - releaseStart) / releaseDuration, 0, 1);
+  const outroProgress = clamp((safeProgress - outroStart) / outroDuration, 0, 1);
   const outroOpacityProgress = smoothstep(outroProgress);
   const headingTranslate = (1 - introProgress) * 120 - releaseProgress * 24 - outroProgress * 160;
   const groupOpacity = 1 - outroOpacityProgress * 0.2;
@@ -137,10 +143,8 @@ export default function MissionCountriesSection() {
           }
         >
           <div
-            className="absolute left-[var(--countries-label-left)] top-1/2"
-            style={{
-              transform: `translateY(calc(-50% + ${headingTranslate}px))`,
-            }}
+            className="absolute left-[var(--countries-label-left)] top-1/2 z-10"
+            style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <div>
               <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#f0e8ff] md:text-base">
@@ -151,10 +155,8 @@ export default function MissionCountriesSection() {
           </div>
 
           <div
-            className="absolute right-[var(--countries-copy-right)] top-1/2"
-            style={{
-              transform: `translateY(calc(-50% + ${headingTranslate}px))`,
-            }}
+            className="absolute right-[var(--countries-copy-right)] top-1/2 z-10"
+            style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#f0e8ff] md:text-xl">
               필리핀부터 미얀마, 태국과 말레이시아까지, 우리는 다양한 땅에서 복음을 전하며
@@ -162,7 +164,7 @@ export default function MissionCountriesSection() {
             </p>
           </div>
 
-          <div className="relative flex h-full items-center justify-center">
+          <div className="relative z-10 flex h-full items-center justify-center">
             <div className="relative h-[760px] w-full">
               {missionCountries.map((country, index) => {
                 const state = getArcItemState(index, arcProgress, missionCountries.length);
@@ -173,16 +175,20 @@ export default function MissionCountriesSection() {
                   <div
                     key={country}
                     className="absolute left-[var(--countries-arc-left)] top-1/2 whitespace-nowrap"
-                    style={{
-                      transform: `translate(calc(-1 * ${state.x}rem), calc(-50% + ${state.y}rem + ${headingTranslate}px)) rotate(${state.degrees}deg)`,
-                      transformOrigin: "left center",
-                      opacity: itemOpacity,
-                      filter: `blur(${state.blur}px)`,
-                    }}
+                    style={
+                      hydrated
+                        ? {
+                            transform: `translate(calc(-1 * ${state.x}rem), calc(-50% + ${state.y}rem + ${headingTranslate}px)) rotate(${state.degrees}deg)`,
+                            transformOrigin: "left center",
+                            opacity: itemOpacity,
+                            filter: `blur(${state.blur}px)`,
+                          }
+                        : undefined
+                    }
                   >
                     <p
                       className="font-hahmlet text-[2rem] font-bold uppercase leading-none tracking-[0.02em] md:text-[4.5rem]"
-                      style={{ color: mixColor(focus) }}
+                      style={hydrated ? { color: mixColor(focus) } : undefined}
                     >
                       {country}
                     </p>

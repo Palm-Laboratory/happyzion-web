@@ -186,7 +186,7 @@ export default function MissionStorySection() {
                           priority={index === 0}
                         />
                       </div>
-                      <div className="absolute inset-0 bg-[rgba(16,8,18,0.16)]" />
+                      <div className="absolute inset-0 bg-[rgba(16,8,18,0.22)]" />
                     </div>
                   </div>
                 );
