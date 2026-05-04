@@ -5,9 +5,9 @@ import type { CSSProperties } from "react";
 import BackgroundStage from "@/components/home/background-stage";
 import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
+import VisionMobileGallery from "@/components/home/vision-mobile-gallery";
 import MissionStorySection from "@/components/home/mission-story-section";
 import { createPageMetadata } from "@/lib/seo";
-import { aboutCards } from "@/lib/site-data";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 
 export const metadata = createPageMetadata({
@@ -16,25 +16,38 @@ export const metadata = createPageMetadata({
 });
 
 export default function HomePage() {
-  const aboutCardVars = {
-    "--about-card-width": "clamp(520px, 50vw, 860px)",
-    "--about-card-type-scale": "clamp(468px, 45vw, 774px)",
-    "--about-card-gap": "clamp(1rem, calc(var(--about-card-width) * 0.028), 1.5rem)",
-    "--about-label-gap": "clamp(2.5rem, 5vw, 3.5rem)",
-    "--about-card-padding": "calc(var(--about-card-type-scale) * 0.05)",
-    "--about-card-eyebrow": "clamp(10px, calc(var(--about-card-type-scale) * 0.0175), 14px)",
-    "--about-card-title": "clamp(20px, calc(var(--about-card-type-scale) * 0.0417), 32px)",
-    "--about-card-body": "clamp(14px, calc(var(--about-card-type-scale) * 0.026), 20px)",
-    "--about-card-watermark": "calc(var(--about-card-type-scale) * 0.167)",
-  } as CSSProperties;
   const welcomeSectionVars = {
     "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
+  } as CSSProperties;
+  const visionSectionVars = {
+    "--vision-column-gap": "clamp(0px, calc(100vw - 1550px), 200px)",
+    "--vision-right-follow": "clamp(0px, calc(80rem - 100vw), 45rem)",
   } as CSSProperties;
   const quickLinks = [
     { label: "교회 소개", href: "/about", icon: "church" },
     { label: "예배 안내", href: "/worship", icon: "time" },
     { label: "새가족 안내", href: "/next-steps", icon: "person" },
     { label: "오시는 길", href: "#footer", icon: "location" },
+  ] as const;
+  const visionCards = [
+    {
+      number: "01",
+      eyebrow: "SPIRIT-FILLED WORSHIP",
+      title: "성령이 임재하는 예배",
+      body: "하나님의 임재 안에서 드리는 예배를 통해 성도들이 변화되고 회복되는 공동체를 세워갑니다.",
+    },
+    {
+      number: "02",
+      eyebrow: "SPIRIT-LED MISSION CHURCH",
+      title: "성령으로 선교하는 교회",
+      body: "땅끝까지 복음을 전하라는 지상명령에 순종하여 열방을 향한 선교에 헌신합니다.",
+    },
+    {
+      number: "03",
+      eyebrow: "SPIRIT-UNITED COMMUNITY",
+      title: "성령으로 하나되는 공동체",
+      body: "그리스도 안에서 서로 사랑하고 섬기며 연합하는 진정한 공동체를 이루어갑니다.",
+    },
   ] as const;
 
   return (
@@ -57,7 +70,7 @@ export default function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4eef5] px-5 py-[140px] md:px-10 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4eef5] px-10 py-[140px] md:px-20 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
             <div className="absolute inset-0">
@@ -75,42 +88,46 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(244,238,245,0.32)_0%,rgba(244,238,245,0.08)_22%,rgba(244,238,245,0.08)_78%,rgba(244,238,245,0.26)_100%)]" />
 
             <div
-              className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center"
+              className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center lg:[--welcome-content-gap:calc(4rem*var(--welcome-scale))]"
               style={{
-                gap: "calc(3rem * var(--welcome-scale))",
+                gap: "var(--welcome-content-gap, calc(3rem * var(--welcome-scale)))",
                 paddingTop: "calc(2.5rem * var(--welcome-scale))",
               }}
             >
               <div
                 className="flex flex-col items-center"
                 style={{
-                  gap: "calc(0.9rem * var(--welcome-scale))",
+                  gap: "2rem",
                 }}
               >
-                <p className="font-hahmlet text-xs font-extralight uppercase tracking-[0.28em] text-[#5b3b63] md:text-base">
-                  welcome
-                </p>
-                <div className="h-px w-[60px] bg-[#6d4f78]" />
-              </div>
-
-              <div className="max-w-[1000px]">
-                <h2
-                  className="font-hahmlet font-semibold leading-[1.28] tracking-[-0.03em] text-[#250030]"
+                <div
+                  className="flex flex-col items-center"
                   style={{
-                    fontSize: "clamp(2.5rem, calc(3.75rem * var(--welcome-scale)), 3.75rem)",
+                    gap: "calc(0.9rem * var(--welcome-scale))",
                   }}
                 >
-                  행복이 가득한 시온장로교회에
+                  <p className="type-label text-[#5b3b63]">
+                    welcome
+                  </p>
+                  <div className="h-px w-[60px] bg-[#6d4f78]" />
+                </div>
+
+                <h2 className="type-section-title max-w-[1000px] text-[#250030]">
+                  행복이 가득한
+                  <br className="min-[471px]:hidden" />
+                  <span className="min-[471px]:inline hidden"> 시온장로교회에</span>
+                  <span className="min-[471px]:hidden">시온장로교회에</span>
+                  <span className="hidden min-[471px]:inline"> </span>
                   <br />
                   오신 것을 환영합니다
                 </h2>
               </div>
 
               <div
-                className="relative w-fit max-w-full overflow-hidden rounded-[8px] border border-white/30 bg-[rgba(255,255,255,0.42)] shadow-[0_8px_24px_rgba(97,60,116,0.2)] backdrop-blur-[10px]"
+                className="relative w-fit max-w-full overflow-hidden rounded-[8px] border border-white/30 bg-[rgba(255,255,255,0.42)] shadow-[0_8px_24px_rgba(97,60,116,0.2)] backdrop-blur-[10px] [--welcome-card-padding-block:32px] md:[--welcome-card-padding-block:3.25rem] lg:[--welcome-card-padding-block:3.75rem] md:max-lg:[--welcome-card-padding-inline:calc(5rem*var(--welcome-scale))] lg:[--welcome-card-padding-inline:calc(7.5rem*var(--welcome-scale))]"
                 style={{
-                  paddingInline: "calc(7.5rem * var(--welcome-scale))",
-                  paddingBlock: "calc(3.75rem * var(--welcome-scale))",
+                  paddingInline: "var(--welcome-card-padding-inline, 40px)",
+                  paddingBlock: "var(--welcome-card-padding-block)",
                 }}
               >
                 <div
@@ -120,36 +137,22 @@ export default function HomePage() {
                   }}
                 >
                   <p
-                    className="max-w-[min(80vw,42rem)] font-hahmlet font-medium leading-[1.72] tracking-[0.01em] text-[#4f3657] md:max-w-[min(76vw,46rem)]"
-                    style={{
-                      fontSize: "clamp(1.05rem, calc(1.5rem * var(--welcome-scale)), 1.5rem)",
-                    }}
+                    className="type-quote max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4f3657] md:max-w-[min(76vw,46rem)]"
                   >
-                    “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과
-                    <br className="hidden md:block" />
-                    온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
+                    “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와
+                    땅 끝까지 이르러 내 증인이 되리라 하시니라”
                   </p>
-                  <p
-                    className="font-estonia tracking-[0.14em] text-[#6f5576]"
-                    style={{
-                      fontSize: "clamp(1.5rem, calc(1.5rem * var(--welcome-scale)), 1.5rem)",
-                    }}
-                  >
+                  <p className="type-script-accent text-[#6f5576]">
                     Acts 1:8
                   </p>
                 </div>
-                <p
-                  className="pointer-events-none absolute bottom-0 right-0 font-corinthia uppercase leading-none text-[rgba(255,255,255,0.35)]"
-                  style={{
-                    fontSize: "clamp(4.5rem, calc(8.5rem * var(--welcome-scale)), 8.5rem)",
-                  }}
-                >
+                <p className="type-script-display pointer-events-none absolute bottom-0 right-0 uppercase text-[rgba(255,255,255,0.35)]">
                   VERSE
                 </p>
               </div>
 
               <div
-                className="grid w-full max-w-[760px] grid-cols-2 md:flex md:flex-wrap md:items-start md:justify-center"
+                className="grid w-full max-w-[760px] grid-cols-2 place-items-stretch min-[840px]:flex min-[840px]:flex-wrap min-[840px]:items-start min-[840px]:justify-center"
                 style={{
                   columnGap: "calc(2.5rem * var(--welcome-scale))",
                   rowGap: "calc(2.25rem * var(--welcome-scale))",
@@ -159,111 +162,120 @@ export default function HomePage() {
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="group flex flex-col items-center"
+                    className="group flex w-full flex-col items-center min-[840px]:w-auto"
                     style={{
                       gap: "calc(1rem * var(--welcome-scale))",
                     }}
                   >
                     <div
-                      className="relative flex items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5"
+                      className="relative flex w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5 min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
                       style={{
-                        width: "calc(8.75rem * var(--welcome-scale))",
                         height: "calc(8.75rem * var(--welcome-scale))",
                       }}
                     >
                       <div
-                        className="absolute rounded-full bg-[rgba(183,166,196,0.58)]"
+                        className="relative"
                         style={{
-                          bottom: "calc(1.75rem * var(--welcome-scale))",
-                          left: "calc(1.95rem * var(--welcome-scale))",
-                          width: "calc(3.5rem * var(--welcome-scale))",
-                          height: "calc(3.5rem * var(--welcome-scale))",
+                          width: "calc(3.625rem * var(--welcome-scale))",
+                          height: "calc(3.625rem * var(--welcome-scale))",
                         }}
-                      />
-                      <div className="relative z-10 text-[#4d2d61]">
-                        {item.icon === "church" ? (
-                          <svg
-                            viewBox="0 0 64 64"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                            style={{
-                              width: "calc(3.625rem * var(--welcome-scale))",
-                              height: "calc(3.625rem * var(--welcome-scale))",
-                            }}
-                          >
-                            <path d="M14 52V28l18-12 18 12v24H14Z" />
-                            <path d="M26 52V39h12v13" />
-                            <path d="M32 10v12" />
-                            <path d="M27 15h10" />
-                            <circle cx="32" cy="29" r="2.4" fill="currentColor" stroke="none" />
-                          </svg>
-                        ) : item.icon === "time" ? (
-                          <svg
-                            viewBox="0 0 64 64"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                            style={{
-                              width: "calc(3.625rem * var(--welcome-scale))",
-                              height: "calc(3.625rem * var(--welcome-scale))",
-                            }}
-                          >
-                            <circle cx="32" cy="32" r="22" />
-                            <path d="M32 20v14l10 8" />
-                            <path d="M50 18c2 2.6 3.4 5.6 4 8.9" />
-                          </svg>
-                        ) : item.icon === "person" ? (
-                          <svg
-                            viewBox="0 0 64 64"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                            style={{
-                              width: "calc(3.625rem * var(--welcome-scale))",
-                              height: "calc(3.625rem * var(--welcome-scale))",
-                            }}
-                          >
-                            <circle cx="28" cy="23" r="7" />
-                            <path d="M13 48c2.5-8 9.2-12 15-12s12.5 4 15 12" />
-                            <path d="M49 16v14" />
-                            <path d="M42 23h14" />
-                          </svg>
-                        ) : (
-                          <svg
-                            viewBox="0 0 64 64"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.4"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
-                            style={{
-                              width: "calc(3.625rem * var(--welcome-scale))",
-                              height: "calc(3.625rem * var(--welcome-scale))",
-                            }}
-                          >
-                            <path d="M32 54s18-15.2 18-28a18 18 0 1 0-36 0c0 12.8 18 28 18 28Z" />
-                            <circle cx="32" cy="26" r="4.5" fill="currentColor" stroke="none" />
-                          </svg>
-                        )}
+                      >
+                        <div
+                          className="absolute rounded-full bg-[rgba(220,206,228,1)]"
+                          style={{
+                            bottom: "calc(-0.2rem * var(--welcome-scale))",
+                            left: "calc(-0.75rem * var(--welcome-scale))",
+                            width: "calc(3rem * var(--welcome-scale))",
+                            height: "calc(3rem * var(--welcome-scale))",
+                          }}
+                        />
+                        <div className="relative z-10 text-[#4d2d61]">
+                          {item.icon === "church" ? (
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                              style={{
+                                width: "calc(3.625rem * var(--welcome-scale))",
+                                height: "calc(3.625rem * var(--welcome-scale))",
+                              }}
+                            >
+                              <path d="M14 52V28l18-12 18 12v24H14Z" />
+                              <path d="M26 52V39h12v13" />
+                              <path d="M32 10v12" />
+                              <path d="M27 15h10" />
+                              <circle cx="32" cy="29" r="2.4" fill="currentColor" stroke="none" />
+                            </svg>
+                          ) : item.icon === "time" ? (
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                              style={{
+                                width: "calc(3.625rem * var(--welcome-scale))",
+                                height: "calc(3.625rem * var(--welcome-scale))",
+                              }}
+                            >
+                              <circle cx="32" cy="32" r="22" />
+                              <path d="M32 20v14l10 8" />
+                              <path d="M50 18c2 2.6 3.4 5.6 4 8.9" />
+                            </svg>
+                          ) : item.icon === "person" ? (
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                              style={{
+                                width: "calc(3.625rem * var(--welcome-scale))",
+                                height: "calc(3.625rem * var(--welcome-scale))",
+                              }}
+                            >
+                              <defs>
+                                <clipPath id="newcomer-back-person-clip">
+                                  <rect x="37" y="8" width="19" height="44" />
+                                </clipPath>
+                              </defs>
+                              <g clipPath="url(#newcomer-back-person-clip)">
+                                <circle cx="41" cy="22" r="9" />
+                                <path d="M23 49c3-9.2 10.4-14 18-14s15 4.8 18 14" />
+                              </g>
+                              <circle cx="29" cy="22" r="9" />
+                              <path d="M11 49c3-9.2 10.4-14 18-14s15 4.8 18 14" />
+                            </svg>
+                          ) : (
+                            <svg
+                              viewBox="0 0 64 64"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2.4"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              aria-hidden="true"
+                              style={{
+                                width: "calc(3.625rem * var(--welcome-scale))",
+                                height: "calc(3.625rem * var(--welcome-scale))",
+                              }}
+                            >
+                              <path d="M32 54s18-15.2 18-28a18 18 0 1 0-36 0c0 12.8 18 28 18 28Z" />
+                              <circle cx="32" cy="26" r="4.5" fill="currentColor" stroke="none" />
+                            </svg>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <p
-                      className="font-suit font-semibold text-[#341939]"
-                      style={{
-                        fontSize: "clamp(1.05rem, calc(1.35rem * var(--welcome-scale)), 1.35rem)",
-                      }}
-                    >
+                    <p className="type-button text-[#341939]">
                       {item.label}
                     </p>
                   </Link>
@@ -275,67 +287,160 @@ export default function HomePage() {
           <section
             id="about"
             data-bg-key="cream"
-            className="relative min-h-screen overflow-hidden bg-[url('/images/vision/vision-cloud.png')] bg-cover bg-top bg-no-repeat px-5 py-24 md:min-h-0 md:bg-none md:px-10 lg:min-h-[1020px] lg:px-20 lg:py-[100px] max-[560px]:[--about-card-width:100%] max-[560px]:[--about-card-gap:1rem] max-[560px]:[--about-card-padding:24px] max-[560px]:[--about-card-eyebrow:10px] max-[560px]:[--about-card-title:20px] max-[560px]:[--about-card-body:14px] max-[560px]:[--about-card-watermark:78px]"
-            style={aboutCardVars}
+            className="relative bg-[#fdf8ff] px-5 py-16 md:px-10 md:py-20 lg:h-screen lg:min-h-0 lg:overflow-hidden lg:px-20 lg:py-12"
+            style={visionSectionVars}
           >
-            <div className="absolute inset-0 bg-white/30 md:hidden" />
-
-            <div className="absolute hidden h-screen w-full md:block md:left-auto md:right-0 md:top-[60px] md:w-[70vw] lg:top-0 lg:h-[calc(var(--about-label-gap)+var(--about-card-width)*0.667+var(--about-card-gap)*2+20rem)]">
-              <Image
-                src="/images/vision/vision-cloud.png"
-                alt="Vision background"
-                fill
-                sizes="78vw"
-                className="object-cover object-top opacity-80"
-              />
-              <div className="absolute inset-0 bg-white/30" />
-            </div>
-
-            <div className="relative z-10 mx-auto flex min-h-screen w-full flex-col justify-center md:block md:min-h-0">
-              <div className="mb-[var(--about-label-gap)] max-[767px]:mx-auto max-[767px]:w-fit">
-                <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base max-[767px]:text-center">
-                  about us
-                </p>
-                <div className="mt-3 h-px w-[60px] bg-[#3d1a46] max-[767px]:mx-auto" />
-              </div>
-
-              <div className="grid w-[var(--about-card-width)] gap-[var(--about-card-gap)] uppercase max-[767px]:mx-auto max-[560px]:w-full">
-                {aboutCards.map((card) => (
-                  <article
-                    key={card.number}
-                    className="relative overflow-hidden border border-white/30 bg-[rgba(255,255,255,0.7)] shadow-[4px_4px_20px_rgba(45,22,59,0.1)] backdrop-blur-[10px]"
-                    style={{ padding: "var(--about-card-padding)" }}
+            <div className="relative z-10 flex w-full flex-col justify-center gap-12 lg:h-full lg:flex-row lg:items-center lg:justify-start lg:gap-[var(--vision-column-gap)] min-[1750px]:justify-center">
+              <div className="contents lg:flex lg:w-fit lg:flex-none lg:justify-start">
+                <div className="flex w-full max-w-full flex-col gap-8 lg:w-[min(100%,min(calc(100vw-35rem),45rem))] lg:gap-16">
+                  <div
+                    className="flex flex-col items-start"
+                    style={{
+                      gap: "2rem",
+                    }}
                   >
-                    <p
-                      className="font-hahmlet tracking-[0.2em] text-[rgba(58,30,66,0.32)]"
-                      style={{ fontSize: "var(--about-card-eyebrow)" }}
-                    >
-                      {card.eyebrow}
-                    </p>
-                    <h3
-                      className="mt-1 font-hahmlet font-semibold text-[#280631] lg:mt-0"
-                      style={{ fontSize: "var(--about-card-title)" }}
-                    >
-                      {card.title}
-                    </h3>
-                    <p
-                      className="mt-[calc(var(--about-card-width)*0.018)] font-suit leading-[1.6] tracking-[0.01em] text-[#7e6f87]"
-                      style={{ fontSize: "var(--about-card-body)" }}
-                    >
-                      {card.body}
-                    </p>
-                    <p
-                      className="pointer-events-none absolute font-corinthia leading-none text-[rgba(58,30,66,0.04)]"
+                    <div
+                      className="flex flex-col items-start"
                       style={{
-                        left: "calc(var(--about-card-width) * 0.025)",
-                        top: "calc(var(--about-card-width) * -0.03)",
-                        fontSize: "var(--about-card-watermark)",
+                        gap: "0.75rem",
                       }}
                     >
-                      {card.number}
-                    </p>
-                  </article>
-                ))}
+                      <p
+                        className="font-hahmlet font-extralight uppercase tracking-[0.2em] text-[#4a2856]"
+                        style={{
+                          fontSize: "1rem",
+                        }}
+                      >
+                        our vision
+                      </p>
+                      <div className="h-px w-[60px] bg-[#7a4f86]" />
+                    </div>
+
+                    <div
+                      className="flex flex-col items-start uppercase"
+                      style={{
+                        gap: "0.75rem",
+                      }}
+                    >
+                      <h2 className="type-section-title text-[#421d4c]">
+                        <span className="min-[1061px]:inline max-[1060px]:hidden">
+                          성령 안에 하나된 교회
+                        </span>
+                        <span className="hidden max-[1060px]:inline">
+                          성령 안에
+                        </span>
+                        <span className="hidden max-[1060px]:block">
+                          하나된 교회
+                        </span>
+                      </h2>
+                      <p className="type-section-subtitle text-[#855b91]">
+                        ONE CHURCH · ONE SPIRIT
+                      </p>
+                    </div>
+                  </div>
+
+                  <VisionMobileGallery />
+
+                  <div
+                    className="flex flex-col"
+                    style={{
+                      width: "100%",
+                      gap: "1.5rem",
+                    }}
+                  >
+                    {visionCards.map((card) => (
+                      <article
+                        key={card.number}
+                        className="relative overflow-hidden rounded-[4px] border border-[rgba(124,88,141,0.12)] bg-[#fcf6ff] px-6 py-6 shadow-[0_4px_12px_rgba(52,22,67,0.15),4px_8px_24px_rgba(44,11,64,0.2)] md:px-8 md:py-8"
+                      >
+                        <div
+                          className="relative flex flex-col items-start uppercase"
+                          style={{
+                            gap: "0.75rem",
+                          }}
+                        >
+                          <p
+                            className="type-card-label text-[rgba(105,19,147,0.4)]"
+                          >
+                            {card.eyebrow}
+                          </p>
+                          <h3 className="type-card-title text-[#40144d]">
+                            {card.title}
+                          </h3>
+                          <p className="type-card-body normal-case text-[rgba(83,54,100,0.8)]">
+                            {card.body}
+                          </p>
+                        </div>
+                        <p
+                          className="type-script-display pointer-events-none absolute left-7 -top-0 md:-top-5 lg:-top-4.5 text-[rgba(105,19,147,0.08)]"
+                        >
+                          {card.number}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative mt-10 hidden w-full lg:mt-0 lg:flex lg:w-fit lg:flex-none lg:shrink-0 lg:justify-start lg:ml-[calc(var(--vision-right-follow)*-1)]">
+                <div className="relative h-[540px] w-full max-w-[620px] lg:mt-64 lg:h-[46rem] lg:w-[42rem] lg:max-w-none">
+                  <div
+                    className="absolute right-0 top-0 overflow-hidden bg-[#f2ebf6] shadow-[0_20px_40px_rgba(67,29,83,0.12)]"
+                    style={{
+                      padding: "10px",
+                      transform: "rotate(1.45deg)",
+                      width: "31.5rem",
+                    }}
+                  >
+                    <div className="relative aspect-[539/359] w-full overflow-hidden">
+                      <Image
+                        src="/images/vision/vision-worship.png"
+                        alt="Worship vision"
+                        fill
+                        sizes="(min-width: 1024px) 34vw, 80vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    className="absolute left-[12%] top-[28%] overflow-hidden bg-[#f2ebf6] shadow-[0_20px_40px_rgba(67,29,83,0.12)]"
+                    style={{
+                      padding: "10px",
+                      transform: "rotate(-11.11deg)",
+                      width: "29rem",
+                    }}
+                  >
+                    <div className="relative aspect-[380/260] w-full overflow-hidden">
+                      <Image
+                        src="/images/vision/vision-mission.png"
+                        alt="Mission vision"
+                        fill
+                        sizes="(min-width: 1024px) 32vw, 72vw"
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    className="absolute -bottom-[0%] right-[2%] overflow-hidden bg-[#f2ebf6] shadow-[0_20px_40px_rgba(67,29,83,0.12)]"
+                    style={{
+                      padding: "10px",
+                      transform: "rotate(7.92deg)",
+                      width: "29.875rem",
+                    }}
+                  >
+                    <div className="relative aspect-[2048/1365] w-full overflow-hidden">
+                      <Image
+                        src="/images/vision/vision-community.png"
+                        alt="Community vision"
+                        fill
+                        sizes="(min-width: 1024px) 32vw, 72vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -368,11 +473,10 @@ export default function HomePage() {
 
                 <div className="mt-10 border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9 lg:mt-0">
                   <p className="font-suit text-[1.2rem] leading-[2.2rem] tracking-[0.01em] text-[#3c2348]">
-                    “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과
+                    주님을 깊이 알아가고, 성령 안에서 하나 되어
                     <br />
-                    온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라 하시니라”
+                    사랑의 공동체로 함께 이 길을 걷기를 소망합니다.
                   </p>
-                  <p className="mt-4 font-suit text-[1.2rem] text-[#3c2348]">사도행전 1:8</p>
                 </div>
 
                 <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:mt-0">
