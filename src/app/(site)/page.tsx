@@ -69,24 +69,10 @@ export default function HomePage() {
 
         <div className="relative z-10 -mt-[100vh]">
           <section
-            data-bg-key="verse"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4eef5] px-10 py-[140px] md:px-20 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            data-bg-key="verse-cloud"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden px-10 py-[140px] md:px-20 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
-            <div className="absolute inset-0">
-              <Image
-                src="/images/vision/vision-cloud.png"
-                alt="Cloud background"
-                fill
-                sizes="100vw"
-                className="object-cover object-center opacity-78"
-              />
-            </div>
-            <div className="absolute inset-0 bg-white/20" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_14%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.3)_32%,rgba(255,255,255,0)_58%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.12)_42%,rgba(255,255,255,0.02)_100%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(244,238,245,0.32)_0%,rgba(244,238,245,0.08)_22%,rgba(244,238,245,0.08)_78%,rgba(244,238,245,0.26)_100%)]" />
-
             <div
               className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center lg:[--welcome-content-gap:calc(4rem*var(--welcome-scale))]"
               style={{
@@ -286,11 +272,11 @@ export default function HomePage() {
 
           <section
             id="about"
-            data-bg-key="cream"
-            className="relative bg-[#fdf8ff] px-5 py-16 md:px-10 md:py-20 lg:h-screen lg:min-h-0 lg:overflow-hidden lg:px-20 lg:py-12"
+            data-bg-key="vision-cream"
+            className="relative px-5 py-16 md:px-10 md:py-24 lg:overflow-hidden lg:px-20 lg:py-32"
             style={visionSectionVars}
           >
-            <div className="relative z-10 flex w-full flex-col justify-center gap-12 lg:h-full lg:flex-row lg:items-center lg:justify-start lg:gap-[var(--vision-column-gap)] min-[1750px]:justify-center">
+            <div className="relative z-10 flex w-full flex-col justify-center gap-12 lg:flex-row lg:items-start lg:justify-start lg:gap-[var(--vision-column-gap)] min-[1750px]:justify-center">
               <div className="contents lg:flex lg:w-fit lg:flex-none lg:justify-start">
                 <div className="flex w-full max-w-full flex-col gap-8 lg:w-[min(100%,min(calc(100vw-35rem),45rem))] lg:gap-16">
                   <div
@@ -451,7 +437,7 @@ export default function HomePage() {
 
           <section
             id="join"
-            data-bg-key="cream"
+            data-bg-key="join-cream"
             className="px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]"
           >
             <div className="mx-auto flex w-full flex-col gap-12 lg:flex-row lg:items-stretch lg:justify-between lg:gap-[80px]">

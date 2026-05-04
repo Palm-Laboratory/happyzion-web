@@ -2,212 +2,137 @@
 
 import { useEffect, useRef } from "react";
 
+const SECTION_SELECTOR = "[data-bg-key]";
 const CREAM_COLOR = "#fffcf8";
-const MISSION_DARK_STOPS = ["#12091f", "#1b1032", "#170d29", "#0d0716"] as const;
-
-const BACKGROUND_STYLES: Record<string, string> = {
-  verse: "linear-gradient(180deg,#d3c0dc 0%,#fffcf8 100%)",
-  cream: CREAM_COLOR,
-  "mission-dark": "linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%)",
-};
+const VISION_CREAM_COLOR = "#fcf8ff";
+const MISSION_DARK_BACKGROUND =
+  "linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%)";
 const MISSION_DARK_DECORATION =
   "radial-gradient(circle at 18% 10%, rgba(116,84,173,0.3) 0%, rgba(116,84,173,0.14) 18%, rgba(116,84,173,0) 42%), radial-gradient(circle at 92% 84%, rgba(46,103,150,0.16) 0%, rgba(46,103,150,0.07) 16%, rgba(46,103,150,0) 38%)";
-
-const BACKGROUND_KEYS = Object.keys(BACKGROUND_STYLES);
-const SECTION_SELECTOR = "[data-bg-key]";
 const TRANSITION_START_VIEWPORT_RATIO = 1;
-const CREAM_TO_MISSION_COMPLETE_VIEWPORT_RATIO = 0.38;
-const MISSION_TO_CREAM_COMPLETE_VIEWPORT_RATIO = 0.5;
-const TRANSITION_MIN_BAND = 360;
+const TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.56;
+const TRANSITION_MIN_BAND = 320;
+
+const LAYER_KEYS = ["verse-cloud", "vision-cream", "mission-dark", "join-cream"] as const;
+type LayerKey = (typeof LAYER_KEYS)[number];
+
+type SectionMeta = {
+  key: LayerKey;
+  top: number;
+};
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const smoothstep = (value: number) => value * value * (3 - 2 * value);
-const hexToRgb = (hex: string) => {
-  const normalized = hex.replace("#", "");
-  const value = Number.parseInt(normalized, 16);
-
-  return {
-    r: (value >> 16) & 255,
-    g: (value >> 8) & 255,
-    b: value & 255,
-  };
-};
-const mixChannel = (from: number, to: number, amount: number) => Math.round(from + (to - from) * amount);
-const mixHex = (from: string, to: string, amount: number) => {
-  const start = hexToRgb(from);
-  const end = hexToRgb(to);
-
-  return `rgb(${mixChannel(start.r, end.r, amount)}, ${mixChannel(start.g, end.g, amount)}, ${mixChannel(start.b, end.b, amount)})`;
-};
-const getMissionDarkGradient = (amount: number) => {
-  const eased = smoothstep(clamp(amount, 0, 1));
-  const [stop1, stop2, stop3, stop4] = MISSION_DARK_STOPS.map((color) => mixHex(CREAM_COLOR, color, eased));
-
-  return `linear-gradient(180deg, ${stop1} 0%, ${stop2} 34%, ${stop3} 68%, ${stop4} 100%)`;
-};
-
-type SectionMeta = {
-  key: string;
-  top: number;
-};
-
-type BackgroundGroup = {
-  key: string;
-  top: number;
-};
 
 export default function BackgroundStage() {
-  const layerRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const layerRefs = useRef<Record<LayerKey, HTMLDivElement | null>>({
+    "verse-cloud": null,
+    "vision-cream": null,
+    "mission-dark": null,
+    "join-cream": null,
+  });
   const missionDecorationRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let frame = 0;
-    let cachedSections: SectionMeta[] = [];
-    let cachedGroups: BackgroundGroup[] = [];
-    let lastSnapshot = "";
+    let sections: SectionMeta[] = [];
 
     const readSections = () => {
-      cachedSections = Array.from(document.querySelectorAll<HTMLElement>(SECTION_SELECTOR)).map((element) => ({
-        key: element.dataset.bgKey || "cream",
-        top: element.getBoundingClientRect().top + window.scrollY,
-      }));
+      const nextSections = Array.from(document.querySelectorAll<HTMLElement>(SECTION_SELECTOR))
+        .map((element) => {
+          const key = element.dataset.bgKey as LayerKey | undefined;
+          if (!key || !LAYER_KEYS.includes(key)) {
+            return null;
+          }
 
-      cachedGroups = cachedSections.reduce<BackgroundGroup[]>((groups, section) => {
+          return {
+            key,
+            top: element.getBoundingClientRect().top + window.scrollY,
+          };
+        })
+        .filter((section): section is SectionMeta => section !== null);
+
+      sections = nextSections.reduce<SectionMeta[]>((groups, section) => {
         const lastGroup = groups[groups.length - 1];
 
         if (!lastGroup || lastGroup.key !== section.key) {
-          groups.push({ key: section.key, top: section.top });
+          groups.push(section);
         }
 
         return groups;
       }, []);
     };
 
-    const applyLayerStyles = (
-      opacities: Record<string, number>,
-      options?: {
-        missionGradientProgress?: number;
-        missionDecorationProgress?: number;
-      },
-    ) => {
-      const snapshot = BACKGROUND_KEYS.map((key) => `${key}:${opacities[key].toFixed(4)}`).join("|");
-      if (snapshot === lastSnapshot) {
-        if (options?.missionGradientProgress === undefined && options?.missionDecorationProgress === undefined) {
-          return;
-        }
-      }
-
-      lastSnapshot = snapshot;
-
-      BACKGROUND_KEYS.forEach((key) => {
+    const applyOpacities = (opacities: Record<LayerKey, number>) => {
+      LAYER_KEYS.forEach((key) => {
         const layer = layerRefs.current[key];
         if (!layer) {
           return;
         }
 
-        layer.style.opacity = String(opacities[key] ?? 0);
-        layer.style.visibility = (opacities[key] ?? 0) > 0.001 ? "visible" : "hidden";
-
-        if (key === "mission-dark") {
-          layer.style.background =
-            typeof options?.missionGradientProgress === "number"
-              ? getMissionDarkGradient(options.missionGradientProgress)
-              : BACKGROUND_STYLES["mission-dark"];
-        }
+        const opacity = clamp(opacities[key] ?? 0, 0, 1);
+        layer.style.opacity = String(opacity);
+        layer.style.visibility = opacity > 0.001 ? "visible" : "hidden";
       });
 
       if (missionDecorationRef.current) {
-        const decorationProgress =
-          typeof options?.missionDecorationProgress === "number"
-            ? options.missionDecorationProgress
-            : smoothstep(clamp(((opacities["mission-dark"] ?? 0) - 0.42) / 0.58, 0, 1));
-
-        missionDecorationRef.current.style.opacity = String(decorationProgress);
-        missionDecorationRef.current.style.visibility = decorationProgress > 0.001 ? "visible" : "hidden";
+        const missionOpacity = clamp(opacities["mission-dark"] ?? 0, 0, 1);
+        missionDecorationRef.current.style.opacity = String(missionOpacity);
+        missionDecorationRef.current.style.visibility = missionOpacity > 0.001 ? "visible" : "hidden";
       }
     };
 
     const update = () => {
       frame = 0;
 
-      if (cachedGroups.length === 0) {
+      if (sections.length === 0) {
         return;
       }
 
-      const anchor = window.scrollY;
+      const scrollY = window.scrollY;
       let currentIndex = 0;
 
-      for (let index = 0; index < cachedGroups.length - 1; index += 1) {
-        if (anchor >= cachedGroups[index].top) {
+      for (let index = 0; index < sections.length - 1; index += 1) {
+        if (scrollY >= sections[index].top) {
           currentIndex = index;
         }
       }
 
-      const nextIndex = Math.min(currentIndex + 1, cachedGroups.length - 1);
-      const current = cachedGroups[currentIndex];
-      const next = cachedGroups[nextIndex];
-      const range = Math.max(next.top - current.top, 1);
-      const rawProgress = currentIndex === nextIndex ? 0 : clamp((anchor - current.top) / range, 0, 1);
-      const distanceToNext = next.top - anchor;
+      const current = sections[currentIndex];
+      const next = sections[Math.min(currentIndex + 1, sections.length - 1)];
       const viewportHeight = window.innerHeight;
+      const distanceToNext = next.top - scrollY;
       const transitionStartPoint = viewportHeight * TRANSITION_START_VIEWPORT_RATIO;
-      const creamToMissionCompletePoint = viewportHeight * CREAM_TO_MISSION_COMPLETE_VIEWPORT_RATIO;
-      const missionToCreamCompletePoint = viewportHeight * MISSION_TO_CREAM_COMPLETE_VIEWPORT_RATIO;
-      const creamToMissionBand = Math.max(transitionStartPoint - creamToMissionCompletePoint, TRANSITION_MIN_BAND);
-      const missionToCreamBand = Math.max(transitionStartPoint - missionToCreamCompletePoint, TRANSITION_MIN_BAND);
+      const transitionEndPoint = viewportHeight * TRANSITION_COMPLETE_VIEWPORT_RATIO;
+      const transitionBand = Math.max(transitionStartPoint - transitionEndPoint, TRANSITION_MIN_BAND);
+      const progress =
+        current.key === next.key
+          ? 0
+          : smoothstep(clamp((transitionStartPoint - distanceToNext) / transitionBand, 0, 1));
 
-      let progress = rawProgress;
+      const currentLayerIndex = LAYER_KEYS.indexOf(current.key);
+      const opacities = Object.fromEntries(
+        LAYER_KEYS.map((key, index) => {
+          if (index < currentLayerIndex) {
+            return [key, 0];
+          }
 
-      if (
-        current.key === "cream" && next.key === "mission-dark"
-      ) {
-        progress = smoothstep(
-          clamp(
-            (transitionStartPoint - distanceToNext) / creamToMissionBand,
-            0,
-            1,
-          ),
-        );
-      } else if (current.key === "mission-dark" && next.key === "cream") {
-        progress = smoothstep(
-          clamp(
-            (transitionStartPoint - distanceToNext) / missionToCreamBand,
-            0,
-            1,
-          ),
-        );
-      }
+          if (index === currentLayerIndex) {
+            return [key, current.key === next.key ? 1 : 1 - progress];
+          }
 
-      const opacities = Object.fromEntries(BACKGROUND_KEYS.map((key) => [key, 0])) as Record<string, number>;
+          return [key, 1];
+        }),
+      ) as Record<LayerKey, number>;
 
-      if (current.key === next.key) {
-        opacities[current.key] = 1;
-      } else if (current.key === "cream" && next.key === "mission-dark") {
-        opacities["mission-dark"] = 1;
-        applyLayerStyles(opacities, {
-          missionGradientProgress: progress,
-          missionDecorationProgress: smoothstep(clamp((progress - 0.58) / 0.42, 0, 1)),
-        });
-        return;
-      } else if (current.key === "mission-dark" && next.key === "cream") {
-        opacities["mission-dark"] = 1;
-        applyLayerStyles(opacities, {
-          missionGradientProgress: 1 - progress,
-          missionDecorationProgress: smoothstep(clamp(((1 - progress) - 0.58) / 0.42, 0, 1)),
-        });
-        return;
-      } else {
-        opacities[current.key] = 1 - progress;
-        opacities[next.key] = progress;
-      }
-
-      applyLayerStyles(opacities);
+      applyOpacities(opacities);
     };
 
     const requestUpdate = () => {
       if (frame) {
         return;
       }
+
       frame = window.requestAnimationFrame(update);
     };
 
@@ -226,6 +151,7 @@ export default function BackgroundStage() {
       if (frame) {
         window.cancelAnimationFrame(frame);
       }
+
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", handleResize);
     };
@@ -233,28 +159,52 @@ export default function BackgroundStage() {
 
   return (
     <div className="pointer-events-none sticky top-0 h-screen overflow-hidden">
-      <div className="grid h-full w-full">
-        {BACKGROUND_KEYS.map((key, index) => (
-          <div
-            key={key}
-            ref={(node) => {
-              layerRefs.current[key] = node;
-            }}
-            className="[grid-area:1/1] opacity-0 will-change-[opacity]"
-            style={{
-              background: BACKGROUND_STYLES[key],
-              visibility: index === 0 ? "visible" : "hidden",
-            }}
-          />
-        ))}
+      <div className="relative h-full w-full">
         <div
-          ref={missionDecorationRef}
-          className="[grid-area:1/1] opacity-0 will-change-[opacity]"
-          style={{
-            background: MISSION_DARK_DECORATION,
-            visibility: "hidden",
+          ref={(node) => {
+            layerRefs.current["join-cream"] = node;
           }}
+          className="absolute inset-0 will-change-[opacity]"
+          style={{ background: CREAM_COLOR }}
         />
+
+        <div
+          ref={(node) => {
+            layerRefs.current["mission-dark"] = node;
+          }}
+          className="absolute inset-0 will-change-[opacity]"
+          style={{ background: MISSION_DARK_BACKGROUND }}
+        >
+          <div
+            ref={missionDecorationRef}
+            className="absolute inset-0 will-change-[opacity]"
+            style={{ background: MISSION_DARK_DECORATION }}
+          />
+        </div>
+
+        <div
+          ref={(node) => {
+            layerRefs.current["vision-cream"] = node;
+          }}
+          className="absolute inset-0 will-change-[opacity]"
+          style={{ background: VISION_CREAM_COLOR }}
+        />
+
+        <div
+          ref={(node) => {
+            layerRefs.current["verse-cloud"] = node;
+          }}
+          className="absolute inset-0 will-change-[opacity]"
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
+            style={{ backgroundImage: "url('/images/vision/vision-cloud.png')" }}
+          />
+          <div className="absolute inset-0 bg-white/20" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_14%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.3)_32%,rgba(255,255,255,0)_58%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.12)_42%,rgba(255,255,255,0.02)_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(244,238,245,0.32)_0%,rgba(244,238,245,0.08)_22%,rgba(244,238,245,0.08)_78%,rgba(244,238,245,0.26)_100%)]" />
+        </div>
       </div>
     </div>
   );
