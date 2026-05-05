@@ -8,6 +8,7 @@ import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import VisionMobileGallery from "@/components/home/vision-mobile-gallery";
 import MissionStorySection from "@/components/home/mission-story-section";
+import ScrollFadeGroup from "@/components/home/scroll-fade-group";
 import { createPageMetadata } from "@/lib/seo";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 
@@ -71,7 +72,7 @@ export default function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse-cloud"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden px-10 py-[140px] md:px-20 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden px-10 py-[140px] md:px-[3.75rem] lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
             <div
@@ -274,7 +275,7 @@ export default function HomePage() {
           <section
             id="about"
             data-bg-key="vision-cream"
-            className="relative px-5 py-16 md:px-10 md:py-24 lg:overflow-hidden lg:px-20 lg:py-32"
+            className="relative px-10 py-16 md:px-[3.75rem] md:py-24 lg:overflow-hidden lg:px-20 lg:py-32"
             style={visionSectionVars}
           >
             <div className="relative z-10 flex w-full flex-col justify-center gap-12 lg:flex-row lg:items-start lg:justify-start lg:gap-[var(--vision-column-gap)] min-[1750px]:justify-center">
@@ -323,7 +324,8 @@ export default function HomePage() {
 
                   <VisionMobileGallery />
 
-                  <div
+                  <ScrollFadeGroup
+                    nextSectionId="mission"
                     className="flex flex-col"
                     style={{
                       width: "100%",
@@ -360,12 +362,15 @@ export default function HomePage() {
                         </p>
                       </article>
                     ))}
-                  </div>
+                  </ScrollFadeGroup>
                 </div>
               </div>
 
-              <div className="relative mt-10 hidden w-full lg:mt-0 lg:flex lg:w-fit lg:flex-none lg:shrink-0 lg:justify-start lg:ml-[calc(var(--vision-right-follow)*-1)]">
-                <div className="relative h-[540px] w-full max-w-[620px] lg:mt-64 lg:h-[46rem] lg:w-[42rem] lg:max-w-none">
+              <ScrollFadeGroup
+                nextSectionId="mission"
+                className="relative mt-10 hidden w-full lg:mt-0 lg:flex lg:w-fit lg:flex-none lg:shrink-0 lg:justify-start lg:ml-[calc(var(--vision-right-follow)*-1)]"
+              >
+                <div className="relative h-[540px] w-full max-w-[620px] lg:mt-16 lg:h-[46rem] lg:w-[42rem] lg:max-w-none">
                   <div
                     className="absolute right-0 top-0 overflow-hidden bg-[#f2ebf6] shadow-[0_20px_40px_rgba(67,29,83,0.12)]"
                     style={{
@@ -423,7 +428,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollFadeGroup>
             </div>
           </section>
 

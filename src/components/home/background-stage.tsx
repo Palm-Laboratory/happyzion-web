@@ -9,11 +9,11 @@ const MISSION_DARK_BACKGROUND =
   "linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%)";
 const MISSION_DARK_DECORATION =
   "radial-gradient(circle at 18% 10%, rgba(116,84,173,0.3) 0%, rgba(116,84,173,0.14) 18%, rgba(116,84,173,0) 42%), radial-gradient(circle at 92% 84%, rgba(46,103,150,0.16) 0%, rgba(46,103,150,0.07) 16%, rgba(46,103,150,0) 38%)";
-const TRANSITION_START_VIEWPORT_RATIO = 1;
-const TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.56;
+const TRANSITION_START_VIEWPORT_RATIO = 0.9;
+const TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.46;
 const TRANSITION_MIN_BAND = 320;
-const JOIN_TRANSITION_START_VIEWPORT_RATIO = 0.72;
-const JOIN_TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.42;
+const JOIN_TRANSITION_START_VIEWPORT_RATIO = 0.64;
+const JOIN_TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.34;
 const JOIN_TRANSITION_MIN_BAND = 260;
 
 const LAYER_KEYS = ["verse-cloud", "vision-cream", "mission-dark", "join-cream"] as const;
@@ -108,9 +108,7 @@ export default function BackgroundStage() {
       const isJoinTransition = current.key === "mission-dark" && next.key === "join-cream";
       const transitionStartPoint =
         viewportHeight *
-        (isJoinTransition
-          ? JOIN_TRANSITION_START_VIEWPORT_RATIO
-          : TRANSITION_START_VIEWPORT_RATIO);
+        (isJoinTransition ? JOIN_TRANSITION_START_VIEWPORT_RATIO : TRANSITION_START_VIEWPORT_RATIO);
       const transitionEndPoint =
         viewportHeight *
         (isJoinTransition
@@ -184,9 +182,10 @@ export default function BackgroundStage() {
         >
           <div className="absolute inset-0 md:hidden">
             <div
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              className="absolute inset-[-16px] bg-cover bg-center bg-no-repeat"
               style={{ backgroundImage: "url('/images/church/church-illustration.png')" }}
             />
+            <div className="absolute inset-0 backdrop-blur-[4px]" />
             <div className="absolute inset-0 bg-[linear-gradient(90deg,#FFFCF8_10%,rgba(255,252,248,0.8)_90%,rgba(255,252,248,0)_100%)]" />
           </div>
         </div>

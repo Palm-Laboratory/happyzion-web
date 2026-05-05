@@ -98,10 +98,96 @@ function MissionStoryHeading() {
 
 function MissionStorySectionMobile() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [transition, setTransition] = useState<{
+    from: number;
+    to: number;
+    direction: 1 | -1;
+  } | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const activeStory = missionStories[activeIndex];
 
+  useEffect(() => {
+    if (!transition) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      setIsAnimating(true);
+    });
+    const timeout = window.setTimeout(() => {
+      setTransition(null);
+      setIsAnimating(false);
+    }, 460);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
+  }, [transition]);
+
+  const navigate = (direction: 1 | -1) => {
+    if (transition) {
+      return;
+    }
+
+    const nextIndex = (activeIndex + direction + missionStories.length) % missionStories.length;
+    setTransition({
+      from: activeIndex,
+      to: nextIndex,
+      direction,
+    });
+    setIsAnimating(false);
+    setActiveIndex(nextIndex);
+  };
+
+  const renderStoryPanel = (
+    story: (typeof missionStories)[number],
+    state: "idle" | "from" | "to",
+    direction: 1 | -1,
+  ) => {
+    const transform =
+      state === "idle"
+        ? "translateX(0)"
+        : state === "from"
+          ? isAnimating
+            ? `translateX(${direction > 0 ? "-100%" : "100%"})`
+            : "translateX(0)"
+          : isAnimating
+            ? "translateX(0)"
+            : `translateX(${direction > 0 ? "100%" : "-100%"})`;
+
+    const opacity =
+      state === "idle" ? 1 : state === "from" ? (isAnimating ? 0 : 1) : isAnimating ? 1 : 0;
+
+    return (
+      <div
+        key={`${story.id}-${state}`}
+        className="col-start-1 row-start-1 w-full"
+        style={{
+          transform,
+          opacity,
+          transition: transition ? "transform 460ms ease-out, opacity 460ms ease-out" : "none",
+        }}
+      >
+        <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
+          <Image
+            src={story.image}
+            alt={story.country}
+            fill
+            sizes="(max-width: 767px) 60vw, (max-width: 1023px) 60vw"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="mt-10 w-full text-left">
+          <p className="type-body text-[#f0e8ff]">{story.message}</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div className="relative flex min-h-0 flex-col items-center px-5 md:px-10 min-[1300px]:hidden">
+    <div className="relative flex min-h-0 flex-col items-center px-10 md:px-[3.75rem] min-[1300px]:hidden">
       <MissionStoryHeading />
 
       <div className="mt-20 flex w-full max-w-[760px] flex-col items-center">
@@ -122,18 +208,19 @@ function MissionStorySectionMobile() {
         </div>
 
         <div className="mt-10 w-[min(60vw,22rem)] md:w-[min(60vw,30rem)]">
-          <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
-            <Image
-              src={activeStory.image}
-              alt={activeStory.country}
-              fill
-              sizes="(max-width: 767px) 60vw, (max-width: 1023px) 60vw"
-              className="object-cover"
-            />
-          </div>
-
-          <div className="mt-10 w-full text-left">
-            <p className="type-body text-[#f0e8ff]">{activeStory.message}</p>
+          <div className="grid overflow-hidden">
+            {transition
+              ? (
+                <>
+                  {renderStoryPanel(
+                    missionStories[transition.from],
+                    "from",
+                    transition.direction,
+                  )}
+                  {renderStoryPanel(missionStories[transition.to], "to", transition.direction)}
+                </>
+              )
+              : renderStoryPanel(activeStory, "idle", 1)}
           </div>
         </div>
 
@@ -142,7 +229,7 @@ function MissionStorySectionMobile() {
             type="button"
             aria-label="Previous mission story"
             onClick={() => {
-              setActiveIndex((prev) => (prev - 1 + missionStories.length) % missionStories.length);
+              navigate(-1);
             }}
             className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
           >
@@ -181,7 +268,7 @@ function MissionStorySectionMobile() {
             type="button"
             aria-label="Next mission story"
             onClick={() => {
-              setActiveIndex((prev) => (prev + 1) % missionStories.length);
+              navigate(1);
             }}
             className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
           >

@@ -44,8 +44,11 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
         <div className="uppercase min-[1300px]:hidden">
           <div className="flex flex-col items-center gap-3">
             <div className="flex flex-col items-center">
-              <p className="type-section-title w-fit max-w-none whitespace-nowrap text-[#f0e8ff]">
-                선교는 지금도 계속되고 있습니다
+              <p className="type-section-title w-fit max-w-none text-[#f0e8ff]">
+                선교는 지금도
+                <br className="min-[481px]:hidden" />
+                <span className="hidden min-[481px]:inline"> </span>
+                계속되고 있습니다
               </p>
               <p className="type-section-title text-[#f0e8ff]">이 사명에 함께하세요</p>
             </div>
@@ -140,7 +143,7 @@ function MissionCountriesMobile() {
   return (
     <div
       ref={sectionRef}
-      className="flex flex-col items-center gap-24 px-5 py-24 md:px-10 md:py-28 min-[1300px]:hidden"
+      className="flex flex-col items-center gap-24 px-10 py-24 md:px-[3.75rem] md:py-28 min-[1300px]:hidden"
     >
       <MissionCountriesHeading className="w-full max-w-[582px]" />
 

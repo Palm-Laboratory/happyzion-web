@@ -67,7 +67,7 @@ export default function JoinMissionSection() {
       ref={sectionRef}
       id="join"
       data-bg-key="join-cream"
-      className="relative overflow-hidden px-5 py-24 md:px-10 lg:px-20 lg:pt-[100px] lg:pb-[160px]"
+      className="relative overflow-hidden px-10 py-24 md:px-[3.75rem] lg:px-20 lg:pt-[100px] lg:pb-[160px]"
     >
       <div
         className="relative z-10 mx-auto w-full min-[768px]:relative min-[768px]:h-[560px] min-[1024px]:h-[632px] min-[1281px]:flex min-[1281px]:h-auto min-[1281px]:flex-row min-[1281px]:items-stretch min-[1281px]:justify-center min-[1281px]:gap-[var(--join-column-gap)]"
