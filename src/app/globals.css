@@ -270,12 +270,20 @@ html.lenis body {
     font-size: 1rem;
   }
 
+  .type-label {
+    font-size: 0.875rem;
+  }
+
   .type-label-accent {
     font-size: 1.125rem;
   }
 }
 
 @media (min-width: 1024px) {
+  .type-label {
+    font-size: 1rem;
+  }
+
   .type-label-accent {
     font-size: 1.75rem;
   }

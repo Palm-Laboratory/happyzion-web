@@ -12,6 +12,9 @@ const MISSION_DARK_DECORATION =
 const TRANSITION_START_VIEWPORT_RATIO = 1;
 const TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.56;
 const TRANSITION_MIN_BAND = 320;
+const JOIN_TRANSITION_START_VIEWPORT_RATIO = 0.72;
+const JOIN_TRANSITION_COMPLETE_VIEWPORT_RATIO = 0.42;
+const JOIN_TRANSITION_MIN_BAND = 260;
 
 const LAYER_KEYS = ["verse-cloud", "vision-cream", "mission-dark", "join-cream"] as const;
 type LayerKey = (typeof LAYER_KEYS)[number];
@@ -102,9 +105,21 @@ export default function BackgroundStage() {
       const next = sections[Math.min(currentIndex + 1, sections.length - 1)];
       const viewportHeight = window.innerHeight;
       const distanceToNext = next.top - scrollY;
-      const transitionStartPoint = viewportHeight * TRANSITION_START_VIEWPORT_RATIO;
-      const transitionEndPoint = viewportHeight * TRANSITION_COMPLETE_VIEWPORT_RATIO;
-      const transitionBand = Math.max(transitionStartPoint - transitionEndPoint, TRANSITION_MIN_BAND);
+      const isJoinTransition = current.key === "mission-dark" && next.key === "join-cream";
+      const transitionStartPoint =
+        viewportHeight *
+        (isJoinTransition
+          ? JOIN_TRANSITION_START_VIEWPORT_RATIO
+          : TRANSITION_START_VIEWPORT_RATIO);
+      const transitionEndPoint =
+        viewportHeight *
+        (isJoinTransition
+          ? JOIN_TRANSITION_COMPLETE_VIEWPORT_RATIO
+          : TRANSITION_COMPLETE_VIEWPORT_RATIO);
+      const transitionBand = Math.max(
+        transitionStartPoint - transitionEndPoint,
+        isJoinTransition ? JOIN_TRANSITION_MIN_BAND : TRANSITION_MIN_BAND,
+      );
       const progress =
         current.key === next.key
           ? 0
@@ -166,7 +181,15 @@ export default function BackgroundStage() {
           }}
           className="absolute inset-0 will-change-[opacity]"
           style={{ background: CREAM_COLOR }}
-        />
+        >
+          <div className="absolute inset-0 md:hidden">
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: "url('/images/church/church-illustration.png')" }}
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,#FFFCF8_10%,rgba(255,252,248,0.8)_90%,rgba(255,252,248,0)_100%)]" />
+          </div>
+        </div>
 
         <div
           ref={(node) => {

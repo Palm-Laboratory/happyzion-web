@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import BackgroundStage from "@/components/home/background-stage";
+import JoinMissionSection from "@/components/home/join-mission-section";
 import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import VisionMobileGallery from "@/components/home/vision-mobile-gallery";
@@ -430,67 +431,7 @@ export default function HomePage() {
           <MissionCountriesSection />
           <MissionCtaSection />
 
-          <section
-            id="join"
-            data-bg-key="join-cream"
-            className="px-5 py-24 md:px-10 lg:px-20 lg:py-[100px]"
-          >
-            <div className="mx-auto flex w-full flex-col gap-12 lg:flex-row lg:items-stretch lg:justify-between lg:gap-[80px]">
-              <div className="flex flex-1 flex-col lg:self-stretch lg:justify-between">
-                <div className="flex flex-col gap-9">
-                  <div>
-                    <p className="font-hahmlet text-sm font-extralight uppercase tracking-[0.28em] text-[#3d1a46] md:text-base">
-                      join the mission
-                    </p>
-                    <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />
-                  </div>
-
-                  <h2 className="font-hahmlet text-[2.25rem] font-semibold leading-[1.3] tracking-[-0.03em] text-black md:text-[3.75rem] md:leading-[1.34]">
-                    예배로, 선교로, 공동체로
-                    <br />
-                    우리는 함께 걸어갑니다
-                  </h2>
-                </div>
-
-                <div className="mt-10 border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9 lg:mt-0">
-                  <p className="font-suit text-[1.2rem] leading-[2.2rem] tracking-[0.01em] text-[#3c2348]">
-                    주님을 깊이 알아가고, 성령 안에서 하나 되어
-                    <br />
-                    사랑의 공동체로 함께 이 길을 걷기를 소망합니다.
-                  </p>
-                </div>
-
-                <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:mt-0">
-                  {[
-                    { label: "service time", title: "예배안내", href: "/worship" },
-                    { label: "newcomer", title: "새가족 안내", href: "/next-steps" },
-                    { label: "way to church", title: "오시는 길", href: "#footer" },
-                  ].map((item) => (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="rounded-lg bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5"
-                    >
-                      <p className="font-suit text-xs uppercase tracking-[0.12em] text-[#dfd6e5]">{item.label}</p>
-                      <p className="mt-2 font-suit text-xl font-semibold text-white">{item.title}</p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="w-full max-w-[420px] self-stretch">
-                <div className="relative h-[420px] overflow-hidden rounded-xl bg-white shadow-[0_16px_24px_rgba(0,0,0,0.15)] md:h-[560px] lg:h-full lg:min-h-[632px]">
-                  <Image
-                    src="/images/church/church-illustration.png"
-                    alt="행복이가득한 시온장로교회"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
+          <JoinMissionSection />
         </div>
       </div>
     </div>

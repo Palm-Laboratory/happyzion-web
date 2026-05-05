@@ -78,14 +78,20 @@ function useViewportWidth() {
 function MissionStoryHeading() {
   return (
     <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
-      <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
-      <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
-      <p className="type-section-subtitle mt-5 text-[#bfaed9]">LIFE THROUGH THE GOSPEL</p>
-      <h2 className="type-section-title mt-5 text-[#f0e8ff]">
-        우리는 복음으로
-        <br />
-        사람을 살리는 교회입니다.
-      </h2>
+      <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-3">
+          <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
+          <div className="h-px w-16 bg-[rgba(240,232,255,0.55)]" />
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          <h2 className="type-section-title text-[#f0e8ff]">
+            우리는 복음으로
+            <br />
+            사람을 살리는 교회입니다.
+          </h2>
+          <p className="type-section-subtitle text-[#bfaed9]">LIFE THROUGH THE GOSPEL</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -226,7 +232,7 @@ function MissionStorySectionDesktop() {
   const countryRowHeight = 40;
 
   return (
-    <div ref={ref} className="relative hidden h-[255svh] min-[1300px]:block">
+    <div ref={ref} className="relative hidden h-[320svh] min-[1300px]:block">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div
           className="absolute left-1/2 top-[22%] w-full -translate-x-1/2"
@@ -283,8 +289,9 @@ function MissionStorySectionDesktop() {
           </div>
 
           <div
-            className="absolute right-[6vw] top-[8vh] z-40 w-[400px] text-left text-[#fffaf0]"
+            className="absolute right-[6vw] top-[24vh] z-40 w-[300px] text-left text-[#fffaf0]"
             style={{
+              width: viewportWidth >= 2000 ? "400px" : "300px",
               opacity: slideReveal,
             }}
           >
@@ -378,7 +385,7 @@ function MissionStorySectionDesktop() {
               return (
                 <div
                   key={story.id}
-                  className="absolute left-1/2 top-1/2 aspect-square w-[30vw] max-w-[620px] -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#ece4e6] transition-[transform,opacity] duration-500 ease-out"
+                  className="absolute left-1/2 top-1/2 aspect-[21/23] w-[30vw] max-w-[620px] -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#ece4e6] transition-[transform,opacity] duration-500 ease-out"
                   style={{
                     transform: `translate(calc(-50% + ${translateX}px + ${entryTranslateX}vw), calc(-50% + ${translateY}px + ${entryTranslateY}vh)) scale(${scale})`,
                     opacity,
