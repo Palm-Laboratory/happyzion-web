@@ -291,12 +291,7 @@ export default function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p
-                        className="font-hahmlet font-extralight uppercase tracking-[0.2em] text-[#4a2856]"
-                        style={{
-                          fontSize: "1rem",
-                        }}
-                      >
+                      <p className="type-label text-[#4a2856]">
                         our vision
                       </p>
                       <div className="h-px w-[60px] bg-[#7a4f86]" />

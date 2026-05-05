@@ -1,15 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { missionStories } from "@/lib/site-data";
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
-const smoothstep = (value: number) => value * value * (3 - 2 * value);
-const getClosestIndex = (value: number, total: number) =>
-  Math.min(total - 1, Math.max(0, Math.round(value)));
-
 function useSectionProgress<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [progress, setProgress] = useState(0);
@@ -60,285 +56,361 @@ function useSectionProgress<T extends HTMLElement>() {
   return { ref, progress };
 }
 
-function getTeamCardState(index: number, progress: number, total: number) {
-  const relPos = index + 1 - progress * total;
-  const x = `calc(${relPos} * var(--story-card-width) * 1.08)`;
-  const y = `calc(${relPos} * var(--story-card-height) * 1.08)`;
-  const distance = Math.abs(relPos);
-  const isActive = distance < 0.5;
-  const incomingFadeStart = index === 0 ? 1.12 : 1.0;
-  const incomingFullOpacityAt = index === 0 ? 0.82 : 0.2;
-  const outgoingFadeStart = -0.18;
-  const outgoingFadeEnd = -1.0;
-
-  let opacity = 0.2;
-
-  if (relPos >= incomingFullOpacityAt) {
-    const incomingProgress = clamp(
-      (incomingFadeStart - relPos) / (incomingFadeStart - incomingFullOpacityAt),
-      0,
-      1,
-    );
-    opacity = 0.2 + smoothstep(incomingProgress) * 0.8;
-  } else if (relPos >= outgoingFadeStart) {
-    opacity = 1;
-  } else {
-    const outgoingProgress = clamp(
-      (outgoingFadeStart - relPos) / (outgoingFadeStart - outgoingFadeEnd),
-      0,
-      1,
-    );
-    opacity = 1 - smoothstep(outgoingProgress) * 0.8;
-  }
-
-  const scale = clamp(1 - distance * 0.08, 0.82, 1);
-  const zIndex = 40 - Math.round(distance * 10);
-
-  return { relPos, x, y, opacity, scale, zIndex, isActive, distance };
-}
-
-export default function MissionStorySection() {
-  const { ref, progress } = useSectionProgress<HTMLElement>();
-  const [hydrated, setHydrated] = useState(false);
+function useViewportWidth() {
+  const [viewportWidth, setViewportWidth] = useState(1440);
 
   useEffect(() => {
-    setHydrated(true);
+    const update = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    update();
+    window.addEventListener("resize", update);
+
+    return () => {
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
-  const safeProgress = hydrated ? progress : 0;
-  const storyIntroEnd = 0.32;
-  const storyRevealStart = 0.24;
-  const storyRevealDuration = 0.08;
-  const storyTrackStart = 0.3;
-  const storyTrackDuration = 0.7;
-  const introExitProgress = clamp(safeProgress / storyIntroEnd, 0, 1);
-  const introOpacity = 1;
-  const introExitOffset = introExitProgress * 140;
-  const teamTrackProgress = clamp((safeProgress - storyTrackStart) / storyTrackDuration, 0, 1);
-  const teamPhaseProgress = teamTrackProgress;
-  const teamReveal = smoothstep(
-    clamp((safeProgress - storyRevealStart) / storyRevealDuration, 0, 1),
+  return viewportWidth;
+}
+
+function MissionStoryHeading() {
+  return (
+    <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
+      <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
+      <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
+      <p className="type-section-subtitle mt-5 text-[#bfaed9]">LIFE THROUGH THE GOSPEL</p>
+      <h2 className="type-section-title mt-5 text-[#f0e8ff]">
+        우리는 복음으로
+        <br />
+        사람을 살리는 교회입니다.
+      </h2>
+    </div>
   );
-  const teamEnterOffset = (1 - teamReveal) * 18;
-  const activationFloat = teamPhaseProgress * missionStories.length - 1;
-  const displayIndex = getClosestIndex(activationFloat, missionStories.length);
-  const counterIndex = displayIndex;
-  const storyStripOffset = displayIndex * 2.45;
-  const mobileCounterOffset = counterIndex * 68;
-  const desktopCounterVars = {
-    "--counter-size": "min(12vw, 220px)",
-    "--counter-width": "min(7vw, 128px)",
-    "--story-card-width": "clamp(200px, 26vw, 580px)",
-    "--story-card-height": "calc(clamp(200px, 26vw, 580px) * 671 / 601)",
-  } as CSSProperties;
+}
+
+function MissionStorySectionMobile() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeStory = missionStories[activeIndex];
 
   return (
-    <section ref={ref} id="mission" data-bg-key="mission-dark" className="relative h-[400svh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="relative mx-auto h-full w-full" style={desktopCounterVars}>
-          <div
-            className="absolute left-1/2 top-[300px] z-30 flex w-full max-w-[900px] -translate-x-1/2 flex-col items-center px-5 text-center uppercase md:px-10"
+    <div className="relative flex min-h-0 flex-col items-center px-5 md:px-10 min-[1300px]:hidden">
+      <MissionStoryHeading />
+
+      <div className="mt-20 flex w-full max-w-[760px] flex-col items-center">
+        <div className="flex items-center gap-4 uppercase">
+          <p className="type-display-counter text-[#fffaf0]">
+            {String(activeIndex + 1)}
+          </p>
+          <div className="h-px w-9 bg-[rgba(255,250,240,0.65)]" />
+          <p
+            className="type-label-accent text-[#fffaf0]"
             style={{
-              opacity: introOpacity,
-              transform: `translate(-50%, -${introExitOffset}vh)`,
+              fontFamily: "var(--font-cormorant-garamond)",
+              fontStyle: "italic",
             }}
           >
-            <p className="font-hahmlet text-sm font-extralight tracking-[0.28em] text-[#f0e8ff] md:text-base">
-              OUR MISSION
-            </p>
-            <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
-            <p className="mt-5 font-hahmlet text-lg text-[#bfaed9] md:text-2xl">LIFE THROUGH THE GOSPEL</p>
-            <h2 className="mt-5 font-hahmlet text-[2.25rem] font-semibold leading-[1.28] tracking-[-0.03em] text-[#f0e8ff] md:text-[3.75rem] md:leading-[1.38]">
-              우리는 복음으로
-              <br />
-              사람을 살리는 교회입니다
-            </h2>
+            {activeStory.country.toUpperCase()}
+          </p>
+        </div>
+
+        <div className="mt-10 w-[min(60vw,22rem)] md:w-[min(60vw,30rem)]">
+          <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
+            <Image
+              src={activeStory.image}
+              alt={activeStory.country}
+              fill
+              sizes="(max-width: 767px) 60vw, (max-width: 1023px) 60vw"
+              className="object-cover"
+            />
           </div>
 
-          <div className="absolute inset-0 z-10" style={{ opacity: teamReveal }}>
-            <div className="absolute inset-0 grid place-items-center">
-              {missionStories.map((story, index) => {
-                const state = getTeamCardState(index, teamTrackProgress, missionStories.length);
+          <div className="mt-10 w-full text-left">
+            <p className="type-body text-[#f0e8ff]">{activeStory.message}</p>
+          </div>
+        </div>
+
+        <div className="mt-20 flex w-full items-center justify-between">
+          <button
+            type="button"
+            aria-label="Previous mission story"
+            onClick={() => {
+              setActiveIndex((prev) => (prev - 1 + missionStories.length) % missionStories.length);
+            }}
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-6 w-6"
+              aria-hidden="true"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          <div className="flex items-center gap-[6px]">
+            {missionStories.map((story, index) => {
+              const active = index === activeIndex;
+
+              return (
+                <div
+                  key={story.id}
+                  className="h-px bg-white transition-all duration-300 ease-out"
+                  style={{
+                    width: active ? "30px" : "20px",
+                    opacity: active ? 1 : 0.5,
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next mission story"
+            onClick={() => {
+              setActiveIndex((prev) => (prev + 1) % missionStories.length);
+            }}
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-6 w-6"
+              aria-hidden="true"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MissionStorySectionDesktop() {
+  const { ref, progress } = useSectionProgress<HTMLDivElement>();
+  const viewportWidth = useViewportWidth();
+  const desktopStoryMessages = [
+    "다양한 문화 속에서 복음이 경계를 넘어 사람들을 하나로 묶는 힘을 배웠습니다.",
+    "낯선 환경 속에서도 성령께서 길을 여시고, 작은 순종이 큰 열매로 이어짐을 보았습니다.",
+    "어려운 현실 속에서도 복음이 소망이 되어 사람들의 삶을 다시 일으키는 현장을 만났습니다.",
+  ];
+  const headingExit = clamp(progress / 0.24, 0, 1);
+  const slideReveal = clamp((progress - 0.14) / 0.12, 0, 1);
+  const trackRise = clamp((progress - 0.14) / 0.26, 0, 1);
+  const diagonalProgress = clamp((progress - 0.4) / 0.6, 0, 1);
+  const slideSize = Math.min(viewportWidth * 0.3, 620);
+  const largeCounterSize = slideSize * (240 / 620);
+  const slideGap = clamp(viewportWidth * 0.04, 48, 104);
+  const slideSpacing = slideSize + slideGap;
+  const diagonalStart = 0;
+  const diagonalEnd = -(missionStories.length - 1) * slideSpacing;
+  const trackOffset = diagonalStart + (diagonalEnd - diagonalStart) * diagonalProgress;
+  const activeFloat = -trackOffset / slideSpacing;
+  const focusedIndex = clamp(Math.floor(activeFloat + 0.5), 0, missionStories.length - 1);
+  const entryTranslateX = (1 - trackRise) * 20;
+  const entryTranslateY = (1 - trackRise) * 70;
+  const dialIndex = diagonalProgress === 0 ? 0 : focusedIndex;
+  const numberRowHeight = 64;
+  const countryRowHeight = 40;
+
+  return (
+    <div ref={ref} className="relative hidden h-[255svh] min-[1300px]:block">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <div
+          className="absolute left-1/2 top-[22%] w-full -translate-x-1/2"
+          style={{
+            opacity: 1 - headingExit,
+            transform: `translate(-50%, -${headingExit * 24}vh)`,
+          }}
+        >
+          <div className="mx-auto flex justify-center px-20">
+            <MissionStoryHeading />
+          </div>
+        </div>
+
+        <div
+          className="absolute inset-0 overflow-hidden"
+          style={{
+            opacity: slideReveal,
+          }}
+        >
+          <div
+            className="absolute bottom-[4vh] left-[10vw] z-40 text-[#fffaf0]"
+            style={{
+              opacity: slideReveal,
+            }}
+          >
+            <div
+              className="flex items-start leading-none text-[#fffaf0]"
+              style={{
+                fontFamily: '"SUIT", var(--font-sans), sans-serif',
+                fontSize: `${largeCounterSize}px`,
+                fontWeight: 900,
+              }}
+            >
+              <span>0</span>
+              <div className="relative overflow-hidden" style={{ height: `${largeCounterSize}px` }}>
+                <div
+                  className="transition-transform duration-500 ease-out"
+                  style={{
+                    transform: `translateY(-${focusedIndex * largeCounterSize}px)`,
+                  }}
+                >
+                  {missionStories.map((story, index) => (
+                    <div
+                      key={`${story.id}-large-counter`}
+                      className="flex items-start"
+                      style={{ height: `${largeCounterSize}px` }}
+                    >
+                      {index + 1}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="absolute right-[6vw] top-[8vh] z-40 w-[400px] text-left text-[#fffaf0]"
+            style={{
+              opacity: slideReveal,
+            }}
+          >
+            <div className="relative min-h-[8rem]">
+              {desktopStoryMessages.map((message, index) => {
+                const visible = diagonalProgress === 0 ? index === 0 : index === focusedIndex;
 
                 return (
-                  <div
-                    key={story.country}
-                    className="absolute"
+                  <p
+                    key={`desktop-story-message-${index + 1}`}
+                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out"
                     style={{
-                      transform: `translate(${state.x}, ${state.y}) scale(${state.scale})`,
-                      opacity: state.opacity,
-                      zIndex: state.zIndex,
+                      fontSize: viewportWidth >= 2000 ? "1.5rem" : undefined,
+                      opacity: visible ? 1 : 0,
                     }}
                   >
-                    <div className="relative aspect-[601/671] w-[224px] overflow-hidden bg-[#ece4e6] shadow-[0_16px_28px_rgba(0,0,0,0.08)] md:w-[308px] lg:w-[var(--story-card-width)]">
-                      <div
-                        className="absolute inset-0 will-change-transform"
-                        style={{
-                          transform: `translate(${state.relPos * -1.5}px, ${state.relPos * -1.5}px) scale(1.08)`,
-                        }}
-                      >
-                        <Image
-                          src={story.image}
-                          alt={story.country}
-                          fill
-                          sizes="(max-width: 768px) 160px, (max-width: 1200px) 220px, 479px"
-                          className="object-cover"
-                          priority={index === 0}
-                        />
-                      </div>
-                      <div className="absolute inset-0 bg-[rgba(16,8,18,0.22)]" />
-                    </div>
-                  </div>
+                    {message}
+                  </p>
                 );
               })}
             </div>
+          </div>
 
-            <div className="absolute inset-0 hidden lg:block">
-              <div
-                className="absolute right-[clamp(24px,5vw,80px)] top-[clamp(180px,20vh,300px)] w-[400px]"
-                style={{
-                  opacity: teamReveal,
-                  transform: `translateY(${teamEnterOffset}vh)`,
-                }}
-              >
-                <div className="grid">
+          <div className="relative h-full w-full">
+            <div
+              className="absolute left-20 top-1/2 z-40 flex -translate-y-1/2 items-center gap-5 text-[#fffaf0]"
+              style={{
+                opacity: slideReveal,
+              }}
+            >
+              <div className="relative h-16 overflow-hidden">
+                <div
+                  className="transition-transform duration-500 ease-out"
+                  style={{
+                    transform: `translateY(-${dialIndex * numberRowHeight}px)`,
+                  }}
+                >
                   {missionStories.map((story, index) => (
-                    <p
-                      key={story.country}
-                      className="col-start-1 row-start-1 font-suit text-xl leading-8 tracking-[0.01em] text-[#f0e8ff]"
-                      style={{
-                        opacity: index === displayIndex ? 1 : 0,
-                        visibility: index === displayIndex ? "visible" : "hidden",
-                      }}
+                    <div
+                      key={`${story.id}-dial-number`}
+                      className="type-display-counter flex h-16 items-center text-[#fffaf0]"
                     >
-                      {story.message}
-                    </p>
+                      {index + 1}
+                    </div>
                   ))}
                 </div>
               </div>
 
-              <div className="absolute left-[clamp(24px,4vw,48px)] top-1/2 -translate-y-1/2">
-                <div className="flex items-start">
-                  <div className="h-[300px] w-[40px] overflow-hidden">
-                    <div
-                      className="transition-transform duration-300 ease-out"
-                      style={{ transform: `translate3d(0, calc(6.625rem - ${storyStripOffset}rem), 0)` }}
-                    >
-                      {missionStories.map((story, index) => (
-                        <p
-                          key={story.country}
-                          className="font-corinthia text-[2.375rem] leading-[40px] text-[#fffaf0]"
-                          style={{
-                            opacity: index === displayIndex ? 1 : 0.1,
-                          }}
-                        >
-                          {index + 1}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+              <div className="h-px w-12 bg-[rgba(255,250,240,0.65)]" />
 
-                  <div className="flex items-center gap-4 pt-[110px]">
-                    <div className="h-px w-9 bg-[rgba(255,250,240,0.65)]" />
-                    <div className="grid">
-                      {missionStories.map((story, index) => (
-                        <p
-                          key={story.country}
-                          className="col-start-1 row-start-1 text-2xl italic leading-8 tracking-[0.08em] text-[#fffaf0]"
-                          style={{
-                            fontFamily: "var(--font-cormorant-garamond)",
-                            opacity: index === displayIndex ? 1 : 0,
-                            visibility: index === displayIndex ? "visible" : "hidden",
-                          }}
-                        >
-                          {story.country.toUpperCase()}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="absolute bottom-[8vh] left-[clamp(72px,12vw,298px)]"
-                style={{ ...desktopCounterVars, transform: `translateY(${teamEnterOffset}vh)` }}
-              >
-                <div className="flex items-start">
-                  <p
-                    className="font-suit text-[#f0e8ff]"
-                    style={{
-                      fontSize: "var(--counter-size)",
-                      lineHeight: "var(--counter-size)",
-                      fontWeight: 900,
-                    }}
-                  >
-                    0
-                  </p>
-                  <div
-                    className="overflow-hidden"
-                    style={{ height: "var(--counter-size)", width: "var(--counter-width)" }}
-                  >
+              <div className="relative h-10 overflow-hidden">
+                <div
+                  className="transition-transform duration-500 ease-out"
+                  style={{
+                    transform: `translateY(-${dialIndex * countryRowHeight}px)`,
+                  }}
+                >
+                  {missionStories.map((story) => (
                     <div
-                      className="transition-transform duration-300 ease-out"
+                      key={`${story.id}-dial-country`}
+                      className="type-label-accent flex h-10 items-center text-[#fffaf0]"
                       style={{
-                        transform: `translate3d(0, calc(-${counterIndex} * var(--counter-size)), 0)`,
+                        fontFamily: "var(--font-cormorant-garamond)",
+                        fontStyle: "italic",
                       }}
                     >
-                      {["1", "2", "3"].map((item) => (
-                        <p
-                          key={item}
-                          className="flex items-center font-suit text-[#f0e8ff]"
-                          style={{
-                            height: "var(--counter-size)",
-                            fontSize: "var(--counter-size)",
-                            lineHeight: "var(--counter-size)",
-                            fontWeight: 900,
-                          }}
-                        >
-                          {item}
-                        </p>
-                      ))}
+                      {story.country.toUpperCase()}
                     </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="absolute bottom-[14vh] left-0 right-0 mx-auto flex w-full items-end justify-between gap-6 px-5 md:px-10 lg:px-[80px]">
-              <div className="hidden lg:flex" />
-              <div
-                className="ml-auto w-full max-w-[320px] lg:hidden"
-                style={{ transform: `translateY(${teamEnterOffset}vh)` }}
-              >
-                <div className="flex items-start">
-                  <p
-                    className="font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#f0e8ff]"
-                    style={{ fontWeight: 900 }}
-                  >
-                    0
-                  </p>
-                  <div className="h-[68px] w-[34px] overflow-hidden">
-                    <div
-                      className="transition-transform duration-300 ease-out"
-                      style={{ transform: `translate3d(0, -${mobileCounterOffset}px, 0)` }}
-                    >
-                      {["1", "2", "3"].map((item) => (
-                        <p
-                          key={item}
-                          className="flex h-[68px] items-center font-suit text-[56px] leading-[68px] tracking-[0.03em] text-[#f0e8ff]"
-                          style={{ fontWeight: 900 }}
-                        >
-                          {item}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+            {missionStories.map((story, index) => {
+              const baseScalar = index * slideSpacing;
+              const scalar = baseScalar + trackOffset;
+              const distance = Math.abs(scalar) / slideSpacing;
+              const translateX = scalar;
+              const translateY = scalar;
+              const scale = clamp(1 - distance * 0.08, 0.84, 1);
+              const zIndex = 30 - Math.round(distance * 10);
+              const opacity =
+                diagonalProgress === 0
+                  ? index === 0
+                    ? 0.2 + trackRise * 0.8
+                    : 0.2
+                  : index === focusedIndex
+                    ? 1
+                    : 0.2;
+
+              return (
+                <div
+                  key={story.id}
+                  className="absolute left-1/2 top-1/2 aspect-square w-[30vw] max-w-[620px] -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-[#ece4e6] transition-[transform,opacity] duration-500 ease-out"
+                  style={{
+                    transform: `translate(calc(-50% + ${translateX}px + ${entryTranslateX}vw), calc(-50% + ${translateY}px + ${entryTranslateY}vh)) scale(${scale})`,
+                    opacity,
+                    zIndex,
+                  }}
+                >
+                  <Image
+                    src={story.image}
+                    alt={story.country}
+                    fill
+                    sizes="(min-width: 2067px) 620px, (min-width: 1024px) 30vw"
+                    className="object-cover"
+                  />
                 </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default function MissionStorySection() {
+  return (
+    <section
+      id="mission"
+      data-bg-key="mission-dark"
+      className="relative py-24 md:py-28 min-[1300px]:py-0"
+    >
+      <MissionStorySectionMobile />
+      <MissionStorySectionDesktop />
     </section>
   );
 }
