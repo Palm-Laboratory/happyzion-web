@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import type {
   AdminMenuTreeNode,
+  AdminStaticPage,
   MenuStatus,
   MenuTreeNodePayload,
   MenuType,
@@ -47,14 +48,6 @@ const MENU_TYPE_LABEL: Record<MenuType, string> = {
   YOUTUBE_PLAYLIST_GROUP: "영상 그룹",
   YOUTUBE_PLAYLIST: "유튜브 재생목록",
 };
-
-const STATIC_PAGE_OPTIONS: Array<{ value: string; label: string }> = [
-  { value: "about.greeting", label: "교회 소개 / 인사말" },
-  { value: "about.history", label: "교회 소개 / 교회연혁" },
-  { value: "about.location", label: "교회 소개 / 오시는 길" },
-  { value: "about.online-giving", label: "교회 소개 / 온라인 헌금" },
-  { value: "about.service-times", label: "교회 소개 / 예배시간" },
-];
 
 function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; depth: number }> {
   return nodes.flatMap((node) => [
@@ -247,7 +240,7 @@ function toPayload(nodes: EditorNode[]): MenuTreeNodePayload[] {
   }));
 }
 
-function buildNewNode(id: number, type: MenuType): EditorNode {
+function buildNewNode(id: number, type: MenuType, staticPages: AdminStaticPage[]): EditorNode {
   return {
     id,
     type,
@@ -257,7 +250,7 @@ function buildNewNode(id: number, type: MenuType): EditorNode {
     isAuto: false,
     labelCustomized: false,
     slugCustomized: false,
-    staticPageKey: type === "STATIC" ? STATIC_PAGE_OPTIONS[0]?.value ?? null : null,
+    staticPageKey: type === "STATIC" ? staticPages[0]?.key ?? null : null,
     boardKey: null,
     boardTypeKey: null,
     boardTypeLabel: null,
@@ -379,8 +372,10 @@ function buildNodeChangeSignatures(
 
 export default function MenuManagementClient({
   initialItems,
+  staticPages,
 }: {
   initialItems: AdminMenuTreeNode[];
+  staticPages: AdminStaticPage[];
 }) {
   const router = useRouter();
   const toast = useAdminToast();
@@ -638,7 +633,7 @@ export default function MenuManagementClient({
   const handleAddRoot = (type: MenuType) => {
     const nextId = tempId;
     setTempId((prev) => prev - 1);
-    const nextNode = buildNewNode(nextId, type);
+    const nextNode = buildNewNode(nextId, type, staticPages);
     markDirty([...items, nextNode]);
     setSelectedId(nextId);
   };
@@ -649,7 +644,7 @@ export default function MenuManagementClient({
     }
     const nextId = tempId;
     setTempId((prev) => prev - 1);
-    const nextNode = buildNewNode(nextId, type);
+    const nextNode = buildNewNode(nextId, type, staticPages);
     markDirty(
       mapTree(items, selectedNode.id, (node) => ({
         ...node,
@@ -1060,7 +1055,7 @@ export default function MenuManagementClient({
 
                     {selectedNode.type === "FOLDER" && selectedNode.parentId === null && (
                       <div className="grid gap-2 sm:grid-cols-3">
-                        {STATIC_PAGE_OPTIONS.length > 0 && (
+                        {staticPages.length > 0 && (
                           <button
                             type="button"
                             onClick={() => handleAddChild("STATIC")}
@@ -1095,7 +1090,7 @@ export default function MenuManagementClient({
                       </div>
                     )}
 
-                    {selectedNode.type === "STATIC" && STATIC_PAGE_OPTIONS.length > 0 && (
+                    {selectedNode.type === "STATIC" && staticPages.length > 0 && (
                       <label className="space-y-1.5">
                         <span className="text-[12px] font-semibold text-[#334155]">연결 페이지</span>
                         <select
@@ -1105,9 +1100,9 @@ export default function MenuManagementClient({
                           }
                           className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px]"
                         >
-                          {STATIC_PAGE_OPTIONS.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
+                          {staticPages.map((page) => (
+                            <option key={page.key} value={page.key}>
+                              {page.label}
                             </option>
                           ))}
                         </select>

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
-import { getAdminMenuTree } from "@/lib/admin-menu-api";
+import { getAdminMenuTree, getAdminStaticPages } from "@/lib/admin-menu-api";
 import MenuManagementClient from "./_components/menu-management-client";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 
@@ -12,7 +12,10 @@ export default async function AdminMenuPage() {
   }
 
   const actorId = session.user.id ?? "";
-  const menuTree = await getAdminMenuTree(actorId);
+  const [menuTree, staticPages] = await Promise.all([
+    getAdminMenuTree(actorId),
+    getAdminStaticPages(actorId),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -24,6 +27,7 @@ export default async function AdminMenuPage() {
 
       <MenuManagementClient
         initialItems={menuTree.items}
+        staticPages={staticPages.pages}
       />
     </div>
   );

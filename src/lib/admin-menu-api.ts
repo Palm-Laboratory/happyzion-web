@@ -43,6 +43,16 @@ export interface AdminMenuTreeResponse {
   items: AdminMenuTreeNode[];
 }
 
+export interface AdminStaticPage {
+  key: string;
+  label: string;
+  path: string;
+}
+
+export interface AdminStaticPagesResponse {
+  pages: AdminStaticPage[];
+}
+
 export interface AdminYouTubePlaylist {
   menuId: number;
   playlistId: string;
@@ -103,6 +113,13 @@ function flattenMenuItems(items: AdminMenuTreeNode[]): AdminMenuTreeNode[] {
 export async function getAdminMenuItems(actorId: string): Promise<AdminMenuTreeNode[]> {
   const tree = await getAdminMenuTree(actorId);
   return flattenMenuItems(tree.items);
+}
+
+export async function getAdminStaticPages(actorId: string): Promise<AdminStaticPagesResponse> {
+  const response = await adminApiFetch("/api/v1/admin/menu/static-pages", {
+    headers: { "X-Admin-Actor-Id": actorId },
+  });
+  return response.json() as Promise<AdminStaticPagesResponse>;
 }
 
 export async function getAdminYouTubePlaylists(actorId: string): Promise<AdminYouTubePlaylistsResponse> {
