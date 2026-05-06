@@ -4,10 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-import PreparedPageLink from "@/components/prepared-page-link";
 import { primaryNavigation } from "@/lib/site-data";
+import type { NavigationLink } from "@/types/navigation";
 
-export default function SiteHeader() {
+type SiteHeaderProps = {
+  navigationItems?: NavigationLink[];
+};
+
+export default function SiteHeader({ navigationItems = primaryNavigation }: SiteHeaderProps) {
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
 
@@ -61,14 +65,16 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-3 lg:flex">
-          {primaryNavigation.map((item) => (
-            <PreparedPageLink
+          {navigationItems.map((item) => (
+            <Link
               key={item.label}
               href={item.href}
+              target={item.openInNewTab ? "_blank" : undefined}
+              rel={item.openInNewTab ? "noreferrer" : undefined}
               className="border border-transparent px-[18px] py-[16px] font-suit text-base font-light uppercase tracking-[0.2em] text-white transition hover:border-white/10 hover:bg-white/10 hover:shadow-[0_4px_5px_rgba(255,255,255,0.08)]"
             >
               {item.label}
-            </PreparedPageLink>
+            </Link>
           ))}
         </nav>
       </div>
