@@ -40,7 +40,7 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[rgba(36,11,44,0.8)] backdrop-blur-[20px] transition-transform duration-300 ease-out ${isVisible ? "translate-y-0" : "-translate-y-full"
+      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[rgba(36,31,37,0.72)] backdrop-blur-[20px] transition-transform duration-300 ease-out ${isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
     >
       <div className="mx-auto flex w-full items-center justify-between gap-6 px-4 py-4 md:px-8 lg:px-[60px]">
