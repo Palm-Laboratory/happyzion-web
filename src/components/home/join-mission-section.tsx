@@ -5,9 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import PreparedPageLink from "@/components/prepared-page-link";
 
-const IMAGE_REVEAL_START_VIEWPORT_RATIO = 0.72;
-const IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO = 0.42;
-const IMAGE_REVEAL_MIN_BAND = 260;
+const IMAGE_REVEAL_TRIGGER_VIEWPORT_RATIO = 0.5;
 const CONTENT_REVEAL_START_VIEWPORT_RATIO = 0.64;
 const CONTENT_REVEAL_COMPLETE_VIEWPORT_RATIO = 0.34;
 const CONTENT_REVEAL_MIN_BAND = 260;
@@ -17,7 +15,7 @@ const smoothstep = (value: number) => value * value * (3 - 2 * value);
 
 export default function JoinMissionSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [imageReveal, setImageReveal] = useState(0);
+  const [isImageVisible, setIsImageVisible] = useState(false);
   const [contentReveal, setContentReveal] = useState(0);
 
   useEffect(() => {
@@ -33,26 +31,18 @@ export default function JoinMissionSection() {
 
       const viewportHeight = window.innerHeight;
       const distanceToSection = section.getBoundingClientRect().top;
-      const imageTransitionStartPoint = viewportHeight * IMAGE_REVEAL_START_VIEWPORT_RATIO;
-      const imageTransitionEndPoint = viewportHeight * IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO;
-      const imageTransitionBand = Math.max(
-        imageTransitionStartPoint - imageTransitionEndPoint,
-        IMAGE_REVEAL_MIN_BAND,
-      );
+      const imageRevealTriggerPoint = viewportHeight * IMAGE_REVEAL_TRIGGER_VIEWPORT_RATIO;
       const contentTransitionStartPoint = viewportHeight * CONTENT_REVEAL_START_VIEWPORT_RATIO;
       const contentTransitionEndPoint = viewportHeight * CONTENT_REVEAL_COMPLETE_VIEWPORT_RATIO;
       const contentTransitionBand = Math.max(
         contentTransitionStartPoint - contentTransitionEndPoint,
         CONTENT_REVEAL_MIN_BAND,
       );
-      const imageProgress = smoothstep(
-        clamp((imageTransitionStartPoint - distanceToSection) / imageTransitionBand, 0, 1),
-      );
       const contentProgress = smoothstep(
         clamp((contentTransitionStartPoint - distanceToSection) / contentTransitionBand, 0, 1),
       );
 
-      setImageReveal(imageProgress);
+      setIsImageVisible(distanceToSection <= imageRevealTriggerPoint);
       setContentReveal(contentProgress);
     };
 
@@ -143,8 +133,8 @@ export default function JoinMissionSection() {
           <div
             className="relative h-[420px] overflow-hidden rounded-xl bg-white transition-[transform,opacity] duration-500 ease-out min-[768px]:shadow-none min-[1281px]:shadow-[0_16px_24px_rgba(0,0,0,0.15)] md:h-[560px] lg:h-full lg:min-h-[632px]"
             style={{
-              opacity: imageReveal,
-              transform: `translateY(${(1 - imageReveal) * 56}px)`,
+              opacity: isImageVisible ? 1 : 0,
+              transform: `translateY(${isImageVisible ? 0 : 56}px)`,
             }}
           >
             <Image

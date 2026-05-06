@@ -40,19 +40,18 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[rgba(36,31,37,0.72)] backdrop-blur-[20px] transition-transform duration-300 ease-out ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[rgba(36,11,44,0.8)] backdrop-blur-[20px] transition-transform duration-300 ease-out ${isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
     >
       <div className="mx-auto flex w-full items-center justify-between gap-6 px-4 py-4 md:px-8 lg:px-[60px]">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-9 w-9 overflow-hidden rounded-full border border-white/10 bg-white/5">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="relative h-[50px] w-[50px] overflow-hidden rounded-full">
             <Image
               src="/images/logo/happyzion-logo.png"
               alt="Happy Zion logo"
-              fill
-              sizes="36px"
-              className="object-cover"
+              width={36}
+              height={36}
+              className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 object-contain"
               priority
             />
           </div>
