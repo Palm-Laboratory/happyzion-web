@@ -3,4 +3,5 @@ export type NavigationLink = {
   href: string;
   description?: string;
   openInNewTab?: boolean;
+  children?: NavigationLink[];
 };

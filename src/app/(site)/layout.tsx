@@ -60,6 +60,13 @@ async function getSiteHeaderNavigation(): Promise<NavigationLink[]> {
         label: group.label,
         href: group.href,
         openInNewTab: group.openInNewTab,
+        children: group.items
+          .filter((item) => item.visible && item.headerVisible)
+          .map((item) => ({
+            label: item.label,
+            href: item.href,
+            openInNewTab: item.openInNewTab,
+          })),
       }));
 
     return headerItems;

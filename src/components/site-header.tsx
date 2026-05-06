@@ -66,15 +66,34 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
 
         <nav className="hidden items-center gap-3 lg:flex">
           {navigationItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              target={item.openInNewTab ? "_blank" : undefined}
-              rel={item.openInNewTab ? "noreferrer" : undefined}
-              className="border border-transparent px-[18px] py-[16px] font-suit text-base font-light uppercase tracking-[0.2em] text-white transition hover:border-white/10 hover:bg-white/10 hover:shadow-[0_4px_5px_rgba(255,255,255,0.08)]"
-            >
-              {item.label}
-            </Link>
+            <div key={`${item.label}:${item.href}`} className="group relative">
+              <Link
+                href={item.href}
+                target={item.openInNewTab ? "_blank" : undefined}
+                rel={item.openInNewTab ? "noreferrer" : undefined}
+                className="block border border-transparent px-[18px] py-[16px] font-suit text-base font-light uppercase tracking-[0.2em] text-white transition hover:border-white/10 hover:bg-white/10 hover:shadow-[0_4px_5px_rgba(255,255,255,0.08)] focus-visible:border-white/20 focus-visible:bg-white/10 focus-visible:outline-none"
+              >
+                {item.label}
+              </Link>
+
+              {item.children && item.children.length > 0 && (
+                <div className="pointer-events-none absolute left-1/2 top-full min-w-[220px] -translate-x-1/2 pt-3 opacity-0 transition duration-150 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+                  <div className="overflow-hidden rounded-lg border border-white/10 bg-[rgba(36,31,37,0.92)] py-2 shadow-[0_18px_45px_rgba(0,0,0,0.24)] backdrop-blur-[20px]">
+                    {item.children.map((child) => (
+                      <Link
+                        key={`${child.label}:${child.href}`}
+                        href={child.href}
+                        target={child.openInNewTab ? "_blank" : undefined}
+                        rel={child.openInNewTab ? "noreferrer" : undefined}
+                        className="block px-4 py-3 font-suit text-[14px] font-light text-white/90 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white focus-visible:outline-none"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </nav>
       </div>
