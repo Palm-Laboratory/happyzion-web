@@ -1,15 +1,13 @@
-import PreparedPageLink from "@/components/prepared-page-link";
 import { CHURCH_ADDRESS, CHURCH_EMAIL, CHURCH_PHONE, SITE_NAME, YOUTUBE_CHANNEL_URL } from "@/lib/site-config";
 
 const socialLinks = [
-  { label: "YouTube", href: YOUTUBE_CHANNEL_URL, icon: "youtube", status: "ready" },
+  { label: "YouTube", href: YOUTUBE_CHANNEL_URL, icon: "youtube" },
   {
     label: "Instagram",
     href: "https://www.instagram.com/joy_filled_zion_church/",
     icon: "instagram",
-    status: "ready",
   },
-  { label: "Facebook", href: "#", icon: "facebook", status: "prepared" },
+  { label: "Facebook", href: "#", icon: "facebook" },
 ] as const;
 
 function SocialIcon({ icon }: { icon: (typeof socialLinks)[number]["icon"] }) {
@@ -77,27 +75,16 @@ export default function SiteFooter() {
 
           <div className="flex items-center gap-4">
             {socialLinks.map((item) => (
-              item.status === "prepared" ? (
-                <PreparedPageLink
-                  key={item.label}
-                  href={item.href}
-                  aria-label={item.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2c1838] text-white/80 transition hover:bg-[#3a2148] hover:text-white"
-                >
-                  <SocialIcon icon={item.icon} />
-                </PreparedPageLink>
-              ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  aria-label={item.label}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2c1838] text-white/80 transition hover:bg-[#3a2148] hover:text-white"
-                >
-                  <SocialIcon icon={item.icon} />
-                </a>
-              )
+              <a
+                key={item.label}
+                href={item.href}
+                aria-label={item.label}
+                target={item.href === "#" ? undefined : "_blank"}
+                rel={item.href === "#" ? undefined : "noreferrer"}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2c1838] text-white/80 transition hover:bg-[#3a2148] hover:text-white"
+              >
+                <SocialIcon icon={item.icon} />
+              </a>
             ))}
           </div>
         </div>

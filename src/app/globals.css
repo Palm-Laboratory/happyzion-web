@@ -123,6 +123,13 @@ html.lenis body {
     letter-spacing: 0.01em;
   }
 
+  .type-body-small {
+    font-size: 0.9375rem;
+    line-height: 1.76;
+    font-family: "SUIT", var(--font-sans), sans-serif;
+    letter-spacing: 0.01em;
+  }
+
   .type-label {
     font-size: 0.75rem;
     line-height: 1.2;
@@ -327,4 +334,27 @@ html.lenis body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.section-shell {
+  --section-shell-max-width: 1120px;
+  width: min(100% - 2rem, var(--section-shell-max-width));
+  margin-inline: auto;
+}
+
+.section-shell--narrow {
+  --section-shell-max-width: 920px;
+}
+
+.section-shell--wide {
+  --section-shell-max-width: 1280px;
 }

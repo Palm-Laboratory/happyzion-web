@@ -3,48 +3,18 @@ import "server-only";
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
 import { PUBLIC_MENU_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
 import type { MenuType } from "@/lib/admin-menu-api";
+import type {
+  NavigationGroupDto,
+  NavigationItemDto,
+  NavigationLinkType,
+  NavigationResponse,
+} from "@/lib/navigation-types";
 import { serverFetchJson, serverFetchJsonOrNull } from "@/lib/server-fetch";
 
-export type NavigationLinkType = "INTERNAL" | "EXTERNAL";
-
-export interface PublicNavigationItem {
-  key: string;
-  type: MenuType;
-  label: string;
-  href: string;
-  matchPath: string | null;
-  linkType: NavigationLinkType;
-  contentSiteKey?: string | null;
-  openInNewTab: boolean;
-  visible: boolean;
-  headerVisible: boolean;
-  mobileVisible: boolean;
-  lnbVisible: boolean;
-  breadcrumbVisible: boolean;
-  defaultLanding: boolean;
-}
-
-export interface PublicNavigationGroup {
-  key: string;
-  type: MenuType;
-  label: string;
-  href: string;
-  matchPath: string | null;
-  linkType: NavigationLinkType;
-  contentSiteKey?: string | null;
-  openInNewTab: boolean;
-  visible: boolean;
-  headerVisible: boolean;
-  mobileVisible: boolean;
-  lnbVisible: boolean;
-  breadcrumbVisible: boolean;
-  defaultLandingHref: string | null;
-  items: PublicNavigationItem[];
-}
-
-export interface PublicNavigationResponse {
-  groups: PublicNavigationGroup[];
-}
+export type PublicNavigationItem = NavigationItemDto;
+export type PublicNavigationGroup = NavigationGroupDto;
+export type PublicNavigationResponse = NavigationResponse;
+export type { NavigationLinkType };
 
 export interface PublicResolvedMenuPage {
   menuId: number;
