@@ -30,7 +30,7 @@ export default function PageHeader({
 
   return (
     <section
-      className="relative hidden h-[360px] w-full overflow-hidden md:block lg:h-[416px]"
+      className="relative hidden h-[360px] w-full overflow-hidden md:block lg:h-[320px]"
       style={{
         backgroundImage:
           "radial-gradient(ellipse 620px 300px at 78% 34%, rgba(49, 4, 90, 0.2), rgba(49, 4, 90, 0) 68%), radial-gradient(ellipse 430px 260px at 23% 82%, rgba(191, 114, 236, 0.1), rgba(191, 114, 236, 0) 70%), linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(118deg, #2e1f46 27%, #4b3473 87%)",
