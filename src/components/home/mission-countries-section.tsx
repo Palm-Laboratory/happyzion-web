@@ -33,7 +33,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
         <div className="uppercase min-[1300px]:hidden">
           <div className="flex flex-col items-center gap-3">
             <div className="flex flex-col items-center">
-              <p className="type-section-title w-fit max-w-none text-[#f0e8ff]">
+              <p className="type-section-title w-fit max-w-none text-[#f0e8ff] min-[481px]:w-max min-[481px]:whitespace-nowrap">
                 선교는 지금도
                 <br className="min-[481px]:hidden" />
                 <span className="hidden min-[481px]:inline"> </span>
