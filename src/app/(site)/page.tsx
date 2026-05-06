@@ -84,7 +84,7 @@ export default function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse-cloud"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-[140px] md:px-10 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-[140px] md:px-10 lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
             <div
