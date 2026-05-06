@@ -40,7 +40,7 @@ export default function SitePageShell({
   children,
 }: SitePageShellProps) {
   return (
-    <div className="flex w-full flex-col bg-white">
+    <div className="flex w-full flex-col bg-white pt-[82px]">
       {showHeader && (
         <PageHeader
           title={title}
