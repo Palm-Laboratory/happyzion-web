@@ -23,7 +23,7 @@ const MOBILE_OUTRO_MIN_BAND = 260;
 function MissionCountriesHeading({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col items-center justify-center gap-16 text-center ${className}`}>
-      <div className="flex flex-col items-center gap-8">
+      <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
           <p className="type-label text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
             mission countries
@@ -132,7 +132,7 @@ function MissionCountriesMobile() {
   return (
     <div
       ref={sectionRef}
-      className="flex flex-col items-center gap-24 px-10 py-24 md:px-[3.75rem] md:py-28 min-[1300px]:hidden"
+      className="flex flex-col items-center gap-24 px-5 py-24 md:px-10 md:py-28 min-[1300px]:hidden"
     >
       <MissionCountriesHeading className="w-full max-w-[582px]" />
 

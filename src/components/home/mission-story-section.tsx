@@ -78,7 +78,7 @@ function useViewportWidth() {
 function MissionStoryHeading() {
   return (
     <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
-      <div className="flex flex-col items-center gap-8">
+      <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
           <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
           <div className="h-px w-16 bg-[rgba(240,232,255,0.55)]" />
@@ -138,10 +138,10 @@ function MissionStorySectionMobile() {
   };
 
   return (
-    <div className="relative flex min-h-0 flex-col items-center px-10 md:px-[3.75rem] min-[1300px]:hidden">
+    <div className="relative flex min-h-0 flex-col items-center px-5 md:px-10 min-[1300px]:hidden">
       <MissionStoryHeading />
 
-      <div className="mt-20 flex w-full max-w-[760px] flex-col items-center">
+      <div className="mt-20 flex h-fit w-full max-w-[760px] flex-col items-center">
         <div className="flex items-center gap-4 uppercase">
           <p className="type-display-counter text-[#fffaf0]">
             {String(activeIndex + 1)}
@@ -158,8 +158,8 @@ function MissionStorySectionMobile() {
           </p>
         </div>
 
-        <div className="mt-10 w-[min(60vw,22rem)] md:w-[min(60vw,30rem)]">
-          <div>
+        <div className="mt-5 h-fit w-[min(60vw,22rem)] md:w-[min(60vw,30rem)]">
+          <div className="h-fit">
             <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
               <div
                 className="flex h-full w-full"
