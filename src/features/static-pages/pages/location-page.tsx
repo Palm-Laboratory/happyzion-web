@@ -7,7 +7,7 @@ import {
 import BulletItem from "@/components/bullet-item";
 import SectionHeading from "@/components/section-heading";
 
-const mapQuery = encodeURIComponent(`${SITE_NAME} ${CHURCH_ADDRESS}`);
+const mapQuery = encodeURIComponent(`${CHURCH_ADDRESS}`);
 const naverMapUrl = `https://map.naver.com/p/search/${mapQuery}`;
 const kakaoMapUrl = `https://map.kakao.com/link/search/${mapQuery}`;
 const churchPhoneHref = CHURCH_PHONE.replace(/[^\d+]/g, "");

@@ -15,6 +15,8 @@ type SiteHeaderProps = {
 export default function SiteHeader({ navigationItems = primaryNavigation }: SiteHeaderProps) {
   const pathname = usePathname() ?? "/";
   const [isVisible, setIsVisible] = useState(true);
+  const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
   const lastScrollYRef = useRef(0);
   const isHome = pathname === "/";
   const headerToneClass = isHome
@@ -59,8 +61,22 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
     };
   }, []);
 
+  useEffect(() => {
+    setOpenMenuKey(null);
+
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement && headerRef.current?.contains(activeElement)) {
+      activeElement.blur();
+    }
+  }, [pathname]);
+
+  const closeMenu = () => {
+    setOpenMenuKey(null);
+  };
+
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 border-b backdrop-blur-[20px] transition-transform duration-300 ease-out ${headerToneClass} ${isVisible ? "translate-y-0" : "-translate-y-full"
         }`}
     >
@@ -82,36 +98,62 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
         </Link>
 
         <nav className="hidden items-center gap-3 lg:flex">
-          {navigationItems.map((item) => (
-            <div key={`${item.label}:${item.href}`} className="group relative">
-              <Link
-                href={item.href}
-                target={item.openInNewTab ? "_blank" : undefined}
-                rel={item.openInNewTab ? "noreferrer" : undefined}
-                className={`block border border-transparent px-[18px] py-[16px] font-suit text-base font-light uppercase tracking-[0.2em] transition focus-visible:outline-none ${navLinkClass}`}
-              >
-                {item.label}
-              </Link>
+          {navigationItems.map((item) => {
+            const menuKey = `${item.label}:${item.href}`;
+            const isMenuOpen = openMenuKey === menuKey;
 
-              {item.children && item.children.length > 0 && (
-                <div className="pointer-events-none absolute left-1/2 top-full min-w-[220px] -translate-x-1/2 pt-3 opacity-0 transition duration-150 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-                  <div className={`overflow-hidden rounded-lg border py-2 backdrop-blur-[20px] ${dropdownClass}`}>
-                    {item.children.map((child) => (
-                      <Link
-                        key={`${child.label}:${child.href}`}
-                        href={child.href}
-                        target={child.openInNewTab ? "_blank" : undefined}
-                        rel={child.openInNewTab ? "noreferrer" : undefined}
-                        className={`block px-4 py-3 font-suit text-[14px] font-light transition focus-visible:outline-none ${dropdownLinkClass}`}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+            return (
+              <div
+                key={menuKey}
+                className="relative"
+                onMouseEnter={() => {
+                  setOpenMenuKey(menuKey);
+                }}
+                onMouseLeave={closeMenu}
+                onFocus={() => {
+                  setOpenMenuKey(menuKey);
+                }}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) {
+                    closeMenu();
+                  }
+                }}
+              >
+                <Link
+                  href={item.href}
+                  target={item.openInNewTab ? "_blank" : undefined}
+                  rel={item.openInNewTab ? "noreferrer" : undefined}
+                  onClick={closeMenu}
+                  className={`block border border-transparent px-[18px] py-[16px] font-suit text-base font-light uppercase tracking-[0.2em] transition focus-visible:outline-none ${navLinkClass}`}
+                >
+                  {item.label}
+                </Link>
+
+                {item.children && item.children.length > 0 && (
+                  <div
+                    className={`absolute left-1/2 top-full min-w-[220px] -translate-x-1/2 pt-3 transition duration-150 ease-out ${
+                      isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  >
+                    <div className={`overflow-hidden rounded-lg border py-2 backdrop-blur-[20px] ${dropdownClass}`}>
+                      {item.children.map((child) => (
+                        <Link
+                          key={`${child.label}:${child.href}`}
+                          href={child.href}
+                          target={child.openInNewTab ? "_blank" : undefined}
+                          rel={child.openInNewTab ? "noreferrer" : undefined}
+                          onClick={closeMenu}
+                          className={`block px-4 py-3 font-suit text-[14px] font-light transition focus-visible:outline-none ${dropdownLinkClass}`}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
     </header>
