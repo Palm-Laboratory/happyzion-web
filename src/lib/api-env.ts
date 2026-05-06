@@ -7,8 +7,8 @@ function readTrimmedEnv(env: EnvSource, name: string): string | null {
   return value && value.length > 0 ? value : null;
 }
 
-function isProductionEnv(env: EnvSource): boolean {
-  return env.NODE_ENV === "production";
+function requiresConfiguredApiBaseUrl(env: EnvSource): boolean {
+  return env.NODE_ENV === "production" && env.VERCEL_ENV !== "preview";
 }
 
 function readApiBaseUrlWithContract(
@@ -22,12 +22,12 @@ function readApiBaseUrlWithContract(
     return normalizeApiBaseUrl(configuredValue);
   }
 
-  if (!isProductionEnv(env)) {
+  if (!requiresConfiguredApiBaseUrl(env)) {
     return DEFAULT_API_BASE_URL;
   }
 
   throw new Error(
-    `${contractLabel} is required in production. Set ${envName} to the upstream API origin.`,
+    `${contractLabel} is required for production builds. Set ${envName} to the upstream API origin.`,
   );
 }
 
