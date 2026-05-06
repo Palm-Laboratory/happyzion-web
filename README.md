@@ -1,6 +1,6 @@
 # Happy Zion Web
 
-`tdch_web` 구조를 기준으로 만든 초기 웹사이트 베이스입니다.
+Happy Zion 공개 사이트와 관리자 CMS를 제공하는 Next.js 프로젝트입니다.
 
 ## 시작
 

@@ -1,7 +1,18 @@
 import type { NextConfig } from "next";
+import { readServerApiBaseUrlFromEnv } from "./src/lib/api-env";
+
+const upstreamApiBaseUrl = readServerApiBaseUrlFromEnv(process.env);
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
+    ],
+  },
   async headers() {
     return [
       {
@@ -24,6 +35,14 @@ const nextConfig: NextConfig = {
             value: "noindex, nofollow",
           },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/upload/:path*",
+        destination: `${upstreamApiBaseUrl}/upload/:path*`,
       },
     ];
   },
