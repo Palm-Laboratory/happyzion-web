@@ -8,6 +8,9 @@ import PreparedPageLink from "@/components/prepared-page-link";
 const IMAGE_REVEAL_START_VIEWPORT_RATIO = 0.72;
 const IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO = 0.42;
 const IMAGE_REVEAL_MIN_BAND = 260;
+const CONTENT_REVEAL_START_VIEWPORT_RATIO = 0.64;
+const CONTENT_REVEAL_COMPLETE_VIEWPORT_RATIO = 0.34;
+const CONTENT_REVEAL_MIN_BAND = 260;
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const smoothstep = (value: number) => value * value * (3 - 2 * value);
@@ -15,6 +18,7 @@ const smoothstep = (value: number) => value * value * (3 - 2 * value);
 export default function JoinMissionSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [imageReveal, setImageReveal] = useState(0);
+  const [contentReveal, setContentReveal] = useState(0);
 
   useEffect(() => {
     let frame = 0;
@@ -29,17 +33,27 @@ export default function JoinMissionSection() {
 
       const viewportHeight = window.innerHeight;
       const distanceToSection = section.getBoundingClientRect().top;
-      const transitionStartPoint = viewportHeight * IMAGE_REVEAL_START_VIEWPORT_RATIO;
-      const transitionEndPoint = viewportHeight * IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO;
-      const transitionBand = Math.max(
-        transitionStartPoint - transitionEndPoint,
+      const imageTransitionStartPoint = viewportHeight * IMAGE_REVEAL_START_VIEWPORT_RATIO;
+      const imageTransitionEndPoint = viewportHeight * IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO;
+      const imageTransitionBand = Math.max(
+        imageTransitionStartPoint - imageTransitionEndPoint,
         IMAGE_REVEAL_MIN_BAND,
       );
-      const progress = smoothstep(
-        clamp((transitionStartPoint - distanceToSection) / transitionBand, 0, 1),
+      const contentTransitionStartPoint = viewportHeight * CONTENT_REVEAL_START_VIEWPORT_RATIO;
+      const contentTransitionEndPoint = viewportHeight * CONTENT_REVEAL_COMPLETE_VIEWPORT_RATIO;
+      const contentTransitionBand = Math.max(
+        contentTransitionStartPoint - contentTransitionEndPoint,
+        CONTENT_REVEAL_MIN_BAND,
+      );
+      const imageProgress = smoothstep(
+        clamp((imageTransitionStartPoint - distanceToSection) / imageTransitionBand, 0, 1),
+      );
+      const contentProgress = smoothstep(
+        clamp((contentTransitionStartPoint - distanceToSection) / contentTransitionBand, 0, 1),
       );
 
-      setImageReveal(progress);
+      setImageReveal(imageProgress);
+      setContentReveal(contentProgress);
     };
 
     const requestUpdate = () => {
@@ -68,7 +82,7 @@ export default function JoinMissionSection() {
       ref={sectionRef}
       id="join"
       data-bg-key="join-cream"
-      className="relative overflow-hidden px-10 py-24 md:px-[3.75rem] lg:px-20 lg:pt-[100px] lg:pb-[160px]"
+      className="relative overflow-hidden px-5 pt-8 pb-40 md:px-10 lg:px-20 lg:pb-[200px]"
     >
       <div
         className="relative z-10 mx-auto w-full min-[768px]:relative min-[768px]:h-[560px] min-[1024px]:h-[632px] min-[1281px]:flex min-[1281px]:h-auto min-[1281px]:flex-row min-[1281px]:items-stretch min-[1281px]:justify-center min-[1281px]:gap-[var(--join-column-gap)]"
@@ -77,8 +91,14 @@ export default function JoinMissionSection() {
           ["--join-button-width" as string]: "min(calc((100vw - 712px) / 3), 300px)",
         }}
       >
-        <div className="relative z-10 flex w-fit max-w-full flex-col gap-12 min-[768px]:h-[560px] min-[768px]:justify-between min-[768px]:max-w-[620px] min-[1024px]:h-[632px] min-[1281px]:h-auto min-[1281px]:max-w-full min-[1281px]:self-stretch min-[1281px]:gap-0">
-          <div className="flex flex-col gap-9">
+        <div
+          className="relative z-10 flex w-fit max-w-full flex-col gap-12 transition-[opacity,transform] duration-500 ease-out min-[768px]:h-[560px] min-[768px]:justify-between min-[768px]:max-w-[620px] min-[1024px]:h-[632px] min-[1281px]:h-auto min-[1281px]:max-w-full min-[1281px]:self-stretch min-[1281px]:gap-0"
+          style={{
+            opacity: contentReveal,
+            transform: `translateY(${(1 - contentReveal) * 32}px)`,
+          }}
+        >
+          <div className="flex flex-col gap-6 md:gap-8">
             <div>
               <p className="type-label text-[#3d1a46]">JOIN THE MISSION</p>
               <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />

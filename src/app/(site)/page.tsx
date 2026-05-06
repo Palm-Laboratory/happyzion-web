@@ -84,7 +84,7 @@ export default function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse-cloud"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden px-10 py-[140px] md:px-[3.75rem] lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
+            className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-[140px] md:px-10 lg:h-screen lg:min-h-0 lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
             <div
@@ -94,12 +94,7 @@ export default function HomePage() {
                 paddingTop: "calc(2.5rem * var(--welcome-scale))",
               }}
             >
-              <div
-                className="flex flex-col items-center"
-                style={{
-                  gap: "2rem",
-                }}
-              >
+              <div className="flex flex-col items-center gap-6 md:gap-8">
                 <div
                   className="flex flex-col items-center"
                   style={{
@@ -287,18 +282,13 @@ export default function HomePage() {
           <section
             id="about"
             data-bg-key="vision-cream"
-            className="relative px-10 py-16 md:px-[3.75rem] md:py-24 lg:overflow-hidden lg:px-20 lg:py-32"
+            className="relative px-5 py-16 md:px-10 md:py-24 lg:overflow-hidden lg:px-20 lg:py-32"
             style={visionSectionVars}
           >
             <div className="relative z-10 flex w-full flex-col justify-center gap-12 lg:flex-row lg:items-start lg:justify-start lg:gap-[var(--vision-column-gap)] min-[1750px]:justify-center">
               <div className="contents lg:flex lg:w-fit lg:flex-none lg:justify-start">
                 <div className="flex w-full max-w-full flex-col gap-8 lg:w-[min(100%,min(calc(100vw-35rem),45rem))] lg:gap-16">
-                  <div
-                    className="flex flex-col items-start"
-                    style={{
-                      gap: "2rem",
-                    }}
-                  >
+                  <div className="flex flex-col items-start gap-6 md:gap-8">
                     <div
                       className="flex flex-col items-start"
                       style={{
@@ -321,10 +311,19 @@ export default function HomePage() {
                         <span className="min-[1061px]:inline max-[1060px]:hidden">
                           성령 안에 하나된 교회
                         </span>
-                        <span className="hidden max-[1060px]:inline">
+                        <span className="hidden min-[371px]:max-[1023px]:inline">
+                          성령 안에 하나된 교회
+                        </span>
+                        <span className="hidden max-[370px]:inline">
                           성령 안에
                         </span>
-                        <span className="hidden max-[1060px]:block">
+                        <span className="hidden max-[370px]:block">
+                          하나된 교회
+                        </span>
+                        <span className="hidden min-[1024px]:max-[1060px]:inline">
+                          성령 안에
+                        </span>
+                        <span className="hidden min-[1024px]:max-[1060px]:block">
                           하나된 교회
                         </span>
                       </h2>

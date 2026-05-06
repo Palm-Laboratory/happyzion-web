@@ -65,7 +65,7 @@ export default function MissionCtaSection() {
     <section
       ref={sectionRef}
       data-bg-key="mission-dark"
-      className="relative hidden px-10 py-[180px] md:px-[3.75rem] lg:px-20 min-[1300px]:block"
+      className="relative hidden px-5 py-[180px] md:px-10 lg:px-20 min-[1300px]:block"
     >
       <div
         className="mx-auto w-full max-w-[1200px] text-center uppercase"
