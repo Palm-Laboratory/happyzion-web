@@ -57,8 +57,20 @@ export default function HomePage() {
       <section
         className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-black pt-[88px]"
       >
+        <video
+          className="absolute inset-0 h-full w-full object-contain"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        >
+          <source src="/video/sample.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
         <div className="flex-1" />
-        <div className="flex items-center justify-center pb-5">
+        <div className="relative z-10 flex items-center justify-center pb-5">
           <div className="flex flex-col items-center gap-3">
             <p className="font-suit text-xs font-light uppercase tracking-[0.24em] text-white">SCROLL</p>
             <div className="h-[60px] w-px bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.8)_100%)]" />

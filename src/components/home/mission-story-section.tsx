@@ -98,92 +98,43 @@ function MissionStoryHeading() {
 
 function MissionStorySectionMobile() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [transition, setTransition] = useState<{
-    from: number;
-    to: number;
-    direction: 1 | -1;
-  } | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [trackIndex, setTrackIndex] = useState(1);
+  const [isSliding, setIsSliding] = useState(false);
+  const [isTrackResetting, setIsTrackResetting] = useState(false);
   const activeStory = missionStories[activeIndex];
-
-  useEffect(() => {
-    if (!transition) {
-      return;
-    }
-
-    const frame = window.requestAnimationFrame(() => {
-      setIsAnimating(true);
-    });
-    const timeout = window.setTimeout(() => {
-      setTransition(null);
-      setIsAnimating(false);
-    }, 460);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(timeout);
-    };
-  }, [transition]);
+  const mobileSlides = [
+    missionStories[missionStories.length - 1],
+    ...missionStories,
+    missionStories[0],
+  ];
 
   const navigate = (direction: 1 | -1) => {
-    if (transition) {
+    if (isSliding) {
       return;
     }
 
     const nextIndex = (activeIndex + direction + missionStories.length) % missionStories.length;
-    setTransition({
-      from: activeIndex,
-      to: nextIndex,
-      direction,
-    });
-    setIsAnimating(false);
     setActiveIndex(nextIndex);
+    setIsSliding(true);
+    setTrackIndex((currentIndex) => currentIndex + direction);
   };
 
-  const renderStoryPanel = (
-    story: (typeof missionStories)[number],
-    state: "idle" | "from" | "to",
-    direction: 1 | -1,
-  ) => {
-    const transform =
-      state === "idle"
-        ? "translateX(0)"
-        : state === "from"
-          ? isAnimating
-            ? `translateX(${direction > 0 ? "-100%" : "100%"})`
-            : "translateX(0)"
-          : isAnimating
-            ? "translateX(0)"
-            : `translateX(${direction > 0 ? "100%" : "-100%"})`;
+  const handleTrackTransitionEnd = () => {
+    if (trackIndex === 0) {
+      setIsTrackResetting(true);
+      setTrackIndex(missionStories.length);
+      window.requestAnimationFrame(() => {
+        setIsTrackResetting(false);
+      });
+    } else if (trackIndex === missionStories.length + 1) {
+      setIsTrackResetting(true);
+      setTrackIndex(1);
+      window.requestAnimationFrame(() => {
+        setIsTrackResetting(false);
+      });
+    }
 
-    const opacity =
-      state === "idle" ? 1 : state === "from" ? (isAnimating ? 0 : 1) : isAnimating ? 1 : 0;
-
-    return (
-      <div
-        key={`${story.id}-${state}`}
-        className="col-start-1 row-start-1 w-full"
-        style={{
-          transform,
-          opacity,
-          transition: transition ? "transform 460ms ease-out, opacity 460ms ease-out" : "none",
-        }}
-      >
-        <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
-          <Image
-            src={story.image}
-            alt={story.country}
-            fill
-            sizes="(max-width: 767px) 60vw, (max-width: 1023px) 60vw"
-            className="object-cover"
-          />
-        </div>
-
-        <div className="mt-10 w-full text-left">
-          <p className="type-body text-[#f0e8ff]">{story.message}</p>
-        </div>
-      </div>
-    );
+    setIsSliding(false);
   };
 
   return (
@@ -208,19 +159,37 @@ function MissionStorySectionMobile() {
         </div>
 
         <div className="mt-10 w-[min(60vw,22rem)] md:w-[min(60vw,30rem)]">
-          <div className="grid overflow-hidden">
-            {transition
-              ? (
-                <>
-                  {renderStoryPanel(
-                    missionStories[transition.from],
-                    "from",
-                    transition.direction,
-                  )}
-                  {renderStoryPanel(missionStories[transition.to], "to", transition.direction)}
-                </>
-              )
-              : renderStoryPanel(activeStory, "idle", 1)}
+          <div>
+            <div className="relative aspect-square overflow-hidden bg-[#ece4e6]">
+              <div
+                className="flex h-full w-full"
+                style={{
+                  transform: `translateX(-${trackIndex * 100}%)`,
+                  transition: isTrackResetting ? "none" : "transform 460ms ease-out",
+                }}
+                onTransitionEnd={handleTrackTransitionEnd}
+              >
+                {mobileSlides.map((story, index) => (
+                  <div
+                    key={`mobile-story-image-${story.id}-${index}`}
+                    className="relative h-full w-full flex-none"
+                  >
+                    <Image
+                      src={story.image}
+                      alt={story.country}
+                      fill
+                      sizes="(max-width: 767px) 60vw, (max-width: 1023px) 60vw"
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-10 w-full text-left">
+              <p className="type-body text-[#f0e8ff]">{activeStory.message}</p>
+            </div>
           </div>
         </div>
 
@@ -247,17 +216,16 @@ function MissionStorySectionMobile() {
             </svg>
           </button>
 
-          <div className="flex items-center gap-[6px]">
+          <div className="flex h-4 items-center gap-3">
             {missionStories.map((story, index) => {
               const active = index === activeIndex;
 
               return (
                 <div
                   key={story.id}
-                  className="h-px bg-white transition-all duration-300 ease-out"
+                  className="h-2 w-2 rounded-full bg-white transition-opacity duration-300 ease-out"
                   style={{
-                    width: active ? "30px" : "20px",
-                    opacity: active ? 1 : 0.5,
+                    opacity: active ? 1 : 0.35,
                   }}
                 />
               );
