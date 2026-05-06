@@ -1,10 +1,12 @@
 import { notFound, redirect } from "next/navigation";
+import type { Metadata } from "next";
 
 import PublicBoardRenderer from "@/components/public-board/public-board-renderer";
 import SitePageShell from "@/components/site-page-shell";
 import { renderStaticPage } from "@/components/static-pages/static-page-registry";
 import { getPublicBoardPost, listPublicBoardPosts } from "@/lib/public-board-api";
 import { resolvePublicMenuPath, type PublicResolvedMenuPage } from "@/lib/public-menu-api";
+import { createPageMetadata } from "@/lib/seo";
 
 type MenuDispatcherPageProps = {
   params: Promise<{
@@ -39,6 +41,53 @@ function getShellTitle(resolved: PublicResolvedMenuPage) {
 function getShellSubtitle(path: string) {
   const rootSegment = path.split("/").filter(Boolean)[0];
   return rootSegment ? `${rootSegment.toUpperCase()} HAPPY ZION` : "HAPPY ZION";
+}
+
+function getPageTitle(resolved: PublicResolvedMenuPage) {
+  return resolved.parentLabel ? `${resolved.label} | ${resolved.parentLabel}` : resolved.label;
+}
+
+export async function generateMetadata({
+  params,
+}: Omit<MenuDispatcherPageProps, "searchParams">): Promise<Metadata> {
+  const { menuPath } = await params;
+  const path = normalizePath(menuPath);
+  const resolved = await resolvePublicMenuPath(path);
+
+  if (resolved?.redirectTo) {
+    return createPageMetadata({
+      title: resolved.label,
+      path: resolved.redirectTo,
+    });
+  }
+
+  if (resolved) {
+    return createPageMetadata({
+      title: getPageTitle(resolved),
+      path: resolved.fullPath,
+    });
+  }
+
+  const segments = path.split("/").filter(Boolean);
+  const boardPath = segments.length >= 2 ? `/${segments.slice(0, -1).join("/")}` : "";
+  const postId = segments.at(-1);
+  const board = boardPath ? await resolvePublicMenuPath(boardPath) : null;
+
+  if (board?.type === "BOARD" && board.boardKey && postId) {
+    const post = await getPublicBoardPost(board.boardKey, board.menuId, postId);
+
+    if (post) {
+      return createPageMetadata({
+        title: `${post.title} | ${board.label}`,
+        path,
+      });
+    }
+  }
+
+  return createPageMetadata({
+    title: "페이지를 찾을 수 없습니다",
+    path,
+  });
 }
 
 async function renderStaticMenuPage(resolved: PublicResolvedMenuPage) {
