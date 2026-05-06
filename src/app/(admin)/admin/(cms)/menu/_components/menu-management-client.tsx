@@ -48,9 +48,13 @@ const MENU_TYPE_LABEL: Record<MenuType, string> = {
   YOUTUBE_PLAYLIST: "유튜브 재생목록",
 };
 
-// 나중에 정적 메뉴 생기면 여기에 추가
-// [{ value: "about.pastor", label: "교회 소개 / 담임목사 소개" }],
-const STATIC_PAGE_OPTIONS: Array<{ value: string; label: string }> = [];
+const STATIC_PAGE_OPTIONS: Array<{ value: string; label: string }> = [
+  { value: "about.greeting", label: "교회 소개 / 인사말" },
+  { value: "about.history", label: "교회 소개 / 교회연혁" },
+  { value: "about.location", label: "교회 소개 / 오시는 길" },
+  { value: "about.online-giving", label: "교회 소개 / 온라인 헌금" },
+  { value: "about.service-times", label: "교회 소개 / 예배시간" },
+];
 
 function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; depth: number }> {
   return nodes.flatMap((node) => [
@@ -253,7 +257,7 @@ function buildNewNode(id: number, type: MenuType): EditorNode {
     isAuto: false,
     labelCustomized: false,
     slugCustomized: false,
-    staticPageKey: null,
+    staticPageKey: type === "STATIC" ? STATIC_PAGE_OPTIONS[0]?.value ?? null : null,
     boardKey: null,
     boardTypeKey: null,
     boardTypeLabel: null,
