@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import BackgroundStage from "@/components/home/background-stage";
@@ -8,6 +7,7 @@ import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import VisionMobileGallery from "@/components/home/vision-mobile-gallery";
 import MissionStorySection from "@/components/home/mission-story-section";
+import PreparedPageLink from "@/components/prepared-page-link";
 import ScrollFadeGroup from "@/components/home/scroll-fade-group";
 import { createPageMetadata } from "@/lib/seo";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
@@ -159,7 +159,7 @@ export default function HomePage() {
                 }}
               >
                 {quickLinks.map((item) => (
-                  <Link
+                  <PreparedPageLink
                     key={item.label}
                     href={item.href}
                     className="group flex w-full flex-col items-center min-[840px]:w-auto"
@@ -278,7 +278,7 @@ export default function HomePage() {
                     <p className="type-button text-[#341939]">
                       {item.label}
                     </p>
-                  </Link>
+                  </PreparedPageLink>
                 ))}
               </div>
             </div>

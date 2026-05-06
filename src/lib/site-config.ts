@@ -11,8 +11,8 @@ export const CHURCH_ADDRESS = readEnv(
   "NEXT_PUBLIC_CHURCH_ADDRESS",
   "경기 고양시 덕양구 호국로811번길 36",
 );
-export const CHURCH_PHONE = readEnv("NEXT_PUBLIC_CHURCH_PHONE", "010-1234-5678");
+export const CHURCH_PHONE = readEnv("NEXT_PUBLIC_CHURCH_PHONE", "031-967-1004");
 export const CHURCH_EMAIL = readEnv("NEXT_PUBLIC_CHURCH_EMAIL", "happyzion@gmail.com");
-export const YOUTUBE_CHANNEL_URL = readEnv("NEXT_PUBLIC_YOUTUBE_URL", "https://www.youtube.com/");
+export const YOUTUBE_CHANNEL_URL = readEnv("NEXT_PUBLIC_YOUTUBE_URL", "https://www.youtube.com/@zion3809");
 
 export const SITE_DESCRIPTION = `${SITE_ALTERNATE_NAME}(${SITE_NAME})는 ${SITE_TAGLINE}를 비전으로 세워가는 공동체입니다.`;

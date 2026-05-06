@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+
+import PreparedPageLink from "@/components/prepared-page-link";
 
 const IMAGE_REVEAL_START_VIEWPORT_RATIO = 0.72;
 const IMAGE_REVEAL_COMPLETE_VIEWPORT_RATIO = 0.42;
@@ -104,7 +105,7 @@ export default function JoinMissionSection() {
               { label: "newcomer", title: "새가족 안내", href: "/next-steps" },
               { label: "way to church", title: "오시는 길", href: "#footer" },
             ].map((item) => (
-              <Link
+              <PreparedPageLink
                 key={item.title}
                 href={item.href}
                 className="rounded-lg bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5 min-[1281px]:w-[var(--join-button-width)]"
@@ -113,7 +114,7 @@ export default function JoinMissionSection() {
                   {item.label}
                 </p>
                 <p className="type-button mt-2 text-white">{item.title}</p>
-              </Link>
+              </PreparedPageLink>
             ))}
           </div>
         </div>

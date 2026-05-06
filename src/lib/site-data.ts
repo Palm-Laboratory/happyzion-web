@@ -5,10 +5,10 @@ export type NavItem = {
 };
 
 export const primaryNavigation: NavItem[] = [
-  { label: "교회 소개", href: "#about", description: "교회 소개와 비전" },
-  { label: "예배 영상", href: "#mission", description: "예배와 선교 스토리" },
-  { label: "교회 행사", href: "#join", description: "함께하는 사역과 참여" },
-  { label: "오시는 길", href: "#footer", description: "교회 정보와 연락처" },
+  { label: "교회 소개", href: "#", description: "교회 소개와 비전" },
+  { label: "예배 영상", href: "#", description: "예배와 선교 스토리" },
+  { label: "선교", href: "#", description: "열방을 향한 선교" },
+  { label: "교회 행사", href: "#", description: "함께하는 사역과 참여" },
 ];
 
 export const aboutCards = [
