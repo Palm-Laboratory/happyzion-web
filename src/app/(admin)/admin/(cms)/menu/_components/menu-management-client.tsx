@@ -48,21 +48,9 @@ const MENU_TYPE_LABEL: Record<MenuType, string> = {
   YOUTUBE_PLAYLIST: "유튜브 재생목록",
 };
 
-const STATIC_PAGE_OPTIONS = [
-  { value: "about.greeting", label: "교회 소개 / 인사말·비전" },
-  { value: "about.pastor", label: "교회 소개 / 담임목사 소개" },
-  { value: "about.service-times", label: "교회 소개 / 예배 시간 안내" },
-  { value: "about.location", label: "교회 소개 / 오시는 길" },
-  { value: "about.history", label: "교회 소개 / 교회 연혁" },
-  { value: "about.giving", label: "교회 소개 / 헌금 안내" },
-  { value: "newcomer.guide", label: "제자 양육 / 새가족 안내" },
-  { value: "newcomer.care", label: "제자 양육 / 새가족 양육" },
-  { value: "newcomer.disciples", label: "제자 양육 / 제자 훈련" },
-  { value: "commission.summary", label: "지상명령 / 개요" },
-  { value: "commission.nextgen", label: "지상명령 / 다음세대" },
-  { value: "commission.culture", label: "지상명령 / 다문화" },
-  { value: "commission.ethnic", label: "지상명령 / 다민족" },
-];
+// 나중에 정적 메뉴 생기면 여기에 추가
+// [{ value: "about.pastor", label: "교회 소개 / 담임목사 소개" }],
+const STATIC_PAGE_OPTIONS: Array<{ value: string; label: string }> = [];
 
 function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; depth: number }> {
   return nodes.flatMap((node) => [
@@ -265,7 +253,7 @@ function buildNewNode(id: number, type: MenuType): EditorNode {
     isAuto: false,
     labelCustomized: false,
     slugCustomized: false,
-    staticPageKey: type === "STATIC" ? "about.greeting" : null,
+    staticPageKey: null,
     boardKey: null,
     boardTypeKey: null,
     boardTypeLabel: null,
@@ -831,78 +819,78 @@ export default function MenuManagementClient({
                     !canDropOnMenu(draggingMenuId, node.id);
 
                   return (
-                  <li key={node.id}>
-                    <button
-                      type="button"
-                      draggable
-                      onClick={() => setSelectedId(node.id)}
-                      onDragStart={(event) => handleMenuDragStart(event, node.id)}
-                      onDragOver={(event) => handleMenuDragOver(event, node.id)}
-                      onDrop={(event) => handleMenuDrop(event, node.id)}
-                      onDragEnd={resetDragState}
-                      aria-grabbed={draggingMenuId === node.id}
+                    <li key={node.id}>
+                      <button
+                        type="button"
+                        draggable
+                        onClick={() => setSelectedId(node.id)}
+                        onDragStart={(event) => handleMenuDragStart(event, node.id)}
+                        onDragOver={(event) => handleMenuDragOver(event, node.id)}
+                        onDrop={(event) => handleMenuDrop(event, node.id)}
+                        onDragEnd={resetDragState}
+                        aria-grabbed={draggingMenuId === node.id}
                         className={`relative flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition ${draggingMenuId === node.id
                           ? "opacity-50"
                           : ""
-                        } ${dropDisabled
-                          ? "opacity-35 grayscale"
-                          : ""
-                        } ${selectedId === node.id
-                          ? "bg-[#edf4ff] text-[#132033]"
-                          : "text-[#334155] hover:bg-[#f8fafc]"
-                        }`}
-                      style={{ paddingLeft: `${depth * 18 + 12}px` }}
-                    >
-                      {showTopDropLine && (
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute left-3 right-3 top-0 z-10 h-1 rounded-full bg-[#f59e0b]"
-                        />
-                      )}
-                      {showBottomDropLine && (
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute bottom-0 left-3 right-3 z-10 h-1 rounded-full bg-[#f59e0b]"
-                        />
-                      )}
-                      <span className="flex min-w-0 items-center gap-2">
-                        <span
-                          className="flex h-7 w-5 shrink-0 items-center justify-center rounded-md text-[#94a3b8]"
-                          aria-hidden="true"
-                        >
-                          <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
-                            <circle cx="3" cy="3" r="1.2" fill="currentColor" />
-                            <circle cx="9" cy="3" r="1.2" fill="currentColor" />
-                            <circle cx="3" cy="8" r="1.2" fill="currentColor" />
-                            <circle cx="9" cy="8" r="1.2" fill="currentColor" />
-                            <circle cx="3" cy="13" r="1.2" fill="currentColor" />
-                            <circle cx="9" cy="13" r="1.2" fill="currentColor" />
-                          </svg>
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block truncate text-[13px] font-semibold">{node.label}</span>
-                          <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
-                            {MENU_TYPE_LABEL[node.type]}
-                          </span>
-                        </span>
-                      </span>
-                      <span className="ml-3 flex items-center gap-2">
-                        {changedMenuIds.has(node.id) && (
-                          <span className="rounded-full bg-[#fff4d6] px-2 py-0.5 text-[10px] font-semibold text-[#9a5b00]">
-                            {node.id < 0 ? "신규" : "수정됨"}
-                          </span>
+                          } ${dropDisabled
+                            ? "opacity-35 grayscale"
+                            : ""
+                          } ${selectedId === node.id
+                            ? "bg-[#edf4ff] text-[#132033]"
+                            : "text-[#334155] hover:bg-[#f8fafc]"
+                          }`}
+                        style={{ paddingLeft: `${depth * 18 + 12}px` }}
+                      >
+                        {showTopDropLine && (
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute left-3 right-3 top-0 z-10 h-1 rounded-full bg-[#f59e0b]"
+                          />
                         )}
-                        {node.isAuto && (
-                          <span className="rounded-full bg-[#e2e8f0] px-2 py-0.5 text-[10px] font-semibold text-[#475569]">
-                            자동
-                          </span>
+                        {showBottomDropLine && (
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute bottom-0 left-3 right-3 z-10 h-1 rounded-full bg-[#f59e0b]"
+                          />
                         )}
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_META[node.status]}`}>
-                          {STATUS_LABEL[node.status]}
+                        <span className="flex min-w-0 items-center gap-2">
+                          <span
+                            className="flex h-7 w-5 shrink-0 items-center justify-center rounded-md text-[#94a3b8]"
+                            aria-hidden="true"
+                          >
+                            <svg width="12" height="16" viewBox="0 0 12 16" fill="none">
+                              <circle cx="3" cy="3" r="1.2" fill="currentColor" />
+                              <circle cx="9" cy="3" r="1.2" fill="currentColor" />
+                              <circle cx="3" cy="8" r="1.2" fill="currentColor" />
+                              <circle cx="9" cy="8" r="1.2" fill="currentColor" />
+                              <circle cx="3" cy="13" r="1.2" fill="currentColor" />
+                              <circle cx="9" cy="13" r="1.2" fill="currentColor" />
+                            </svg>
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block truncate text-[13px] font-semibold">{node.label}</span>
+                            <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
+                              {MENU_TYPE_LABEL[node.type]}
+                            </span>
+                          </span>
                         </span>
-                      </span>
-                    </button>
-                  </li>
+                        <span className="ml-3 flex items-center gap-2">
+                          {changedMenuIds.has(node.id) && (
+                            <span className="rounded-full bg-[#fff4d6] px-2 py-0.5 text-[10px] font-semibold text-[#9a5b00]">
+                              {node.id < 0 ? "신규" : "수정됨"}
+                            </span>
+                          )}
+                          {node.isAuto && (
+                            <span className="rounded-full bg-[#e2e8f0] px-2 py-0.5 text-[10px] font-semibold text-[#475569]">
+                              자동
+                            </span>
+                          )}
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_META[node.status]}`}>
+                            {STATUS_LABEL[node.status]}
+                          </span>
+                        </span>
+                      </button>
+                    </li>
                   );
                 })}
               </ul>
@@ -1005,8 +993,8 @@ export default function MenuManagementClient({
                             type="button"
                             onClick={() => switchSelectedSlugMode(false)}
                             className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${selectedManualSlugMode
-                                ? "text-[#64748b] hover:bg-[#f8fafc]"
-                                : "bg-[#3f74c7] text-white"
+                              ? "text-[#64748b] hover:bg-[#f8fafc]"
+                              : "bg-[#3f74c7] text-white"
                               }`}
                           >
                             자동
@@ -1015,8 +1003,8 @@ export default function MenuManagementClient({
                             type="button"
                             onClick={() => switchSelectedSlugMode(true)}
                             className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${selectedManualSlugMode
-                                ? "bg-[#3f74c7] text-white"
-                                : "text-[#64748b] hover:bg-[#f8fafc]"
+                              ? "bg-[#3f74c7] text-white"
+                              : "text-[#64748b] hover:bg-[#f8fafc]"
                               }`}
                           >
                             직접 입력
@@ -1068,13 +1056,15 @@ export default function MenuManagementClient({
 
                     {selectedNode.type === "FOLDER" && selectedNode.parentId === null && (
                       <div className="grid gap-2 sm:grid-cols-3">
-                        <button
-                          type="button"
-                          onClick={() => handleAddChild("STATIC")}
-                          className="rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-2 text-[12px] font-semibold text-[#2d5da8]"
-                        >
-                          정적 페이지 추가
-                        </button>
+                        {STATIC_PAGE_OPTIONS.length > 0 && (
+                          <button
+                            type="button"
+                            onClick={() => handleAddChild("STATIC")}
+                            className="rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-2 text-[12px] font-semibold text-[#2d5da8]"
+                          >
+                            정적 페이지 추가
+                          </button>
+                        )}
                         <button
                           type="button"
                           onClick={() => handleAddChild("BOARD")}
@@ -1101,7 +1091,7 @@ export default function MenuManagementClient({
                       </div>
                     )}
 
-                    {selectedNode.type === "STATIC" && (
+                    {selectedNode.type === "STATIC" && STATIC_PAGE_OPTIONS.length > 0 && (
                       <label className="space-y-1.5">
                         <span className="text-[12px] font-semibold text-[#334155]">연결 페이지</span>
                         <select
