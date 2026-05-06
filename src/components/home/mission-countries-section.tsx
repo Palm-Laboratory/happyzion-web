@@ -16,17 +16,6 @@ const mixColor = (amount: number) => {
   return `rgb(${r}, ${g}, ${b})`;
 };
 
-const missionCountryFlags: Record<string, string> = {
-  Philippines: "🇵🇭",
-  Thailand: "🇹🇭",
-  Malaysia: "🇲🇾",
-  Cambodia: "🇰🇭",
-  Indonesia: "🇮🇩",
-  China: "🇨🇳",
-  Myanmar: "🇲🇲",
-  Paraguay: "🇵🇾",
-  Mongol: "🇲🇳",
-};
 const MOBILE_OUTRO_START_VIEWPORT_RATIO = 0.72;
 const MOBILE_OUTRO_COMPLETE_VIEWPORT_RATIO = 0.42;
 const MOBILE_OUTRO_MIN_BAND = 260;
@@ -168,9 +157,6 @@ function MissionCountriesDesktop() {
   const { ref, progress } = useSectionProgress<HTMLElement>();
   const viewportWidth = useViewportWidth();
   const [hydrated, setHydrated] = useState(false);
-  const [flagLeft, setFlagLeft] = useState<number | null>(null);
-  const copyRef = useRef<HTMLDivElement>(null);
-  const countryRefs = useRef<Array<HTMLDivElement | null>>([]);
   const introEnd = 0.12;
   const arcStart = introEnd;
   const outroStart = 0.88;
@@ -196,40 +182,6 @@ function MissionCountriesDesktop() {
   const arcOffset = viewportWidth <= 1400 ? 300 : viewportWidth <= 1500 ? 320 : 340;
   const arcAngleStep = viewportWidth <= 1400 ? 9 : viewportWidth <= 1500 ? 10 : 11;
   const arcRadius = viewportWidth <= 1400 ? 50 : viewportWidth <= 1500 ? 54 : 58;
-  const activeIndex = Math.round(arcProgress * (missionCountries.length - 1));
-  const activeCountry = missionCountries[activeIndex] ?? missionCountries[0];
-  const activeFlag = missionCountryFlags[activeCountry];
-
-  useEffect(() => {
-    if (!hydrated || viewportWidth < 1900) {
-      setFlagLeft(null);
-      return;
-    }
-
-    const updateFlagLeft = () => {
-      const activeCountryElement = countryRefs.current[0];
-      const copyElement = copyRef.current;
-
-      if (!activeCountryElement || !copyElement) {
-        setFlagLeft(null);
-        return;
-      }
-
-      const countryWidth = activeCountryElement.offsetWidth;
-      const copyRect = copyElement.getBoundingClientRect();
-      const labelLeft = clamp(viewportWidth * 0.05, 32, 80);
-      const initialCountryLeft = labelLeft + arcOffset;
-      const initialCountryRight = initialCountryLeft + countryWidth;
-      const midpoint = (initialCountryRight + copyRect.left) / 2;
-
-      setFlagLeft(midpoint);
-    };
-
-    const frame = window.requestAnimationFrame(updateFlagLeft);
-    return () => {
-      window.cancelAnimationFrame(frame);
-    };
-  }, [arcOffset, hydrated, viewportWidth]);
 
   return (
     <section ref={ref} data-bg-key="mission-dark" className="relative hidden h-[320svh] min-[1300px]:block">
@@ -258,7 +210,6 @@ function MissionCountriesDesktop() {
 
           <div
             className="absolute right-[var(--countries-copy-right)] top-1/2 z-10"
-            ref={copyRef}
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#f0e8ff] md:text-xl">
@@ -266,24 +217,6 @@ function MissionCountriesDesktop() {
               선교의 사명을 이어가고 있습니다.
             </p>
           </div>
-
-          {viewportWidth >= 1900 && flagLeft !== null ? (
-            <div
-              className="absolute top-1/2 z-10 flex h-[96px] w-[140px] -translate-x-1/2 items-center justify-center overflow-hidden rounded-sm"
-              style={
-                hydrated
-                  ? {
-                    left: `${flagLeft}px`,
-                    transform: `translate(-50%, calc(-50% + ${headingTranslate}px))`,
-                  }
-                  : { left: `${flagLeft}px` }
-              }
-            >
-              <span className="text-[96px] leading-none" aria-hidden="true">
-                {activeFlag}
-              </span>
-            </div>
-          ) : null}
 
           <div className="relative z-10 flex h-full items-center justify-center">
             <div className="relative h-[760px] w-full">
@@ -301,9 +234,6 @@ function MissionCountriesDesktop() {
                 return (
                   <div
                     key={country}
-                    ref={(node) => {
-                      countryRefs.current[index] = node;
-                    }}
                     className="absolute left-[var(--countries-arc-left)] top-1/2 whitespace-nowrap"
                     style={
                       hydrated
