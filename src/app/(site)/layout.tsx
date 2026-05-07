@@ -61,7 +61,7 @@ export default async function SiteLayout({
       <div className="relative flex min-h-screen flex-col overflow-x-clip">
         <SiteHeader navigationItems={navigationItems} />
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <SiteFooter navigationItems={navigationItems} />
       </div>
     </NavigationProvider>
   );

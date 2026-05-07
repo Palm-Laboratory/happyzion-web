@@ -1,4 +1,13 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import { CHURCH_ADDRESS, CHURCH_EMAIL, CHURCH_PHONE, SITE_NAME, YOUTUBE_CHANNEL_URL } from "@/lib/site-config";
+import { primaryNavigation } from "@/lib/site-data";
+import type { NavigationLink } from "@/types/navigation";
+
+type SiteFooterProps = {
+  navigationItems?: NavigationLink[];
+};
 
 const socialLinks = [
   { label: "YouTube", href: YOUTUBE_CHANNEL_URL, icon: "youtube" },
@@ -45,14 +54,23 @@ function SocialIcon({ icon }: { icon: (typeof socialLinks)[number]["icon"] }) {
   );
 }
 
-export default function SiteFooter() {
+export default function SiteFooter({ navigationItems = primaryNavigation }: SiteFooterProps) {
   return (
     <footer id="footer" className="relative z-10 bg-[#1f0f28] text-white">
       <div className="mx-auto w-full px-5 py-10 md:px-10 lg:px-[80px] lg:py-[60px]">
         <div className="border-b border-white/20 pb-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-6">
-              <p className="font-suit text-[28px] font-medium">{SITE_NAME}</p>
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/images/logo/happyzion-logo.png"
+                  alt="Happy Zion logo"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 object-contain"
+                />
+                <p className="font-suit text-[28px] font-medium">{SITE_NAME}</p>
+              </div>
               <div className="space-y-2 text-white/50">
                 <p className="font-suit text-base">{CHURCH_ADDRESS}</p>
                 <p className="font-suit text-sm font-medium">
@@ -65,6 +83,40 @@ export default function SiteFooter() {
                 </p>
               </div>
             </div>
+
+            <nav
+              aria-label="Footer navigation"
+              className="grid grid-cols-2 justify-items-start gap-x-9 gap-y-8 self-end sm:grid-cols-3 lg:auto-cols-max lg:grid-flow-col lg:grid-cols-none lg:justify-end"
+            >
+              {navigationItems.map((item) => (
+                <div key={`${item.label}:${item.href}`} className="min-w-0 space-y-5">
+                  <Link
+                    href={item.href}
+                    target={item.openInNewTab ? "_blank" : undefined}
+                    rel={item.openInNewTab ? "noreferrer" : undefined}
+                    className="block font-suit text-base font-extrabold leading-none text-white transition hover:text-white/80"
+                  >
+                    {item.label}
+                  </Link>
+
+                  {item.children && item.children.length > 0 && (
+                    <div className="flex flex-col items-start gap-3.5">
+                      {item.children.map((child) => (
+                        <Link
+                          key={`${child.label}:${child.href}`}
+                          href={child.href}
+                          target={child.openInNewTab ? "_blank" : undefined}
+                          rel={child.openInNewTab ? "noreferrer" : undefined}
+                          className="font-suit text-sm font-medium leading-none text-white/50 transition hover:text-white"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
           </div>
         </div>
 
