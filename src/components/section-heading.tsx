@@ -46,7 +46,7 @@ function SectionHeadingDescription({ description }: { description: string }) {
   return (
     <p
       className="mt-3 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
-      style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+      style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
     >
       {description}
     </p>

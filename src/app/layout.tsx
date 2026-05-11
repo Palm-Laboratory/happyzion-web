@@ -4,7 +4,9 @@ import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
 import {
   corinthia,
+  cormorant,
   cormorantGaramond,
+  cormorantInfant,
   estonia,
   hahmlet,
   nanumMyeongjo,
@@ -26,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${corinthia.variable} ${cormorantGaramond.variable} ${estonia.variable} ${hahmlet.variable} ${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
+        className={`${corinthia.variable} ${cormorant.variable} ${cormorantGaramond.variable} ${cormorantInfant.variable} ${estonia.variable} ${hahmlet.variable} ${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <SmoothScroll />
