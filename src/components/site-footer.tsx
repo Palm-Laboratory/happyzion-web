@@ -86,7 +86,7 @@ export default function SiteFooter({ navigationItems = primaryNavigation }: Site
 
             <nav
               aria-label="Footer navigation"
-              className="grid grid-cols-2 justify-items-start gap-x-9 gap-y-8 self-end sm:grid-cols-3 lg:auto-cols-max lg:grid-flow-col lg:grid-cols-none lg:justify-end"
+              className="hidden justify-items-start gap-x-9 gap-y-8 self-end lg:grid lg:auto-cols-max lg:grid-flow-col lg:justify-end"
             >
               {navigationItems.map((item) => (
                 <div key={`${item.label}:${item.href}`} className="min-w-0 space-y-5">
