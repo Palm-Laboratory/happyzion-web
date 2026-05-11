@@ -188,7 +188,7 @@ function MissionStorySectionMobile() {
             </div>
 
             <div className="mt-10 w-full text-left">
-              <p className="type-body text-[#f0e8ff]">{activeStory.message}</p>
+              <p className="type-body text-[#f0e8ff] lg:text-xl lg:leading-8">{activeStory.message}</p>
             </div>
           </div>
         </div>
@@ -357,9 +357,9 @@ function MissionStorySectionDesktop() {
                 return (
                   <p
                     key={`desktop-story-message-${index + 1}`}
-                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out"
+                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out lg:text-xl"
                     style={{
-                      fontSize: viewportWidth >= 2000 ? "1.5rem" : undefined,
+                      lineHeight: "36px",
                       opacity: visible ? 1 : 0,
                     }}
                   >

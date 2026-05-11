@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="ko">
       <body
         className={`${corinthia.variable} ${cormorantGaramond.variable} ${estonia.variable} ${hahmlet.variable} ${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
+        suppressHydrationWarning
       >
         <SmoothScroll />
         {children}

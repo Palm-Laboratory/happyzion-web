@@ -45,7 +45,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
           </div>
         </div>
       </div>
-      <div className="type-body text-[#fdf4ff]">
+      <div className="type-body text-[#fdf4ff] lg:text-xl">
         <p>필리핀부터 미얀마, 태국과 말레이시아까지,</p>
         <p>
           우리는 다양한 땅에서 복음을 전하며
