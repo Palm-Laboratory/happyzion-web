@@ -11,7 +11,7 @@ import {
 } from "@/lib/site-config";
 import BulletItem from "@/components/bullet-item";
 import SectionHeading from "@/components/section-heading";
-import NaverDynamicMap from "../components/naver-dynamic-map";
+import NaverDynamicMap from "@/features/static-pages/components/naver-dynamic-map";
 
 const churchPhoneHref = CHURCH_PHONE.replace(/[^\d+]/g, "");
 

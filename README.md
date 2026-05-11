@@ -65,4 +65,4 @@ Production 배포에서는 `API_BASE_URL`과 `NEXT_PUBLIC_API_BASE_URL`이 필�
 - `section-shell--wide`: 갤러리, 영상 목록, 넓은 카드/테이블형 화면
 - `section-shell--full`: 정말 화면 전체 폭을 써야 하는 특수 영역
 
-`section-shell`은 페이지/섹션 단위의 바깥 본문 컨테이너입니다. 카드 내부, 버튼 그룹, 작은 UI 컴포넌트 안쪽에는 사용하지 않습니다. 새 정적 페이지를 추가할 때는 `src/features/static-pages/pages`의 페이지 컴포넌트 최상위 본문을 기본적으로 `section-shell section-shell--narrow`로 시작합니다.
+`section-shell`은 페이지/섹션 단위의 바깥 본문 컨테이너입니다. 카드 내부, 버튼 그룹, 작은 UI 컴포넌트 안쪽에는 사용하지 않습니다. 새 교회 소개 정적 페이지를 추가할 때는 `src/features/static-pages/about/pages`의 페이지 컴포넌트 최상위 본문을 기본적으로 `section-shell section-shell--narrow`로 시작합니다.

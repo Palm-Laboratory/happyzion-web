@@ -5,7 +5,7 @@ Static pages are rendered through the public menu dispatcher, not through
 
 To add a new static page:
 
-1. Add the page component in `src/features/static-pages/pages`.
+1. Add the page component in `src/features/static-pages/about/pages`.
 2. Add its key to `StaticPageKey` in `src/features/static-pages/types.ts`.
 3. Register the key and component in `src/features/static-pages/static-page-registry.tsx`.
 4. Register the same key, label, and default path in the backend `StaticPageCatalog.kt`.
