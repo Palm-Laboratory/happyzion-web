@@ -129,7 +129,7 @@ function QuoteCard() {
 
 function IntroSection() {
   return (
-    <section id="greeting" className="section-shell section-shell--narrow py-14 md:py-20">
+    <section id="greeting" className="section-shell py-14 md:py-20">
       <div className="flex flex-col items-start gap-10 md:gap-12">
         <SectionHeading
           label="about the church"
@@ -174,7 +174,7 @@ function IntroSection() {
 function PastorSection() {
   return (
     <section className="bg-[#1f102f] py-16 text-white md:py-32">
-      <div className="section-shell section-shell--narrow grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
+      <div className="section-shell grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
         <div className="flex flex-col gap-[60px]">
           <SectionHeading
             label="pastor's greeting"
@@ -228,7 +228,7 @@ function PastorSection() {
 function ElderTeamSection() {
   return (
     <section className="bg-[#56305f] py-16 text-white md:py-[7rem]">
-      <div className="section-shell section-shell--narrow">
+      <div className="section-shell">
         <SectionHeading
           label="church leaders"
           title="섬기는 이"

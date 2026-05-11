@@ -557,7 +557,7 @@ function MinistryTeamsSection() {
 
   return (
     <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
-      <div className="mx-auto flex w-full max-w-[960px] flex-col items-start gap-[60px] px-4 md:px-8 xl:px-0">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Ministry Teams"
           title="7대 사역팀 체계"
@@ -947,7 +947,7 @@ function SmallGroupsMinistrySection() {
 
   return (
     <section className="bg-[#fefbff] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
-      <div className="mx-auto flex w-full max-w-[960px] flex-col items-start gap-[60px] px-4 md:px-8 xl:px-0">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Small Groups, Leaders, and Ministry"
           title="소그룹과 리더, 그리고 사역"
@@ -1022,7 +1022,7 @@ function CoreValueCard({
 function VisionCoreValuesSection() {
   return (
     <section className="bg-white pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
-      <div className="mx-auto flex w-full max-w-[960px] flex-col items-start gap-[60px] px-4 md:px-8 xl:px-0">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Vision & Core Values"
           title="교회 비전 · 5대 핵심가치"
@@ -1082,7 +1082,7 @@ export default function RevivalOrganizationStaticPage() {
       <MinistryTeamsSection />
       <SmallGroupsMinistrySection />
       <section className="bg-white pb-[200px]">
-        <div className="mx-auto w-full max-w-[960px] px-4 md:px-8 xl:px-0">
+        <div className="section-shell section-shell--narrow">
           <ClosingCallout />
         </div>
       </section>

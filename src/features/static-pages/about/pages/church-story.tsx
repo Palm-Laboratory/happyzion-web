@@ -1,8 +1,4 @@
-type SectionTitleProps = {
-  label: string;
-  title: string;
-  description: string;
-};
+import SectionHeading from "@/components/section-heading";
 
 type TimelineItem = {
   year: string;
@@ -61,33 +57,6 @@ const timelineItems: TimelineItem[] = [
   },
 ];
 
-function SectionTitle({ label, title, description }: SectionTitleProps) {
-  return (
-    <header className="flex w-full max-w-[468px] flex-col items-start gap-5 md:max-w-none">
-      <div className="flex items-center gap-3">
-        <span className="h-px w-[30px] bg-[#8b6db5]" />
-        <p
-          className="text-center text-xs uppercase leading-3 tracking-[0.1667em] text-[#8b6db5]"
-          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-        >
-          {label}
-        </p>
-      </div>
-      <div className="flex w-full flex-col items-start gap-3">
-        <h2 className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.45] tracking-[0.01em] text-[#33103f] md:whitespace-nowrap md:text-[36px] md:leading-[52px]">
-          {title}
-        </h2>
-        <p
-          className="text-center text-sm italic leading-3 tracking-[0.2em] text-[#8b6db5]"
-          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-        >
-          {description}
-        </p>
-      </div>
-    </header>
-  );
-}
-
 function FoundationCard() {
   return (
     <aside className="relative h-auto min-h-[320px] w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-left text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
@@ -119,10 +88,11 @@ function FoundationCard() {
 function BeginningSection() {
   return (
     <section className="flex w-full flex-col items-start gap-[60px]">
-      <SectionTitle
+      <SectionHeading
         label="The Beginning"
         title="교회 개척과 하나님의 인도하심"
         description="Founded by Faith · Guided by Grace"
+        className="md:max-w-none [&_h2]:md:whitespace-nowrap"
       />
       <div className="grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-[60px]">
         <div className="flex min-w-0 flex-col gap-8 font-suit text-[18px] font-normal uppercase leading-8 tracking-[0.01em] text-black">
@@ -202,10 +172,11 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
 function TimelineSection() {
   return (
     <section className="flex w-full flex-col items-start gap-[60px]">
-      <SectionTitle
+      <SectionHeading
         label="Church Timeline"
         title="걸어온 길"
         description="A Journey of Faith · 1997 — Present"
+        className="md:max-w-none [&_h2]:md:whitespace-nowrap"
       />
       <div className="flex w-full flex-col items-start">
         {timelineItems.map((item, index) => (
@@ -248,7 +219,7 @@ function ClosingCallout() {
 export default function ChurchStoryStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
-      <div className="mx-auto flex w-full max-w-[960px] flex-col items-start gap-[100px] px-4 pb-[200px] pt-[100px] md:px-8 lg:px-0">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[100px] pb-[200px] pt-[100px]">
         <BeginningSection />
         <div className="h-px w-full bg-[rgba(93,61,138,0.15)]" />
         <TimelineSection />

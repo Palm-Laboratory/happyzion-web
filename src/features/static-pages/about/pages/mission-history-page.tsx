@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SectionHeading from "@/components/section-heading";
 import MissionStickyGalleryRail from "@/features/static-pages/components/mission-sticky-gallery-rail";
 
 type MissionEntry = {
@@ -67,27 +68,6 @@ const MISSION_GALLERIES: MissionGallery[] = [
     ],
   },
 ];
-
-function MissionSectionTitle() {
-  return (
-    <div className="mb-[60px] flex w-full max-w-[540px] flex-col items-start gap-5">
-      <div className="flex items-center gap-3">
-        <span className="h-px w-[30px] bg-[#8b6db5]" />
-        <p className="font-serif text-xs font-normal uppercase leading-none tracking-[0.17em] text-[#8b6db5]">
-          Mission History
-        </p>
-      </div>
-      <div className="flex flex-col items-start gap-3">
-        <h2 className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.45] tracking-[0.01em] text-[#33103f] md:text-[36px]">
-          시온장로교회 선교 이력
-        </h2>
-        <p className="font-serif text-sm italic leading-none tracking-[0.2em] text-[#8b6db5]">
-          The Journey of Faith and Mission
-        </p>
-      </div>
-    </div>
-  );
-}
 
 function MissionTimelineItem({ item }: { item: MissionYear }) {
   const isGold = item.tone === "gold";
@@ -178,7 +158,12 @@ export default function MissionHistoryStaticPage() {
       <div className="section-shell section-shell--narrow">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,540px)_360px] lg:gap-[60px]">
           <section>
-            <MissionSectionTitle />
+            <SectionHeading
+              label="Mission History"
+              title="시온장로교회 선교 이력"
+              description="The Journey of Faith and Mission"
+              className="mb-[60px] max-w-[540px]"
+            />
             <div className="flex flex-col gap-[60px]">
               {MISSION_HISTORY.map((item) => (
                 <MissionTimelineItem item={item} key={item.year} />
