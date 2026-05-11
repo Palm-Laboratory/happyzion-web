@@ -68,7 +68,7 @@ function SectionTitle({ label, title, description }: SectionTitleProps) {
         <span className="h-px w-[30px] bg-[#8b6db5]" />
         <p
           className="text-center text-xs uppercase leading-3 tracking-[0.1667em] text-[#8b6db5]"
-          style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
         >
           {label}
         </p>
@@ -79,7 +79,7 @@ function SectionTitle({ label, title, description }: SectionTitleProps) {
         </h2>
         <p
           className="text-center text-sm italic leading-3 tracking-[0.2em] text-[#8b6db5]"
-          style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
         >
           {description}
         </p>
@@ -90,19 +90,21 @@ function SectionTitle({ label, title, description }: SectionTitleProps) {
 
 function FoundationCard() {
   return (
-    <aside className="relative h-auto min-h-[320px] w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
-      <p
-        className="text-center text-sm uppercase leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-      >
-        Church Foundation
-      </p>
-      <h3 className="font-hahmlet mt-2 whitespace-pre-line text-[24px] font-medium uppercase leading-[38px] tracking-[0.01em] text-white">
-        {"1997년 7월 1일\n신원당 시영아파트\n14평 가정교회"}
-      </h3>
-      <p className="font-hahmlet mt-2 whitespace-pre-line text-[18px] font-medium uppercase leading-[30px] tracking-[0.01em] text-white/70">
-        하나님의 부르심에 응답하여, 작은 가정에서 시작된 시온장로교회의 첫걸음
-      </p>
+    <aside className="relative h-auto min-h-[320px] w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-left text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
+      <div className="flex flex-col gap-4">
+        <p
+          className="text-left text-sm uppercase leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
+          style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        >
+          Church Foundation
+        </p>
+        <h3 className="font-hahmlet whitespace-pre-line text-[20px] font-medium uppercase leading-8 tracking-[0.01em] text-white">
+          {"1997년 7월 1일\n신원당 시영아파트 (14평 가정교회)"}
+        </h3>
+        <p className="font-suit whitespace-pre-line text-[18px] font-medium uppercase leading-[30px] tracking-[0.01em] text-white/70">
+          하나님의 부르심에 응답하여, 작은 가정에서 시작된 시온장로교회의 첫걸음
+        </p>
+      </div>
       <p
         className="pointer-events-none absolute bottom-0 right-0 translate-y-[0.14em] text-[120px] italic leading-[0.78] text-white/10 [font-variant-numeric:lining-nums_tabular-nums]"
         style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
@@ -163,13 +165,15 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
         isLast ? "" : "border-b border-[rgba(93,61,138,0.15)]"
       }`}
     >
-      <p className="font-suit text-xs font-normal uppercase leading-3 tracking-[0.1667em] text-[#c9a96e]">
-        {item.place}
-      </p>
-      <h3 className="font-hahmlet text-[24px] font-medium uppercase leading-[38px] tracking-[0.01em] text-[#33103f]">
-        {item.title}
-      </h3>
-      <p className="font-hahmlet text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
+      <div className="flex flex-col gap-2">
+        <p className="font-suit text-sm font-normal uppercase tracking-[0.1667em] text-[#c9a96e]">
+          {item.place}
+        </p>
+        <h3 className="font-hahmlet text-[24px] font-medium uppercase leading-[38px] tracking-[0.01em] text-[#33103f]">
+          {item.title}
+        </h3>
+      </div>
+      <p className="font-suit text-base font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
         {item.body}
       </p>
       {item.quote ? (
@@ -187,7 +191,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
         </blockquote>
       ) : null}
       {item.closing ? (
-        <p className="font-hahmlet text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
+        <p className="font-suit text-base font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
           {item.closing}
         </p>
       ) : null}
@@ -222,16 +226,16 @@ function ClosingCallout() {
       <div className="relative z-10 flex flex-col items-start gap-4">
         <p
           className="text-center text-sm leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
-          style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
         >
           God&apos;s Faithfulness
         </p>
-        <h2 className="font-hahmlet text-[28px] font-semibold leading-[1.5] tracking-[0.01em] text-white md:text-[32px] md:leading-[48px]">
+        <h2 className="font-hahmlet text-2xl font-semibold leading-10 tracking-[0.01em] text-white">
           부흥은 멀리 있지 않습니다.
           <br />
           당신이 여기 있는 것이, 그 시작입니다.
         </h2>
-        <p className="font-hahmlet text-[18px] font-medium leading-[30px] tracking-[0.01em] text-white/70">
+        <p className="font-hahmlet text-base font-medium leading-7 tracking-[0.01em] text-white/70">
           지난 30년의 걸음 하나하나가 하나님의 인도하심이었습니다.
           <br />
           작은 14평 가정에서 시작된 교회가 오늘도 사람을 살리는 사역을 이어가고 있습니다.
