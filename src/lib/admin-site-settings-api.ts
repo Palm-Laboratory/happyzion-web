@@ -29,6 +29,18 @@ export async function updateAdminMainVideoSetting(
   return response.json() as Promise<MainVideoSetting>;
 }
 
+export async function uploadAdminMainVideoSetting(file: File): Promise<MainVideoSetting> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await adminApiFetch("/api/v1/admin/site/main-video", {
+    method: "POST",
+    body: formData,
+  });
+
+  return response.json() as Promise<MainVideoSetting>;
+}
+
 export function toFriendlyAdminSiteSettingMessage(error: unknown, fallback: string): string {
   if (!(error instanceof AdminApiError)) {
     return fallback;

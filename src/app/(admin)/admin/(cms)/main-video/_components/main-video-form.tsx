@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import { useAdminToast } from "../../components/admin-toast-provider";
 
 interface MainVideoFormProps {
@@ -16,50 +16,85 @@ async function readErrorMessage(response: Response) {
   }
 }
 
-function isLikelyVideoUrl(value: string) {
-  return /^\/.+|^https?:\/\/.+/i.test(value.trim()) && !value.trim().startsWith("//");
-}
+const MAX_MAIN_VIDEO_BYTE_SIZE = 200 * 1024 * 1024;
+const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
 export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
   const { success, error: showError } = useAdminToast();
-  const [videoUrl, setVideoUrl] = useState(initialVideoUrl);
   const [savedVideoUrl, setSavedVideoUrl] = useState(initialVideoUrl);
-  const [isSaving, setIsSaving] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
-  const normalizedVideoUrl = videoUrl.trim();
-  const canPreview = useMemo(() => isLikelyVideoUrl(normalizedVideoUrl), [normalizedVideoUrl]);
-  const isDirty = normalizedVideoUrl !== savedVideoUrl;
+  const activePreviewUrl = useMemo(() => previewUrl ?? savedVideoUrl, [previewUrl, savedVideoUrl]);
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreviewUrl(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreviewUrl(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+
+    if (!file) {
+      setSelectedFile(null);
+      return;
+    }
+
+    if (!ALLOWED_VIDEO_MIME_TYPES.includes(file.type)) {
+      event.target.value = "";
+      setSelectedFile(null);
+      showError("MP4, WebM, MOV 영상만 업로드할 수 있습니다.");
+      return;
+    }
+
+    if (file.size > MAX_MAIN_VIDEO_BYTE_SIZE) {
+      event.target.value = "";
+      setSelectedFile(null);
+      showError("메인 영상은 200MB 이하로 업로드해 주세요.");
+      return;
+    }
+
+    setSelectedFile(file);
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!isLikelyVideoUrl(normalizedVideoUrl)) {
-      showError("메인 영상 URL은 /로 시작하는 경로 또는 http(s) URL이어야 합니다.");
+    if (!selectedFile) {
+      showError("업로드할 영상 파일을 선택해 주세요.");
       return;
     }
 
-    setIsSaving(true);
+    setIsUploading(true);
     try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
       const response = await fetch("/api/admin/site/main-video", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ videoUrl: normalizedVideoUrl }),
+        method: "POST",
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error((await readErrorMessage(response)) || "메인 영상 설정을 저장하지 못했습니다.");
+        throw new Error((await readErrorMessage(response)) || "메인 영상 업로드에 실패했습니다.");
       }
 
       const payload = (await response.json()) as { videoUrl: string };
       setSavedVideoUrl(payload.videoUrl);
-      setVideoUrl(payload.videoUrl);
-      success("메인 영상 설정을 저장했습니다.");
+      setSelectedFile(null);
+      success("메인 영상을 교체했습니다.");
     } catch (error) {
-      showError(error instanceof Error ? error.message : "메인 영상 설정을 저장하지 못했습니다.");
+      showError(error instanceof Error ? error.message : "메인 영상 업로드에 실패했습니다.");
     } finally {
-      setIsSaving(false);
+      setIsUploading(false);
     }
   };
 
@@ -71,41 +106,51 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
       >
         <div className="space-y-5">
           <div>
-            <label htmlFor="main-video-url" className="text-[13px] font-bold text-[#132033]">
-              영상 URL
+            <label htmlFor="main-video-file" className="text-[13px] font-bold text-[#132033]">
+              영상 파일
             </label>
             <input
-              id="main-video-url"
-              value={videoUrl}
-              onChange={(event) => setVideoUrl(event.target.value)}
-              placeholder="/video/sample.mp4"
-              className="mt-2 w-full rounded-lg border border-[#d6dfeb] px-3 py-2.5 text-[13px] text-[#132033] outline-none transition focus:border-[#3f74c7] focus:ring-2 focus:ring-[#3f74c7]/15"
+              id="main-video-file"
+              type="file"
+              accept="video/mp4,video/webm,video/quicktime"
+              onChange={handleFileChange}
+              className="mt-2 block w-full rounded-lg border border-[#d6dfeb] bg-white px-3 py-2.5 text-[13px] text-[#132033] file:mr-4 file:rounded-md file:border-0 file:bg-[#edf4ff] file:px-3 file:py-1.5 file:text-[12px] file:font-semibold file:text-[#3f74c7] hover:file:bg-[#dcecff]"
             />
             <p className="mt-2 text-[12px] text-[#6d7f95]">
-              공개 사이트에서 접근 가능한 MP4/WebM 경로나 URL을 입력하세요.
+              MP4, WebM, MOV 파일을 업로드할 수 있습니다. 최대 용량은 200MB입니다.
             </p>
           </div>
 
+          {selectedFile ? (
+            <div className="rounded-lg border border-[#d7e3f4] bg-[#f8fbff] p-4">
+              <p className="text-[12px] font-bold text-[#334155]">선택된 파일</p>
+              <p className="mt-1 break-all text-[13px] text-[#132033]">{selectedFile.name}</p>
+              <p className="mt-1 text-[12px] text-[#6d7f95]">
+                {(selectedFile.size / 1024 / 1024).toFixed(1)}MB
+              </p>
+            </div>
+          ) : null}
+
           <div className="rounded-lg border border-[#e7edf5] bg-[#f8fafc] p-4">
-            <p className="text-[12px] font-bold text-[#334155]">현재 저장된 값</p>
+            <p className="text-[12px] font-bold text-[#334155]">현재 공개 영상</p>
             <p className="mt-1 break-all font-mono text-[12px] text-[#5d6f86]">{savedVideoUrl}</p>
           </div>
 
           <div className="flex justify-end gap-2">
             <button
               type="button"
-              onClick={() => setVideoUrl(savedVideoUrl)}
-              disabled={!isDirty || isSaving}
+              onClick={() => setSelectedFile(null)}
+              disabled={!selectedFile || isUploading}
               className="rounded-lg border border-[#d6dfeb] px-4 py-2 text-[13px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
             >
-              되돌리기
+              선택 취소
             </button>
             <button
               type="submit"
-              disabled={!isDirty || isSaving}
+              disabled={!selectedFile || isUploading}
               className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-[#345f9f] disabled:cursor-not-allowed disabled:opacity-45"
             >
-              {isSaving ? "저장 중..." : "저장"}
+              {isUploading ? "업로드 중..." : "업로드 후 교체"}
             </button>
           </div>
         </div>
@@ -119,21 +164,15 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
           </span>
         </div>
         <div className="overflow-hidden rounded-lg bg-black">
-          {canPreview ? (
-            <video
-              key={normalizedVideoUrl}
-              className="aspect-video w-full object-contain"
-              src={normalizedVideoUrl}
-              controls
-              muted
-              playsInline
-              preload="metadata"
-            />
-          ) : (
-            <div className="flex aspect-video items-center justify-center px-6 text-center text-[13px] text-white/65">
-              영상 URL을 입력하면 미리보기가 표시됩니다.
-            </div>
-          )}
+          <video
+            key={activePreviewUrl}
+            className="aspect-video w-full object-contain"
+            src={activePreviewUrl}
+            controls
+            muted
+            playsInline
+            preload="metadata"
+          />
         </div>
       </section>
     </div>
