@@ -19,10 +19,13 @@ export default async function AdminMenuPage() {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "메뉴 관리" }]} />
+      <AdminBreadcrumb items={[{ label: "사이트 관리" }, { label: "메뉴 관리" }]} />
 
-      <div>
+      <div className="space-y-1">
         <h1 className="text-xl font-bold text-[#0f1c2e]">메뉴 관리</h1>
+        <p className="text-[13px] text-[#5d6f86]">
+          공개 사이트의 메뉴 그룹, 페이지 연결, 노출 상태와 순서를 관리합니다.
+        </p>
       </div>
 
       <MenuManagementClient

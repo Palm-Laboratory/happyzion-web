@@ -742,29 +742,6 @@ export default function MenuManagementClient({
 
   return (
     <div className="space-y-5">
-      <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-[13px] font-semibold text-[#132033]">
-              메뉴 구조 편집
-            </p>
-            <p className="mt-1 text-[12px] text-[#6d7f95]">
-              공개 사이트의 메뉴 그룹, 페이지 연결, 노출 상태와 순서를 관리합니다.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={changedMenuCount === 0 || saving}
-              className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
-            >
-              {saving ? "저장 중..." : `변경사항 저장${changedMenuCount > 0 ? ` (${changedMenuCount})` : ""}`}
-            </button>
-          </div>
-        </div>
-      </div>
-
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)]">
         <section className="flex max-h-[calc(100vh-220px)] min-h-[520px] flex-col rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
           <div className="flex items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
@@ -898,8 +875,16 @@ export default function MenuManagementClient({
         </section>
 
         <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
-          <div className="border-b border-[#edf2f7] px-5 py-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
             <h2 className="text-[14px] font-bold text-[#132033]">상세 편집</h2>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={changedMenuCount === 0 || saving}
+              className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
+            >
+              {saving ? "저장 중..." : `변경사항 저장${changedMenuCount > 0 ? ` (${changedMenuCount})` : ""}`}
+            </button>
           </div>
           <div className="space-y-4 px-5 py-5">
             {!selectedNode ? (
