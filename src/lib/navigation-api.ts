@@ -25,9 +25,10 @@ const FALLBACK_NAVIGATION_RESPONSE = {
       defaultLandingHref: "/about/greeting",
       items: [
         createStaticNavigationItem("greeting", "인사말", "/about/greeting", "about.greeting", true),
+        createStaticNavigationItem("church-story", "교회 이야기", "/about/church-story", "about.church-story"),
         createStaticNavigationItem("service-times", "예배시간 안내", "/about/service-times", "about.service-times"),
         createStaticNavigationItem("location", "오시는 길", "/about/location", "about.location"),
-        createStaticNavigationItem("history", "교회 연혁", "/about/history", "about.history"),
+        createStaticNavigationItem("mission-history", "선교 이력", "/about/mission-history", "about.mission-history"),
         createStaticNavigationItem("online-giving", "온라인 헌금", "/about/online-giving", "about.online-giving"),
       ],
     },

@@ -1,15 +1,17 @@
 import GreetingStaticPage from "@/features/static-pages/pages/greeting-page";
-import HistoryStaticPage from "@/features/static-pages/pages/history-page";
+import ChurchStoryStaticPage from "@/features/static-pages/pages/church-story";
 import LocationStaticPage from "@/features/static-pages/pages/location-page";
+import MissionHistoryStaticPage from "@/features/static-pages/pages/mission-history-page";
 import OnlineGivingStaticPage from "@/features/static-pages/pages/online-giving-page";
 import ServiceTimesStaticPage from "@/features/static-pages/pages/service-times-page";
 import type { StaticPageComponent, StaticPageKey } from "@/features/static-pages/types";
 
 const STATIC_PAGE_COMPONENTS: Record<StaticPageKey, StaticPageComponent> = {
   "about.greeting": GreetingStaticPage,
+  "about.church-story": ChurchStoryStaticPage,
   "about.service-times": ServiceTimesStaticPage,
   "about.location": LocationStaticPage,
-  "about.history": HistoryStaticPage,
+  "about.mission-history": MissionHistoryStaticPage,
   "about.online-giving": OnlineGivingStaticPage,
 };
 
