@@ -72,6 +72,17 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/main-video",
+        label: "메인 영상",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3 5a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 14 5v7a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 3 12V5Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="m7 6.5 3.25 2L7 10.5v-4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/videos",
         label: "영상",
         exact: false,

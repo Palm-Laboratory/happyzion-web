@@ -11,13 +11,15 @@ import MissionStorySection from "@/components/home/mission-story-section";
 import ScrollFadeGroup from "@/components/home/scroll-fade-group";
 import { createPageMetadata } from "@/lib/seo";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
+import { getPublicMainVideoSetting } from "@/lib/site-settings-api";
 
 export const metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
   path: "/",
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const mainVideo = await getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" }));
   const welcomeSectionVars = {
     "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
   } as CSSProperties;
@@ -66,7 +68,7 @@ export default function HomePage() {
           preload="metadata"
           aria-hidden="true"
         >
-          <source src="/video/sample.mp4" type="video/mp4" />
+          <source src={mainVideo.videoUrl} />
         </video>
         <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
         <div className="flex-1" />
