@@ -16,6 +16,80 @@ type NavItem = {
 
 const NAV_GROUPS = [
   {
+    label: "사이트 관리",
+    items: [
+      {
+        href: "/admin/main-video",
+        label: "메인 영상",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3 5a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 14 5v7a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 3 12V5Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="m7 6.5 3.25 2L7 10.5v-4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+          </svg>
+        ),
+      },
+      {
+        href: "/admin/menu",
+        label: "메뉴 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3 4.25h11M3 8.5h11M3 12.75h11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        href: "/admin/videos",
+        label: "영상 관리",
+        exact: false,
+        matchHrefs: ["/admin/videos/manage", "/admin/videos/sync"],
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M6 6.25h5M6 8.5h5M6 10.75h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+        children: [
+          {
+            href: "/admin/videos/manage",
+            label: "컨텐츠 관리",
+            exact: false,
+            matchHrefs: ["/admin/videos/manage"],
+          },
+          {
+            href: "/admin/videos/sync",
+            label: "영상 싱크",
+            exact: false,
+          },
+        ],
+      },
+      {
+        href: "/admin/boards",
+        label: "게시판 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M5.75 6.25h5.5M5.75 8.5h5.5M5.75 10.75h3.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        href: "/admin/accounts",
+        label: "관리자 계정",
+        exact: false,
+        requireSuperAdmin: true,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M8.5 9.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M3 14.3c.9-2 3.1-3.3 5.5-3.3s4.6 1.3 5.5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
     label: "교회 관리",
     items: [
       {
@@ -53,80 +127,6 @@ const NAV_GROUPS = [
             <path d="M3.25 4.5a1 1 0 0 1 1-1h8.5a1 1 0 0 1 1 1v8.25a1 1 0 0 1-1 1h-8.5a1 1 0 0 1-1-1V4.5Z" stroke="currentColor" strokeWidth="1.5" />
             <path d="M5.5 2.5v2M11.5 2.5v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="m6 9.5 1.5 1.5L11 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    label: "운영",
-    items: [
-      {
-        href: "/admin/menu",
-        label: "메뉴 관리",
-        exact: false,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M3 4.25h11M3 8.5h11M3 12.75h11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/main-video",
-        label: "메인 영상",
-        exact: false,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M3 5a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 14 5v7a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 3 12V5Z" stroke="currentColor" strokeWidth="1.5" />
-            <path d="m7 6.5 3.25 2L7 10.5v-4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/videos",
-        label: "영상",
-        exact: false,
-        matchHrefs: ["/admin/videos/manage", "/admin/videos/sync"],
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M6 6.25h5M6 8.5h5M6 10.75h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-        children: [
-          {
-            href: "/admin/videos/manage",
-            label: "영상 관리",
-            exact: false,
-            matchHrefs: ["/admin/videos/manage"],
-          },
-          {
-            href: "/admin/videos/sync",
-            label: "영상 싱크",
-            exact: false,
-          },
-        ],
-      },
-      {
-        href: "/admin/boards",
-        label: "게시판 관리",
-        exact: false,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M4 3.75h9a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7.5a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M5.75 6.25h5.5M5.75 8.5h5.5M5.75 10.75h3.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/accounts",
-        label: "관리자 계정",
-        exact: false,
-        requireSuperAdmin: true,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M8.5 9.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M3 14.3c.9-2 3.1-3.3 5.5-3.3s4.6 1.3 5.5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         ),
       },
