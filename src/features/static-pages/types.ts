@@ -7,6 +7,9 @@ export type StaticPageKey =
   | "about.service-times"
   | "about.location"
   | "about.mission-history"
-  | "about.online-giving";
+  | "about.online-giving"
+  | "discipleship.guide"
+  | "discipleship.care"
+  | "discipleship.training";
 
 export type StaticPageComponent = () => ReactNode;
