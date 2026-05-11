@@ -101,7 +101,7 @@ export default function JoinMissionSection() {
           </div>
 
           <div className="border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9">
-            <p className="type-body text-[#3c2348]">
+            <p className="type-body text-[#3c2348] lg:text-xl">
               주님을 깊이 알아가고, 성령 안에서 하나 되어
               <br />
               사랑의 공동체로 함께 이 길을 걷기를 소망합니다.

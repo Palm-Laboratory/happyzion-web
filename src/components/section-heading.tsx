@@ -17,7 +17,7 @@ function SectionHeadingEyebrow({ label }: { label: string }) {
     <div className="flex items-center gap-3">
       <span className="h-px w-[30px] shrink-0 bg-[#8b6db5]" />
       <p
-        className="text-xs uppercase leading-none tracking-[0.18em] text-[#8b6db5]"
+        className="text-sm uppercase leading-none tracking-[0.18em] text-[#8b6db5]"
         style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
       >
         {label}
@@ -36,7 +36,7 @@ function SectionHeadingTitle({
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.45] tracking-[0.01em] text-[#33103f] md:text-[36px] md:leading-[52px]">
+    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.45] tracking-[0.01em] text-[#33103f] md:text-[40px] md:leading-[52px]">
       {title}
     </TitleTag>
   );
@@ -45,7 +45,7 @@ function SectionHeadingTitle({
 function SectionHeadingDescription({ description }: { description: string }) {
   return (
     <p
-      className="mt-3 text-sm italic leading-none tracking-[0.2em] text-[#8b6db5]"
+      className="mt-3 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
       style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
     >
       {description}
