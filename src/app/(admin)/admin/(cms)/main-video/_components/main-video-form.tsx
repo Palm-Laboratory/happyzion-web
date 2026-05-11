@@ -1,23 +1,36 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { uploadAdminMainVideoDirect } from "@/lib/admin-upload-client";
 import { useAdminToast } from "../../components/admin-toast-provider";
 
 interface MainVideoFormProps {
   initialVideoUrl: string;
 }
 
-async function readErrorMessage(response: Response) {
-  try {
-    const payload = (await response.json()) as { message?: string };
-    return payload.message;
-  } catch {
-    return undefined;
-  }
-}
-
 const MAX_MAIN_VIDEO_BYTE_SIZE = 200 * 1024 * 1024;
 const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
+
+async function requestMainVideoUploadToken() {
+  const response = await fetch("/api/admin/uploads/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      kind: "MAIN_VIDEO",
+      maxByteSize: MAX_MAIN_VIDEO_BYTE_SIZE,
+      allowedMimeTypes: ALLOWED_VIDEO_MIME_TYPES,
+    }),
+  });
+  const payload = (await response.json()) as { rawToken?: string; message?: string };
+
+  if (!response.ok || !payload.rawToken) {
+    throw new Error(payload.message || "업로드 토큰을 발급하지 못했습니다.");
+  }
+
+  return payload.rawToken;
+}
 
 export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
   const { success, error: showError } = useAdminToast();
@@ -75,19 +88,16 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
 
     setIsUploading(true);
     try {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-
-      const response = await fetch("/api/admin/site/main-video", {
+      const rawToken = await requestMainVideoUploadToken();
+      const payload = await uploadAdminMainVideoDirect(selectedFile, rawToken);
+      const revalidateResponse = await fetch("/api/admin/site/main-video/revalidate", {
         method: "POST",
-        body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error((await readErrorMessage(response)) || "메인 영상 업로드에 실패했습니다.");
+      if (!revalidateResponse.ok) {
+        throw new Error("메인 영상 캐시를 갱신하지 못했습니다.");
       }
 
-      const payload = (await response.json()) as { videoUrl: string };
       setSavedVideoUrl(payload.videoUrl);
       setSelectedFile(null);
       success("메인 영상을 교체했습니다.");

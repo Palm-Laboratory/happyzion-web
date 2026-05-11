@@ -2,7 +2,7 @@ import "server-only";
 
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 
-export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT";
+export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
 
 export interface AdminUploadTokenRequest {
   kind: AdminUploadAssetKind;
@@ -18,9 +18,18 @@ export interface AdminUploadTokenResponse {
 const DEFAULT_MAX_BYTE_SIZE = 10_000_000;
 const INLINE_IMAGE_MIME_TYPES = ["image/png", "image/jpeg", "image/webp"];
 const FILE_ATTACHMENT_MIME_TYPES = [...INLINE_IMAGE_MIME_TYPES, "application/pdf"];
+const MAIN_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
 function defaultAllowedMimeTypes(kind: AdminUploadAssetKind) {
-  return kind === "INLINE_IMAGE" ? INLINE_IMAGE_MIME_TYPES : FILE_ATTACHMENT_MIME_TYPES;
+  if (kind === "INLINE_IMAGE") {
+    return INLINE_IMAGE_MIME_TYPES;
+  }
+
+  if (kind === "MAIN_VIDEO") {
+    return MAIN_VIDEO_MIME_TYPES;
+  }
+
+  return FILE_ATTACHMENT_MIME_TYPES;
 }
 
 function buildUploadTokenPayload(payload: AdminUploadTokenRequest) {

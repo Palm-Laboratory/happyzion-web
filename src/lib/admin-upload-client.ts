@@ -1,7 +1,7 @@
 import { joinApiUrl } from "@/lib/api-base-url";
 import { readPublicApiBaseUrlFromEnv } from "@/lib/api-env";
 
-export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT";
+export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
 
 export interface AdminUploadDirectRequest {
   file: File;
@@ -29,6 +29,10 @@ interface UploadAssetResponse {
   width?: number | null;
   height?: number | null;
   originalFilename?: string;
+}
+
+interface MainVideoUploadResponse {
+  videoUrl?: string;
 }
 
 function getApiBaseUrl() {
@@ -59,6 +63,29 @@ async function readErrorMessage(response: Response) {
   }
 }
 
+async function postDirectUploadForm(
+  baseUrl: string,
+  path: string,
+  rawToken: string,
+  formData: FormData,
+  fallbackMessage: string,
+) {
+  const response = await fetch(joinApiUrl(baseUrl, path), {
+    method: "POST",
+    headers: {
+      "X-Upload-Token": rawToken,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const upstreamMessage = await readErrorMessage(response);
+    throw new Error(upstreamMessage || `${fallbackMessage} (${response.status})`);
+  }
+
+  return response;
+}
+
 export async function uploadAdminAssetDirect(
   request: AdminUploadDirectRequest,
 ): Promise<AdminUploadAssetMetadata> {
@@ -67,18 +94,13 @@ export async function uploadAdminAssetDirect(
   formData.append("file", request.file);
   formData.append("kind", request.kind);
 
-  const response = await fetch(joinApiUrl(baseUrl, "/api/v1/admin/uploads"), {
-    method: "POST",
-    headers: {
-      "X-Upload-Token": request.rawToken,
-    },
-    body: formData,
-  });
-
-  if (!response.ok) {
-    const upstreamMessage = await readErrorMessage(response);
-    throw new Error(upstreamMessage || `파일 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요. (${response.status})`);
-  }
+  const response = await postDirectUploadForm(
+    baseUrl,
+    "/api/v1/admin/uploads",
+    request.rawToken,
+    formData,
+    "파일 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+  );
 
   const data = (await response.json()) as UploadAssetResponse;
   const assetId = requiredUploadMetadataValue(data.assetId ?? data.id);
@@ -94,4 +116,27 @@ export async function uploadAdminAssetDirect(
     height: data.height ?? undefined,
     originalFilename: data.originalFilename || request.file.name,
   };
+}
+
+export async function uploadAdminMainVideoDirect(file: File, rawToken: string): Promise<{ videoUrl: string }> {
+  const baseUrl = getApiBaseUrl();
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const response = await postDirectUploadForm(
+    baseUrl,
+    "/api/v1/admin/site/main-video",
+    rawToken,
+    formData,
+    "메인 영상 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.",
+  );
+
+  const data = (await response.json()) as MainVideoUploadResponse;
+  const videoUrl = data.videoUrl?.trim();
+
+  if (!videoUrl) {
+    throw new Error("메인 영상 업로드 응답에 영상 주소가 없습니다. 잠시 후 다시 시도해 주세요.");
+  }
+
+  return { videoUrl };
 }
