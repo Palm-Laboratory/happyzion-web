@@ -110,9 +110,9 @@ export default function JoinMissionSection() {
 
           <div className="grid gap-4 sm:grid-cols-3 min-[1281px]:w-fit">
             {[
-              { label: "service time", title: "예배안내", href: "/worship" },
-              { label: "newcomer", title: "새가족 안내", href: "/next-steps" },
-              { label: "way to church", title: "오시는 길", href: "#footer" },
+              { label: "service time", title: "예배안내", href: "/about/service-times" },
+              { label: "newcomer", title: "새가족 안내", href: "/discipleship/guide" },
+              { label: "way to church", title: "오시는 길", href: "/about/location" },
             ].map((item) => (
               <Link
                 key={item.title}

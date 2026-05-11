@@ -28,10 +28,10 @@ export default async function HomePage() {
     "--vision-right-follow": "clamp(0px, calc(80rem - 100vw), 45rem)",
   } as CSSProperties;
   const quickLinks = [
-    { label: "교회 소개", href: "/about", icon: "church" },
-    { label: "예배 안내", href: "/worship", icon: "time" },
-    { label: "새가족 안내", href: "/next-steps", icon: "person" },
-    { label: "오시는 길", href: "#footer", icon: "location" },
+    { label: "교회 소개", href: "/about/greeting", icon: "church" },
+    { label: "예배 안내", href: "/about/service-times", icon: "time" },
+    { label: "새가족 안내", href: "/discipleship/guide", icon: "person" },
+    { label: "오시는 길", href: "/about/location", icon: "location" },
   ] as const;
   const visionCards = [
     {
