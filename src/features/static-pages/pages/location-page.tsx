@@ -1,15 +1,18 @@
 import {
   CHURCH_ADDRESS,
   CHURCH_EMAIL,
+  CHURCH_LATITUDE_NUMBER,
+  CHURCH_LONGITUDE_NUMBER,
   CHURCH_PHONE,
+  KAKAO_MAP_URL,
+  NAVER_MAP_PUBLIC_CLIENT_ID,
+  NAVER_MAP_URL,
   SITE_NAME,
 } from "@/lib/site-config";
 import BulletItem from "@/components/bullet-item";
 import SectionHeading from "@/components/section-heading";
+import NaverDynamicMap from "../components/naver-dynamic-map";
 
-const mapQuery = encodeURIComponent(`${CHURCH_ADDRESS}`);
-const naverMapUrl = `https://map.naver.com/p/search/${mapQuery}`;
-const kakaoMapUrl = `https://map.kakao.com/link/search/${mapQuery}`;
 const churchPhoneHref = CHURCH_PHONE.replace(/[^\d+]/g, "");
 
 const busRoutes = [
@@ -35,20 +38,6 @@ function ExternalArrowIcon() {
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M7 17 17 7" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h8v8" />
-    </svg>
-  );
-}
-
-function LocationPinIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-12 w-12">
-      <path
-        d="M12 21s7-5.2 7-11.5A7 7 0 0 0 5 9.5C5 15.8 12 21 12 21Z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinejoin="round"
-      />
-      <circle cx="12" cy="9.5" r="2.4" stroke="currentColor" strokeWidth="1.8" />
     </svg>
   );
 }
@@ -113,17 +102,28 @@ export default function LocationStaticPage() {
           <LocationPageHeader />
 
           <div className="mt-10 overflow-hidden border border-cedar/12 bg-white">
-            <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden bg-[#f8fbff] px-5 py-12 md:min-h-[420px]">
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(42,79,143,0.09)_1px,transparent_1px),linear-gradient(90deg,rgba(42,79,143,0.09)_1px,transparent_1px)] bg-[size:36px_36px]" />
-              <div className="absolute left-1/2 top-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cedar/10 bg-white/50" />
-              <div className="relative z-10 w-full max-w-[28rem] rounded-[24px] border border-white/80 bg-white/90 px-5 py-6 text-center text-site-ink shadow-[0_18px_42px_rgba(16,33,63,0.16)] backdrop-blur-md md:px-8 md:py-7">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-cedar/8 text-cedar">
-                  <LocationPinIcon />
+            <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
+              <NaverDynamicMap
+                clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
+                latitude={CHURCH_LATITUDE_NUMBER}
+                longitude={CHURCH_LONGITUDE_NUMBER}
+                title={SITE_NAME}
+              />
+
+              <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
+                <div className="rounded-[14px] border border-white/70 bg-white/88 px-3 py-2 text-site-ink shadow-[0_12px_28px_rgba(16,33,63,0.14)] backdrop-blur-md md:hidden">
+                  <p className="text-center text-[0.8125rem] font-medium leading-6 text-site-ink/72">
+                    {CHURCH_ADDRESS}
+                  </p>
                 </div>
-                <h3 className="type-card-title mt-5 font-serif font-bold text-site-ink">
-                  {SITE_NAME}
-                </h3>
-                <p className="type-body mt-3 text-site-ink/72">{CHURCH_ADDRESS}</p>
+                <div className="hidden max-w-[20rem] rounded-[16px] border border-white/70 bg-white/88 px-4 py-3 text-site-ink shadow-[0_12px_28px_rgba(16,33,63,0.14)] backdrop-blur-md md:block">
+                  <h2 className="text-[1rem] font-bold leading-6 text-site-ink">
+                    {SITE_NAME}
+                  </h2>
+                  <p className="mt-1 text-[0.875rem] font-medium leading-6 text-site-ink/72">
+                    {CHURCH_ADDRESS}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -132,8 +132,8 @@ export default function LocationStaticPage() {
                 지도를 크게 확인하거나 길찾기를 시작하려면 아래 버튼을 사용해 주세요.
               </p>
               <div className="flex flex-wrap gap-2">
-                <MiniActionButton label="네이버 지도" href={naverMapUrl} />
-                <MiniActionButton label="카카오맵" href={kakaoMapUrl} />
+                <MiniActionButton label="네이버 지도" href={NAVER_MAP_URL} />
+                <MiniActionButton label="카카오맵" href={KAKAO_MAP_URL} />
               </div>
             </div>
           </div>
