@@ -27,14 +27,14 @@ const elderTeam = [
     role: "교회 전체 목회 및 선교",
   },
   {
-    label: "Elder",
-    name: "섬김의 동역자",
-    role: "예배와 공동체를 세우는 섬김",
+    label: "Evangelist",
+    name: "안승희 전도사",
+    role: "전도 및 교육 사역",
   },
   {
-    label: "Elder",
-    name: "행복한 동행",
-    role: "성도와 다음세대를 돌보는 사역",
+    label: "2040 Ministry",
+    name: "홍성철 목사",
+    role: "2040 다음세대 사역",
   },
 ];
 
@@ -133,7 +133,7 @@ function IntroSection() {
         />
 
         <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_325px] lg:items-start lg:gap-20">
-          <div>
+          <div className="flex flex-col gap-6">
             <div className="type-body flex max-w-[610px] flex-col gap-8 text-[#33103f]/78">
               <p>
                 행복이 가득한 시온교회는 사람 살리는 일에 최선을 다하는 교회입니다. 우리가
@@ -166,38 +166,35 @@ function IntroSection() {
 
 function PastorSection() {
   return (
-    <section className="bg-[#1f102f] py-16 text-white md:py-24">
-      <div className="section-shell section-shell--narrow grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center">
-        <div>
-          <p
-            className="type-card-label text-xs leading-none tracking-[0.2em] text-[#c9a96e]"
-            style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-          >
-            pastor&apos;s greeting
-          </p>
-          <h2 className="type-section-title mt-5 text-[28px] uppercase leading-[1.55] tracking-[0.01em] text-white md:text-[36px]">
-            행복이 가득한 시온장로교회에
-            <br />
-            오신 것을 환영합니다
-          </h2>
-          <div className="type-body-small mt-8 space-y-4 text-[15px] leading-[1.9] tracking-[0.01em] text-white/68">
+    <section className="bg-[#1f102f] py-16 text-white md:py-32">
+      <div className="section-shell section-shell--narrow grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
+        <div className="flex flex-col gap-[60px]">
+          <SectionHeading
+            label="pastor's greeting"
+            title={"행복이 가득한 시온장로교회에\n오신 것을 환영합니다"}
+            description="A Church Filled With Grace and Joy"
+            className="w-full max-w-none [&_h2]:whitespace-pre-line [&_h2]:text-white [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
+          />
+          <div className="type-body flex flex-col gap-8 text-white/68">
             <p>
-              하나님의 은혜 가운데 예배하고, 복음으로 살아가는 공동체로 여러분을 초대합니다.
-              우리 교회는 성령의 임재를 사모하며 말씀과 기도 안에서 한 영혼을 세워갑니다.
+              하나님은 프로그램이 아니라 사람을 찾으십니다. 화려한 무대가 아니라, 무릎 꿇은 한
+              사람의 기도를 찾으십니다. 저희 시온교회는 그 믿음 하나로 1997년 문을 열었습니다.
             </p>
             <p>
-              삶의 자리마다 주님의 사랑이 흘러가도록, 선교와 섬김으로 지역과 열방을 품는
-              교회가 되겠습니다.
+              지난 30년, 부흥을 구하며 기도했고, 성령의 일하심을 붙들며 이 자리까지
+              걸어왔습니다. 이제 우리의 눈은 다음세대 2040을 향합니다. 한 사람의 변화가 가정을
+              살리고, 교회를 깨우고, 이 세대를 바꿀 수 있기 때문입니다.
             </p>
-          </div>
-          <div className="type-caption mt-8 text-sm leading-7 text-[#c9a96e]">
-            <p>행복이가득한 시온장로교회</p>
-            <p className="font-semibold text-white/82">담임목사 박완섭</p>
+            <p>
+              하나님은 지금 이 순간도 말씀하십니다. &quot;내가 여기 있나이다&quot; — 라고 응답할
+              한 사람을 찾고 계십니다. 부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그
+              시작입니다.
+            </p>
           </div>
         </div>
 
-        <figure className="justify-self-center text-center">
-          <div className="relative h-[360px] w-[300px] overflow-hidden bg-[#2a1739] md:h-[420px] md:w-[340px]">
+        <figure className="flex h-full flex-col justify-self-center text-center">
+          <div className="relative h-full min-h-[360px] w-[300px] flex-1 overflow-hidden bg-[#2a1739] md:min-h-[420px] md:w-[340px]">
             <Image
               src="/images/static-pages/greeting-pastor.png"
               alt="박완섭 담임목사"
@@ -209,7 +206,7 @@ function PastorSection() {
           <figcaption className="mt-5">
             <p className="type-card-title text-base text-white md:text-base">박완섭 목사</p>
             <p
-              className="mt-1 text-xs text-[#c9a96e]"
+              className="type-caption mt-1 text-base italic text-[#c9a96e]"
               style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
             >
               Senior Pastor
@@ -223,12 +220,12 @@ function PastorSection() {
 
 function ElderTeamSection() {
   return (
-    <section className="bg-[#56305f] py-14 text-white md:py-20">
+    <section className="bg-[#56305f] py-16 text-white md:py-[7rem]">
       <div className="section-shell section-shell--narrow">
         <SectionHeading
-          label="serving elders"
+          label="church leaders"
           title="섬기는 이"
-          description="Servants in Christ"
+          description="Those Who Serve"
           className="[&_*]:text-white"
         />
 
@@ -236,7 +233,7 @@ function ElderTeamSection() {
           {elderTeam.map((person) => (
             <article
               key={`${person.label}-${person.name}`}
-              className="flex items-center gap-5 rounded border border-white/10 bg-white/[0.08] px-5 py-6"
+              className="flex items-center gap-5 rounded border border-white/10 bg-[#56385E] px-5 py-6"
             >
               <div className="h-[88px] w-[72px] shrink-0 bg-[#d2c5db]" />
               <div className="min-w-0">
@@ -249,7 +246,7 @@ function ElderTeamSection() {
                 <h3 className="type-card-title mt-3 text-lg leading-tight text-white md:text-lg">
                   {person.name}
                 </h3>
-                <p className="type-caption mt-3 text-sm leading-6 text-white/60">{person.role}</p>
+                <p className="type-caption mt-1 text-sm leading-6 text-white/60">{person.role}</p>
               </div>
             </article>
           ))}
