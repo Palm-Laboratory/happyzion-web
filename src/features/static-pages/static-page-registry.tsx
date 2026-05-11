@@ -5,10 +5,12 @@ import MissionHistoryStaticPage from "@/features/static-pages/pages/mission-hist
 import OnlineGivingStaticPage from "@/features/static-pages/pages/online-giving-page";
 import ServiceTimesStaticPage from "@/features/static-pages/pages/service-times-page";
 import type { StaticPageComponent, StaticPageKey } from "@/features/static-pages/types";
+import RevivalOrganizationStaticPage from "./pages/revival-organization";
 
 const STATIC_PAGE_COMPONENTS: Record<StaticPageKey, StaticPageComponent> = {
   "about.greeting": GreetingStaticPage,
   "about.church-story": ChurchStoryStaticPage,
+  "about.revival-organization": RevivalOrganizationStaticPage,
   "about.service-times": ServiceTimesStaticPage,
   "about.location": LocationStaticPage,
   "about.mission-history": MissionHistoryStaticPage,
