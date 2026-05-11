@@ -134,7 +134,7 @@ function IntroSection() {
 
         <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_325px] lg:items-start lg:gap-20">
           <div>
-            <div className="type-body max-w-[610px] space-y-4 text-[#33103f]/78">
+            <div className="type-body flex max-w-[610px] flex-col gap-8 text-[#33103f]/78">
               <p>
                 행복이 가득한 시온교회는 사람 살리는 일에 최선을 다하는 교회입니다. 우리가
                 믿는 복음이 진짜복음이라면 우리는 복음의 치료제를 가지고 죽어가는 영혼을 살리는
