@@ -178,9 +178,9 @@ function PastorSection() {
         <div className="flex flex-col gap-[60px]">
           <SectionHeading
             label="pastor's greeting"
-            title={"행복이 가득한 시온장로교회에\n오신 것을 환영합니다"}
+            title={"행복이 가득한 시온 장로교회에\n오신 것을 환영합니다"}
             description="A Church Filled With Grace and Joy"
-            className="w-full max-w-none [&_h2]:whitespace-pre-line [&_h2]:text-white [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
+            className="w-full max-w-none [&_h2]:whitespace-pre-line [&_h2]:text-white lg:[&_h2]:whitespace-pre [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
           />
           <div className="type-body flex flex-col gap-8 text-white/68">
             <p>
@@ -193,7 +193,7 @@ function PastorSection() {
               살리고, 교회를 깨우고, 이 세대를 바꿀 수 있기 때문입니다.
             </p>
             <p>
-              하나님은 지금 이 순간도 말씀하십니다. &quot;내가 여기 있나이다&quot; — 라고 응답할
+              하나님은 지금 이 순간도 말씀하십니다. &quot;내가 여기 있나이다&quot; — <br /> 라고 응답할
               한 사람을 찾고 계십니다. 부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그
               시작입니다.
             </p>
@@ -203,7 +203,7 @@ function PastorSection() {
         <figure className="flex h-full flex-col justify-self-center text-center">
           <div className="relative h-full min-h-[360px] w-[300px] flex-1 overflow-hidden bg-[#2a1739] md:min-h-[420px] md:w-[340px]">
             <Image
-              src="/images/static-pages/greeting-pastor.png"
+              src="/images/greeting/pastor_main.png"
               alt="박완섭 담임목사"
               fill
               sizes="(min-width: 768px) 340px, 300px"
