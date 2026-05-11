@@ -43,37 +43,44 @@ const ministryPrograms = [
     english: "Next Generation",
     title: "다음세대 2040",
     description: "미래 세대와 2040을 향한 집중적인 부흥 사역",
+    icon: "/images/static-pages/diversity_4.png",
   },
   {
     english: "Worship Ministry",
     title: "예배사역",
     description: "말씀과 기도 중심의 예배, 하나님의 임재를 경험하는 성령충만한 예배 공동체",
+    icon: "/images/static-pages/church.png",
   },
   {
     english: "Mission",
     title: "선교 사역",
     description:
-      "국내 미자립 교회 지원, 섬 선교, 필리핀과 미얀마 등 해외선교까지 이어가는 선교 사명",
+      "국내 미자립 교회 지원, 섬 선교, 필리핀·미얀마·태국·말레이시아 등 해외선교까지 — 변함없이 20년을 이어온 선교 사명",
+    icon: "/images/static-pages/globe_book.png",
   },
   {
     english: "Media & Culture",
     title: "미디어 · 문화사역",
     description: "찬양팀, 브라스밴드, 디지털 영상, SNS를 통한 복음의 문화적 확산",
+    icon: "/images/static-pages/subscriptions.png",
   },
   {
     english: "Training",
     title: "훈련사역",
     description: "소그룹과 제자양육으로 깊이 있는 신앙 성장을 이룹니다",
+    icon: "/images/static-pages/person_text.png",
   },
   {
     english: "Business Mission",
     title: "비즈니스선교",
     description: "만나쩝쩝, 경영컨설팅, 복음경제영성을 통한 일터 선교",
+    icon: "/images/static-pages/work.png",
   },
   {
     english: "Administration",
     title: "기획과 행정",
     description: "전문성과 투명성을 갖춘 교회 행정으로 신뢰의 공동체를 세웁니다",
+    icon: "/images/static-pages/browse.png",
   },
 ];
 
@@ -256,9 +263,84 @@ function ElderTeamSection() {
   );
 }
 
+function MinistryProgramCard({
+  program,
+  layout = "horizontal",
+  className = "",
+}: {
+  program: (typeof ministryPrograms)[number];
+  layout?: "horizontal" | "stacked";
+  className?: string;
+}) {
+  const isStacked = layout === "stacked";
+
+  return (
+    <article
+      className={`border border-[#5d3d8a]/20 bg-[#fefdff] ${isStacked ? "flex items-start justify-center px-7 py-9 md:px-10 md:py-11" : "flex items-center px-7 py-7 md:px-10 md:py-7"
+        } ${className}`}
+    >
+      <div className={isStacked ? "flex min-w-0 flex-col gap-9" : "flex min-w-0 gap-7"}>
+        <div className={isStacked ? "flex items-center gap-7" : "relative h-12 w-12 shrink-0"}>
+          {isStacked ? (
+            <>
+              <div className="relative h-12 w-12 shrink-0">
+                <Image
+                  src={program.icon}
+                  alt=""
+                  fill
+                  sizes="48px"
+                  className="object-contain"
+                />
+              </div>
+              <div className="min-w-0">
+                <p
+                  className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
+                  style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                >
+                  {program.english}
+                </p>
+                <h3 className="type-card-title mt-4 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+                  {program.title}
+                </h3>
+              </div>
+            </>
+          ) : (
+            <Image
+              src={program.icon}
+              alt=""
+              fill
+              sizes="48px"
+              className="object-contain"
+            />
+          )}
+        </div>
+
+        <div className="min-w-0">
+          {!isStacked && (
+            <>
+              <p
+                className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
+                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              >
+                {program.english}
+              </p>
+              <h3 className="type-card-title mt-4 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+                {program.title}
+              </h3>
+            </>
+          )}
+          <p className={`type-caption text-sm leading-[22px] tracking-[0.01em] text-[#7a6890] ${isStacked ? "" : "mt-4"}`}>
+            {program.description}
+          </p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function MinistryProgramSection() {
   return (
-    <section className="bg-[#fcf8ff] py-16 md:py-24">
+    <section className="bg-[#fcf8ff] py-16 md:pb-48 md:pt-32">
       <div className="section-shell section-shell--wide">
         <SectionHeading
           label="ministry program"
@@ -266,34 +348,36 @@ function MinistryProgramSection() {
           description="Key Ministry & Programs"
         />
 
-        <div className="mt-12 grid border-l border-t border-[#5d3d8a]/20 bg-white md:grid-cols-2 lg:grid-cols-3">
-          {ministryPrograms.map((program, index) => (
-            <article
-              key={program.title}
-              className={`min-h-[178px] border-b border-r border-[#5d3d8a]/20 p-7 md:p-9 ${index === 0 ? "bg-[#fefdff] lg:col-span-1" : "bg-white"
-                } ${index === ministryPrograms.length - 1 ? "lg:col-span-2" : ""}`}
-            >
-              <div className="flex gap-6">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#8b6db5]/10 text-sm font-semibold text-[#8b6db5]">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-                <div>
-                  <p
-                    className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
-                    style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-                  >
-                    {program.english}
-                  </p>
-                  <h3 className="type-card-title mt-4 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
-                    {program.title}
-                  </h3>
-                  <p className="type-caption mt-4 text-sm leading-[1.7] tracking-[0.01em] text-[#7a6890]">
-                    {program.description}
-                  </p>
-                </div>
-              </div>
-            </article>
-          ))}
+        <div className="mt-12 flex flex-col gap-0.5">
+          <div className="grid gap-0.5 xl:grid-cols-[549fr_649fr] xl:items-end">
+            <div className="flex flex-col gap-0.5 xl:h-[254px]">
+              <div className="h-24 bg-[#9A8CA7] xl:h-[108px]" />
+              <MinistryProgramCard program={ministryPrograms[0]} className="min-h-[146px] flex-1" />
+            </div>
+            <div className="grid gap-0.5 md:grid-cols-2 xl:h-[254px]">
+              <MinistryProgramCard
+                program={ministryPrograms[1]}
+                layout="stacked"
+                className="min-h-[220px] bg-white xl:min-h-0"
+              />
+              <MinistryProgramCard
+                program={ministryPrograms[2]}
+                layout="stacked"
+                className="min-h-[220px] bg-white xl:min-h-0"
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-0.5 md:grid-cols-3">
+            <MinistryProgramCard program={ministryPrograms[3]} className="min-h-[140px]" />
+            <MinistryProgramCard program={ministryPrograms[4]} className="min-h-[140px]" />
+            <MinistryProgramCard program={ministryPrograms[5]} className="min-h-[140px]" />
+          </div>
+
+          <div className="grid gap-0.5 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+            <MinistryProgramCard program={ministryPrograms[6]} className="min-h-[156px] md:py-9" />
+            <div className="min-h-[120px] bg-[#D2C5DB] lg:min-h-full" />
+          </div>
         </div>
       </div>
     </section>
