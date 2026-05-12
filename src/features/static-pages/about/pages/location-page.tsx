@@ -54,7 +54,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-small inline-flex items-center gap-2 rounded-full border border-cedar/15 bg-white px-4 py-2 font-semibold text-site-ink shadow-[0_10px_24px_rgba(16,33,63,0.08)] transition hover:-translate-y-0.5 hover:border-cedar/30 hover:text-cedar"
+      className="type-body-small inline-flex items-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -101,7 +101,7 @@ export default function LocationStaticPage() {
         <div className="section-shell section-shell--narrow relative py-12 md:py-16">
           <LocationPageHeader />
 
-          <div className="mt-10 overflow-hidden border border-cedar/12 bg-white">
+          <div className="mt-10 overflow-hidden border border-[#8b6db5]/15 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap
                 clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
@@ -111,24 +111,24 @@ export default function LocationStaticPage() {
               />
 
               <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
-                <div className="rounded-[14px] border border-white/70 bg-white/88 px-3 py-2 text-site-ink shadow-[0_12px_28px_rgba(16,33,63,0.14)] backdrop-blur-md md:hidden">
-                  <p className="text-center text-[0.8125rem] font-medium leading-6 text-site-ink/72">
+                <div className="rounded-[14px] border border-white/70 bg-white/88 px-3 py-2 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
+                  <p className="text-center text-[0.8125rem] font-medium leading-6 text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
-                <div className="hidden max-w-[20rem] rounded-[16px] border border-white/70 bg-white/88 px-4 py-3 text-site-ink shadow-[0_12px_28px_rgba(16,33,63,0.14)] backdrop-blur-md md:block">
-                  <h2 className="text-[1rem] font-bold leading-6 text-site-ink">
+                <div className="hidden max-w-[20rem] rounded-[16px] border border-white/70 bg-white/88 px-4 py-3 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:block">
+                  <h2 className="text-[1rem] font-bold leading-6 text-[#33103f]">
                     {SITE_NAME}
                   </h2>
-                  <p className="mt-1 text-[0.875rem] font-medium leading-6 text-site-ink/72">
+                  <p className="mt-1 text-[0.875rem] font-medium leading-6 text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-cedar/10 bg-[#f8fbff] px-4 py-4 md:px-6">
-              <p className="type-body-small text-site-ink/55">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#8b6db5]/12 bg-[#fcf8ff] px-4 py-4 md:px-6">
+              <p className="type-body-small text-[#33103f]/55">
                 지도를 크게 확인하거나 길찾기를 시작하려면 아래 버튼을 사용해 주세요.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -182,7 +182,7 @@ export default function LocationStaticPage() {
             <div className="overflow-x-auto border-x border-b border-t-[3px] border-cedar/15 border-t-site-ink bg-white">
               <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                 <thead>
-                  <tr className="border-b border-cedar/15 bg-[#fafcff]">
+                  <tr className="border-b border-cedar/15 bg-[#FAF7FF]">
                     <th className="type-label w-[24%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-site-ink/72 lg:px-6 lg:py-5">
                       구분
                     </th>

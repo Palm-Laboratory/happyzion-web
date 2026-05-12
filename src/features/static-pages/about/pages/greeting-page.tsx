@@ -46,7 +46,7 @@ const ministryPrograms = [
     icon: "/images/static-pages/diversity_4.png",
   },
   {
-    english: "Worship Ministry",
+    english: "Worship",
     title: "예배사역",
     description: "말씀과 기도 중심의 예배, 하나님의 임재를 경험하는 성령충만한 예배 공동체",
     icon: "/images/static-pages/church.png",
@@ -212,7 +212,7 @@ function PastorSection() {
             <p className="type-card-title text-base text-white md:text-base">박완섭 목사</p>
             <p
               className="type-caption mt-1 text-base italic text-[#c9a96e]"
-              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
             >
               Senior Pastor
             </p>
@@ -244,7 +244,7 @@ function ElderTeamSection() {
               <div className="min-w-0">
                 <p
                   className="type-card-label text-xs leading-none tracking-[0.16em] text-[#c9a96e]"
-                  style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   {person.label}
                 </p>
@@ -293,11 +293,11 @@ function MinistryProgramCard({
               <div className="min-w-0">
                 <p
                   className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
-                  style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   {program.english}
                 </p>
-                <h3 className="type-card-title mt-4 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+                <h3 className="type-card-title mt-2 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
                   {program.title}
                 </h3>
               </div>
@@ -318,11 +318,11 @@ function MinistryProgramCard({
             <>
               <p
                 className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
-                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
               >
                 {program.english}
               </p>
-              <h3 className="type-card-title mt-4 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+              <h3 className="type-card-title mt-2 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
                 {program.title}
               </h3>
             </>

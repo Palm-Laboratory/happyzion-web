@@ -18,7 +18,7 @@ function SectionHeadingEyebrow({ label }: { label: string }) {
       <span className="h-px w-[30px] shrink-0 bg-[#8b6db5]" />
       <p
         className="text-sm uppercase leading-none tracking-[0.18em] text-[#8b6db5]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
       >
         {label}
       </p>

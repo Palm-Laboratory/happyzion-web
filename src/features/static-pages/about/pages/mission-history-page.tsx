@@ -78,10 +78,10 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
   return (
     <article className="flex w-full flex-col gap-4">
       <header className="flex w-full items-end gap-5 border-b border-[#5d3d8a]/15 pb-3 text-left sm:gap-6">
-        <p className={`font-serif text-[32px] font-medium italic leading-none tracking-[0.01em] md:text-[36px] ${yearColor}`}>
+        <p className={`font-serif text-[32px] font-medium italic leading-none tracking-[0] md:text-[36px] ${yearColor}`}>
           {item.year}
         </p>
-        <p className={`pb-1 font-hahmlet text-xs font-normal leading-6 tracking-[0.01em] ${captionColor}`}>
+        <p className={`pb-1 font-hahmlet text-base font-normal leading-6 tracking-[0.01em] ${captionColor}`}>
           {item.caption}
         </p>
       </header>
@@ -91,12 +91,12 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
             className="flex min-h-[42px] items-center border-t border-[#5d3d8a]/5 py-2 first:border-t-0"
             key={`${item.year}-${entry.month}-${entry.place}`}
           >
-            <div className="w-[72px] shrink-0 pl-3 font-serif text-sm uppercase leading-[26px] tracking-[0.01em] text-[#8b6db5] sm:w-[84px]">
+            <div className="w-[72px] shrink-0 pl-3 font-cormorant-infant text-sm uppercase leading-[26px] tracking-[0.01em] text-[#8b6db5] sm:w-[84px]">
               {entry.month}
             </div>
             <div className="flex min-w-0 items-center gap-3">
               <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isGold ? "bg-[#c9a96e]" : isRed ? "bg-[#b73838]" : "bg-[#8b6db5]"}`} />
-              <p className="font-suit text-sm uppercase leading-[1.35] tracking-[0.01em] text-[#4a3b5e]">
+              <p className="font-suit text-base uppercase leading-[1.35] tracking-[0.01em] text-[#4a3b5e]">
                 {entry.place}
               </p>
               {entry.isFirst ? (
@@ -116,7 +116,7 @@ function MissionGalleryCard({ gallery }: { gallery: MissionGallery }) {
   return (
     <figure className="w-full overflow-hidden">
       <div className="flex h-10 items-center justify-between bg-[#1e1035] px-5 py-3">
-        <figcaption className="font-serif text-xs font-medium uppercase leading-none tracking-[0.01em] text-[#c9a96e]">
+        <figcaption className="font-cormorant-infant text-sm font-medium uppercase leading-none tracking-[0.01em] text-[#c9a96e]">
           {gallery.countries.join(" · ")}
         </figcaption>
         <span className="h-1 w-5 bg-[#c9a96e]" />

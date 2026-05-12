@@ -97,7 +97,7 @@ function ServiceTimesTable() {
         <tbody>
           {serviceTimes.map((service) => (
             <tr key={service.title} className="border-b border-cedar/15 last:border-b-0">
-              <td className="type-body-strong border-r border-cedar/15 px-4 py-5 text-center font-bold text-black lg:px-6 lg:py-6">
+              <td className="type-body-strong border-r border-cedar/15 px-4 py-5 text-center text-[18px] font-bold text-black lg:px-6 lg:py-6">
                 {service.title}
               </td>
               <td className="type-body border-r border-cedar/15 px-4 py-5 text-center font-medium text-black/88 lg:px-6 lg:py-6">

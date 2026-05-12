@@ -461,6 +461,8 @@ const personnelBars = [
   { label: "선교", count: "7명", value: 7 },
 ];
 
+const personnelTotalCount = 82;
+
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
@@ -595,7 +597,7 @@ function MinistryTeamsSection() {
               <div className="flex flex-col gap-3">
                 <p
                   className="text-base uppercase leading-[10px] tracking-[1px] text-[#c9a96e]"
-                  style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   {activeMinistry.number} ·{" "}
                   <span className="text-xs leading-3 tracking-[2px]">{activeMinistry.english}</span>
@@ -633,7 +635,7 @@ function MinistryTeamsSection() {
               <div className="flex flex-col gap-4 bg-[#1a1028] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
                 <p
                   className="text-xs uppercase leading-3 tracking-[2px] text-[#c9a96e]"
-                  style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   members
                 </p>
@@ -719,10 +721,12 @@ function RoadmapMonthCard({
 
 function SmallGroupSectionBlock({
   label,
+  meta,
   children,
   className = "",
 }: {
   label: string;
+  meta?: string;
   children: React.ReactNode;
   className?: string;
 }) {
@@ -733,6 +737,11 @@ function SmallGroupSectionBlock({
           {label}
         </p>
         <span className="h-px min-w-0 flex-1 bg-[#c5aee0]/45" />
+        {meta ? (
+          <p className="font-suit shrink-0 text-sm leading-3 tracking-[0.01em] text-[#ffd17d]">
+            {meta}
+          </p>
+        ) : null}
       </div>
       {children}
     </div>
@@ -860,8 +869,6 @@ function PersonnelTable() {
 }
 
 function PersonnelBars() {
-  const maxValue = Math.max(...personnelBars.map((bar) => bar.value));
-
   return (
     <div className="flex w-full flex-col gap-3">
       {personnelBars.map((bar) => (
@@ -873,7 +880,7 @@ function PersonnelBars() {
           <div className="h-[3px] w-full bg-[#c5aee0]/35">
             <div
               className="h-full bg-[#d79cff]"
-              style={{ width: `${(bar.value / maxValue) * 100}%` }}
+              style={{ width: `${(bar.value / personnelTotalCount) * 100}%` }}
             />
           </div>
         </div>
@@ -892,7 +899,7 @@ function PersonnelPlanContent() {
           <PersonnelTable />
         </SmallGroupSectionBlock>
 
-        <SmallGroupSectionBlock label="사역부별 인원 비중" className="md:pb-20">
+        <SmallGroupSectionBlock label="사역부별 인원 비중" meta="총 82명" className="md:pb-20">
           <PersonnelBars />
         </SmallGroupSectionBlock>
       </div>

@@ -145,16 +145,16 @@ export default function NaverDynamicMap({
 
   if (loadError) {
     return (
-      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#edf4ff_0%,#f8fbff_46%,#eef6ff_100%)]">
-        <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(42,79,143,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(42,79,143,0.08)_1px,transparent_1px)] [background-size:38px_38px]" />
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#f5f0f9_0%,#fcf8ff_46%,#efe7f5_100%)]">
+        <div className="absolute inset-0 opacity-70 [background-image:linear-gradient(to_right,rgba(139,109,181,0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(139,109,181,0.1)_1px,transparent_1px)] [background-size:38px_38px]" />
         <div className="relative z-10 flex max-w-[24rem] flex-col items-center px-6 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-cedar shadow-[0_18px_32px_rgba(16,33,63,0.12)]">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-[#8b6db5] shadow-[0_18px_32px_rgba(51,16,63,0.12)]">
             !
           </div>
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.26em] text-cedar/55">
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.26em] text-[#8b6db5]/60">
             Dynamic Map Unavailable
           </p>
-          <p className="mt-3 text-sm leading-7 text-site-ink/65 md:text-base">
+          <p className="mt-3 text-sm leading-7 text-[#33103f]/65 md:text-base">
             {loadError}
           </p>
         </div>

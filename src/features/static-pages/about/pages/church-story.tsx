@@ -63,7 +63,7 @@ function FoundationCard() {
       <div className="flex flex-col gap-4">
         <p
           className="text-left text-sm uppercase leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
-          style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
         >
           Church Foundation
         </p>

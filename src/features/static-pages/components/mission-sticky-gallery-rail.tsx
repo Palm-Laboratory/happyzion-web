@@ -45,7 +45,7 @@ function MissionGalleryCard({
       }`}
     >
       <div className="flex h-10 items-center justify-between bg-[#1e1035] px-5 py-3">
-        <figcaption className="font-serif text-xs font-medium uppercase leading-none tracking-[0.01em] text-[#c9a96e]">
+        <figcaption className="font-cormorant-infant text-sm font-medium uppercase leading-none tracking-[0.01em] text-[#c9a96e]">
           {gallery.countries.join(" · ")}
         </figcaption>
         <div className="flex items-center gap-2" aria-hidden="true">
