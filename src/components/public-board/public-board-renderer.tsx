@@ -167,7 +167,7 @@ function BoardSectionHeading({
         </p>
         <HeadingTag
           id={id}
-          className="type-section-title font-section-title font-bold tracking-[-0.02em] text-site-ink"
+          className="type-section-title font-hahmlet font-bold tracking-[-0.02em] text-site-ink"
         >
           {title}
         </HeadingTag>

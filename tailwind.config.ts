@@ -12,8 +12,6 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
         serif: ["var(--font-serif)", "serif"],
-        "section-title": ["var(--font-section-title)", "serif"],
-        yeongwol: ["var(--font-yeongwol)", "sans-serif"],
       },
       colors: {
         palette: {

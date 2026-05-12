@@ -1081,7 +1081,7 @@ export default function RevivalOrganizationStaticPage() {
       <VisionCoreValuesSection />
       <MinistryTeamsSection />
       <SmallGroupsMinistrySection />
-      <section className="bg-white pb-[200px]">
+      <section className="bg-[#fefbff] pb-[200px]">
         <div className="section-shell section-shell--narrow">
           <ClosingCallout />
         </div>

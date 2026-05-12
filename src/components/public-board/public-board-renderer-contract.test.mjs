@@ -113,7 +113,7 @@ test("public board renderer follows the shared section header and narrow content
   );
   assert.match(
     contents,
-    /type-section-title font-section-title font-bold tracking-\[-0\.02em\] text-site-ink/,
+    /type-section-title font-hahmlet font-bold tracking-\[-0\.02em\] text-site-ink/,
     "Expected public board headers to use the shared section title typography.",
   );
   assert.match(contents, /<h2\b/, "Expected public board content headers to use section-level h2 headings.");

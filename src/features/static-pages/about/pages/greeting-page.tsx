@@ -109,27 +109,25 @@ function VisionList() {
 
 function QuoteCard() {
   return (
-    <aside className="relative overflow-hidden rounded bg-[radial-gradient(circle_at_25%_28%,#2f1d47_0%,#1f1035_62%,#1b0d24_100%)] px-8 py-9 shadow-[0_18px_38px_rgba(31,16,53,0.18)] md:px-11 md:py-12">
-      <p className="type-section-subtitle relative z-10 text-[18px] uppercase leading-[2] tracking-[0.01em] text-white md:text-xl md:leading-[35px]">
+    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
         우리는 예수그리스도의 복음 때문에 교회가 세워졌고, 교회는 사람 살리는 사역을 위해
         최선을 다해 선교의 사명을 감당하고 있습니다.
       </p>
-      <p
-        className="pointer-events-none absolute left-5 top-0 text-[160px] leading-[160px] text-white/10"
-        style={{
-          fontFamily: "var(--font-cormorant-garamond), serif",
-          fontStyle: "normal",
-        }}
+      <span
+        className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
+        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        aria-hidden="true"
       >
         &quot;
-      </p>
+      </span>
     </aside>
   );
 }
 
 function IntroSection() {
   return (
-    <section id="greeting" className="section-shell py-14 md:py-20">
+    <section id="greeting" className="section-shell section-shell--narrow py-14 md:py-20">
       <div className="flex flex-col items-start gap-10 md:gap-12">
         <SectionHeading
           label="about the church"
@@ -174,7 +172,7 @@ function IntroSection() {
 function PastorSection() {
   return (
     <section className="bg-[#1f102f] py-16 text-white md:py-32">
-      <div className="section-shell grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
+      <div className="section-shell section-shell--narrow grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
         <div className="flex flex-col gap-[60px]">
           <SectionHeading
             label="pastor's greeting"
@@ -228,7 +226,7 @@ function PastorSection() {
 function ElderTeamSection() {
   return (
     <section className="bg-[#56305f] py-16 text-white md:py-[7rem]">
-      <div className="section-shell">
+      <div className="section-shell section-shell--narrow">
         <SectionHeading
           label="church leaders"
           title="섬기는 이"
@@ -341,7 +339,7 @@ function MinistryProgramCard({
 function MinistryProgramSection() {
   return (
     <section className="bg-[#fcf8ff] py-16 md:pb-48 md:pt-32">
-      <div className="section-shell section-shell--wide">
+      <div className="section-shell section-shell--narrow">
         <SectionHeading
           label="ministry program"
           title="사역적 핵심 프로그램"

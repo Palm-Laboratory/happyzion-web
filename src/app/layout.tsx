@@ -9,10 +9,6 @@ import {
   cormorantInfant,
   estonia,
   hahmlet,
-  nanumMyeongjo,
-  notoSansKr,
-  notoSerifKr,
-  yeongwol,
 } from "@/lib/fonts";
 
 export const viewport: Viewport = {
@@ -28,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${corinthia.variable} ${cormorant.variable} ${cormorantGaramond.variable} ${cormorantInfant.variable} ${estonia.variable} ${hahmlet.variable} ${notoSansKr.variable} ${notoSerifKr.variable} ${nanumMyeongjo.variable} ${yeongwol.variable} font-sans antialiased`}
+        className={`${corinthia.variable} ${cormorant.variable} ${cormorantGaramond.variable} ${cormorantInfant.variable} ${estonia.variable} ${hahmlet.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <SmoothScroll />
