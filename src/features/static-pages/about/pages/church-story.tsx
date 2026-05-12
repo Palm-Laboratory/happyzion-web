@@ -59,7 +59,7 @@ const timelineItems: TimelineItem[] = [
 
 function FoundationCard() {
   return (
-    <aside className="relative h-auto min-h-[320px] w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-left text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
+    <aside className="relative h-auto w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-left text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
       <div className="flex flex-col gap-4">
         <p
           className="text-left text-sm uppercase leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
@@ -87,7 +87,7 @@ function FoundationCard() {
 
 function BeginningSection() {
   return (
-    <section className="flex w-full flex-col items-start gap-[60px]">
+    <section className="flex w-full flex-col items-start gap-10 md:gap-[50px] lg:gap-[60px]">
       <SectionHeading
         label="The Beginning"
         title="교회 개척과 하나님의 인도하심"
@@ -171,7 +171,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
 
 function TimelineSection() {
   return (
-    <section className="flex w-full flex-col items-start gap-[60px]">
+    <section className="flex w-full flex-col items-start gap-10 md:gap-[50px] lg:gap-[60px]">
       <SectionHeading
         label="Church Timeline"
         title="걸어온 길"
@@ -219,7 +219,7 @@ function ClosingCallout() {
 export default function ChurchStoryStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[100px] pb-[200px] pt-[100px]">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px] pb-[200px] pt-[100px] md:gap-20 lg:gap-[100px]">
         <BeginningSection />
         <div className="h-px w-full bg-[rgba(93,61,138,0.15)]" />
         <TimelineSection />
