@@ -103,7 +103,7 @@ export default async function HomePage() {
                     gap: "calc(0.9rem * var(--welcome-scale))",
                   }}
                 >
-                  <p className="type-label text-[#5b3b63]">
+                  <p className="type-label font-cormorant-infant text-[#5b3b63]">
                     welcome
                   </p>
                   <div className="h-px w-[60px] bg-[#6d4f78]" />
@@ -180,8 +180,8 @@ export default async function HomePage() {
                         <div
                           className="absolute rounded-full bg-[rgba(220,206,228,1)]"
                           style={{
-                            bottom: "calc(-0.2rem * var(--welcome-scale))",
-                            left: "calc(-0.75rem * var(--welcome-scale))",
+                            bottom: "calc(-0.6rem * var(--welcome-scale))",
+                            left: "calc(-0.6rem * var(--welcome-scale))",
                             width: "calc(3rem * var(--welcome-scale))",
                             height: "calc(3rem * var(--welcome-scale))",
                           }}
@@ -203,8 +203,8 @@ export default async function HomePage() {
                             >
                               <path d="M14 52V28l18-12 18 12v24H14Z" />
                               <path d="M26 52V39h12v13" />
-                              <path d="M32 10v12" />
-                              <path d="M27 15h10" />
+                              <path d="M32 4v12" />
+                              <path d="M27 9h10" />
                               <circle cx="32" cy="29" r="2.4" fill="currentColor" stroke="none" />
                             </svg>
                           ) : item.icon === "time" ? (
@@ -297,7 +297,7 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p className="type-label text-[#4a2856]">
+                      <p className="type-label font-cormorant-infant text-[#4a2856]">
                         our vision
                       </p>
                       <div className="h-px w-[60px] bg-[#7a4f86]" />

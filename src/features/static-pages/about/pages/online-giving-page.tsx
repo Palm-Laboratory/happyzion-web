@@ -119,7 +119,7 @@ export default function OnlineGivingStaticPage() {
 
       <section className="overflow-hidden border border-[#8b6db5]/20 bg-white">
         <div className="px-6 py-7 md:px-10 md:py-9">
-          <p className="type-label font-semibold uppercase tracking-[0.28em] text-black/70">
+          <p className="type-label font-semibold uppercase tracking-[0.18em] text-black/70">
             입금자명 기재 방법
           </p>
 

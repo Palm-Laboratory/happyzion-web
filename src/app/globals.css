@@ -137,7 +137,7 @@ html.lenis body {
     line-height: 1.2;
     font-family: var(--font-hahmlet), var(--font-serif), serif;
     font-weight: 200;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
@@ -209,6 +209,10 @@ html.lenis body {
 
   .font-suit {
     font-family: "SUIT", var(--font-sans), sans-serif;
+  }
+
+  .font-cormorant-infant {
+    font-family: var(--font-cormorant-infant), serif;
   }
 
   .font-corinthia {

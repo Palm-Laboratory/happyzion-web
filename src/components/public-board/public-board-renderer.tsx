@@ -162,7 +162,7 @@ function BoardSectionHeading({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="type-label font-semibold uppercase tracking-[0.28em] text-site-gold">
+        <p className="type-label font-semibold uppercase tracking-[0.18em] text-site-gold">
           {label}
         </p>
         <HeadingTag

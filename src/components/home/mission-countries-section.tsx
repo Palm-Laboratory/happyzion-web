@@ -25,7 +25,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
     <div className={`flex flex-col items-center justify-center gap-16 text-center ${className}`}>
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
+          <p className="type-label font-cormorant-infant text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
             mission countries
           </p>
           <div className="h-px w-[60px] bg-[rgba(240,232,255,0.55)] min-[1300px]:bg-[#edaeff]" />
@@ -201,7 +201,7 @@ function MissionCountriesDesktop() {
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <div>
-              <p className="type-label text-[#f0e8ff]">
+              <p className="type-label font-cormorant-infant text-[#f0e8ff]">
                 mission countries
               </p>
               <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />

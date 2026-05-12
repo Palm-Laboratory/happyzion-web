@@ -108,7 +108,7 @@ test("public board renderer follows the shared section header and narrow content
   );
   assert.match(
     contents,
-    /type-label font-semibold uppercase tracking-\[0\.28em\] text-site-gold/,
+    /type-label font-semibold uppercase tracking-\[0\.18em\] text-site-gold/,
     "Expected public board headers to use the shared eyebrow typography.",
   );
   assert.match(

@@ -89,7 +89,7 @@ export default function JoinMissionSection() {
         >
           <div className="flex flex-col gap-6 md:gap-8">
             <div>
-              <p className="type-label text-[#3d1a46]">JOIN THE MISSION</p>
+              <p className="type-label font-cormorant-infant text-[#3d1a46]">JOIN THE MISSION</p>
               <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />
             </div>
 
@@ -119,7 +119,7 @@ export default function JoinMissionSection() {
                 href={item.href}
                 className="rounded-lg bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5 min-[1281px]:w-[var(--join-button-width)]"
               >
-                <p className="type-caption uppercase tracking-[0.12em] text-[#dfd6e5]">
+                <p className="type-caption font-cormorant-infant uppercase tracking-[0.12em] text-[#dfd6e5]">
                   {item.label}
                 </p>
                 <p className="type-button mt-2 text-white">{item.title}</p>

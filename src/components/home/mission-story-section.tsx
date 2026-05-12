@@ -80,7 +80,7 @@ function MissionStoryHeading() {
     <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
+          <p className="type-label font-cormorant-infant text-[#f0e8ff]">OUR MISSION</p>
           <div className="h-px w-16 bg-[rgba(240,232,255,0.55)]" />
         </div>
         <div className="flex flex-col items-center gap-3">
@@ -150,8 +150,9 @@ function MissionStorySectionMobile() {
           <p
             className="type-label-accent text-[#fffaf0]"
             style={{
-              fontFamily: "var(--font-cormorant-garamond)",
+              fontFamily: "var(--font-cormorant-infant)",
               fontStyle: "italic",
+              letterSpacing: "0.025em",
             }}
           >
             {activeStory.country.toUpperCase()}
@@ -409,8 +410,9 @@ function MissionStorySectionDesktop() {
                       key={`${story.id}-dial-country`}
                       className="type-label-accent flex h-10 items-center text-[#fffaf0]"
                       style={{
-                        fontFamily: "var(--font-cormorant-garamond)",
+                        fontFamily: "var(--font-cormorant-infant)",
                         fontStyle: "italic",
+                        letterSpacing: "0.025em",
                       }}
                     >
                       {story.country.toUpperCase()}
