@@ -380,7 +380,7 @@ html.lenis body {
   }
 
   .section-shell--narrow {
-    --section-shell-max-width: 980px;
+    --section-shell-max-width: 1040px;
   }
 
   .section-shell--wide {

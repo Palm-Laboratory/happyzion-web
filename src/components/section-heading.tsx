@@ -1,16 +1,16 @@
 /*
 페이지 섹션 별 헤딩 컴포넌트
 */
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 type SectionHeadingTitleTag = "h1" | "h2" | "h3";
 
 type SectionHeadingProps = {
   label: string;
-  title: string;
+  title: ReactNode;
   description?: string;
   titleAs?: SectionHeadingTitleTag;
-} & HTMLAttributes<HTMLDivElement>;
+} & Omit<HTMLAttributes<HTMLDivElement>, "title">;
 
 function SectionHeadingEyebrow({ label }: { label: string }) {
   return (
@@ -30,13 +30,13 @@ function SectionHeadingTitle({
   title,
   titleAs = "h2",
 }: {
-  title: string;
+  title: ReactNode;
   titleAs?: SectionHeadingTitleTag;
 }) {
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.45] tracking-[0.01em] text-[#33103f] md:text-[40px] md:leading-[52px]">
+    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.25] tracking-[0.01em] text-[#33103f] md:text-[40px] md:leading-[52px]">
       {title}
     </TitleTag>
   );
@@ -45,7 +45,7 @@ function SectionHeadingTitle({
 function SectionHeadingDescription({ description }: { description: string }) {
   return (
     <p
-      className="mt-3 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
+      className="mt-5 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
       style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
     >
       {description}

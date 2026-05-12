@@ -86,13 +86,13 @@ const ministryPrograms = [
 
 function VisionList() {
   return (
-    <div className="grid gap-4 sm:max-w-[360px]">
+    <div className="grid w-full gap-4">
       {visionItems.map((item) => (
         <article
           key={item.number}
-          className="relative overflow-hidden rounded border border-white/5 bg-[#403254] px-7 py-4 shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+          className="relative overflow-hidden rounded border border-white/5 bg-[#403254] px-7 py-[1.125rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
         >
-          <p className="type-card-label leading-none tracking-[0.18em] text-[#faf0ff]/30">
+          <p className="type-card-label whitespace-nowrap leading-none tracking-[0.18em] text-[#faf0ff]/30">
             {item.english}
           </p>
           <h3 className="type-card-title mt-1 text-lg leading-none tracking-[0.01em] text-[#f5f0f6] md:text-lg">
@@ -131,15 +131,15 @@ function IntroSection() {
       <div className="flex flex-col items-start gap-10 md:gap-12">
         <SectionHeading
           label="about the church"
-          title="교회는 사람을 살리는 곳입니다"
+          title={"교회는 사람을\n살리는 곳입니다"}
           description="A Church That Brings Life to People"
           titleAs="h2"
-          className="max-w-none"
+          className="max-w-none max-[430px]:[&_h2]:whitespace-pre-line min-[431px]:[&_h2]:whitespace-normal"
         />
 
-        <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1fr)_325px] lg:items-start lg:gap-20">
-          <div className="flex flex-col gap-6">
-            <div className="type-body flex max-w-[610px] flex-col gap-8 text-[#33103f]/78">
+        <div className="flex w-full flex-col gap-10">
+          <div className="grid w-full gap-10 min-[660px]:grid-cols-[minmax(0,1fr)_max-content] min-[660px]:items-start min-[660px]:gap-6 md:grid-cols-[minmax(0,1fr)_325px] md:gap-8 lg:gap-20">
+            <div className="type-body flex min-w-0 max-w-[610px] flex-col gap-8 text-[#33103f]/78">
               <p>
                 행복이 가득한 시온교회는 사람 살리는 일에 최선을 다하는 교회입니다. 우리가
                 믿는 복음이 진짜복음이라면 우리는 복음의 치료제를 가지고 죽어가는 영혼을 살리는
@@ -155,12 +155,16 @@ function IntroSection() {
               </p>
             </div>
 
-            <div className="mt-10 w-full">
-              <QuoteCard />
+            <div className="hidden w-full self-start justify-self-stretch min-[660px]:block min-[660px]:w-max min-[660px]:justify-self-end md:w-[325px]">
+              <VisionList />
             </div>
           </div>
 
-          <div className="self-start justify-self-center lg:justify-self-end">
+          <div className="w-full lg:max-w-[calc(100%-325px-5rem)]">
+            <QuoteCard />
+          </div>
+
+          <div className="w-full min-[660px]:hidden">
             <VisionList />
           </div>
         </div>
@@ -170,54 +174,69 @@ function IntroSection() {
 }
 
 function PastorSection() {
+  const heading = (
+    <SectionHeading
+      label="pastor's greeting"
+      title={
+        <>
+          행복이 가득한
+          <br className="hidden max-[430px]:block" /> 시온장로교회에
+          <br />
+          오신 것을 환영합니다
+        </>
+      }
+      description="A Church Filled With Grace and Joy"
+      className="w-full max-w-none [&_h2]:text-white [&>div:first-child_span]:bg-[#c9a96e] [&_p]:text-[#c9a96e]"
+    />
+  );
+
   return (
     <section className="bg-[#1f102f] py-16 text-white md:py-32">
-      <div className="section-shell section-shell--narrow grid gap-12 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-center lg:gap-20">
-        <div className="flex flex-col gap-[60px]">
-          <SectionHeading
-            label="pastor's greeting"
-            title={"행복이 가득한 시온 장로교회에\n오신 것을 환영합니다"}
-            description="A Church Filled With Grace and Joy"
-            className="w-full max-w-none [&_h2]:whitespace-pre-line [&_h2]:text-white lg:[&_h2]:whitespace-pre [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
-          />
-          <div className="type-body flex flex-col gap-8 text-white/68">
-            <p>
-              하나님은 프로그램이 아니라 사람을 찾으십니다. 화려한 무대가 아니라, 무릎 꿇은 한
-              사람의 기도를 찾으십니다. 저희 시온교회는 그 믿음 하나로 1997년 문을 열었습니다.
-            </p>
-            <p>
-              지난 30년, 부흥을 구하며 기도했고, 성령의 일하심을 붙들며 이 자리까지
-              걸어왔습니다. 이제 우리의 눈은 다음세대 2040을 향합니다. 한 사람의 변화가 가정을
-              살리고, 교회를 깨우고, 이 세대를 바꿀 수 있기 때문입니다.
-            </p>
-            <p>
-              하나님은 지금 이 순간도 말씀하십니다. &quot;내가 여기 있나이다&quot; — <br /> 라고 응답할
-              한 사람을 찾고 계십니다. 부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그
-              시작입니다.
-            </p>
-          </div>
-        </div>
+      <div className="section-shell section-shell--narrow flex flex-col gap-12">
+        <div className="min-[1280px]:hidden">{heading}</div>
 
-        <figure className="flex h-full flex-col justify-self-center text-center">
-          <div className="relative h-full min-h-[360px] w-[300px] flex-1 overflow-hidden bg-[#2a1739] md:min-h-[420px] md:w-[340px]">
-            <Image
-              src="/images/greeting/pastor_main.png"
-              alt="박완섭 담임목사"
-              fill
-              sizes="(min-width: 768px) 340px, 300px"
-              className="object-cover object-top"
-            />
+        <div className="grid gap-12 min-[660px]:grid-cols-[minmax(0,1fr)_300px] min-[660px]:items-center min-[660px]:gap-8 lg:gap-16 min-[1280px]:grid-cols-[minmax(0,1fr)_360px] min-[1280px]:gap-20">
+          <div className="flex flex-col gap-[60px]">
+            <div className="hidden min-[1280px]:block">{heading}</div>
+            <div className="type-body flex flex-col gap-8 text-white/68">
+              <p>
+                하나님은 프로그램이 아니라 사람을 찾으십니다. 화려한 무대가 아니라, 무릎 꿇은 한
+                사람의 기도를 찾으십니다. 저희 시온교회는 그 믿음 하나로 1997년 문을 열었습니다.
+              </p>
+              <p>
+                지난 30년, 부흥을 구하며 기도했고, 성령의 일하심을 붙들며 이 자리까지
+                걸어왔습니다. 이제 우리의 눈은 다음세대 2040을 향합니다. 한 사람의 변화가 가정을
+                살리고, 교회를 깨우고, 이 세대를 바꿀 수 있기 때문입니다.
+              </p>
+              <p>
+                하나님은 지금 이 순간도 말씀하십니다. &quot;내가 여기 있나이다&quot; — 라고 응답할
+                한 사람을 찾고 계십니다. 부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그
+                시작입니다.
+              </p>
+            </div>
           </div>
-          <figcaption className="mt-5">
-            <p className="type-card-title text-base text-white md:text-base">박완섭 목사</p>
-            <p
-              className="type-caption mt-1 text-base italic text-[#c9a96e]"
-              style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-            >
-              Senior Pastor
-            </p>
-          </figcaption>
-        </figure>
+
+          <figure className="flex h-full flex-col justify-self-center text-center min-[660px]:justify-self-end">
+            <div className="relative h-[360px] w-[300px] shrink-0 overflow-hidden bg-[#2a1739] min-[1280px]:h-full min-[1280px]:min-h-[420px] min-[1280px]:w-[340px] min-[1280px]:flex-1">
+              <Image
+                src="/images/greeting/pastor_main.png"
+                alt="박완섭 담임목사"
+                fill
+                sizes="(min-width: 768px) 340px, 300px"
+                className="object-cover object-top"
+              />
+            </div>
+            <figcaption className="mt-5">
+              <p className="type-card-title text-base text-white md:text-base">박완섭 목사</p>
+              <p
+                className="type-caption mt-1 text-base italic text-[#c9a96e]"
+                style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
+              >
+                Senior Pastor
+              </p>
+            </figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   );
@@ -226,19 +245,21 @@ function PastorSection() {
 function ElderTeamSection() {
   return (
     <section className="bg-[#56305f] py-16 text-white md:py-[7rem]">
-      <div className="section-shell section-shell--narrow">
-        <SectionHeading
-          label="church leaders"
-          title="섬기는 이"
-          description="Those Who Serve"
-          className="[&_*]:text-white"
-        />
+      <div className="section-shell section-shell--narrow min-[551px]:max-[880px]:grid min-[551px]:max-[880px]:grid-cols-[220px_minmax(0,1fr)] min-[551px]:max-[880px]:items-start min-[551px]:max-[880px]:gap-8">
+        <div>
+          <SectionHeading
+            label="church leaders"
+            title="섬기는 이"
+            description="Those Who Serve"
+            className="[&_*]:text-white"
+          />
+        </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="mt-10 grid min-w-0 gap-4 min-[881px]:grid-cols-3 min-[551px]:max-[880px]:mt-0">
           {elderTeam.map((person) => (
             <article
               key={`${person.label}-${person.name}`}
-              className="flex items-center gap-5 rounded border border-white/10 bg-[#56385E] px-5 py-6"
+              className="flex min-w-0 items-center gap-5 rounded border border-white/10 bg-[#56385E] px-5 py-6"
             >
               <div className="h-[88px] w-[72px] shrink-0 bg-[#d2c5db]" />
               <div className="min-w-0">
@@ -347,7 +368,7 @@ function MinistryProgramSection() {
         />
 
         <div className="mt-12 flex flex-col gap-0.5">
-          <div className="grid gap-0.5 xl:grid-cols-[549fr_649fr] xl:items-end">
+          <div className="hidden gap-0.5 xl:grid xl:grid-cols-[549fr_649fr] xl:items-end">
             <div className="flex flex-col gap-0.5 xl:h-[254px]">
               <div className="h-24 bg-[#9A8CA7] xl:h-[108px]" />
               <MinistryProgramCard program={ministryPrograms[0]} className="min-h-[146px] flex-1" />
@@ -366,13 +387,86 @@ function MinistryProgramSection() {
             </div>
           </div>
 
-          <div className="grid gap-0.5 md:grid-cols-3">
+          <div className="grid gap-0.5 min-[660px]:max-[767px]:hidden xl:hidden">
+            <div className="grid gap-0.5 md:grid-cols-[minmax(0,1.18fr)_minmax(0,1.82fr)] md:items-stretch">
+              <div className="flex flex-col gap-0.5">
+                <div className="h-32 bg-[#9A8CA7] max-[659px]:hidden" />
+                <MinistryProgramCard program={ministryPrograms[0]} className="min-h-[124px] flex-1" />
+              </div>
+              <div className="grid gap-0.5">
+                <MinistryProgramCard
+                  program={ministryPrograms[1]}
+                  className="bg-white"
+                />
+                <MinistryProgramCard
+                  program={ministryPrograms[2]}
+                  className="bg-white"
+                />
+              </div>
+            </div>
+
+            <div className="grid gap-0.5 md:grid-cols-2 min-[768px]:max-[880px]:hidden">
+              <MinistryProgramCard
+                program={ministryPrograms[3]}
+                className="min-h-[180px] bg-white"
+              />
+              <MinistryProgramCard
+                program={ministryPrograms[4]}
+                className="min-h-[180px] bg-white"
+              />
+            </div>
+          </div>
+
+          <div className="hidden gap-0.5 min-[660px]:max-[767px]:grid xl:hidden">
+            <div className="h-24 bg-[#9A8CA7]" />
+            <div className="grid grid-cols-2 gap-0.5">
+              <MinistryProgramCard program={ministryPrograms[1]} className="min-h-[164px] bg-white" />
+              <MinistryProgramCard program={ministryPrograms[0]} className="min-h-[164px] bg-white" />
+            </div>
+            <MinistryProgramCard program={ministryPrograms[2]} className="min-h-[164px] bg-white" />
+            <div className="grid grid-cols-2 gap-0.5">
+              <MinistryProgramCard program={ministryPrograms[3]} className="min-h-[164px] bg-white" />
+              <MinistryProgramCard program={ministryPrograms[4]} className="min-h-[164px] bg-white" />
+            </div>
+            <div className="grid grid-cols-2 gap-0.5">
+              <MinistryProgramCard program={ministryPrograms[5]} className="min-h-[164px] bg-white" />
+              <MinistryProgramCard program={ministryPrograms[6]} className="min-h-[164px] bg-white" />
+            </div>
+            <div className="h-24 bg-[#D2C5DB]" />
+          </div>
+
+          <div className="hidden gap-0.5 min-[768px]:max-[880px]:grid min-[768px]:max-[880px]:grid-cols-2 xl:hidden">
+            <div className="grid gap-0.5">
+              <MinistryProgramCard
+                program={ministryPrograms[3]}
+                className="min-h-[160px] bg-white"
+              />
+              <MinistryProgramCard program={ministryPrograms[5]} className="min-h-[140px]" />
+              <MinistryProgramCard program={ministryPrograms[6]} className="min-h-[156px] md:py-9" />
+            </div>
+            <div className="grid gap-0.5">
+              <MinistryProgramCard
+                program={ministryPrograms[4]}
+                className="min-h-[132px] bg-white"
+              />
+              <div className="min-h-[180px] bg-[#D2C5DB]" />
+            </div>
+          </div>
+
+          <div className="hidden gap-0.5 xl:grid xl:grid-cols-3">
             <MinistryProgramCard program={ministryPrograms[3]} className="min-h-[140px]" />
             <MinistryProgramCard program={ministryPrograms[4]} className="min-h-[140px]" />
             <MinistryProgramCard program={ministryPrograms[5]} className="min-h-[140px]" />
           </div>
+          <div className="grid gap-0.5 min-[660px]:max-[880px]:hidden md:grid-cols-3 xl:hidden">
+            <div className="contents min-[768px]:max-[880px]:grid min-[768px]:max-[880px]:gap-0.5">
+              <MinistryProgramCard program={ministryPrograms[5]} className="min-h-[140px]" />
+              <MinistryProgramCard program={ministryPrograms[6]} className="min-h-[156px] md:py-9" />
+            </div>
+            <div className="min-h-[120px] bg-[#D2C5DB] max-[659px]:hidden lg:min-h-full" />
+          </div>
 
-          <div className="grid gap-0.5 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+          <div className="hidden gap-0.5 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
             <MinistryProgramCard program={ministryPrograms[6]} className="min-h-[156px] md:py-9" />
             <div className="min-h-[120px] bg-[#D2C5DB] lg:min-h-full" />
           </div>
