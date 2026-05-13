@@ -1,6 +1,3 @@
-import { joinApiUrl, normalizeApiBaseUrl } from "@/lib/api-base-url";
-import { readPublicApiBaseUrlFromEnv } from "@/lib/api-env";
-
 export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
 
 export interface AdminUploadDirectRequest {
@@ -35,17 +32,27 @@ interface MainVideoUploadResponse {
   videoUrl?: string;
 }
 
-function getApiBaseUrl() {
-  const configuredBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+function normalizeConfiguredApiBaseUrl(value: string): string {
+  return value.trim().replace(/\/+$/, "");
+}
 
-  if (configuredBaseUrl?.trim()) {
-    return normalizeApiBaseUrl(configuredBaseUrl);
+function getApiBaseUrl() {
+  const configuredBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+
+  if (configuredBaseUrl) {
+    return normalizeConfiguredApiBaseUrl(configuredBaseUrl);
   }
 
-  return readPublicApiBaseUrlFromEnv({
-    NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_API_BASE_URL: configuredBaseUrl,
-  });
+  if (process.env.NODE_ENV !== "production") {
+    return "http://localhost:8080";
+  }
+
+  throw new Error("Public API base URL is required for direct uploads.");
+}
+
+function joinApiUrl(baseUrl: string, path: string): string {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizeConfiguredApiBaseUrl(baseUrl)}${normalizedPath}`;
 }
 
 function buildPublicUrl(baseUrl: string, storedPath: string) {

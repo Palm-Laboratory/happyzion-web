@@ -74,4 +74,9 @@ test("admin direct upload client statically reads the public API base URL for br
     /readPublicApiBaseUrlFromEnv\s*\(\s*process\.env\s*\)/,
     "Expected browser upload code not to pass process.env dynamically, which can fall back to localhost in client bundles.",
   );
+  assert.doesNotMatch(
+    contents,
+    /from\s+["']@\/lib\/api-(?:base-url|env)["']/,
+    "Expected browser upload code not to import shared API env helpers that carry server/local fallback behavior into client chunks.",
+  );
 });
