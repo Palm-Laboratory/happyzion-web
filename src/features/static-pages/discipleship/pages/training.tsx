@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import SectionHeading from "@/components/section-heading";
+import ApplyForm from "@/features/static-pages/discipleship/components/apply-form";
 import { cormorant } from "@/lib/fonts";
 
 const discipleshipPrinciples = [
@@ -506,57 +507,6 @@ function ScheduleCard({
         ))}
       </div>
     </article>
-  );
-}
-
-function ApplyForm() {
-  const inputClassName =
-    "apply-form-input h-9 w-full rounded-[5px] border border-white/10 bg-white/[0.06] px-5 font-suit text-sm text-white outline-none transition focus:border-[#d5b16c]/70";
-
-  return (
-    <form className="mt-8 grid w-full gap-4 rounded-[12px] bg-white/[0.04] px-6 py-7 md:mt-0 md:max-w-[294px]">
-      <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">이름</span>
-        <input className={inputClassName} type="text" name="name" placeholder="이름을 입력하세요" />
-      </label>
-
-      <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">연락처</span>
-        <input className={inputClassName} type="tel" name="phone" placeholder="연락처를 입력하세요" />
-      </label>
-
-      <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">이메일</span>
-        <input className={inputClassName} type="email" name="email" placeholder="이메일을 입력하세요" />
-      </label>
-
-      <fieldset className="grid gap-2">
-        <legend className="font-suit text-sm font-semibold leading-none text-white/70">희망 요일</legend>
-        <div className="flex gap-5 pt-2">
-          {["주일 반", "주중 반"].map((label, index) => (
-            <label
-              key={label}
-              className="font-suit flex items-center text-sm font-semibold leading-none text-white"
-            >
-              <input
-                className="mr-2 size-3.5 accent-[#d5b16c]"
-                type="radio"
-                name="time"
-                defaultChecked={index === 0}
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <button
-        type="button"
-        className="font-suit mt-1 h-10 rounded-[5px] bg-[rgb(228_185_107)] px-5 text-base font-bold text-[#33103f] transition hover:bg-[rgb(235_197_126)]"
-      >
-        신청하기
-      </button>
-    </form>
   );
 }
 
