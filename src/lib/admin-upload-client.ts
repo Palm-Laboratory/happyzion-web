@@ -1,4 +1,4 @@
-import { joinApiUrl } from "@/lib/api-base-url";
+import { joinApiUrl, normalizeApiBaseUrl } from "@/lib/api-base-url";
 import { readPublicApiBaseUrlFromEnv } from "@/lib/api-env";
 
 export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
@@ -36,7 +36,16 @@ interface MainVideoUploadResponse {
 }
 
 function getApiBaseUrl() {
-  return readPublicApiBaseUrlFromEnv(process.env);
+  const configuredBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  if (configuredBaseUrl?.trim()) {
+    return normalizeApiBaseUrl(configuredBaseUrl);
+  }
+
+  return readPublicApiBaseUrlFromEnv({
+    NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_API_BASE_URL: configuredBaseUrl,
+  });
 }
 
 function buildPublicUrl(baseUrl: string, storedPath: string) {
