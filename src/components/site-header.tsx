@@ -158,10 +158,22 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
           onClick={() => setIsMobileMenuOpen((current) => !current)}
         >
           <span className="sr-only">{isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}</span>
-          <span className="flex w-5 flex-col gap-1.5" aria-hidden="true">
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+          <span className="relative h-5 w-5" aria-hidden="true">
+            <span
+              className={`absolute left-0 top-[5px] h-px w-full origin-center bg-current transition-transform duration-200 ease-out ${
+                isMobileMenuOpen ? "translate-y-[5px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[10px] h-px w-full origin-center bg-current transition-[opacity,transform] duration-150 ease-out ${
+                isMobileMenuOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[15px] h-px w-full origin-center bg-current transition-transform duration-200 ease-out ${
+                isMobileMenuOpen ? "-translate-y-[5px] -rotate-45" : ""
+              }`}
+            />
           </span>
         </button>
 
