@@ -222,6 +222,26 @@ html.lenis body {
   .font-estonia {
     font-family: var(--font-estonia), cursive;
   }
+
+  .apply-form-input {
+    color-scheme: dark;
+  }
+
+  .apply-form-input::placeholder {
+    color: rgba(255, 252, 248, 0.42);
+    opacity: 1;
+  }
+
+  .apply-form-input:-webkit-autofill,
+  .apply-form-input:-webkit-autofill:hover,
+  .apply-form-input:-webkit-autofill:focus,
+  .apply-form-input:-webkit-autofill:active {
+    -webkit-text-fill-color: #ffffff;
+    caret-color: #ffffff;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.06) inset;
+    box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.06) inset;
+    transition: background-color 9999s ease-out;
+  }
 }
 
 @media (min-width: 670px) {
