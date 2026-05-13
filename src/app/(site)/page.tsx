@@ -21,7 +21,7 @@ export const metadata = createPageMetadata({
 export default async function HomePage() {
   const mainVideo = await getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" }));
   const welcomeSectionVars = {
-    "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
+    "--welcome-scale": "clamp(0.78, calc((100vh - 7rem) / 960px), 1)",
   } as CSSProperties;
   const visionSectionVars = {
     "--vision-column-gap": "clamp(0px, calc(100vw - 1550px), 200px)",
@@ -165,13 +165,13 @@ export default async function HomePage() {
                     }}
                   >
                     <div
-                      className="relative flex w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5 min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
+                      className="relative flex h-[6.875rem] w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5 min-[480px]:h-[7.5rem] min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
                       style={{
                         height: "calc(8.75rem * var(--welcome-scale))",
                       }}
                     >
                       <div
-                        className="relative"
+                        className="relative h-[3rem] w-[3rem] min-[480px]:h-[3.25rem] min-[480px]:w-[3.25rem]"
                         style={{
                           width: "calc(3.625rem * var(--welcome-scale))",
                           height: "calc(3.625rem * var(--welcome-scale))",
