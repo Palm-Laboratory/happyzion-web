@@ -25,6 +25,18 @@ ADMIN_SYNC_KEY=<happyzion_api ADMIN_SYNC_KEY와 동일한 값>
 ADMIN_SESSION_MAX_AGE_SECONDS=28800
 ```
 
+Production 기준 예시:
+
+```text
+API_BASE_URL=https://api.happyzion.com
+NEXT_PUBLIC_API_BASE_URL=https://api.happyzion.com
+NEXTAUTH_URL=https://www.happyzion.com
+NEXT_PUBLIC_SITE_URL=https://www.happyzion.com
+AUTH_SECRET=<strong-random-secret>
+ADMIN_SYNC_KEY=<happyzion_api ADMIN_SYNC_KEY와 동일한 값>
+ADMIN_SESSION_MAX_AGE_SECONDS=28800
+```
+
 아직 운영 API가 없다면 Preview에서는 `API_BASE_URL` 없이도 빌드가 통과합니다. 이 경우 공개 홈은 확인할 수 있지만, 관리자 CMS와 API 연동 기능은 실제 접근 가능한 `happyzion_api` URL을 설정하기 전까지 동작하지 않습니다.
 
 Production 배포에서는 `API_BASE_URL`과 `NEXT_PUBLIC_API_BASE_URL`이 필수입니다.

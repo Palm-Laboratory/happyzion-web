@@ -57,7 +57,7 @@ export default async function AdminMembersNewPage() {
             <Input name="phone" label="연락처" placeholder="010-0000-0000" />
             <Input name="emergencyPhone" label="비상 연락망" placeholder="010-0000-0000" />
             <Input name="emergencyRelation" label="비상 연락 관계" placeholder="예: 배우자" />
-            <Input name="email" label="이메일" placeholder="example@happyzion.org" />
+            <Input name="email" label="이메일" placeholder="example@happyzion.com" />
             <Input name="job" label="직업" placeholder="예: 초등학교 교사" />
             <div className="md:col-span-2">
               <Input name="address" label="주소" placeholder="카카오 주소 검색 연동 예정" />
