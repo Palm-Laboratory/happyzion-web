@@ -13,7 +13,7 @@ type SiteHeaderProps = {
 };
 
 export default function SiteHeader({ navigationItems = primaryNavigation }: SiteHeaderProps) {
-  const pathname = usePathname() ?? "/";
+  const pathname = usePathname() || "/";
   const [isVisible, setIsVisible] = useState(true);
   const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
