@@ -25,7 +25,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
     <div className={`flex flex-col items-center justify-center gap-16 text-center ${className}`}>
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
+          <p className="type-label font-cormorant-infant text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
             mission countries
           </p>
           <div className="h-px w-[60px] bg-[rgba(240,232,255,0.55)] min-[1300px]:bg-[#edaeff]" />
@@ -45,7 +45,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
           </div>
         </div>
       </div>
-      <div className="type-body text-[#fdf4ff]">
+      <div className="type-body text-[#fdf4ff] lg:text-xl">
         <p>필리핀부터 미얀마, 태국과 말레이시아까지,</p>
         <p>
           우리는 다양한 땅에서 복음을 전하며
@@ -201,7 +201,7 @@ function MissionCountriesDesktop() {
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <div>
-              <p className="type-label text-[#f0e8ff]">
+              <p className="type-label font-cormorant-infant text-[#f0e8ff]">
                 mission countries
               </p>
               <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />

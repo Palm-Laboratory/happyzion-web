@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { TransitionEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { missionStories } from "@/lib/site-data";
@@ -80,7 +81,7 @@ function MissionStoryHeading() {
     <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label text-[#f0e8ff]">OUR MISSION</p>
+          <p className="type-label font-cormorant-infant text-[#f0e8ff]">OUR MISSION</p>
           <div className="h-px w-16 bg-[rgba(240,232,255,0.55)]" />
         </div>
         <div className="flex flex-col items-center gap-3">
@@ -119,19 +120,29 @@ function MissionStorySectionMobile() {
     setTrackIndex((currentIndex) => currentIndex + direction);
   };
 
-  const handleTrackTransitionEnd = () => {
+  const handleTrackTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
     if (trackIndex === 0) {
       setIsTrackResetting(true);
       setTrackIndex(missionStories.length);
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         setIsTrackResetting(false);
-      });
-    } else if (trackIndex === missionStories.length + 1) {
+        setIsSliding(false);
+      }, 50);
+      return;
+    }
+
+    if (trackIndex === missionStories.length + 1) {
       setIsTrackResetting(true);
       setTrackIndex(1);
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         setIsTrackResetting(false);
-      });
+        setIsSliding(false);
+      }, 50);
+      return;
     }
 
     setIsSliding(false);
@@ -150,8 +161,9 @@ function MissionStorySectionMobile() {
           <p
             className="type-label-accent text-[#fffaf0]"
             style={{
-              fontFamily: "var(--font-cormorant-garamond)",
+              fontFamily: "var(--font-cormorant-infant)",
               fontStyle: "italic",
+              letterSpacing: "0.025em",
             }}
           >
             {activeStory.country.toUpperCase()}
@@ -188,7 +200,7 @@ function MissionStorySectionMobile() {
             </div>
 
             <div className="mt-10 w-full text-left">
-              <p className="type-body text-[#f0e8ff]">{activeStory.message}</p>
+              <p className="type-body text-[#f0e8ff] lg:text-xl lg:leading-8">{activeStory.message}</p>
             </div>
           </div>
         </div>
@@ -200,7 +212,7 @@ function MissionStorySectionMobile() {
             onClick={() => {
               navigate(-1);
             }}
-            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
           >
             <svg
               viewBox="0 0 24 24"
@@ -238,7 +250,7 @@ function MissionStorySectionMobile() {
             onClick={() => {
               navigate(1);
             }}
-            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
           >
             <svg
               viewBox="0 0 24 24"
@@ -357,9 +369,9 @@ function MissionStorySectionDesktop() {
                 return (
                   <p
                     key={`desktop-story-message-${index + 1}`}
-                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out"
+                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out lg:text-xl"
                     style={{
-                      fontSize: viewportWidth >= 2000 ? "1.5rem" : undefined,
+                      lineHeight: "36px",
                       opacity: visible ? 1 : 0,
                     }}
                   >
@@ -409,8 +421,9 @@ function MissionStorySectionDesktop() {
                       key={`${story.id}-dial-country`}
                       className="type-label-accent flex h-10 items-center text-[#fffaf0]"
                       style={{
-                        fontFamily: "var(--font-cormorant-garamond)",
+                        fontFamily: "var(--font-cormorant-infant)",
                         fontStyle: "italic",
+                        letterSpacing: "0.025em",
                       }}
                     >
                       {story.country.toUpperCase()}

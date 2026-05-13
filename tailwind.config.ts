@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -11,8 +12,6 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],
         serif: ["var(--font-serif)", "serif"],
-        "section-title": ["var(--font-section-title)", "serif"],
-        yeongwol: ["var(--font-yeongwol)", "sans-serif"],
       },
       colors: {
         palette: {
@@ -31,6 +30,9 @@ const config: Config = {
         sage: "#7c9a7e",
         sand: "#d7c7a1",
         gold: "#c7a45f",
+        cedar: "#2a4f8f",
+        themeBlue: "#1c2f48",
+        "site-ink": "#10213f",
       },
       boxShadow: {
         soft: "0 14px 40px rgba(31, 43, 36, 0.12)",

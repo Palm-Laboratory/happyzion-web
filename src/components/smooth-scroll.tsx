@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 export default function SmoothScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (pathname?.startsWith("/admin")) {
+      return;
+    }
+
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const root = document.documentElement;
     const setScrollVars = (scrollY: number, limit: number, velocity: number) => {
@@ -63,7 +70,7 @@ export default function SmoothScroll() {
       }
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

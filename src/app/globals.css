@@ -35,6 +35,8 @@ html {
 }
 
 body {
+  --font-sans: "SUIT";
+  --font-serif: var(--font-hahmlet);
   margin: 0;
   min-height: 100vh;
   background: var(--color-background);
@@ -123,12 +125,19 @@ html.lenis body {
     letter-spacing: 0.01em;
   }
 
+  .type-body-small {
+    font-size: 0.9375rem;
+    line-height: 1.76;
+    font-family: "SUIT", var(--font-sans), sans-serif;
+    letter-spacing: 0.01em;
+  }
+
   .type-label {
     font-size: 0.75rem;
     line-height: 1.2;
     font-family: var(--font-hahmlet), var(--font-serif), serif;
     font-weight: 200;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
@@ -200,6 +209,10 @@ html.lenis body {
 
   .font-suit {
     font-family: "SUIT", var(--font-sans), sans-serif;
+  }
+
+  .font-cormorant-infant {
+    font-family: var(--font-cormorant-infant), serif;
   }
 
   .font-corinthia {
@@ -288,10 +301,6 @@ html.lenis body {
     font-size: 1.75rem;
   }
 
-  .type-body {
-    font-size: 1.25rem;
-  }
-
   .type-section-title {
     font-size: 3.5rem;
   }
@@ -327,4 +336,76 @@ html.lenis body {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 본문 컨텐츠 섹션 쉘 */
+.section-shell {
+  --section-shell-max-width: 1120px;
+  width: 100%;
+  max-width: var(--section-shell-max-width);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.section-shell--narrow {
+  --section-shell-max-width: 920px;
+}
+
+.section-shell--wide {
+  --section-shell-max-width: 1280px;
+}
+
+.section-shell--full {
+  --section-shell-max-width: none;
+}
+
+@media (min-width: 768px) {
+  .section-shell {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-shell {
+    --section-shell-max-width: 1200px;
+  }
+
+  .section-shell--narrow {
+    --section-shell-max-width: 1040px;
+  }
+
+  .section-shell--wide {
+    --section-shell-max-width: 1360px;
+  }
+
+  .section-shell--full {
+    --section-shell-max-width: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .section-shell {
+    --section-shell-max-width: 1400px;
+  }
+
+  .section-shell--narrow {
+    --section-shell-max-width: 1040px;
+  }
+
+  .section-shell--wide {
+    --section-shell-max-width: 1480px;
+  }
+
+  .section-shell--full {
+    --section-shell-max-width: none;
+  }
 }

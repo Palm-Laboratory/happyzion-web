@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import BackgroundStage from "@/components/home/background-stage";
@@ -7,17 +8,18 @@ import MissionCtaSection from "@/components/home/mission-cta-section";
 import MissionCountriesSection from "@/components/home/mission-countries-section";
 import VisionMobileGallery from "@/components/home/vision-mobile-gallery";
 import MissionStorySection from "@/components/home/mission-story-section";
-import PreparedPageLink from "@/components/prepared-page-link";
 import ScrollFadeGroup from "@/components/home/scroll-fade-group";
 import { createPageMetadata } from "@/lib/seo";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
+import { getPublicMainVideoSetting } from "@/lib/site-settings-api";
 
 export const metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
   path: "/",
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  const mainVideo = await getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" }));
   const welcomeSectionVars = {
     "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
   } as CSSProperties;
@@ -26,10 +28,10 @@ export default function HomePage() {
     "--vision-right-follow": "clamp(0px, calc(80rem - 100vw), 45rem)",
   } as CSSProperties;
   const quickLinks = [
-    { label: "교회 소개", href: "/about", icon: "church" },
-    { label: "예배 안내", href: "/worship", icon: "time" },
-    { label: "새가족 안내", href: "/next-steps", icon: "person" },
-    { label: "오시는 길", href: "#footer", icon: "location" },
+    { label: "교회 소개", href: "/about/greeting", icon: "church" },
+    { label: "예배 안내", href: "/about/service-times", icon: "time" },
+    { label: "새가족 안내", href: "/discipleship/guide", icon: "person" },
+    { label: "오시는 길", href: "/about/location", icon: "location" },
   ] as const;
   const visionCards = [
     {
@@ -66,7 +68,7 @@ export default function HomePage() {
           preload="metadata"
           aria-hidden="true"
         >
-          <source src="/video/sample.mp4" type="video/mp4" />
+          <source src={mainVideo.videoUrl} />
         </video>
         <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
         <div className="flex-1" />
@@ -101,7 +103,7 @@ export default function HomePage() {
                     gap: "calc(0.9rem * var(--welcome-scale))",
                   }}
                 >
-                  <p className="type-label text-[#5b3b63]">
+                  <p className="type-label font-cormorant-infant text-[#5b3b63]">
                     welcome
                   </p>
                   <div className="h-px w-[60px] bg-[#6d4f78]" />
@@ -154,7 +156,7 @@ export default function HomePage() {
                 }}
               >
                 {quickLinks.map((item) => (
-                  <PreparedPageLink
+                  <Link
                     key={item.label}
                     href={item.href}
                     className="group flex w-full flex-col items-center min-[840px]:w-auto"
@@ -178,8 +180,8 @@ export default function HomePage() {
                         <div
                           className="absolute rounded-full bg-[rgba(220,206,228,1)]"
                           style={{
-                            bottom: "calc(-0.2rem * var(--welcome-scale))",
-                            left: "calc(-0.75rem * var(--welcome-scale))",
+                            bottom: "calc(-0.6rem * var(--welcome-scale))",
+                            left: "calc(-0.6rem * var(--welcome-scale))",
                             width: "calc(3rem * var(--welcome-scale))",
                             height: "calc(3rem * var(--welcome-scale))",
                           }}
@@ -201,8 +203,8 @@ export default function HomePage() {
                             >
                               <path d="M14 52V28l18-12 18 12v24H14Z" />
                               <path d="M26 52V39h12v13" />
-                              <path d="M32 10v12" />
-                              <path d="M27 15h10" />
+                              <path d="M32 4v12" />
+                              <path d="M27 9h10" />
                               <circle cx="32" cy="29" r="2.4" fill="currentColor" stroke="none" />
                             </svg>
                           ) : item.icon === "time" ? (
@@ -273,7 +275,7 @@ export default function HomePage() {
                     <p className="type-button text-[#341939]">
                       {item.label}
                     </p>
-                  </PreparedPageLink>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -295,7 +297,7 @@ export default function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p className="type-label text-[#4a2856]">
+                      <p className="type-label font-cormorant-infant text-[#4a2856]">
                         our vision
                       </p>
                       <div className="h-px w-[60px] bg-[#7a4f86]" />

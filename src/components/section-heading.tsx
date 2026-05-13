@@ -1,15 +1,73 @@
-type SectionHeadingProps = {
-  eyebrow: string;
-  title: string;
-  body?: string;
-};
+/*
+페이지 섹션 별 헤딩 컴포넌트
+*/
+import type { HTMLAttributes, ReactNode } from "react";
 
-export default function SectionHeading({ eyebrow, title, body }: SectionHeadingProps) {
+type SectionHeadingTitleTag = "h1" | "h2" | "h3";
+
+type SectionHeadingProps = {
+  label: string;
+  title: ReactNode;
+  description?: ReactNode;
+  titleAs?: SectionHeadingTitleTag;
+} & Omit<HTMLAttributes<HTMLDivElement>, "title">;
+
+function SectionHeadingEyebrow({ label }: { label: string }) {
   return (
-    <div className="max-w-3xl space-y-3">
-      <p className="text-sm font-semibold uppercase tracking-[0.22em] text-forest/60">{eyebrow}</p>
-      <h2 className="type-section-title text-ink">{title}</h2>
-      {body ? <p className="type-body text-ink/72">{body}</p> : null}
+    <div className="flex items-start gap-3">
+      <span className="mt-[8px] h-px w-[30px] shrink-0 bg-[#8b6db5]" />
+      <p
+        className="text-sm uppercase leading-[1.125rem] tracking-[0.18em] text-[#8b6db5]"
+        style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
+function SectionHeadingTitle({
+  title,
+  titleAs = "h2",
+}: {
+  title: ReactNode;
+  titleAs?: SectionHeadingTitleTag;
+}) {
+  const TitleTag = titleAs;
+
+  return (
+    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.25] tracking-[0.01em] text-[#33103f] md:text-[40px] md:leading-[52px]">
+      {title}
+    </TitleTag>
+  );
+}
+
+function SectionHeadingDescription({ description }: { description: ReactNode }) {
+  return (
+    <p
+      className="mt-2 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
+      style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
+    >
+      {description}
+    </p>
+  );
+}
+
+export default function SectionHeading({
+  label,
+  title,
+  description,
+  titleAs = "h2",
+  className,
+  ...props
+}: SectionHeadingProps) {
+  return (
+    <div className={`max-w-[468px] ${className ?? ""}`} {...props}>
+      <SectionHeadingEyebrow label={label} />
+      <div className="mt-5">
+        <SectionHeadingTitle title={title} titleAs={titleAs} />
+        {description ? <SectionHeadingDescription description={description} /> : null}
+      </div>
     </div>
   );
 }
