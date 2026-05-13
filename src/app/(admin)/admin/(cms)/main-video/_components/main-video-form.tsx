@@ -8,6 +8,12 @@ interface MainVideoFormProps {
   initialVideoUrl: string;
 }
 
+interface UploadProgress {
+  loaded: number;
+  total: number;
+  startedAt: number;
+}
+
 const MAX_MAIN_VIDEO_BYTE_SIZE = 200 * 1024 * 1024;
 const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
@@ -32,12 +38,30 @@ async function requestMainVideoUploadToken() {
   return payload.rawToken;
 }
 
+function formatBytes(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+  if (bytes >= 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${bytes} B`;
+}
+
+function formatSpeed(bytesPerSec: number): string {
+  if (bytesPerSec >= 1024 * 1024) return `${(bytesPerSec / 1024 / 1024).toFixed(1)} MB/s`;
+  if (bytesPerSec >= 1024) return `${(bytesPerSec / 1024).toFixed(0)} KB/s`;
+  return `${bytesPerSec.toFixed(0)} B/s`;
+}
+
+function formatRemaining(seconds: number): string {
+  if (seconds < 60) return `약 ${Math.ceil(seconds)}초 남음`;
+  return `약 ${Math.ceil(seconds / 60)}분 남음`;
+}
+
 export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
   const { success, error: showError } = useAdminToast();
   const [savedVideoUrl, setSavedVideoUrl] = useState(initialVideoUrl);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<UploadProgress | null>(null);
 
   const activePreviewUrl = useMemo(() => previewUrl ?? savedVideoUrl, [previewUrl, savedVideoUrl]);
 
@@ -87,9 +111,17 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
     }
 
     setIsUploading(true);
+    setUploadProgress(null);
+
     try {
       const rawToken = await requestMainVideoUploadToken();
-      const payload = await uploadAdminMainVideoDirect(selectedFile, rawToken);
+      const startedAt = Date.now();
+      setUploadProgress({ loaded: 0, total: selectedFile.size, startedAt });
+
+      const payload = await uploadAdminMainVideoDirect(selectedFile, rawToken, (loaded, total) => {
+        setUploadProgress({ loaded, total, startedAt });
+      });
+
       const revalidateResponse = await fetch("/api/admin/site/main-video/revalidate", {
         method: "POST",
       });
@@ -105,8 +137,19 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
       showError(error instanceof Error ? error.message : "메인 영상 업로드에 실패했습니다.");
     } finally {
       setIsUploading(false);
+      setUploadProgress(null);
     }
   };
+
+  const progressPercent = uploadProgress
+    ? Math.min(99, Math.round((uploadProgress.loaded / uploadProgress.total) * 100))
+    : 0;
+  const isServerProcessing = uploadProgress !== null && uploadProgress.loaded >= uploadProgress.total;
+
+  const elapsedSec = uploadProgress ? (Date.now() - uploadProgress.startedAt) / 1000 : 0;
+  const speed = uploadProgress && elapsedSec > 0.5 ? uploadProgress.loaded / elapsedSec : 0;
+  const remainingSec =
+    uploadProgress && speed > 0 ? (uploadProgress.total - uploadProgress.loaded) / speed : null;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_480px]">
@@ -131,7 +174,78 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
             </p>
           </div>
 
-          {selectedFile ? (
+          {isUploading && uploadProgress ? (
+            <div className="overflow-hidden rounded-xl border border-[#c5d9f5] bg-gradient-to-br from-[#f0f6ff] to-[#e8f1fd] p-5">
+              <div className="mb-4 flex items-start gap-3">
+                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#3f74c7] text-white shadow-[0_2px_8px_rgba(63,116,199,0.4)]">
+                  {isServerProcessing ? (
+                    <svg
+                      className="h-4 w-4 animate-spin"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m-4-4l4-4 4 4" />
+                    </svg>
+                  )}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-bold text-[#132033]">
+                    {isServerProcessing ? "서버 처리 중..." : "업로드 중..."}
+                  </p>
+                  <p className="mt-0.5 truncate text-[12px] text-[#5d7a9c]">
+                    {selectedFile?.name}
+                  </p>
+                </div>
+                <span className="shrink-0 text-[26px] font-black tabular-nums leading-none text-[#3f74c7]">
+                  {isServerProcessing ? "100" : progressPercent}%
+                </span>
+              </div>
+
+              {/* 진행 바 */}
+              <div className="relative h-3 overflow-hidden rounded-full bg-[#d0e3f8]">
+                <div
+                  className="absolute inset-y-0 left-0 rounded-r-full bg-gradient-to-r from-[#2d5db5] via-[#4a85e8] to-[#60a5fa] transition-[width] duration-500 ease-out"
+                  style={{ width: `${isServerProcessing ? 100 : progressPercent}%` }}
+                >
+                  {!isServerProcessing && (
+                    <span className="absolute inset-0 w-1/3 animate-shimmer bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                  )}
+                </div>
+              </div>
+
+              {/* 통계 */}
+              <div className="mt-3 flex items-center justify-between text-[12px]">
+                <span className="text-[#5d7a9c]">
+                  {formatBytes(uploadProgress.loaded)}
+                  <span className="text-[#8aa3bf]"> / {formatBytes(uploadProgress.total)}</span>
+                </span>
+                {isServerProcessing ? (
+                  <span className="font-medium text-[#3f74c7]">업로드 완료 · 저장 중</span>
+                ) : speed > 0 ? (
+                  <span className="text-[#5d7a9c]">
+                    <span className="font-semibold text-[#3f74c7]">{formatSpeed(speed)}</span>
+                    {remainingSec !== null && ` · ${formatRemaining(remainingSec)}`}
+                  </span>
+                ) : null}
+              </div>
+            </div>
+          ) : selectedFile ? (
             <div className="rounded-lg border border-[#d7e3f4] bg-[#f8fbff] p-4">
               <p className="text-[12px] font-bold text-[#334155]">선택된 파일</p>
               <p className="mt-1 break-all text-[13px] text-[#132033]">{selectedFile.name}</p>
