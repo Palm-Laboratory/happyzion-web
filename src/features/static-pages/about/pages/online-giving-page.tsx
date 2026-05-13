@@ -187,20 +187,26 @@ export default function OnlineGivingStaticPage() {
       </section>
 
       <section className="mt-8 border border-cedar/12 bg-white">
-        <div className="flex flex-col gap-5 px-6 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10 md:py-7">
-          <div className="flex items-center gap-5 md:gap-7">
+        <div className="flex flex-col gap-6 px-6 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10 md:py-7">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-7">
             <div className="shrink-0">
               <p className="type-label font-semibold uppercase tracking-[0.24em] text-site-ink/38">
                 Bank Account
               </p>
-              <p className="type-body mt-1 text-site-ink/68">온라인 계좌</p>
+              <p className="type-card-title mt-2 font-bold text-[#33103f] md:mt-1 md:text-[length:inherit] md:font-normal md:text-[#8b6db5]">
+                온라인 계좌
+              </p>
             </div>
             <div className="hidden h-14 w-px bg-cedar/12 md:block" />
-            <div className="font-serif tracking-[-0.04em] text-black">
-              <p className="type-card-title leading-[1.2]">
-                {givingAccount.bankName} {givingAccount.accountNumber}
+            <div className="tracking-[-0.01em] text-[#33103f] md:font-serif md:tracking-[-0.04em]">
+              <p className="type-body font-semibold leading-[1.4] text-[#33103f] md:text-[1.25rem] md:font-bold md:leading-[1.2]">
+                {givingAccount.bankName}
+                <span className="hidden md:inline"> {givingAccount.accountNumber}</span>
               </p>
-              <p className="type-body-small mt-1 leading-[1.3] text-black/70">
+              <p className="type-card-title mt-2 font-bold leading-[1.2] text-[#33103f] md:hidden">
+                {givingAccount.accountNumber}
+              </p>
+              <p className="type-body-small mt-1 leading-[1.3] text-[#8b6db5]">
                 예금주:{givingAccount.owner}
               </p>
             </div>

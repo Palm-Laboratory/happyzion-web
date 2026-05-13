@@ -25,6 +25,24 @@ const busRoutes = [
   { type: "마을버스", routes: "019, 097, 099", stop: "주교동 인근 정류장 이용" },
 ];
 
+function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
+  return (
+    <article className="rounded-[8px] border border-[#8b6db5]/15 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
+      <h3 className="type-card-title font-bold text-black">{type}</h3>
+      <dl className="type-body-small mt-4 space-y-3">
+        <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
+          <dt className="shrink-0 font-semibold text-black/70">노선</dt>
+          <dd className="text-right font-bold text-black/88">{routes}</dd>
+        </div>
+        <div className="flex items-start justify-between gap-4">
+          <dt className="shrink-0 font-semibold text-black/70">안내</dt>
+          <dd className="text-right font-medium text-black/88">{stop}</dd>
+        </div>
+      </dl>
+    </article>
+  );
+}
+
 function ExternalArrowIcon() {
   return (
     <svg
@@ -54,7 +72,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-small inline-flex items-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
+      className="type-body-small inline-flex items-center gap-2 rounded border border-[#8b6db5]/20 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -111,12 +129,12 @@ export default function LocationStaticPage() {
               />
 
               <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
-                <div className="rounded-[14px] border border-white/70 bg-white/88 px-3 py-2 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
+                <div className="rounded border border-white/70 bg-white/88 px-3 py-2 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
                   <p className="text-center text-[0.8125rem] font-medium leading-6 text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
-                <div className="hidden max-w-[20rem] rounded-[16px] border border-white/70 bg-white/88 px-4 py-3 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:block">
+                <div className="hidden max-w-[20rem] rounded border border-white/70 bg-white/88 px-4 py-3 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:block">
                   <h2 className="text-[1rem] font-bold leading-6 text-[#33103f]">
                     {SITE_NAME}
                   </h2>
@@ -179,7 +197,13 @@ export default function LocationStaticPage() {
             title="버스 이용"
             subtitle="bus"
           >
-            <div className="overflow-x-auto border-x border-b border-t-[3px] border-cedar/15 border-t-site-ink bg-white">
+            <div className="space-y-4 md:hidden">
+              {busRoutes.map((item) => (
+                <MobileBusRouteCard key={item.type} {...item} />
+              ))}
+            </div>
+
+            <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-cedar/15 border-t-site-ink bg-white md:block">
               <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                 <thead>
                   <tr className="border-b border-cedar/15 bg-[#FAF7FF]">

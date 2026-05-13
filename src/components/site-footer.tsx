@@ -54,6 +54,22 @@ function SocialIcon({ icon }: { icon: (typeof socialLinks)[number]["icon"] }) {
   );
 }
 
+function FooterSiteName() {
+  const normalizedSiteName = SITE_NAME.replace("행복이가득한", "행복이 가득한");
+
+  if (normalizedSiteName === "행복이 가득한 시온장로교회") {
+    return (
+      <>
+        행복이 가득한
+        <br />
+        시온장로교회
+      </>
+    );
+  }
+
+  return <>{SITE_NAME}</>;
+}
+
 export default function SiteFooter({ navigationItems = primaryNavigation }: SiteFooterProps) {
   return (
     <footer id="footer" className="relative z-10 bg-[#1f0f28] text-white">
@@ -61,7 +77,7 @@ export default function SiteFooter({ navigationItems = primaryNavigation }: Site
         <div className="border-b border-white/20 pb-10">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
+              <div className="flex items-start gap-3">
                 <Image
                   src="/images/logo/happyzion-logo.png"
                   alt="Happy Zion logo"
@@ -69,7 +85,9 @@ export default function SiteFooter({ navigationItems = primaryNavigation }: Site
                   height={40}
                   className="h-10 w-10 object-contain"
                 />
-                <p className="font-suit text-[28px] font-medium">{SITE_NAME}</p>
+                <p className="font-suit text-[28px] font-medium leading-[1.25]">
+                  <FooterSiteName />
+                </p>
               </div>
               <div className="space-y-2 text-white/50">
                 <p className="font-suit text-base">{CHURCH_ADDRESS}</p>

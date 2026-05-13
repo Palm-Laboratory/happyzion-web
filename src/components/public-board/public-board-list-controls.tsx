@@ -67,15 +67,15 @@ export default function PublicBoardListControls({
   return (
     <div className="mt-8 flex flex-col gap-4 border-b border-cedar/12 pb-5 md:flex-row md:items-center md:justify-between">
       <div className="flex items-center justify-between gap-4">
-        <p className="type-body-small text-site-muted">
-          전체 <span className="font-semibold text-site-ink">{totalItems.toLocaleString("ko-KR")}</span>건
+        <p className="type-body-small text-[#6f5a7a]">
+          전체 <span className="font-semibold text-[#33103f]">{totalItems.toLocaleString("ko-KR")}</span>건
         </p>
         <label className="type-body-small flex items-center gap-2 text-site-muted">
           <select
             value={String(pageSize)}
             disabled={isPending}
             onChange={(event) => handlePageSizeChange(Number(event.target.value))}
-            className="h-10 rounded-full border border-cedar/12 bg-white px-4 text-site-ink outline-none transition hover:bg-cedar/6 hover:border-cedar focus:border-cedar"
+            className="h-10 rounded-full border border-[#8b6db5]/15 bg-white px-4 text-[#33103f] outline-none transition hover:border-[#8b6db5] hover:bg-[#8b6db5]/6 focus:border-[#8b6db5]"
           >
             {PAGE_SIZE_OPTIONS.map((option) => (
               <option key={option} value={option}>
@@ -92,12 +92,12 @@ export default function PublicBoardListControls({
           disabled={isPending}
           onChange={(event) => setSearchValue(event.target.value)}
           placeholder="게시글 검색"
-          className="type-body-small h-10 min-w-0 flex-1 rounded-full border border-cedar/12 bg-white px-4 text-site-ink outline-none transition placeholder:text-site-muted/70 hover:bg-cedar/6 hover:border-cedar focus:border-cedar md:max-w-[260px]"
+          className="type-body-small h-10 min-w-0 flex-1 rounded-full border border-[#8b6db5]/15 bg-white px-4 text-[#33103f] outline-none transition placeholder:text-[#6f5a7a]/70 hover:border-[#8b6db5] hover:bg-[#8b6db5]/6 focus:border-[#8b6db5] md:max-w-[260px]"
         />
         <button
           type="submit"
           disabled={isPending}
-          className="type-body-small inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-site-ink bg-site-ink px-[18px] font-semibold text-white transition hover:border-cedar hover:bg-cedar disabled:pointer-events-none disabled:opacity-60"
+          className="type-body-small inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[#33103f] bg-[#33103f] px-[18px] font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] disabled:pointer-events-none disabled:opacity-60"
         >
           검색
         </button>

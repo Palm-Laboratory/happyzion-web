@@ -30,7 +30,7 @@ export default function PageHeader({
 
   return (
     <section
-      className="relative hidden h-[360px] w-full overflow-hidden md:block lg:h-[320px]"
+      className="relative h-[260px] w-full overflow-hidden md:h-[360px] lg:h-[320px]"
       style={{
         backgroundImage:
           "radial-gradient(ellipse 620px 300px at 78% 34%, rgba(49, 4, 90, 0.2), rgba(49, 4, 90, 0) 68%), radial-gradient(ellipse 430px 260px at 23% 82%, rgba(191, 114, 236, 0.1), rgba(191, 114, 236, 0) 70%), linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(118deg, #2e1f46 27%, #4b3473 87%)",
@@ -42,10 +42,10 @@ export default function PageHeader({
       <div className="pointer-events-none absolute left-[4%] top-[78%] h-[314px] w-[314px] rounded-full border border-white/[0.045]" />
       <div className="relative z-10 flex h-full items-center justify-center">
         <div className="text-center uppercase">
-          <p className="mb-5 font-serif text-xs font-light leading-none tracking-[0.16em] text-[#c9a96e]">
+          <p className="mb-4 font-serif text-xs font-light leading-none tracking-[0.16em] text-[#c9a96e] md:mb-5">
             {subtitle}
           </p>
-          <h1 className="font-hahmlet text-[46px] font-semibold leading-none tracking-[0.01em] text-white lg:text-[52px]">
+          <h1 className="font-hahmlet text-[40px] font-semibold leading-none tracking-[0.01em] text-white md:text-[46px] lg:text-[52px]">
             {displayTitle}
           </h1>
         </div>

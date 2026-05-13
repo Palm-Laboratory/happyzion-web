@@ -1,5 +1,5 @@
-import Image from "next/image";
 import SectionHeading from "@/components/section-heading";
+import MissionMobileGalleryHero from "@/features/static-pages/components/mission-mobile-gallery-hero";
 import MissionStickyGalleryRail from "@/features/static-pages/components/mission-sticky-gallery-rail";
 
 type MissionEntry = {
@@ -112,30 +112,6 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
   );
 }
 
-function MissionGalleryCard({ gallery }: { gallery: MissionGallery }) {
-  return (
-    <figure className="w-full overflow-hidden">
-      <div className="flex h-10 items-center justify-between bg-[#1e1035] px-5 py-3">
-        <figcaption className="font-cormorant-infant text-sm font-medium uppercase leading-none tracking-[0.01em] text-[#c9a96e]">
-          {gallery.countries.join(" · ")}
-        </figcaption>
-        <span className="h-1 w-5 bg-[#c9a96e]" />
-      </div>
-      <div className="grid grid-cols-2 gap-0.5">
-        <div className="relative col-span-2 h-[360px] w-full md:h-[420px]">
-          <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 360px, 100vw" />
-        </div>
-        <div className="relative h-[180px] w-full md:h-[200px]">
-          <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="(min-width: 1024px) 180px, 50vw" />
-        </div>
-        <div className="relative h-[180px] w-full md:h-[200px]">
-          <Image className="object-cover" src={gallery.images[2]} alt="" fill sizes="(min-width: 1024px) 180px, 50vw" />
-        </div>
-      </div>
-    </figure>
-  );
-}
-
 function MissionCallout() {
   return (
     <section className="mt-[100px] w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-6 py-10 uppercase md:px-[60px] md:py-[72px]">
@@ -154,16 +130,19 @@ function MissionCallout() {
 
 export default function MissionHistoryStaticPage() {
   return (
-    <main className="bg-white py-[70px] md:py-[100px]">
-      <div className="section-shell section-shell--narrow">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,540px)_360px] lg:gap-[60px]">
-          <section>
-            <SectionHeading
-              label="Mission History"
-              title="시온장로교회 선교 이력"
-              description="The Journey of Faith and Mission"
-              className="mb-[60px] max-w-[540px]"
-            />
+    <main className="bg-white pb-[70px] pt-0 lg:py-[100px]">
+      <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
+
+      <div className="section-shell section-shell--narrow pt-[60px] lg:pt-0">
+        <SectionHeading
+          label="Mission History"
+          title="시온장로교회 선교 이력"
+          description="The Journey of Faith and Mission"
+          className="mb-[60px] max-w-[540px]"
+        />
+
+        <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
+          <section id="mission-history-timeline-track">
             <div className="flex flex-col gap-[60px]">
               {MISSION_HISTORY.map((item) => (
                 <MissionTimelineItem item={item} key={item.year} />
@@ -171,11 +150,6 @@ export default function MissionHistoryStaticPage() {
             </div>
           </section>
           <MissionStickyGalleryRail galleries={MISSION_GALLERIES} />
-          <section className="grid gap-10 lg:hidden">
-            {MISSION_GALLERIES.map((gallery) => (
-              <MissionGalleryCard gallery={gallery} key={`mobile-${gallery.countries.join("-")}`} />
-            ))}
-          </section>
         </div>
         <MissionCallout />
       </div>

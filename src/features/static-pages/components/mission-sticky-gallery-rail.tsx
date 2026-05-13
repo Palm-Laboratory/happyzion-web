@@ -20,7 +20,7 @@ type RailPosition = {
 };
 
 const RAIL_TOP = 120;
-const RAIL_HEIGHT = 660;
+const RAIL_HEIGHT = 880;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -60,14 +60,14 @@ function MissionGalleryCard({
         </div>
       </div>
       <div className="grid grid-cols-2 gap-0.5">
-        <div className="relative col-span-2 h-[420px] w-full">
-          <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="360px" />
+        <div className="relative col-span-2 h-[420px] w-full lg:h-[600px]">
+          <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 400px, 300px" />
         </div>
-        <div className="relative h-[200px] w-full">
-          <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="180px" />
+        <div className="relative h-[160px] w-full lg:h-[240px]">
+          <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
         </div>
-        <div className="relative h-[200px] w-full">
-          <Image className="object-cover" src={gallery.images[2]} alt="" fill sizes="180px" />
+        <div className="relative h-[160px] w-full lg:h-[240px]">
+          <Image className="object-cover" src={gallery.images[2]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
         </div>
       </div>
     </figure>
@@ -151,8 +151,8 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
           };
 
   return (
-    <aside className="relative hidden min-h-[4312px] self-stretch lg:block" ref={railRef}>
-      <div className="h-[660px] w-full" style={railStyle}>
+    <aside className="relative hidden min-h-[4312px] self-stretch md:block" ref={railRef}>
+      <div className="h-[620px] w-full lg:h-[880px]" style={railStyle}>
         {galleries.map((gallery, index) => (
           <MissionGalleryCard
             activeIndex={activeIndex}

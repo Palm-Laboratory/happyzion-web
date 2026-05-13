@@ -109,7 +109,7 @@ export default function PublicBoardAttachmentsDropdown({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="type-body-small inline-flex shrink-0 cursor-pointer items-center gap-2 self-start font-semibold text-cedar underline underline-offset-4 transition hover:text-site-ink"
+          className="type-body-small inline-flex shrink-0 cursor-pointer items-center gap-2 self-start font-semibold text-[#8b6db5] underline underline-offset-4 transition hover:text-[#33103f]"
           aria-label="첨부파일 다운로드 메뉴 열기"
         >
           <span className="inline-flex h-5 w-5 items-center justify-center text-current">
@@ -131,11 +131,11 @@ export default function PublicBoardAttachmentsDropdown({
             className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[14px] px-4 py-3 data-[disabled]:cursor-progress data-[disabled]:opacity-70"
           >
             <span className="inline-flex min-w-0 items-center gap-3">
-              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cedar/10 text-cedar">
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8b6db5]/10 text-[#8b6db5]">
                 <DownloadIcon />
               </span>
               <span className="flex min-w-0 flex-col">
-                <span className="text-site-ink">
+                <span className="text-[#33103f]">
                   {isDownloadingAll ? "일괄 다운로드 중..." : "전체 다운로드"}
                 </span>
                 <span className="type-label text-site-muted">
@@ -160,15 +160,15 @@ export default function PublicBoardAttachmentsDropdown({
               className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[14px] px-4 py-3"
             >
               <span className="inline-flex min-w-0 items-center gap-3">
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-site-ink/5 text-site-ink/70">
+              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#33103f]/5 text-[#33103f]/70">
                   <FileIcon />
                 </span>
                 <span className="flex min-w-0 flex-col">
-                  <span className="min-w-0 truncate text-site-ink">{attachment.filename}</span>
+                  <span className="min-w-0 truncate text-[#33103f]">{attachment.filename}</span>
                   <span className="type-label text-site-muted">개별 다운로드</span>
                 </span>
               </span>
-              <span className="type-label shrink-0 rounded-full bg-site-ink/5 px-2.5 py-1 text-site-muted">
+              <span className="type-label shrink-0 rounded-full bg-[#33103f]/5 px-2.5 py-1 text-site-muted">
                 {formatByteSize(attachment.byteSize)}
               </span>
             </DropdownMenuItem>

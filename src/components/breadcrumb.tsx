@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { useNavigation } from "@/lib/navigation-context";
 import {
   findMatchedNavigationGroup,
@@ -9,21 +10,53 @@ import {
   shouldOpenNavigationInNewTab,
 } from "@/lib/navigation-utils";
 
+const LNB_SCROLL_STORAGE_PREFIX = "happyzion:lnb-scroll:";
+
 export default function Breadcrumb({
   hideLnb = false,
 }: {
   hideLnb?: boolean;
 }) {
+  const lnbRef = useRef<HTMLElement | null>(null);
   const pathname = usePathname() ?? "";
   const { navMenuGroups } = useNavigation();
   const menuGroup = findMatchedNavigationGroup(pathname, navMenuGroups);
   const currentItem = findMatchedNavigationItem(pathname, menuGroup);
+  const lnbScrollStorageKey = menuGroup ? `${LNB_SCROLL_STORAGE_PREFIX}${menuGroup.key}` : null;
   const openGroupInNewTab = menuGroup
     ? shouldOpenNavigationInNewTab(menuGroup.href, {
         linkType: menuGroup.linkType,
         openInNewTab: menuGroup.openInNewTab,
       })
     : false;
+
+  useEffect(() => {
+    const lnb = lnbRef.current;
+
+    if (!lnb || !lnbScrollStorageKey) {
+      return;
+    }
+
+    const savedScrollLeft = window.sessionStorage.getItem(lnbScrollStorageKey);
+    const nextScrollLeft = savedScrollLeft ? Number.parseFloat(savedScrollLeft) : 0;
+    const frame = window.requestAnimationFrame(() => {
+      lnb.scrollLeft = Number.isFinite(nextScrollLeft) ? nextScrollLeft : 0;
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [lnbScrollStorageKey, pathname]);
+
+  const handleLnbScroll = () => {
+    const lnb = lnbRef.current;
+
+    if (!lnb || !lnbScrollStorageKey) {
+      return;
+    }
+
+    window.sessionStorage.setItem(lnbScrollStorageKey, String(lnb.scrollLeft));
+  };
 
   return (
     <div className="flex w-full flex-col bg-[#f8fafd]">
@@ -78,7 +111,12 @@ export default function Breadcrumb({
       </nav>
 
       {!hideLnb && menuGroup && !menuGroup.hiddenInLnb && menuGroup.items.some((item) => !item.hiddenInLnb) && (
-        <nav className="no-scrollbar w-full overflow-x-auto border-b border-[#33103F]/10 bg-white" aria-label="LNB">
+        <nav
+          ref={lnbRef}
+          className="no-scrollbar w-full overflow-x-auto border-b border-[#33103F]/10 bg-white"
+          aria-label="LNB"
+          onScroll={handleLnbScroll}
+        >
           <ul className="section-shell mx-auto flex w-max min-w-max items-center justify-center gap-1 px-4">
             {menuGroup.items.filter((item) => !item.hiddenInLnb).map((item) => {
               const isActive = item === currentItem;

@@ -90,7 +90,14 @@ function BeginningSection() {
     <section className="flex w-full flex-col items-start gap-10 md:gap-[50px] lg:gap-[60px]">
       <SectionHeading
         label="The Beginning"
-        title="교회 개척과 하나님의 인도하심"
+        title={
+          <>
+            교회 개척과
+            <br className="min-[423px]:hidden" />
+            <span className="hidden min-[423px]:inline"> </span>
+            하나님의 인도하심
+          </>
+        }
         description="Founded by Faith · Guided by Grace"
         className="md:max-w-none [&_h2]:md:whitespace-nowrap"
       />
@@ -108,7 +115,7 @@ function BeginningSection() {
 
 function TimelineDate({ item }: { item: TimelineItem }) {
   return (
-    <div className="relative flex w-[82px] shrink-0 self-stretch border-r border-[rgba(137,107,149,0.6)] px-6 pt-12">
+    <div className="relative flex w-[82px] shrink-0 self-stretch border-r border-[rgba(137,107,149,0.6)] pl-0 pr-6 pt-12 md:px-6">
       <div className="flex w-full flex-col items-center gap-1">
         <p className="font-hahmlet text-sm font-normal uppercase leading-[14px] tracking-[0.01em] text-[#8b6db5]">
           {item.year}
@@ -128,6 +135,39 @@ function TimelineDate({ item }: { item: TimelineItem }) {
   );
 }
 
+function TimelineTitle({ title }: { title: string }) {
+  const [firstLine, secondLine] = title.split(" — ");
+
+  if (!secondLine) {
+    return <>{title}</>;
+  }
+
+  return (
+    <>
+      {firstLine} <span className="inline-block">— {secondLine}</span>
+    </>
+  );
+}
+
+function TimelinePlace({ place }: { place: string }) {
+  const [firstPart, ...restParts] = place.split(" · ");
+
+  if (restParts.length === 0) {
+    return <>{place}</>;
+  }
+
+  return (
+    <>
+      {firstPart}{" "}
+      {restParts.map((part) => (
+        <span className="inline-block" key={part}>
+          · {part}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean }) {
   return (
     <article
@@ -137,10 +177,10 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
     >
       <div className="flex flex-col gap-2">
         <p className="font-suit text-sm font-normal uppercase tracking-[0.1667em] text-[#c9a96e]">
-          {item.place}
+          <TimelinePlace place={item.place} />
         </p>
         <h3 className="font-hahmlet text-[24px] font-medium uppercase leading-[38px] tracking-[0.01em] text-[#33103f]">
-          {item.title}
+          <TimelineTitle title={item.title} />
         </h3>
       </div>
       <p className="font-suit text-base font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
@@ -202,9 +242,7 @@ function ClosingCallout() {
           God&apos;s Faithfulness
         </p>
         <h2 className="font-hahmlet text-2xl font-semibold leading-10 tracking-[0.01em] text-white">
-          부흥은 멀리 있지 않습니다.
-          <br />
-          당신이 여기 있는 것이, 그 시작입니다.
+          부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그 시작입니다.
         </h2>
         <p className="font-hahmlet text-base font-medium leading-7 tracking-[0.01em] text-white/70">
           지난 30년의 걸음 하나하나가 하나님의 인도하심이었습니다.

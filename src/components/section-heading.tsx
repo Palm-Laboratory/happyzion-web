@@ -8,16 +8,16 @@ type SectionHeadingTitleTag = "h1" | "h2" | "h3";
 type SectionHeadingProps = {
   label: string;
   title: ReactNode;
-  description?: string;
+  description?: ReactNode;
   titleAs?: SectionHeadingTitleTag;
 } & Omit<HTMLAttributes<HTMLDivElement>, "title">;
 
 function SectionHeadingEyebrow({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="h-px w-[30px] shrink-0 bg-[#8b6db5]" />
+    <div className="flex items-start gap-3">
+      <span className="mt-[8px] h-px w-[30px] shrink-0 bg-[#8b6db5]" />
       <p
-        className="text-sm uppercase leading-none tracking-[0.18em] text-[#8b6db5]"
+        className="text-sm uppercase leading-[1.125rem] tracking-[0.18em] text-[#8b6db5]"
         style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
       >
         {label}
@@ -42,10 +42,10 @@ function SectionHeadingTitle({
   );
 }
 
-function SectionHeadingDescription({ description }: { description: string }) {
+function SectionHeadingDescription({ description }: { description: ReactNode }) {
   return (
     <p
-      className="mt-5 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
+      className="mt-2 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
       style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
     >
       {description}

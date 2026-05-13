@@ -463,10 +463,79 @@ const personnelBars = [
 
 const personnelTotalCount = 82;
 
+function MobileTabButton({
+  direction,
+  onClick,
+  tone = "dark",
+}: {
+  direction: "previous" | "next";
+  onClick: () => void;
+  tone?: "dark" | "light";
+}) {
+  const buttonClass =
+    tone === "dark"
+      ? "border-[#c9a96e]/45 text-[#c9a96e] hover:bg-white/10"
+      : "border-[#5d3d8a]/25 text-[#340653] hover:bg-white/70";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex h-8 w-8 shrink-0 items-center justify-center border text-sm leading-none lg:hidden ${buttonClass}`}
+      aria-label={direction === "previous" ? "이전 탭" : "다음 탭"}
+    >
+      {direction === "previous" ? "<" : ">"}
+    </button>
+  );
+}
+
+function ContentHeaderIndicator({
+  activeIndex,
+  count,
+  tone = "dark",
+}: {
+  activeIndex: number;
+  count: number;
+  tone?: "dark" | "light";
+}) {
+  const activeClass = tone === "dark" ? "bg-[#c9a96e]" : "bg-[#340653]";
+  const inactiveClass = tone === "dark" ? "bg-[#c9a96e]/30" : "bg-[#340653]/25";
+
+  return (
+    <div className="flex items-center gap-1.5 lg:hidden" aria-hidden="true">
+      {Array.from({ length: count }).map((_, index) => (
+        <span
+          key={index}
+          className={`h-1.5 w-1.5 rounded-full transition-colors ${index === activeIndex ? activeClass : inactiveClass}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+function MinistryTitle({ title }: { title: string }) {
+  const [firstPart, ...restParts] = title.split("·");
+
+  if (restParts.length === 0) {
+    return <>{title}</>;
+  }
+
+  return (
+    <>
+      {firstPart}
+      {restParts.map((part) => (
+        <span className="inline-block" key={part}>
+          ·{part}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-6 tracking-[1px] text-black xl:whitespace-nowrap">
+      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-[1.85rem] tracking-[1px] text-black xl:whitespace-nowrap">
         “복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회”
       </p>
       <p
@@ -556,6 +625,9 @@ function MinistryTeamPanel({
 function MinistryTeamsSection() {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const activeMinistry = ministryDetails[selectedTabIndex] ?? ministryDetails[0];
+  const moveMinistryTab = (direction: -1 | 1) => {
+    setSelectedTabIndex((current) => (current + direction + ministryDetails.length) % ministryDetails.length);
+  };
 
   return (
     <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
@@ -563,12 +635,19 @@ function MinistryTeamsSection() {
         <SectionHeading
           label="Ministry Teams"
           title="7대 사역팀 체계"
-          description="담임목사 박완섭 · 팀장 7명 · 팀원 75명 · 소그룹 51개+"
-          className="[&_h2]:text-white [&_p]:whitespace-nowrap [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
+          description={
+            <>
+              <span className="inline-block !bg-transparent">담임목사 박완섭</span>{" "}
+              <span className="inline-block !bg-transparent">· 팀장 7명</span>{" "}
+              <span className="inline-block !bg-transparent">· 팀원 75명</span>{" "}
+              <span className="inline-block !bg-transparent">· 소그룹 51개+</span>
+            </>
+          }
+          className="w-full max-w-full [&_h2]:text-white [&_p]:max-w-full [&_p]:break-keep [&_p]:leading-[1.6] [&_p]:text-[#c9a96e] [&_span]:bg-[#c9a96e]"
         />
 
         <div className="flex w-full flex-col border border-[#5d3d8a]/15 lg:flex-row">
-          <aside className="flex flex-col bg-white/[0.04] text-left lg:w-[180px]">
+          <aside className="hidden bg-white/[0.04] text-left lg:flex lg:w-[180px] lg:flex-col">
             {ministryTabs.map((tab, index) => {
               const active = index === selectedTabIndex;
 
@@ -577,7 +656,7 @@ function MinistryTeamsSection() {
                   key={tab.title}
                   type="button"
                   onClick={() => setSelectedTabIndex(index)}
-                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-[#bdaad6]/15 px-4 py-3.5 text-left ${active ? "border-l-2 border-l-[#c9a96e] bg-[#190b2a]" : "bg-white/[0.08]"
+                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-l-2 border-[#bdaad6]/15 px-4 py-3.5 text-left ${active ? "border-l-[#c9a96e] bg-[#190b2a]" : "border-l-transparent bg-white/[0.08]"
                     }`}
                   aria-pressed={active}
                 >
@@ -593,34 +672,41 @@ function MinistryTeamsSection() {
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col gap-11 bg-[#190b2a] p-6 md:p-[60px]">
-            <div className="flex items-center justify-between gap-6">
-              <div className="flex flex-col gap-3">
-                <p
-                  className="text-base uppercase leading-[10px] tracking-[1px] text-[#c9a96e]"
-                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-                >
-                  {activeMinistry.number} ·{" "}
-                  <span className="text-xs leading-3 tracking-[2px]">{activeMinistry.english}</span>
-                </p>
-                <div className="flex flex-col gap-3">
-                  <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#f2e7f5]">
-                    {activeMinistry.title}
+            <div className="flex w-full min-w-0 flex-col gap-2">
+              <div
+                className="flex w-full items-start gap-2 uppercase tracking-[1px] text-[#c9a96e]"
+                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              >
+                <span className="shrink-0 -translate-y-[2px] text-base leading-4">{activeMinistry.number}</span>
+                <span className="min-w-0 flex-1 text-xs leading-4 tracking-[2px]">
+                  {activeMinistry.english}
+                </span>
+              </div>
+
+              <div className="flex items-start justify-between gap-6 md:gap-8">
+                <div className="min-w-0 flex-1">
+                  <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-[1.85rem] tracking-[0.01em] text-[#f2e7f5]">
+                    <MinistryTitle title={activeMinistry.title} />
                   </h2>
-                  <p className="font-suit text-sm leading-3 tracking-[2.8px] text-[#c9a96e]">
-                    {activeMinistry.subtitle}
+                </div>
+
+                <div className="flex shrink-0 items-center gap-4 lg:hidden">
+                  <MobileTabButton direction="previous" onClick={() => moveMinistryTab(-1)} />
+                  <MobileTabButton direction="next" onClick={() => moveMinistryTab(1)} />
+                </div>
+
+                <div className="hidden flex-col items-end justify-center gap-1.5 text-center uppercase text-[#b49bd8] lg:flex">
+                  <p
+                    className="text-[40px] italic leading-10 tracking-[1px]"
+                    style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
+                  >
+                    {activeMinistry.memberCount}
                   </p>
+                  <p className="font-suit text-xs leading-3 tracking-[2px]">팀 인원</p>
                 </div>
               </div>
 
-              <div className="flex flex-col items-end justify-center gap-1.5 text-center uppercase text-[#b49bd8]">
-                <p
-                  className="text-[40px] italic leading-10 tracking-[1px]"
-                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-                >
-                  {activeMinistry.memberCount}
-                </p>
-                <p className="font-suit text-xs leading-3 tracking-[2px]">팀 인원</p>
-              </div>
+              <ContentHeaderIndicator activeIndex={selectedTabIndex} count={ministryDetails.length} />
             </div>
 
             <MinistryDetailQuote quote={activeMinistry.quote} />
@@ -658,14 +744,16 @@ function MinistryTeamsSection() {
   );
 }
 
-function SmallGroupPanelHeader({ label, title }: { label: string; title: string }) {
+function SmallGroupPanelHeader({ label, number, title }: { label: string; number: string; title: string }) {
   return (
-    <div className="flex flex-col items-start gap-3">
-      <div className="flex items-center justify-center gap-1.5">
-        <span className="h-px w-4 bg-[#c9a96e]" />
+    <div className="flex flex-col items-start gap-1">
+      <div
+        className="flex w-full items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
+        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+      >
+        <span className="shrink-0 -translate-y-[2px]">{number}</span>
         <p
-          className="text-xs uppercase leading-3 tracking-[2px] text-[#c9a96e]"
-          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
+          className="min-w-0 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]"
         >
           {label}
         </p>
@@ -673,6 +761,50 @@ function SmallGroupPanelHeader({ label, title }: { label: string; title: string 
       <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
         {title}
       </h2>
+    </div>
+  );
+}
+
+function SmallGroupPanelHeaderWithControls({
+  activeIndex,
+  count,
+  label,
+  number,
+  title,
+  onPrevious,
+  onNext,
+}: {
+  activeIndex: number;
+  count: number;
+  label: string;
+  number: string;
+  title: string;
+  onPrevious: () => void;
+  onNext: () => void;
+}) {
+  return (
+    <div className="flex w-full min-w-0 flex-col gap-2">
+      <div
+        className="flex items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
+        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+      >
+        <span className="shrink-0 -translate-y-[2px]">{number}</span>
+        <p className="min-w-0 flex-1 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]">
+          {label}
+        </p>
+      </div>
+
+      <div className="flex w-full items-start justify-between gap-8">
+        <h2 className="min-w-0 flex-1 font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
+          {title}
+        </h2>
+        <div className="flex shrink-0 items-center gap-4 lg:hidden">
+          <MobileTabButton direction="previous" onClick={onPrevious} tone="light" />
+          <MobileTabButton direction="next" onClick={onNext} tone="light" />
+        </div>
+      </div>
+
+      <ContentHeaderIndicator activeIndex={activeIndex} count={count} tone="light" />
     </div>
   );
 }
@@ -807,10 +939,32 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
   );
 }
 
-function SmallGroupPrinciplesContent() {
+function SmallGroupPrinciplesContent({
+  activeIndex = 0,
+  count = 1,
+  onPrevious,
+  onNext,
+}: {
+  activeIndex?: number;
+  count?: number;
+  onPrevious?: () => void;
+  onNext?: () => void;
+}) {
   return (
     <>
-      <SmallGroupPanelHeader label="Small Group Ecosystem" title="소그룹 운영 원칙" />
+      {onPrevious && onNext ? (
+        <SmallGroupPanelHeaderWithControls
+          activeIndex={activeIndex}
+          count={count}
+          label="Small Group Ecosystem"
+          number="01"
+          title="소그룹 운영 원칙"
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      ) : (
+        <SmallGroupPanelHeader label="Small Group Ecosystem" number="01" title="소그룹 운영 원칙" />
+      )}
 
       <div className="flex w-full flex-col gap-11">
         <SmallGroupSectionBlock label="4단계 사이클">
@@ -889,10 +1043,32 @@ function PersonnelBars() {
   );
 }
 
-function PersonnelPlanContent() {
+function PersonnelPlanContent({
+  activeIndex = 0,
+  count = 1,
+  onPrevious,
+  onNext,
+}: {
+  activeIndex?: number;
+  count?: number;
+  onPrevious?: () => void;
+  onNext?: () => void;
+}) {
   return (
     <>
-      <SmallGroupPanelHeader label="personnel plan" title="인원 배치 계획" />
+      {onPrevious && onNext ? (
+        <SmallGroupPanelHeaderWithControls
+          activeIndex={activeIndex}
+          count={count}
+          label="personnel plan"
+          number="02"
+          title="인원 배치 계획"
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      ) : (
+        <SmallGroupPanelHeader label="personnel plan" number="02" title="인원 배치 계획" />
+      )}
 
       <div className="flex w-full flex-col gap-11">
         <SmallGroupSectionBlock label="TEAM OVERVIEW" className="md:pb-20">
@@ -907,10 +1083,32 @@ function PersonnelPlanContent() {
   );
 }
 
-function LeaderSelectionContent() {
+function LeaderSelectionContent({
+  activeIndex = 0,
+  count = 1,
+  onPrevious,
+  onNext,
+}: {
+  activeIndex?: number;
+  count?: number;
+  onPrevious?: () => void;
+  onNext?: () => void;
+}) {
   return (
     <>
-      <SmallGroupPanelHeader label="Leader Selection" title="리더 선발 기준" />
+      {onPrevious && onNext ? (
+        <SmallGroupPanelHeaderWithControls
+          activeIndex={activeIndex}
+          count={count}
+          label="Leader Selection"
+          number="03"
+          title="리더 선발 기준"
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      ) : (
+        <SmallGroupPanelHeader label="Leader Selection" number="03" title="리더 선발 기준" />
+      )}
 
       <SmallGroupSectionBlock label="6가지 자격 요건" className="md:pb-20">
         <PrincipleList />
@@ -919,10 +1117,32 @@ function LeaderSelectionContent() {
   );
 }
 
-function AnnualRoadmapContent() {
+function AnnualRoadmapContent({
+  activeIndex = 0,
+  count = 1,
+  onPrevious,
+  onNext,
+}: {
+  activeIndex?: number;
+  count?: number;
+  onPrevious?: () => void;
+  onNext?: () => void;
+}) {
   return (
     <>
-      <SmallGroupPanelHeader label="Annual Roadmap" title="연간 부흥 로드맵" />
+      {onPrevious && onNext ? (
+        <SmallGroupPanelHeaderWithControls
+          activeIndex={activeIndex}
+          count={count}
+          label="Annual Roadmap"
+          number="04"
+          title="연간 부흥 로드맵"
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      ) : (
+        <SmallGroupPanelHeader label="Annual Roadmap" number="04" title="연간 부흥 로드맵" />
+      )}
 
       <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-10">
         <div className="flex w-full items-center justify-center gap-3">
@@ -951,19 +1171,29 @@ function AnnualRoadmapContent() {
 
 function SmallGroupsMinistrySection() {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const moveSmallGroupTab = (direction: -1 | 1) => {
+    setSelectedTabIndex((current) => (current + direction + smallGroupTabs.length) % smallGroupTabs.length);
+  };
+  const previousSmallGroupTab = () => moveSmallGroupTab(-1);
+  const nextSmallGroupTab = () => moveSmallGroupTab(1);
 
   return (
     <section className="bg-[#fefbff] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Small Groups, Leaders, and Ministry"
-          title="소그룹과 리더, 그리고 사역"
+          title={
+            <>
+              <span className="inline-block">소그룹과 리더,</span>{" "}
+              <span className="inline-block">그리고 사역</span>
+            </>
+          }
           description="How We Serve Together"
-          className="[&_p]:text-[#b87f16] [&_span]:bg-[#b87f16]"
+          className="[&_p]:text-[#b87f16] [&>div:first-child_span]:bg-[#b87f16]"
         />
 
         <div className="flex w-full flex-col border border-[#5d3d8a]/15 lg:flex-row">
-          <aside className="flex flex-col bg-[#fcfaff] text-left lg:w-[180px]">
+          <aside className="hidden bg-[#fcfaff] text-left lg:flex lg:w-[180px] lg:flex-col">
             {smallGroupTabs.map((tab, index) => {
               const active = index === selectedTabIndex;
 
@@ -972,7 +1202,7 @@ function SmallGroupsMinistrySection() {
                   key={tab.title}
                   type="button"
                   onClick={() => setSelectedTabIndex(index)}
-                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-[#5d3d8a]/15 px-4 py-3.5 text-left ${active ? "border-l-2 border-l-[#340653] bg-[#f4f0f9]" : "bg-white/60"
+                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-l-2 border-[#5d3d8a]/15 px-4 py-3.5 text-left ${active ? "border-l-[#340653] bg-[#f4f0f9]" : "border-l-transparent bg-white/60"
                     }`}
                   aria-pressed={active}
                 >
@@ -987,11 +1217,39 @@ function SmallGroupsMinistrySection() {
             })}
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-[60px] border-l border-[#5d3d8a]/15 bg-[#f4f0f9] px-5 py-12 md:px-10 md:py-[60px]">
-            {selectedTabIndex === 0 ? <SmallGroupPrinciplesContent /> : null}
-            {selectedTabIndex === 1 ? <PersonnelPlanContent /> : null}
-            {selectedTabIndex === 2 ? <LeaderSelectionContent /> : null}
-            {selectedTabIndex === 3 ? <AnnualRoadmapContent /> : null}
+          <div className="flex min-w-0 flex-1 flex-col gap-[60px] bg-[#f4f0f9] px-5 py-12 md:px-10 md:py-[60px] lg:border-l lg:border-[#5d3d8a]/15">
+            {selectedTabIndex === 0 ? (
+              <SmallGroupPrinciplesContent
+                activeIndex={selectedTabIndex}
+                count={smallGroupTabs.length}
+                onPrevious={previousSmallGroupTab}
+                onNext={nextSmallGroupTab}
+              />
+            ) : null}
+            {selectedTabIndex === 1 ? (
+              <PersonnelPlanContent
+                activeIndex={selectedTabIndex}
+                count={smallGroupTabs.length}
+                onPrevious={previousSmallGroupTab}
+                onNext={nextSmallGroupTab}
+              />
+            ) : null}
+            {selectedTabIndex === 2 ? (
+              <LeaderSelectionContent
+                activeIndex={selectedTabIndex}
+                count={smallGroupTabs.length}
+                onPrevious={previousSmallGroupTab}
+                onNext={nextSmallGroupTab}
+              />
+            ) : null}
+            {selectedTabIndex === 3 ? (
+              <AnnualRoadmapContent
+                activeIndex={selectedTabIndex}
+                count={smallGroupTabs.length}
+                onPrevious={previousSmallGroupTab}
+                onNext={nextSmallGroupTab}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -1003,13 +1261,15 @@ function CoreValueCard({
   number,
   title,
   description,
+  className = "",
 }: {
   number: string;
   title: string;
   description: string;
+  className?: string;
 }) {
   return (
-    <article className="flex min-h-[170px] flex-col items-start px-5 py-6 shadow-[0_6px_9px_rgba(0,0,0,0.15)] [background-image:linear-gradient(171.1deg,#473367_3.35%,#413553_89.92%)]">
+    <article className={`flex flex-col items-start px-5 py-6 shadow-[0_6px_9px_rgba(0,0,0,0.15)] [background-image:linear-gradient(171.1deg,#473367_3.35%,#413553_89.92%)] sm:min-h-[170px] ${className}`}>
       <div className="flex w-full flex-col items-start gap-3">
         <p
           className="w-full text-[32px] italic leading-8 text-[#c9a96e]"
@@ -1023,6 +1283,37 @@ function CoreValueCard({
         </div>
       </div>
     </article>
+  );
+}
+
+function CoreValueAccordion() {
+  return (
+    <div className="flex w-full flex-col gap-5 md:hidden">
+      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#1e1035]">
+        5대 핵심가치
+      </h3>
+      <div className="w-full border-y border-[#33103f]/10">
+        {coreValues.map((value) => (
+          <article
+            key={value.number}
+            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#33103f]/10 py-5 last:border-b-0"
+          >
+            <p
+              className="text-[24px] italic leading-none text-[#c9a96e]"
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+            >
+              {value.number}
+            </p>
+            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#1e1035]">
+              {value.title}
+            </h3>
+            <p className="font-suit text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]/68">
+              {value.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -1041,14 +1332,23 @@ function VisionCoreValuesSection() {
           <div className="flex w-full flex-col items-start gap-10">
             <VisionQuote />
             <div className="font-suit w-full max-w-[900px] text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
-              <p>시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는</p>
-              <p>부흥하는 교회로 성장하기를 비전으로 삼습니다.</p>
+              <p>
+                시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
+                <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로
+                삼습니다.
+              </p>
             </div>
           </div>
 
-          <div className="grid w-full gap-0.5 sm:grid-cols-2 lg:grid-cols-5">
-            {coreValues.map((value) => (
-              <CoreValueCard key={value.number} {...value} />
+          <CoreValueAccordion />
+
+          <div className="hidden w-full gap-0.5 md:grid md:grid-cols-6 lg:grid-cols-5">
+            {coreValues.map((value, index) => (
+              <CoreValueCard
+                key={value.number}
+                {...value}
+                className={`${index === 4 ? "sm:col-span-2 md:col-span-3" : index < 3 ? "md:col-span-2" : "md:col-span-3"} lg:col-span-1`}
+              />
             ))}
           </div>
         </div>
@@ -1069,9 +1369,7 @@ function ClosingCallout() {
           Isaiah 61:1
         </p>
         <h2 className="font-hahmlet text-2xl font-semibold leading-10 tracking-[0.01em] text-white">
-          “여호와의 영이 내 위에 계시니
-          <br />
-          이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고”
+          “여호와의 영이 내 위에 계시니 이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고”
         </h2>
         <p className="font-hahmlet text-base font-medium leading-7 tracking-[0.01em] text-white/70">
           우리가 팀을 세우고 소그룹을 훈련하고 리더를 키우는 것은 단 하나, 복음으로 사람을

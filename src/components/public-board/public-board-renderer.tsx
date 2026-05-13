@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import SectionHeading from "@/components/section-heading";
 import PublicBoardDetailActions from "@/components/public-board/public-board-detail-actions";
 import PublicBoardAttachmentsDropdown from "@/components/public-board/public-board-attachments-dropdown";
 import PublicBoardListControls from "@/components/public-board/public-board-list-controls";
@@ -148,35 +149,6 @@ function AttachmentIndicatorIcon() {
   );
 }
 
-function BoardSectionHeading({
-  id,
-  label,
-  title,
-  as: HeadingTag = "h2",
-}: {
-  id?: string;
-  label: string;
-  title: string;
-  as?: "h1" | "h2";
-}) {
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <p className="type-label font-semibold uppercase tracking-[0.18em] text-site-gold">
-          {label}
-        </p>
-        <HeadingTag
-          id={id}
-          className="type-section-title font-hahmlet font-bold tracking-[-0.02em] text-site-ink"
-        >
-          {title}
-        </HeadingTag>
-      </div>
-      <div className="h-px w-9 bg-site-gold" />
-    </div>
-  );
-}
-
 function getTextAlignStyle(attrs: Record<string, unknown> | undefined): CSSProperties | undefined {
   const align = attrs?.textAlign;
   return align === "center" || align === "right" || align === "justify" ? { textAlign: align } : undefined;
@@ -239,7 +211,7 @@ function renderInlineText(text: string, key: string, marks: unknown[] = []): Rea
       case "underline":
         return <u key={markKey}>{content}</u>;
       case "code":
-        return <code key={markKey} className="type-body-small rounded bg-cedar/8 px-1.5 py-0.5 font-mono text-site-ink">{content}</code>;
+        return <code key={markKey} className="type-body-small rounded bg-[#8b6db5]/8 px-1.5 py-0.5 font-mono text-[#33103f]">{content}</code>;
       case "highlight":
         return <mark key={markKey} style={getHighlightStyle(candidate.attrs)} className="rounded px-1">{content}</mark>;
       case "subscript":
@@ -258,7 +230,7 @@ function renderInlineText(text: string, key: string, marks: unknown[] = []): Rea
             href={href}
             target={href.startsWith("http") ? "_blank" : undefined}
             rel={href.startsWith("http") ? "noreferrer" : undefined}
-            className="break-words text-cedar underline underline-offset-4 hover:text-site-ink"
+            className="break-words text-[#8b6db5] underline underline-offset-4 hover:text-[#33103f]"
           >
             {content}
           </a>
@@ -305,21 +277,21 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       const level = typeof levelValue === "number" && levelValue >= 1 && levelValue <= 6 ? levelValue : 2;
       const style = getTextAlignStyle(candidate.attrs);
       if (level === 1) {
-        return <h1 key={key} style={style} className="type-section-title font-bold text-site-ink">{children}</h1>;
+        return <h1 key={key} style={style} className="type-section-title font-bold text-[#33103f]">{children}</h1>;
       }
       if (level === 3) {
-        return <h3 key={key} style={style} className="type-subsection-title font-bold text-site-ink">{children}</h3>;
+        return <h3 key={key} style={style} className="type-subsection-title font-bold text-[#33103f]">{children}</h3>;
       }
       if (level === 4) {
-        return <h4 key={key} style={style} className="type-block-title font-bold text-site-ink">{children}</h4>;
+        return <h4 key={key} style={style} className="type-block-title font-bold text-[#33103f]">{children}</h4>;
       }
       if (level === 5) {
-        return <h5 key={key} style={style} className="type-card-title font-bold text-site-ink">{children}</h5>;
+        return <h5 key={key} style={style} className="type-card-title font-bold text-[#33103f]">{children}</h5>;
       }
       if (level === 6) {
-        return <h6 key={key} style={style} className="type-body-strong font-bold text-site-ink">{children}</h6>;
+        return <h6 key={key} style={style} className="type-body-strong font-bold text-[#33103f]">{children}</h6>;
       }
-      return <h2 key={key} style={style} className="type-section-title font-bold text-site-ink">{children}</h2>;
+      return <h2 key={key} style={style} className="type-section-title font-bold text-[#33103f]">{children}</h2>;
     }
     case "bulletList":
       return <ul key={key} className="list-disc space-y-2 pl-6">{children}</ul>;
@@ -344,13 +316,13 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       );
     case "blockquote":
       return (
-        <blockquote key={key} className="border-l-4 border-cedar/35 pl-5 text-site-ink/82">
+        <blockquote key={key} className="border-l-4 border-[#8b6db5]/35 pl-5 text-[#33103f]/82">
           {children}
         </blockquote>
       );
     case "codeBlock":
       return (
-        <pre key={key} className="type-body-small overflow-x-auto rounded-[8px] border border-cedar/12 bg-cedar/6 px-5 py-4 text-site-ink">
+        <pre key={key} className="type-body-small overflow-x-auto rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6 px-5 py-4 text-[#33103f]">
           <code className="font-mono whitespace-pre-wrap">{children}</code>
         </pre>
       );
@@ -375,7 +347,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       }
 
       return (
-        <figure key={key} className="overflow-hidden rounded-[8px] border border-cedar/12 bg-cedar/6">
+        <figure key={key} className="overflow-hidden rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6">
           <Image
             src={src}
             alt={alt}
@@ -396,7 +368,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       }
 
       return (
-        <div key={key} className="overflow-hidden rounded-[8px] bg-site-ink">
+        <div key={key} className="overflow-hidden rounded-[8px] bg-[#33103f]">
           <div className="relative aspect-video w-full">
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${videoId}`}
@@ -461,7 +433,7 @@ function renderBoardPostSummary(
             }`}
           >
             {post.isPinned ? (
-              <span className="inline-flex min-h-8 items-center rounded-[6px] bg-site-ink px-2.5 text-center leading-none">
+              <span className="inline-flex min-h-8 items-center rounded-[6px] bg-[#33103f] px-2.5 text-center leading-none">
                 {numberLabel}
               </span>
             ) : (
@@ -469,7 +441,7 @@ function renderBoardPostSummary(
             )}
           </span>
           <span className="flex min-w-0 items-center gap-1.5">
-            <span className="type-body min-w-0 truncate font-semibold text-site-ink group-hover:text-cedar">
+            <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
               {post.title}
             </span>
             {post.hasAttachments ? (
@@ -500,7 +472,7 @@ function renderBoardPostSummary(
           {numberLabel}
         </span>
         <span className="hidden min-w-0 items-center gap-2 md:flex">
-          <span className="type-body min-w-0 truncate font-semibold text-site-ink group-hover:text-cedar">
+          <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
             {post.title}
           </span>
             {post.hasAttachments ? (
@@ -552,12 +524,12 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
       <main className="bg-white pb-20">
         <section className="section-shell section-shell--narrow pt-10 md:pt-16">
           <header>
-            <BoardSectionHeading id="public-board-list-title" label="BOARD" title={props.boardLabel} />
+            <SectionHeading label="Board" title={props.boardLabel} className="max-w-none" />
           </header>
           <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} searchTitle={props.searchTitle} />
           {props.posts.length > 0 ? (
             <>
-              <div className="border-b border-site-ink">
+              <div className="border-b border-[#33103f]">
                 <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
                   <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
@@ -582,7 +554,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                     aria-disabled={props.currentPage <= 1}
                     className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
                         ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                        : "border-cedar/12 text-site-ink hover:bg-cedar/6"
+                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                       }`}
                   >
                     이전
@@ -596,8 +568,8 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                           href={getBoardListPageHref(props.boardPath, page)}
                           aria-current={isCurrent ? "page" : undefined}
                           className={`type-body-small inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
-                              ? "border-site-ink bg-site-ink text-white"
-                              : "border-cedar/12 text-site-ink hover:bg-cedar/6"
+                              ? "border-[#33103f] bg-[#33103f] text-white"
+                              : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                             }`}
                         >
                           {page}
@@ -610,7 +582,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                     aria-disabled={props.currentPage >= props.totalPages}
                     className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
                         ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                        : "border-cedar/12 text-site-ink hover:bg-cedar/6"
+                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                       }`}
                   >
                     다음
@@ -638,7 +610,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             {props.boardLabel}
           </Link>
           <div className="mt-5">
-            <BoardSectionHeading id="public-board-detail-title" label="BOARD" title={props.post.title} as="h1" />
+            <SectionHeading label="Board" title={props.post.title} titleAs="h1" className="max-w-none" />
           </div>
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <p className="type-body-small text-site-muted">
@@ -660,7 +632,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </div>
         </header>
 
-        <div className="type-body prose prose-slate mt-10 max-w-none text-site-ink/82">
+        <div className="type-body prose mt-10 max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
           {renderTiptapDocument(props.post.contentJson)}
         </div>
         <div className="mt-10 border-b border-cedar/12" />
