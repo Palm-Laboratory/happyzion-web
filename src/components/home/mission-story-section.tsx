@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { TransitionEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { missionStories } from "@/lib/site-data";
@@ -119,19 +120,29 @@ function MissionStorySectionMobile() {
     setTrackIndex((currentIndex) => currentIndex + direction);
   };
 
-  const handleTrackTransitionEnd = () => {
+  const handleTrackTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
     if (trackIndex === 0) {
       setIsTrackResetting(true);
       setTrackIndex(missionStories.length);
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         setIsTrackResetting(false);
-      });
-    } else if (trackIndex === missionStories.length + 1) {
+        setIsSliding(false);
+      }, 50);
+      return;
+    }
+
+    if (trackIndex === missionStories.length + 1) {
       setIsTrackResetting(true);
       setTrackIndex(1);
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         setIsTrackResetting(false);
-      });
+        setIsSliding(false);
+      }, 50);
+      return;
     }
 
     setIsSliding(false);
@@ -201,7 +212,7 @@ function MissionStorySectionMobile() {
             onClick={() => {
               navigate(-1);
             }}
-            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
           >
             <svg
               viewBox="0 0 24 24"
@@ -239,7 +250,7 @@ function MissionStorySectionMobile() {
             onClick={() => {
               navigate(1);
             }}
-            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition hover:bg-white/5"
+            className="flex h-[60px] w-[60px] items-center justify-center border border-white/80 text-[#fdf4ff] transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50"
           >
             <svg
               viewBox="0 0 24 24"

@@ -474,14 +474,14 @@ function MobileTabButton({
 }) {
   const buttonClass =
     tone === "dark"
-      ? "border-[#c9a96e]/45 text-[#c9a96e] hover:bg-white/10"
-      : "border-[#5d3d8a]/25 text-[#340653] hover:bg-white/70";
+      ? "border-[#c9a96e]/45 text-[#c9a96e] focus-visible:outline-[#c9a96e]/70"
+      : "border-[#5d3d8a]/25 text-[#340653] focus-visible:outline-[#340653]/45";
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex h-8 w-8 shrink-0 items-center justify-center border text-sm leading-none lg:hidden ${buttonClass}`}
+      className={`flex h-8 w-8 shrink-0 items-center justify-center border text-sm leading-none [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden ${buttonClass}`}
       aria-label={direction === "previous" ? "이전 탭" : "다음 탭"}
     >
       {direction === "previous" ? "<" : ">"}

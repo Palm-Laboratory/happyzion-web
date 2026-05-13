@@ -130,16 +130,16 @@ function MissionCallout() {
 
 export default function MissionHistoryStaticPage() {
   return (
-    <main className="bg-white pb-[70px] pt-0 lg:py-[100px]">
-      <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
-
-      <div className="section-shell section-shell--narrow pt-[60px] lg:pt-0">
+    <main className="bg-white py-[70px] lg:py-[100px]">
+      <div className="section-shell section-shell--narrow">
         <SectionHeading
           label="Mission History"
           title="시온장로교회 선교 이력"
           description="The Journey of Faith and Mission"
           className="mb-[60px] max-w-[540px]"
         />
+
+        <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
 
         <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
           <section id="mission-history-timeline-track">

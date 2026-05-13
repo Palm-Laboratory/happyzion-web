@@ -38,14 +38,14 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
     ? "border-white/10 bg-[rgba(36,31,37,0.96)] text-white shadow-[0_18px_45px_rgba(0,0,0,0.28)]"
     : "border-cedar/10 bg-white text-ink shadow-[0_18px_45px_rgba(0,0,0,0.12)]";
   const mobileLinkClass = isHome
-    ? "border-white/10 text-white hover:bg-white/10 focus-visible:bg-white/10"
-    : "border-ink/10 text-ink hover:bg-ink/5 focus-visible:bg-ink/5";
+    ? "border-white/10 text-white focus-visible:outline-white/50"
+    : "border-ink/10 text-ink focus-visible:outline-ink/40";
   const mobileChildLinkClass = isHome
     ? "text-white/70 hover:text-white focus-visible:text-white"
     : "text-ink/60 hover:text-ink focus-visible:text-ink";
   const mobileButtonClass = isHome
-    ? "border-white/20 text-white hover:bg-white/10 focus-visible:bg-white/10"
-    : "border-ink/10 text-ink hover:bg-ink/5 focus-visible:bg-ink/5";
+    ? "border-white/20 text-white focus-visible:outline-white/50"
+    : "border-ink/10 text-ink focus-visible:outline-ink/40";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,11 +62,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
         return;
       }
 
-      const nextIsVisible = delta < 0;
-      setIsVisible(nextIsVisible);
-      if (!nextIsVisible) {
-        setIsMobileMenuOpen(false);
-      }
+      setIsVisible(delta < 0);
       lastScrollYRef.current = currentScrollY;
     };
 
@@ -81,6 +77,36 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
   useEffect(() => {
     document.documentElement.style.setProperty("--site-header-sticky-offset", isVisible ? "82px" : "0px");
   }, [isVisible]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const { documentElement, body } = document;
+    const scrollY = window.scrollY;
+    const previousHtmlOverflow = documentElement.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousBodyPosition = body.style.position;
+    const previousBodyTop = body.style.top;
+    const previousBodyWidth = body.style.width;
+
+    documentElement.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+
+    return () => {
+      documentElement.style.overflow = previousHtmlOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.position = previousBodyPosition;
+      body.style.top = previousBodyTop;
+      body.style.width = previousBodyWidth;
+      window.scrollTo(0, scrollY);
+      lastScrollYRef.current = scrollY;
+    };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     setOpenMenuKey(null);
@@ -125,7 +151,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
 
         <button
           type="button"
-          className={`flex h-11 w-11 shrink-0 items-center justify-center border transition focus-visible:outline-none lg:hidden ${mobileButtonClass}`}
+          className={`flex h-11 w-11 shrink-0 items-center justify-center border transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 lg:hidden ${mobileButtonClass}`}
           aria-label={isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
           aria-expanded={isMobileMenuOpen}
           aria-controls="site-mobile-menu"
@@ -207,7 +233,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
             : "pointer-events-none -translate-y-2 opacity-0"
         }`}
       >
-        <div className="flex max-h-[calc(100svh-82px)] flex-col overflow-y-auto px-4 py-4 md:px-8">
+        <div className="flex max-h-[calc(100svh-82px)] touch-pan-y flex-col overflow-y-auto overscroll-contain px-4 py-4 md:px-8">
           {navigationItems.map((item) => (
             <div className="border-b border-current/10 last:border-b-0" key={`${item.label}:${item.href}`}>
               <Link
@@ -215,7 +241,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
                 target={item.openInNewTab ? "_blank" : undefined}
                 rel={item.openInNewTab ? "noreferrer" : undefined}
                 onClick={closeMobileMenu}
-                className={`flex min-h-14 items-center px-2 py-4 font-suit text-base font-medium uppercase tracking-[0.12em] transition focus-visible:outline-none ${mobileLinkClass}`}
+                className={`flex min-h-14 items-center px-2 py-4 font-suit text-base font-medium uppercase tracking-[0.12em] transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${mobileLinkClass}`}
               >
                 {item.label}
               </Link>
@@ -229,7 +255,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
                       target={child.openInNewTab ? "_blank" : undefined}
                       rel={child.openInNewTab ? "noreferrer" : undefined}
                       onClick={closeMobileMenu}
-                      className={`block px-2 py-2 font-suit text-sm font-light transition focus-visible:outline-none ${mobileChildLinkClass}`}
+                      className={`block px-2 py-2 font-suit text-sm font-light transition [-webkit-tap-highlight-color:transparent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${mobileChildLinkClass}`}
                     >
                       {child.label}
                     </Link>
