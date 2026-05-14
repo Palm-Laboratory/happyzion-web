@@ -140,6 +140,7 @@ function fromServerYear(y: ServerYear): MissionYear {
 export default function MissionHistoryClient({ initialYears }: { initialYears: ServerYear[] }) {
   const toast = useAdminToast();
   const listRef = useRef<HTMLUListElement>(null);
+  const detailScrollRef = useRef<HTMLDivElement>(null);
   const [items, setItems] = useState<MissionYear[]>(() => initialYears.map(fromServerYear));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState<MissionYear | null>(null);
@@ -377,6 +378,9 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
 
   const addEntry = useCallback(() => {
     setDraft((prev) => prev ? { ...prev, entries: [...prev.entries, makeEntry()] } : prev);
+    setTimeout(() => {
+      detailScrollRef.current?.scrollTo({ top: detailScrollRef.current.scrollHeight, behavior: "smooth" });
+    }, 0);
   }, []);
 
   const removeEntry = useCallback((entryId: string) => {
@@ -557,7 +561,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
 
         {draft ? (
           <>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div ref={detailScrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
             {/* 취소 확인 패널 */}
             {showCancelConfirm && (
               <div className="rounded-xl border-2 border-amber-300 bg-amber-50 p-4">
