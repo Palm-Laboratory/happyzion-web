@@ -167,6 +167,13 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         setItems((prev) => prev.map((i) => i.id === selectedId ? structuredClone(draft) : i));
       } else if (isDirty) {
         setWorkingCopies((prev) => new Map(prev).set(selectedId, structuredClone(draft)));
+      } else {
+        setWorkingCopies((prev) => {
+          if (!prev.has(selectedId)) return prev;
+          const next = new Map(prev);
+          next.delete(selectedId);
+          return next;
+        });
       }
     }
     const workingCopy = workingCopies.get(item.id);
@@ -497,7 +504,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                       신규
                     </span>
                   )}
-                  {!newItemIds.has(item.id) && (workingCopies.has(item.id) || (item.id === selectedId && isDirty)) && (
+                  {!newItemIds.has(item.id) && (item.id === selectedId ? isDirty : workingCopies.has(item.id)) && (
                     <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-100 text-amber-600">
                       수정
                     </span>
