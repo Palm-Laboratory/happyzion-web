@@ -25,6 +25,10 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
     redirect("/admin/login?callbackUrl=/admin/members");
   }
 
+  if (session.user.accountRole !== "SUPER_ADMIN") {
+    redirect("/admin");
+  }
+
   const params = await searchParams;
   let listResult: AdminMemberListResult = { members: [], totalElements: 0, hasNext: false };
   let selectedDetail: AdminMemberDetailResult | null = null;

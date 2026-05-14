@@ -14,6 +14,12 @@ type NavItem = {
   requireSuperAdmin?: boolean;
 };
 
+type NavGroup = {
+  label: string;
+  requireSuperAdmin?: boolean;
+  items: NavItem[];
+};
+
 const NAV_GROUPS = [
   {
     label: "사이트 관리",
@@ -104,6 +110,7 @@ const NAV_GROUPS = [
   },
   {
     label: "교회 관리",
+    requireSuperAdmin: true,
     items: [
       {
         href: "/admin/members",
@@ -154,16 +161,12 @@ interface CmsSidebarProps {
 export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
   const pathname = usePathname();
   const currentPath = pathname ?? "";
-  const navGroups = NAV_GROUPS.map((group) => ({
-    ...group,
-    items: group.items.filter((item) => {
-      if (item.href === "/admin/members" || item.href === "/admin/attendance" || item.href === "/admin/cells") {
-        return true;
-      }
-
-      return !item.requireSuperAdmin || canManageAccounts;
-    }),
-  }));
+  const navGroups = (NAV_GROUPS as NavGroup[])
+    .filter((group) => !group.requireSuperAdmin || canManageAccounts)
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !item.requireSuperAdmin || canManageAccounts),
+    }));
 
   const isActive = (href: string, exact: boolean) => {
     if (exact) {

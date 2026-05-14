@@ -10,6 +10,10 @@ export default async function AdminAttendancePage() {
     redirect("/admin/login?callbackUrl=/admin/attendance");
   }
 
+  if (session.user.accountRole !== "SUPER_ADMIN") {
+    redirect("/admin");
+  }
+
   return (
     <div className="space-y-6">
       <AdminBreadcrumb items={[{ label: "교회 관리" }, { label: "출석 관리" }]} />

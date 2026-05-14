@@ -12,6 +12,10 @@ export default async function AdminMembersNewPage() {
     redirect("/admin/login?callbackUrl=/admin/members/new");
   }
 
+  if (session.user.accountRole !== "SUPER_ADMIN") {
+    redirect("/admin");
+  }
+
   return (
     <div className="space-y-6">
       <AdminBreadcrumb
