@@ -163,7 +163,7 @@ export default function MemberRegistryClient({
             />
           </Field>
 
-          <Field label="공동체(임시 참조)">
+          <Field label="공동체">
             <select
               value={selectedCell}
               onChange={(event) => setSelectedCell(event.target.value)}
@@ -288,7 +288,7 @@ export default function MemberRegistryClient({
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">이름</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">연락처</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">주소</th>
-                  <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">공동체(임시)</th>
+                  <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">공동체</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">신앙 레벨</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">등록일</th>
                   <th className="px-4 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]">상태</th>
@@ -578,7 +578,7 @@ function BasicTab({
             { label: "이메일", value: member.email ?? "미등록" },
             { label: "직업", value: member.job ?? "미등록" },
             { label: "주소", value: `${member.address}${member.addressDetail ? `, ${member.addressDetail}` : ""}`, span: 2 },
-            { label: "공동체(임시 참조)", value: communityLabel(member.cellLabel) },
+            { label: "공동체", value: communityLabel(member.cellLabel) },
             { label: "가족 구성", value: `${familyCount}명 연결` },
           ]}
         />

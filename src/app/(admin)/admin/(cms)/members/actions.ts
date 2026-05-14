@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import { createAdminMember, toFriendlyAdminMemberMessage, type CreateAdminMemberPayload } from "@/lib/admin-members-api";
-import { MOCK_CELLS } from "./_components/mock-data";
 
 async function requireAdminActor() {
   const session = await getAdminSession();
@@ -35,7 +34,7 @@ export async function createAdminMemberAction(formData: FormData): Promise<void>
     address: String(formData.get("address") ?? "").trim(),
     addressDetail: String(formData.get("addressDetail") ?? "").trim() || null,
     job: String(formData.get("job") ?? "").trim() || null,
-    cellLabel: MOCK_CELLS.find((cell) => cell.id === String(formData.get("cellId") ?? "").trim())?.label ?? null,
+    cellLabel: String(formData.get("cellLabel") ?? "").trim() || null,
     status: (formData.get("status") as CreateAdminMemberPayload["status"]) ?? "NEW",
     faithStage: (formData.get("faithStage") as CreateAdminMemberPayload["faithStage"]) ?? "NEW_COMER",
     office: (formData.get("office") as CreateAdminMemberPayload["office"]) ?? "LAY",

@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import { createAdminMemberAction } from "../actions";
-import { MOCK_CELLS } from "../_components/mock-data";
 
 export default async function AdminMembersNewPage() {
   const session = await getAdminSession();
@@ -72,8 +71,8 @@ export default async function AdminMembersNewPage() {
             <div>
               <Select
                 name="cellId"
-                label="공동체 ID(임시 참조)"
-                options={[{ label: "선택", value: "" }, ...MOCK_CELLS.map((cell) => ({ label: cell.id, value: cell.id }))]}
+                label="공동체 ID"
+                options={[{ label: "선택", value: "" }]}
               />
               <input type="hidden" name="cellLabel" value="" />
             </div>
@@ -153,7 +152,6 @@ export default async function AdminMembersNewPage() {
             <ul className="mt-3 space-y-2 text-[12px] text-[#5d6f86]">
               <li>이름, 연락처, 생년월일은 필수입니다.</li>
               <li>상태 기본값은 `새가족`, 신앙 레벨 기본값은 `Lv1` 입니다.</li>
-              <li>공동체 값은 별도 `구역/쉘 관리` 모듈 확정 전까지 임시 참조값입니다.</li>
               <li>등록 완료 시 시스템 이력에 `REGISTERED` 이벤트가 남습니다.</li>
             </ul>
           </div>

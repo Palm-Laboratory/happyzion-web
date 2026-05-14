@@ -4,7 +4,6 @@ import type { AdminMemberDetailResult, AdminMemberListResult } from "@/lib/admin
 import { getAdminMemberDetail, getAdminMembers, toFriendlyAdminMemberMessage } from "@/lib/admin-members-api";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import MemberRegistryClient from "./_components/member-registry-client";
-import { MOCK_CELLS } from "./_components/mock-data";
 import type { FaithStage, MemberStatus } from "./_components/types";
 
 interface AdminMembersPageProps {
@@ -64,7 +63,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
         initialTotal={listResult.totalElements}
         initialHasNext={listResult.hasNext}
         initialSelectedDetail={selectedDetail}
-        availableCells={MOCK_CELLS}
+        availableCells={[]}
         loadError={loadError}
         initialFilters={{
           query: params.query ?? "",
