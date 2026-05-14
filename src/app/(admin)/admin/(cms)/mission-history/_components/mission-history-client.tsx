@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, type DragEvent } from "react";
 import { useAdminToast } from "../../components/admin-toast-provider";
 
 type MissionTone = "gold" | "red" | null;
@@ -129,11 +129,13 @@ function fromServerYear(y: ServerYear): MissionYear {
 
 export default function MissionHistoryClient({ initialYears }: { initialYears: ServerYear[] }) {
   const toast = useAdminToast();
+  const listRef = useRef<HTMLUListElement>(null);
   const [items, setItems] = useState<MissionYear[]>(() => initialYears.map(fromServerYear));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState<MissionYear | null>(null);
   const [isNewYear, setIsNewYear] = useState(false);
   const [newItemIds, setNewItemIds] = useState<Set<string>>(new Set());
+  const [workingCopies, setWorkingCopies] = useState<Map<string, MissionYear>>(new Map());
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -150,13 +152,21 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
   }, []);
 
   const selectYear = useCallback((item: MissionYear) => {
+    if (selectedId && draft) {
+      if (isNewYear) {
+        setItems((prev) => prev.map((i) => i.id === selectedId ? structuredClone(draft) : i));
+      } else if (isDirty) {
+        setWorkingCopies((prev) => new Map(prev).set(selectedId, structuredClone(draft)));
+      }
+    }
+    const workingCopy = workingCopies.get(item.id);
     setSelectedId(item.id);
-    setDraft(structuredClone(item));
+    setDraft(structuredClone(workingCopy ?? item));
     setIsNewYear(newItemIds.has(item.id));
     setShowCancelConfirm(false);
     setShowDeleteConfirm(false);
     clearAllErrors();
-  }, [clearAllErrors, newItemIds]);
+  }, [clearAllErrors, newItemIds, isNewYear, draft, selectedId, isDirty, workingCopies]);
 
   const handleAddYear = useCallback(() => {
     const newYear = makeYear();
@@ -167,6 +177,9 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
     setShowCancelConfirm(false);
     setNewItemIds((prev) => new Set(prev).add(newYear.id));
     clearAllErrors();
+    setTimeout(() => {
+      listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+    }, 0);
   }, [clearAllErrors]);
 
   const handleSave = useCallback(async () => {
@@ -212,6 +225,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         setSelectedId(savedItem.id);
         setDraft(structuredClone(savedItem));
         setNewItemIds((prev) => { const next = new Set(prev); next.delete(draft.id); return next; });
+        setWorkingCopies((prev) => { const next = new Map(prev); next.delete(draft.id); return next; });
       } else {
         const res = await fetch(`/api/admin/mission-history/${draft.id}`, {
           method: "PUT",
@@ -227,6 +241,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         const savedItem = fromServerYear(saved);
         setItems((prev) => prev.map((item) => item.id === draft.id ? savedItem : item));
         setDraft(structuredClone(savedItem));
+        setWorkingCopies((prev) => { const next = new Map(prev); next.delete(draft.id); return next; });
       }
 
       setIsNewYear(false);
@@ -272,7 +287,13 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
 
   const handleCancelNew = useCallback(() => {
     if (!selectedId) return;
-    if (isDirty) {
+    const savedItem = items.find((i) => i.id === selectedId);
+    const hasContent = savedItem && (
+      savedItem.year.trim() ||
+      savedItem.caption.trim() ||
+      savedItem.entries.some((e) => e.month || e.place.trim())
+    );
+    if (isDirty || hasContent) {
       setShowCancelConfirm(true);
       return;
     }
@@ -282,18 +303,24 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
     setDraft(null);
     setIsNewYear(false);
     clearAllErrors();
-  }, [selectedId, isDirty, clearAllErrors]);
+  }, [selectedId, isDirty, items, clearAllErrors]);
 
   const confirmCancel = useCallback(() => {
     if (!selectedId) return;
-    setItems((prev) => prev.filter((item) => item.id !== selectedId));
-    setNewItemIds((prev) => { const next = new Set(prev); next.delete(selectedId); return next; });
-    setSelectedId(null);
-    setDraft(null);
-    setIsNewYear(false);
+    if (isNewYear) {
+      setItems((prev) => prev.filter((item) => item.id !== selectedId));
+      setNewItemIds((prev) => { const next = new Set(prev); next.delete(selectedId); return next; });
+      setSelectedId(null);
+      setDraft(null);
+      setIsNewYear(false);
+    } else {
+      const original = items.find((i) => i.id === selectedId);
+      if (original) setDraft(structuredClone(original));
+      setWorkingCopies((prev) => { const next = new Map(prev); next.delete(selectedId); return next; });
+    }
     setShowCancelConfirm(false);
     clearAllErrors();
-  }, [selectedId, clearAllErrors]);
+  }, [selectedId, isNewYear, items, clearAllErrors]);
 
   const handleDelete = useCallback(async () => {
     if (!selectedId) return;
@@ -332,6 +359,50 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
     setDraft((prev) => prev ? { ...prev, entries: prev.entries.filter((e) => e.id !== entryId) } : prev);
   }, []);
 
+  const [draggingEntryId, setDraggingEntryId] = useState<string | null>(null);
+  const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
+
+  const handleEntryDragStart = useCallback((e: DragEvent<HTMLDivElement>, entryId: string) => {
+    e.dataTransfer.effectAllowed = "move";
+    setDraggingEntryId(entryId);
+  }, []);
+
+  const handleEntryDragOver = useCallback((e: DragEvent<HTMLDivElement>, entryIndex: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    const rect = e.currentTarget.getBoundingClientRect();
+    const isAfter = e.clientY > rect.top + rect.height / 2;
+    setDropIndicatorIndex(entryIndex + (isAfter ? 1 : 0));
+  }, []);
+
+  const handleEntryDrop = useCallback((e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    if (!draggingEntryId || dropIndicatorIndex === null) {
+      setDraggingEntryId(null);
+      setDropIndicatorIndex(null);
+      return;
+    }
+    const fromId = draggingEntryId;
+    const toIndicator = dropIndicatorIndex;
+    setDraft((prev) => {
+      if (!prev) return prev;
+      const entries = [...prev.entries];
+      const fromIdx = entries.findIndex((en) => en.id === fromId);
+      if (fromIdx === -1) return prev;
+      const insertAt = toIndicator > fromIdx ? toIndicator - 1 : toIndicator;
+      const [moved] = entries.splice(fromIdx, 1);
+      entries.splice(insertAt, 0, moved);
+      return { ...prev, entries };
+    });
+    setDraggingEntryId(null);
+    setDropIndicatorIndex(null);
+  }, [draggingEntryId, dropIndicatorIndex]);
+
+  const resetEntryDrag = useCallback(() => {
+    setDraggingEntryId(null);
+    setDropIndicatorIndex(null);
+  }, []);
+
   const changeCount = (() => {
     if (!draft || !selected) return 0;
     let count = 0;
@@ -348,6 +419,8 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
       if (!saved) count++;
       else if (e.month !== saved.month || e.place !== saved.place || e.isFirst !== saved.isFirst) count++;
     }
+    const orderChanged = draft.entries.some((e, i) => e.id !== selected.entries[i]?.id);
+    if (orderChanged) count++;
     return count;
   })();
 
@@ -376,7 +449,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
           </button>
         </div>
 
-        <ul className="flex-1 overflow-y-auto" style={{ maxHeight: "calc(100vh - 280px)", minHeight: 420 }}>
+        <ul ref={listRef} className="flex-1 overflow-y-auto" style={{ maxHeight: "calc(100vh - 280px)", minHeight: 420 }}>
           {items.map((item) => {
             const isActive = item.id === selectedId;
             return (
@@ -402,6 +475,11 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                       신규
                     </span>
                   )}
+                  {!newItemIds.has(item.id) && (workingCopies.has(item.id) || (item.id === selectedId && isDirty)) && (
+                    <span className="shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold bg-amber-100 text-amber-600">
+                      수정
+                    </span>
+                  )}
                 </button>
               </li>
             );
@@ -419,6 +497,16 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                 <button
                   type="button"
                   onClick={handleCancelNew}
+                  disabled={isSaving}
+                  className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  취소
+                </button>
+              )}
+              {!isNewYear && isDirty && (
+                <button
+                  type="button"
+                  onClick={() => setShowCancelConfirm(true)}
                   disabled={isSaving}
                   className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
@@ -448,7 +536,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                   <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-500 text-[13px] font-black text-white">!</span>
                   <div className="flex-1">
                     <p className="text-[14px] font-bold text-amber-900">저장되지 않은 내용은 사라집니다.</p>
-                    <p className="mt-1 text-[12px] leading-5 text-amber-800">취소하면 입력한 내용이 모두 삭제됩니다.</p>
+                    <p className="mt-1 text-[12px] leading-5 text-amber-800">{isNewYear ? "취소하면 입력한 내용이 모두 삭제됩니다." : "변경사항을 취소하면 원래 내용으로 돌아갑니다."}</p>
                     <div className="mt-4 flex gap-2">
                       <button
                         type="button"
@@ -543,21 +631,46 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
               <p className="text-[12px] font-semibold text-[#334155]">선교 목록</p>
 
               <div className="space-y-2">
-                <div className="grid items-center gap-2" style={{ gridTemplateColumns: "120px 1fr 50px 28px" }}>
+                <div className="grid items-center gap-2" style={{ gridTemplateColumns: "20px 120px 1fr 50px 28px" }}>
+                  <span />
                   <span className="text-[11px] font-semibold text-[#94a3b8]">월</span>
                   <span className="text-[11px] font-semibold text-[#94a3b8]">나라/지역명</span>
                   <span className="text-[11px] font-semibold text-[#94a3b8]">FIRST</span>
                   <span />
                 </div>
 
-                {draft.entries.map((entry) => {
+                {draft.entries.map((entry, entryIndex) => {
                   const entryErrors = invalidEntryFields.get(entry.id);
+                  const isDragging = draggingEntryId === entry.id;
+                  const showTopLine = dropIndicatorIndex === entryIndex && draggingEntryId !== entry.id;
+                  const showBottomLine = dropIndicatorIndex === entryIndex + 1 && entryIndex === draft.entries.length - 1 && draggingEntryId !== entry.id;
                   return (
                     <div
                       key={entry.id}
-                      className="grid items-center gap-2 py-1"
-                      style={{ gridTemplateColumns: "120px 1fr 50px 28px" }}
+                      draggable
+                      onDragStart={(e) => handleEntryDragStart(e, entry.id)}
+                      onDragOver={(e) => handleEntryDragOver(e, entryIndex)}
+                      onDrop={handleEntryDrop}
+                      onDragEnd={resetEntryDrag}
+                      className={`relative grid items-center gap-2 py-1 rounded ${isDragging ? "opacity-40" : ""}`}
+                      style={{ gridTemplateColumns: "20px 120px 1fr 50px 28px" }}
                     >
+                      {showTopLine && (
+                        <span aria-hidden="true" className="pointer-events-none absolute left-0 right-0 top-0 z-10 h-0.5 rounded-full bg-[#3f74c7]" />
+                      )}
+                      {showBottomLine && (
+                        <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-0.5 rounded-full bg-[#3f74c7]" />
+                      )}
+                      <div className="flex cursor-grab items-center justify-center text-[#c0cdd9] active:cursor-grabbing">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                          <circle cx="4" cy="2.5" r="1" fill="currentColor" />
+                          <circle cx="8" cy="2.5" r="1" fill="currentColor" />
+                          <circle cx="4" cy="6" r="1" fill="currentColor" />
+                          <circle cx="8" cy="6" r="1" fill="currentColor" />
+                          <circle cx="4" cy="9.5" r="1" fill="currentColor" />
+                          <circle cx="8" cy="9.5" r="1" fill="currentColor" />
+                        </svg>
+                      </div>
                       <div className="relative w-full">
                         <select
                           value={entry.month}
