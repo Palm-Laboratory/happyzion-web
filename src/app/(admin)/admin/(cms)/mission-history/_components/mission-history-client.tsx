@@ -82,6 +82,16 @@ function toneTextClass(tone: MissionTone) {
 
 const ERROR_INPUT = "border-red-400 focus:border-red-400 focus:ring-red-200";
 const NORMAL_INPUT = "border-[#d5deea] focus:border-[#3f74c7] focus:ring-[#3f74c7]/20";
+const YEAR_MAX_LENGTH = 20;
+const TEXT_MAX_LENGTH = 200;
+
+function sanitizeYear(value: string) {
+  return value.replace(/[^0-9~-]/g, "");
+}
+
+function limitText(value: string, maxLength: number) {
+  return value.slice(0, maxLength);
+}
 
 function ErrorMessage({ message }: { message: string }) {
   return (
@@ -187,13 +197,13 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
 
     const newInvalidFields = new Set<string>();
     if (!draft.year.trim()) newInvalidFields.add("year");
+    else if (!/^[0-9~-]+$/.test(draft.year)) newInvalidFields.add("year");
     if (!draft.caption.trim()) newInvalidFields.add("caption");
     setInvalidFields(newInvalidFields);
 
     const newInvalidEntryFields = new Map<string, Set<string>>();
     for (const e of draft.entries) {
       const fieldErrors = new Set<string>();
-      if (e.month === "") fieldErrors.add("month");
       if (!e.place.trim()) fieldErrors.add("place");
       if (fieldErrors.size > 0) newInvalidEntryFields.set(e.id, fieldErrors);
     }
@@ -256,18 +266,30 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
   }, [draft, isNewYear, clearAllErrors, toast]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
-    if ((key === "year" || key === "caption") && typeof value === "string" && value.trim() !== "") {
+    let nextValue = value;
+    if (key === "year" && typeof value === "string") {
+      nextValue = limitText(sanitizeYear(value), YEAR_MAX_LENGTH) as MissionYear[K];
+    }
+    if (key === "caption" && typeof value === "string") {
+      nextValue = limitText(value, TEXT_MAX_LENGTH) as MissionYear[K];
+    }
+
+    if ((key === "year" || key === "caption") && typeof nextValue === "string" && nextValue.trim() !== "") {
       setInvalidFields((prev) => {
         const next = new Set(prev);
         next.delete(key);
         return next;
       });
     }
-    setDraft((prev) => prev ? { ...prev, [key]: value } : prev);
+    setDraft((prev) => prev ? { ...prev, [key]: nextValue } : prev);
   }, []);
 
   const updateEntry = useCallback((entryId: string, field: keyof MissionEntry, value: string | boolean) => {
-    if (typeof value === "string" && value !== "") {
+    const nextValue = field === "place" && typeof value === "string"
+      ? limitText(value, TEXT_MAX_LENGTH)
+      : value;
+
+    if (typeof nextValue === "string" && nextValue !== "") {
       setInvalidEntryFields((prev) => {
         const next = new Map(prev);
         const fields = next.get(entryId);
@@ -281,7 +303,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
     }
     setDraft((prev) => {
       if (!prev) return prev;
-      return { ...prev, entries: prev.entries.map((e) => e.id === entryId ? { ...e, [field]: value } : e) };
+      return { ...prev, entries: prev.entries.map((e) => e.id === entryId ? { ...e, [field]: nextValue } : e) };
     });
   }, []);
 
@@ -567,6 +589,9 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                   <label className="block text-[11px] font-semibold text-[#5d6f86]">연도</label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    pattern="[0-9~-]*"
+                    maxLength={YEAR_MAX_LENGTH}
                     value={draft.year}
                     onChange={(e) => updateDraftField("year", e.target.value)}
                     placeholder="예) 2026"
@@ -579,6 +604,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                   <label className="block text-[11px] font-semibold text-[#5d6f86]">캡션</label>
                   <input
                     type="text"
+                    maxLength={TEXT_MAX_LENGTH}
                     value={draft.caption}
                     onChange={(e) => updateDraftField("caption", e.target.value)}
                     placeholder="예) 선교는 계속됩니다"
@@ -619,7 +645,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                     invalidFields.has("year") && invalidFields.has("caption")
                       ? "연도와 캡션을 입력해주세요."
                       : invalidFields.has("year")
-                      ? "연도를 입력해주세요."
+                      ? "연도는 숫자와 -, ~만 입력해주세요."
                       : "캡션을 입력해주세요."
                   }
                 />
@@ -679,7 +705,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                             entryErrors?.has("month") ? ERROR_INPUT : NORMAL_INPUT
                           }`}
                         >
-                          <option value="">월 선택</option>
+                          <option value="">월 미표기</option>
                           {MONTHS.map((m) => (
                             <option key={m.value} value={m.value}>{m.label}</option>
                           ))}
@@ -690,6 +716,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
                       </div>
                       <input
                         type="text"
+                        maxLength={TEXT_MAX_LENGTH}
                         value={entry.place}
                         onChange={(e) => updateEntry(entry.id, "place", e.target.value)}
                         placeholder="나라 또는 지역명"
@@ -736,7 +763,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
               </button>
 
               {hasEntryErrors && (
-                <ErrorMessage message="필수 항목(월, 나라/지역명)이 입력되지 않은 항목이 있습니다." />
+                <ErrorMessage message="나라/지역명이 입력되지 않은 항목이 있습니다." />
               )}
             </div>
           </div>
