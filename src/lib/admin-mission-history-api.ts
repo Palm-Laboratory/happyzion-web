@@ -1,0 +1,87 @@
+import "server-only";
+
+import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+
+export type MissionTone = "gold" | "red" | null;
+
+export interface MissionEntry {
+  id: number;
+  month: string | null;
+  place: string;
+  isFirst: boolean;
+  sortOrder: number;
+}
+
+export interface MissionYear {
+  id: number;
+  year: string;
+  caption: string;
+  tone: MissionTone;
+  sortOrder: number;
+  entries: MissionEntry[];
+}
+
+export interface MissionYearDetail extends MissionYear {
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MissionEntryPayload {
+  month: string | null;
+  place: string;
+  isFirst: boolean;
+  sortOrder: number;
+}
+
+export interface MissionYearPayload {
+  year: string;
+  caption: string;
+  tone: MissionTone;
+  sortOrder?: number;
+  entries: MissionEntryPayload[];
+}
+
+export async function listMissionYears(actorId: string): Promise<MissionYear[]> {
+  const response = await adminApiFetch("/api/v1/admin/mission-history", {
+    headers: { "X-Admin-Actor-Id": actorId },
+  });
+  const data = (await response.json()) as { years: MissionYear[] };
+  return data.years;
+}
+
+export async function createMissionYear(actorId: string, payload: MissionYearPayload): Promise<MissionYearDetail> {
+  const response = await adminApiFetch("/api/v1/admin/mission-history", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Admin-Actor-Id": actorId,
+    },
+    body: JSON.stringify(payload),
+  });
+  return response.json() as Promise<MissionYearDetail>;
+}
+
+export async function updateMissionYear(actorId: string, yearId: number, payload: MissionYearPayload): Promise<MissionYearDetail> {
+  const response = await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Admin-Actor-Id": actorId,
+    },
+    body: JSON.stringify(payload),
+  });
+  return response.json() as Promise<MissionYearDetail>;
+}
+
+export async function deleteMissionYear(actorId: string, yearId: number): Promise<void> {
+  await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Actor-Id": actorId },
+  });
+}
+
+export function toFriendlyMissionHistoryMessage(error: unknown, fallback: string): string {
+  if (!(error instanceof AdminApiError)) return fallback;
+  if (error.status === 401 || error.status === 403) return "권한이 없거나 로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
+  return error.message || fallback;
+}

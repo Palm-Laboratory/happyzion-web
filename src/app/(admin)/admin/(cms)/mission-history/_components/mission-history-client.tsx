@@ -48,27 +48,19 @@ function makeYear(overrides?: Partial<MissionYear>): MissionYear {
   return { id: genId(), year: "", caption: "", tone: null, entries: [makeEntry()], ...overrides };
 }
 
-const INITIAL_DATA: MissionYear[] = [
-  { id: genId(), year: "2007", caption: "선교의 첫 발을 내딛다", tone: "gold", entries: [makeEntry({ month: "May", place: "필리핀 팡가시난", isFirst: true })] },
-  { id: genId(), year: "2008", caption: "두 번째 여름, 같은 땅에서", tone: null, entries: [makeEntry({ month: "May", place: "필리핀 팡가시난" })] },
-  { id: genId(), year: "2009", caption: "말레이시아로 지경을 넓히다", tone: "gold", entries: [makeEntry({ month: "Feb", place: "말레이시아", isFirst: true }), makeEntry({ month: "May", place: "필리핀" })] },
-  { id: genId(), year: "2010", caption: "두 땅에서 복음을 전하다", tone: null, entries: [makeEntry({ month: "Feb", place: "말레이시아" }), makeEntry({ month: "May", place: "필리핀" })] },
-  { id: genId(), year: "2011", caption: "아시아를 향한 꾸준한 발걸음", tone: null, entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "말레이시아" })] },
-  { id: genId(), year: "2012", caption: "흔들림 없이, 해마다", tone: null, entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "말레이시아" })] },
-  { id: genId(), year: "2013", caption: "캄보디아 첫 사역", tone: "gold", entries: [makeEntry({ month: "Feb", place: "캄보디아", isFirst: true }), makeEntry({ month: "May", place: "필리핀 팡가시난" })] },
-  { id: genId(), year: "2014", caption: "중국까지, 새로운 사역의 문", tone: "gold", entries: [makeEntry({ month: "Feb", place: "필리핀 팡가시난" }), makeEntry({ month: "May", place: "말레이시아" }), makeEntry({ month: "Oct", place: "중국", isFirst: true })] },
-  { id: genId(), year: "2015", caption: "선교사역은 계속되고", tone: "gold", entries: [makeEntry({ month: "Feb", place: "필리핀 팡가시난" }), makeEntry({ month: "May", place: "태국 칸차나부리" }), makeEntry({ month: "Oct", place: "캄보디아", isFirst: true })] },
-  { id: genId(), year: "2016", caption: "인도네시아로, 복음의 걸음 더하기", tone: "gold", entries: [makeEntry({ month: "Feb", place: "인도네시아", isFirst: true }), makeEntry({ month: "May", place: "캄보디아" }), makeEntry({ month: "Oct", place: "중국" })] },
-  { id: genId(), year: "2017", caption: "미얀마까지, 사역을 넓히며", tone: "gold", entries: [makeEntry({ month: "Feb", place: "미얀마", isFirst: true }), makeEntry({ month: "May", place: "인도네시아" }), makeEntry({ month: "Oct", place: "중국" })] },
-  { id: genId(), year: "2018", caption: "다음 땅을 바라보며", tone: "gold", entries: [makeEntry({ month: "Feb", place: "인도네시아" }), makeEntry({ month: "May", place: "미얀마" }), makeEntry({ month: "Oct", place: "파라과이", isFirst: true })] },
-  { id: genId(), year: "2019", caption: "다시 미얀마로", tone: null, entries: [makeEntry({ month: "Feb", place: "인도네시아" }), makeEntry({ month: "May", place: "미얀마" }), makeEntry({ month: "Oct", place: "필리핀" })] },
-  { id: genId(), year: "2020-21", caption: "잠시 멈춘 기간", tone: "red", entries: [makeEntry({ month: "", place: "코로나19로 인해 제한된 선교 중단" })] },
-  { id: genId(), year: "2022", caption: "그리움 뒤 다시, 다시", tone: "gold", entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "인도네시아" }), makeEntry({ month: "Oct", place: "필리핀" })] },
-  { id: genId(), year: "2023", caption: "회복의 걸음을 이어가다", tone: null, entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "인도네시아" }), makeEntry({ month: "Oct", place: "파라과이" })] },
-  { id: genId(), year: "2024", caption: "몽골까지, 땅끝을 향해", tone: "gold", entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "몽골", isFirst: true }), makeEntry({ month: "Oct", place: "태국" })] },
-  { id: genId(), year: "2025", caption: "변함없이, 오늘도", tone: null, entries: [makeEntry({ month: "Feb", place: "필리핀" }), makeEntry({ month: "May", place: "태국", isFirst: true }), makeEntry({ month: "Oct", place: "인도네시아" })] },
-  { id: genId(), year: "2026", caption: "선교는 계속됩니다", tone: null, entries: [makeEntry({ month: "Feb", place: "필리핀" })] },
-];
+function toPayload(draft: MissionYear) {
+  return {
+    year: draft.year,
+    caption: draft.caption,
+    tone: draft.tone,
+    entries: draft.entries.map((e, i) => ({
+      month: e.month === "" ? null : e.month,
+      place: e.place,
+      isFirst: e.isFirst,
+      sortOrder: i,
+    })),
+  };
+}
 
 const TONE_OPTIONS: { value: MissionTone; label: string; dot: string }[] = [
   { value: null, label: "퍼플", dot: "bg-[#8b6db5]" },
@@ -103,18 +95,50 @@ function ErrorMessage({ message }: { message: string }) {
   );
 }
 
-export default function MissionHistoryClient() {
+interface ServerEntry {
+  id: number;
+  month: string | null;
+  place: string;
+  isFirst: boolean;
+  sortOrder: number;
+}
+
+interface ServerYear {
+  id: number;
+  year: string;
+  caption: string;
+  tone: string | null;
+  sortOrder: number;
+  entries: ServerEntry[];
+}
+
+function fromServerYear(y: ServerYear): MissionYear {
+  return {
+    id: String(y.id),
+    year: y.year,
+    caption: y.caption,
+    tone: (y.tone as MissionTone) ?? null,
+    entries: y.entries.map((e) => ({
+      id: String(e.id),
+      month: e.month ?? "",
+      place: e.place,
+      isFirst: e.isFirst,
+    })),
+  };
+}
+
+export default function MissionHistoryClient({ initialYears }: { initialYears: ServerYear[] }) {
   const toast = useAdminToast();
-  const [items, setItems] = useState<MissionYear[]>(INITIAL_DATA);
+  const [items, setItems] = useState<MissionYear[]>(() => initialYears.map(fromServerYear));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState<MissionYear | null>(null);
   const [isNewYear, setIsNewYear] = useState(false);
   const [newItemIds, setNewItemIds] = useState<Set<string>>(new Set());
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  // 연도 정보 에러: 'year' | 'caption'
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [invalidFields, setInvalidFields] = useState<Set<string>>(new Set());
-  // 선교 목록 에러: entry id → 어떤 필드가 invalid인지
   const [invalidEntryFields, setInvalidEntryFields] = useState<Map<string, Set<string>>>(new Map());
 
   const selected = items.find((i) => i.id === selectedId) ?? null;
@@ -128,7 +152,7 @@ export default function MissionHistoryClient() {
   const selectYear = useCallback((item: MissionYear) => {
     setSelectedId(item.id);
     setDraft(structuredClone(item));
-    setIsNewYear((prev) => newItemIds.has(item.id) ? true : false);
+    setIsNewYear(newItemIds.has(item.id));
     setShowCancelConfirm(false);
     setShowDeleteConfirm(false);
     clearAllErrors();
@@ -145,7 +169,7 @@ export default function MissionHistoryClient() {
     clearAllErrors();
   }, [clearAllErrors]);
 
-  const handleSave = useCallback(() => {
+  const handleSave = useCallback(async () => {
     if (!draft) return;
 
     const newInvalidFields = new Set<string>();
@@ -167,12 +191,54 @@ export default function MissionHistoryClient() {
       return;
     }
 
-    setIsNewYear(false);
-    setShowCancelConfirm(false);
-    setNewItemIds((prev) => { const next = new Set(prev); next.delete(draft.id); return next; });
-    setItems((prev) => prev.map((item) => (item.id === draft.id ? structuredClone(draft) : item)));
-    toast.success("변경사항이 저장되었습니다.");
-  }, [draft, toast]);
+    setIsSaving(true);
+    try {
+      const payload = toPayload(draft);
+
+      if (isNewYear) {
+        const res = await fetch("/api/admin/mission-history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+          const err = (await res.json()) as { message?: string };
+          toast.error(err.message ?? "저장에 실패했습니다.");
+          return;
+        }
+        const saved = (await res.json()) as ServerYear;
+        const savedItem = fromServerYear(saved);
+        setItems((prev) => prev.map((item) => item.id === draft.id ? savedItem : item));
+        setSelectedId(savedItem.id);
+        setDraft(structuredClone(savedItem));
+        setNewItemIds((prev) => { const next = new Set(prev); next.delete(draft.id); return next; });
+      } else {
+        const res = await fetch(`/api/admin/mission-history/${draft.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) {
+          const err = (await res.json()) as { message?: string };
+          toast.error(err.message ?? "저장에 실패했습니다.");
+          return;
+        }
+        const saved = (await res.json()) as ServerYear;
+        const savedItem = fromServerYear(saved);
+        setItems((prev) => prev.map((item) => item.id === draft.id ? savedItem : item));
+        setDraft(structuredClone(savedItem));
+      }
+
+      setIsNewYear(false);
+      setShowCancelConfirm(false);
+      clearAllErrors();
+      toast.success("변경사항이 저장되었습니다.");
+    } catch {
+      toast.error("저장 중 오류가 발생했습니다.");
+    } finally {
+      setIsSaving(false);
+    }
+  }, [draft, isNewYear, clearAllErrors, toast]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
     if ((key === "year" || key === "caption") && typeof value === "string" && value.trim() !== "") {
@@ -229,16 +295,28 @@ export default function MissionHistoryClient() {
     clearAllErrors();
   }, [selectedId, clearAllErrors]);
 
-  const handleDelete = useCallback(() => {
+  const handleDelete = useCallback(async () => {
     if (!selectedId) return;
-    setItems((prev) => prev.filter((item) => item.id !== selectedId));
-    setSelectedId(null);
-    setDraft(null);
-    setIsNewYear(false);
-    setShowDeleteConfirm(false);
-    setNewItemIds((prev) => { const next = new Set(prev); next.delete(selectedId); return next; });
-    clearAllErrors();
-    toast.success("삭제되었습니다.");
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/mission-history/${selectedId}`, { method: "DELETE" });
+      if (!res.ok && res.status !== 204) {
+        const err = (await res.json()) as { message?: string };
+        toast.error(err.message ?? "삭제에 실패했습니다.");
+        return;
+      }
+      setItems((prev) => prev.filter((item) => item.id !== selectedId));
+      setSelectedId(null);
+      setDraft(null);
+      setIsNewYear(false);
+      setShowDeleteConfirm(false);
+      clearAllErrors();
+      toast.success("삭제되었습니다.");
+    } catch {
+      toast.error("삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleting(false);
+    }
   }, [selectedId, clearAllErrors, toast]);
 
   const addEntry = useCallback(() => {
@@ -275,6 +353,7 @@ export default function MissionHistoryClient() {
 
   const hasEntryErrors = invalidEntryFields.size > 0;
   const hasHeaderErrors = invalidFields.size > 0;
+  const saveDisabled = (!isDirty && !isNewYear) || isSaving;
 
   return (
     <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
@@ -340,7 +419,8 @@ export default function MissionHistoryClient() {
                 <button
                   type="button"
                   onClick={handleCancelNew}
-                  className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc]"
+                  disabled={isSaving}
+                  className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   취소
                 </button>
@@ -349,10 +429,10 @@ export default function MissionHistoryClient() {
                 type="button"
                 onClick={handleSave}
                 className="rounded-lg bg-[#3f74c7] px-4 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[#2d5da8] disabled:opacity-60 disabled:cursor-not-allowed"
-                disabled={!isDirty}
+                disabled={saveDisabled}
               >
-                {isNewYear ? "저장" : "변경사항 저장"}
-                {isDirty && changeCount > 0 && ` (${changeCount})`}
+                {isSaving ? "저장 중..." : isNewYear ? "저장" : "변경사항 저장"}
+                {!isSaving && isDirty && changeCount > 0 && ` (${changeCount})`}
               </button>
             </div>
           ) : null}
@@ -560,14 +640,16 @@ export default function MissionHistoryClient() {
                         <button
                           type="button"
                           onClick={handleDelete}
-                          className="rounded-lg bg-rose-700 px-5 py-2.5 text-[13px] font-bold text-white shadow-sm hover:bg-rose-800"
+                          disabled={isDeleting}
+                          className="rounded-lg bg-rose-700 px-5 py-2.5 text-[13px] font-bold text-white shadow-sm hover:bg-rose-800 disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          삭제 확정
+                          {isDeleting ? "삭제 중..." : "삭제 확정"}
                         </button>
                         <button
                           type="button"
                           onClick={() => setShowDeleteConfirm(false)}
-                          className="rounded-lg border border-rose-200 bg-white px-4 py-2.5 text-[13px] font-semibold text-rose-700 hover:bg-rose-50"
+                          disabled={isDeleting}
+                          className="rounded-lg border border-rose-200 bg-white px-4 py-2.5 text-[13px] font-semibold text-rose-700 hover:bg-rose-50 disabled:opacity-60 disabled:cursor-not-allowed"
                         >
                           취소
                         </button>

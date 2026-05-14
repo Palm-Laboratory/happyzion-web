@@ -1,46 +1,13 @@
 import SectionHeading from "@/components/section-heading";
 import MissionMobileGalleryHero from "@/features/static-pages/components/mission-mobile-gallery-hero";
 import MissionStickyGalleryRail from "@/features/static-pages/components/mission-sticky-gallery-rail";
-
-type MissionEntry = {
-  month: string;
-  place: string;
-  isFirst?: boolean;
-};
-
-type MissionYear = {
-  year: string;
-  caption: string;
-  tone?: "gold" | "plum" | "red";
-  entries: MissionEntry[];
-};
+import { getPublicMissionHistory, type PublicMissionYear as MissionYear } from "@/lib/public-mission-history-api";
 
 type MissionGallery = {
   countries: string[];
   images: [string, string, string];
 };
 
-const MISSION_HISTORY: MissionYear[] = [
-  { year: "2007", caption: "선교의 첫 발을 내딛다", tone: "gold", entries: [{ month: "May", place: "필리핀 팡가시난", isFirst: true }] },
-  { year: "2008", caption: "두 번째 여름, 같은 땅에서", entries: [{ month: "May", place: "필리핀 팡가시난" }] },
-  { year: "2009", caption: "말레이시아로 지경을 넓히다", tone: "gold", entries: [{ month: "Feb", place: "말레이시아", isFirst: true }, { month: "May", place: "필리핀" }] },
-  { year: "2010", caption: "두 땅에서 복음을 전하다", entries: [{ month: "Feb", place: "말레이시아" }, { month: "May", place: "필리핀" }] },
-  { year: "2011", caption: "아시아를 향한 꾸준한 발걸음", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "말레이시아" }] },
-  { year: "2012", caption: "흔들림 없이, 해마다", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "말레이시아" }] },
-  { year: "2013", caption: "캄보디아 첫 사역", tone: "gold", entries: [{ month: "Feb", place: "캄보디아", isFirst: true }, { month: "May", place: "필리핀 팡가시난" }] },
-  { year: "2014", caption: "중국까지, 새로운 사역의 문", tone: "gold", entries: [{ month: "Feb", place: "필리핀 팡가시난" }, { month: "May", place: "말레이시아" }, { month: "Oct", place: "중국", isFirst: true }] },
-  { year: "2015", caption: "선교사역은 계속되고", tone: "gold", entries: [{ month: "Feb", place: "필리핀 팡가시난" }, { month: "May", place: "태국 칸차나부리" }, { month: "Oct", place: "캄보디아", isFirst: true }] },
-  { year: "2016", caption: "인도네시아로, 복음의 걸음 더하기", tone: "gold", entries: [{ month: "Feb", place: "인도네시아", isFirst: true }, { month: "May", place: "캄보디아" }, { month: "Oct", place: "중국" }] },
-  { year: "2017", caption: "미얀마까지, 사역을 넓히며", tone: "gold", entries: [{ month: "Feb", place: "미얀마", isFirst: true }, { month: "May", place: "인도네시아" }, { month: "Oct", place: "중국" }] },
-  { year: "2018", caption: "다음 땅을 바라보며", tone: "gold", entries: [{ month: "Feb", place: "인도네시아" }, { month: "May", place: "미얀마" }, { month: "Oct", place: "파라과이", isFirst: true }] },
-  { year: "2019", caption: "다시 미얀마로", entries: [{ month: "Feb", place: "인도네시아" }, { month: "May", place: "미얀마" }, { month: "Oct", place: "필리핀" }] },
-  { year: "2020-21", caption: "잠시 멈춘 기간", tone: "red", entries: [{ month: "", place: "코로나19로 인해 제한된 선교 중단" }] },
-  { year: "2022", caption: "그리움 뒤 다시, 다시", tone: "gold", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "인도네시아" }, { month: "Oct", place: "필리핀" }] },
-  { year: "2023", caption: "회복의 걸음을 이어가다", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "인도네시아" }, { month: "Oct", place: "파라과이" }] },
-  { year: "2024", caption: "몽골까지, 땅끝을 향해", tone: "gold", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "몽골", isFirst: true }, { month: "Oct", place: "태국" }] },
-  { year: "2025", caption: "변함없이, 오늘도", entries: [{ month: "Feb", place: "필리핀" }, { month: "May", place: "태국", isFirst: true }, { month: "Oct", place: "인도네시아" }] },
-  { year: "2026", caption: "선교는 계속됩니다", entries: [{ month: "Feb", place: "필리핀" }] },
-];
 
 const MISSION_GALLERIES: MissionGallery[] = [
   {
@@ -128,7 +95,9 @@ function MissionCallout() {
   );
 }
 
-export default function MissionHistoryStaticPage() {
+export default async function MissionHistoryStaticPage() {
+  const missionHistory = await getPublicMissionHistory().catch(() => []);
+
   return (
     <main className="bg-white py-[70px] lg:py-[100px]">
       <div className="section-shell section-shell--narrow">
@@ -144,7 +113,7 @@ export default function MissionHistoryStaticPage() {
         <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
           <section id="mission-history-timeline-track">
             <div className="flex flex-col gap-[60px]">
-              {MISSION_HISTORY.map((item) => (
+              {missionHistory.map((item) => (
                 <MissionTimelineItem item={item} key={item.year} />
               ))}
             </div>

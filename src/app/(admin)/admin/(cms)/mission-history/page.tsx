@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
+import { listMissionYears } from "@/lib/admin-mission-history-api";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import MissionHistoryClient from "./_components/mission-history-client";
 
@@ -9,6 +10,10 @@ export default async function MissionHistoryPage() {
   if (!isAdminSession(session)) {
     redirect("/admin/login?callbackUrl=/admin/mission-history");
   }
+
+  const initialYears = session.user.id
+    ? await listMissionYears(session.user.id).catch(() => [])
+    : [];
 
   return (
     <div className="space-y-6">
@@ -21,7 +26,7 @@ export default async function MissionHistoryPage() {
         </p>
       </div>
 
-      <MissionHistoryClient />
+      <MissionHistoryClient initialYears={initialYears} />
     </div>
   );
 }
