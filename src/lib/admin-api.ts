@@ -1,9 +1,11 @@
 import "server-only";
 
+import { createHmac } from "crypto";
 import { joinApiUrl } from "@/lib/api-base-url";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 
 const ADMIN_SYNC_KEY = process.env.ADMIN_SYNC_KEY?.trim() || "";
+const ADMIN_ACTOR_SIGNING_SECRET = process.env.ADMIN_ACTOR_SIGNING_SECRET?.trim() || "";
 
 interface UpstreamApiErrorResponse {
   code?: string;
@@ -41,6 +43,19 @@ async function parseUpstreamError(response: Response) {
       message: `관리자 API 호출에 실패했습니다. (${response.status})`,
     };
   }
+}
+
+export function buildActorHeaders(actorId: string): Record<string, string> {
+  if (!ADMIN_ACTOR_SIGNING_SECRET) {
+    throw new AdminApiError(500, "ACTOR_SIGNING_SECRET_MISSING", "actor 서명 키가 설정되지 않았습니다.");
+  }
+  const timestamp = Math.floor(Date.now() / 1000).toString();
+  const sig = createHmac("sha256", ADMIN_ACTOR_SIGNING_SECRET).update(`${actorId}:${timestamp}`).digest("hex");
+  return {
+    "X-Admin-Actor-Id": actorId,
+    "X-Admin-Actor-Timestamp": timestamp,
+    "X-Admin-Actor-Sig": sig,
+  };
 }
 
 export function buildAdminApiHeaders(initHeaders: HeadersInit | undefined, adminSyncKey: string): Record<string, string> {

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
+import { AdminApiError, adminApiFetch, buildActorHeaders } from "@/lib/admin-api";
 import type { components } from "@/types/api";
 
 export type AdminUploadAssetKind = components["schemas"]["UploadTokenIssueRequest"]["kind"];
@@ -52,7 +52,7 @@ export async function issueAdminUploadToken(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify(buildUploadTokenPayload(payload)),
   });

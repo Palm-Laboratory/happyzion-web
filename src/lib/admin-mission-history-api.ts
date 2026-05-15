@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
 import type { components } from "@/types/api";
 
 export type MissionTone = "gold" | "red" | null;
@@ -25,7 +25,7 @@ export interface MissionYearPayload {
 
 export async function listMissionYears(actorId: string): Promise<MissionYear[]> {
   const response = await adminApiFetch("/api/v1/admin/mission-history", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   const data = (await response.json()) as { years: MissionYear[] };
   return data.years;
@@ -36,7 +36,7 @@ export async function createMissionYear(actorId: string, payload: MissionYearPay
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify(payload),
   });
@@ -48,7 +48,7 @@ export async function updateMissionYear(actorId: string, yearId: number, payload
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify(payload),
   });
@@ -58,7 +58,7 @@ export async function updateMissionYear(actorId: string, yearId: number, payload
 export async function deleteMissionYear(actorId: string, yearId: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
     method: "DELETE",
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
 }
 

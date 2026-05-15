@@ -1,7 +1,7 @@
 import "server-only";
 
 import { joinApiUrl } from "@/lib/api-base-url";
-import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
+import { AdminApiError, adminApiFetch, buildActorHeaders } from "@/lib/admin-api";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 import type { components } from "@/types/api";
 
@@ -50,7 +50,7 @@ export async function authenticateAdminCredentials(
 
 export async function getCurrentAdminAccount(actorId: string): Promise<AuthenticatedAdminAccount> {
   const response = await adminApiFetch("/api/v1/admin/auth/me", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AuthenticatedAdminAccount>;
 }
@@ -59,14 +59,14 @@ export async function getCurrentAdminAccount(actorId: string): Promise<Authentic
 
 export async function getAdminAccounts(actorId: string): Promise<AdminAccountsResponse> {
   const response = await adminApiFetch("/api/v1/admin/accounts", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AdminAccountsResponse>;
 }
 
 export async function getAdminAccount(actorId: string, id: number): Promise<AdminAccount> {
   const response = await adminApiFetch(`/api/v1/admin/accounts/${id}`, {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AdminAccount>;
 }
@@ -81,7 +81,7 @@ export async function createAdminAccount(
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify(payload),
   });
@@ -97,7 +97,7 @@ export async function updateAdminAccount(
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify(payload),
   });
@@ -107,7 +107,7 @@ export async function updateAdminAccount(
 export async function deleteAdminAccount(actorId: string, id: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/accounts/${id}`, {
     method: "DELETE",
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
 }
 

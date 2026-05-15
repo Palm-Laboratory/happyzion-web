@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { getAdminSession, isAdminSession } from "@/auth";
-import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
 import { toFriendlyAdminMenuMessage } from "@/lib/admin-menu-api";
 
 interface RouteContext {
@@ -23,7 +23,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   try {
     await adminApiFetch(`/api/v1/admin/menu/${id}`, {
       method: "DELETE",
-      headers: { "X-Admin-Actor-Id": session.user.id },
+      headers: buildActorHeaders(session.user.id),
     });
 
     revalidateTag("menu");

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
 import type { components } from "@/types/api";
 
@@ -164,7 +164,7 @@ function buildSavePayload(payload: BoardPostSavePayload) {
 function actorHeaders(actorId: string, contentType = false) {
   return {
     ...(contentType ? { "Content-Type": "application/json" } : {}),
-    "X-Admin-Actor-Id": actorId,
+    ...buildActorHeaders(actorId),
   };
 }
 

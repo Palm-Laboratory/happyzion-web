@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
 import type {
   AttendanceWeek,
   FamilyMember,
@@ -414,7 +414,7 @@ function normalizeAttendance(attendance: BackendAttendanceWeek[]): AttendanceWee
 function actorHeaders(actorId: string, contentType = false) {
   return {
     ...(contentType ? { "Content-Type": "application/json" } : {}),
-    "X-Admin-Actor-Id": actorId,
+    ...buildActorHeaders(actorId),
   };
 }
 

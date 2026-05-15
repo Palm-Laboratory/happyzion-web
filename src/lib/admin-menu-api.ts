@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
 import type { components } from "@/types/api";
 
 export type MenuType = components["schemas"]["AdminMenuTreeNodeDto"]["type"];
@@ -35,7 +35,7 @@ export interface MenuTreeNodePayload {
 
 export async function getAdminMenuTree(actorId: string): Promise<AdminMenuTreeResponse> {
   const response = await adminApiFetch("/api/v1/admin/menu", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AdminMenuTreeResponse>;
 }
@@ -51,14 +51,14 @@ export async function getAdminMenuItems(actorId: string): Promise<AdminMenuTreeN
 
 export async function getAdminStaticPages(actorId: string): Promise<AdminStaticPagesResponse> {
   const response = await adminApiFetch("/api/v1/admin/menu/static-pages", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AdminStaticPagesResponse>;
 }
 
 export async function getAdminYouTubePlaylists(actorId: string): Promise<AdminYouTubePlaylistsResponse> {
   const response = await adminApiFetch("/api/v1/admin/youtube/playlists", {
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<AdminYouTubePlaylistsResponse>;
 }
@@ -71,7 +71,7 @@ export async function replaceAdminMenuTree(
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-Admin-Actor-Id": actorId,
+      ...buildActorHeaders(actorId),
     },
     body: JSON.stringify({ items }),
   });
@@ -81,9 +81,7 @@ export async function replaceAdminMenuTree(
 export async function syncAdminYouTube(actorId: string): Promise<YouTubeSyncResponse> {
   const response = await adminApiFetch("/api/v1/admin/youtube/sync", {
     method: "POST",
-    headers: {
-      "X-Admin-Actor-Id": actorId,
-    },
+    headers: buildActorHeaders(actorId),
   });
   return response.json() as Promise<YouTubeSyncResponse>;
 }
@@ -91,7 +89,7 @@ export async function syncAdminYouTube(actorId: string): Promise<YouTubeSyncResp
 export async function deleteAdminMenuItem(actorId: string, menuId: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/menu/${menuId}`, {
     method: "DELETE",
-    headers: { "X-Admin-Actor-Id": actorId },
+    headers: buildActorHeaders(actorId),
   });
 }
 
