@@ -1170,6 +1170,16 @@ export default function MenuManagementClient({
                       </div>
                     )}
 
+                    {selectedNode.type === "STATIC" && (
+                      <div className="rounded-xl border border-[#fde68a] bg-[#fffbeb] p-4">
+                        <p className="text-[12px] font-semibold text-[#92400e]">콘텐츠는 별도 개발 배포가 필요합니다</p>
+                        <p className="mt-2 text-[12px] leading-5 text-[#78350f]">
+                          정적 페이지는 개발자가 컴포넌트를 코드에 미리 등록해야 실제 페이지가 표시됩니다.
+                          어드민에서 메뉴만 추가한다고 콘텐츠가 자동으로 생기지 않습니다.
+                        </p>
+                      </div>
+                    )}
+
                     {selectedNode.type === "STATIC" && staticPages.length > 0 && (
                       <label className="space-y-1.5">
                         <span className="text-[12px] font-semibold text-[#334155]">연결 페이지</span>
