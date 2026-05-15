@@ -18,6 +18,7 @@ export async function PUT(request: Request) {
     const tree = await replaceAdminMenuTree(session.user.id, payload.items as never);
 
     revalidateTag("menu");
+    revalidatePath("/[...menuPath]", "page");
     revalidatePath("/admin/menu");
 
     return NextResponse.json(tree);

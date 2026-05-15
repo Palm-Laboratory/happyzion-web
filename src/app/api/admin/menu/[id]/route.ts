@@ -27,6 +27,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
     });
 
     revalidateTag("menu");
+    revalidatePath("/[...menuPath]", "page");
     revalidatePath("/admin/menu");
 
     return new NextResponse(null, { status: 204 });

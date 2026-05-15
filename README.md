@@ -43,6 +43,26 @@ ADMIN_SESSION_MAX_AGE_SECONDS=28800
 
 Production 배포에서는 `API_BASE_URL`과 `NEXT_PUBLIC_API_BASE_URL`이 필수입니다.
 
+## 빌드타임 요구사항
+
+`next build` 실행 시 백엔드 API(`API_BASE_URL`)가 실제로 접근 가능해야 합니다.
+
+빌드 중에 `generateStaticParams()`가 `/api/v1/public/menu`를 호출해 공개 메뉴 경로 목록을 가져와 정적 페이지로 prerender합니다.
+
+백엔드 미가용 시 동작은 빌드 환경에 따라 다릅니다.
+
+- **CI (`CI=true`) 또는 Vercel production (`VERCEL_ENV=production`) 빌드:** 백엔드가 응답하지 않으면 빌드가 즉시 실패합니다.
+- **로컬 `next build` (위 env 없음):** 경고만 출력하고 정적 생성을 건너뛴 뒤 동적 라우팅으로 fallback합니다.
+
+`next build`는 로컬에서도 `NODE_ENV=production`으로 실행되므로, fast-fail 여부 판단에 `NODE_ENV`는 사용하지 않습니다.
+
+CI 파이프라인에서는 `next build` 전에 백엔드 접근성을 먼저 확인하세요:
+
+```bash
+curl -f "${API_BASE_URL}/actuator/health" || (echo "백엔드 API에 연결할 수 없습니다." && exit 1)
+next build
+```
+
 ## 현재 구조
 
 - `src/app`: App Router 엔트리

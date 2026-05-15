@@ -37,3 +37,29 @@ export async function getPublicNavigation(): Promise<PublicNavigationResponse> {
     }),
   );
 }
+
+const RENDERABLE_TYPES = new Set<string>(["STATIC", "BOARD"]);
+
+function extractInternalPaths(nav: PublicNavigationResponse): string[] {
+  const paths: string[] = [];
+
+  for (const group of nav.groups) {
+    if (group.linkType === "INTERNAL" && RENDERABLE_TYPES.has(group.type)) {
+      paths.push(group.href);
+    }
+    for (const item of group.items) {
+      if (item.linkType === "INTERNAL" && RENDERABLE_TYPES.has(item.type)) {
+        paths.push(item.href);
+      }
+    }
+  }
+
+  return [...new Set(paths)];
+}
+
+export async function fetchPublicMenuPaths(): Promise<string[]> {
+  const nav = await serverFetchJson<PublicNavigationResponse>("/api/v1/public/menu", {
+    cache: "no-store",
+  });
+  return extractInternalPaths(nav);
+}
