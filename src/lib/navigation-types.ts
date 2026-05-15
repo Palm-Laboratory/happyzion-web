@@ -1,49 +1,13 @@
-import type { MenuType } from "@/lib/admin-menu-api";
+import type { components } from "@/types/api";
 
-export type NavigationLinkType = "INTERNAL" | "EXTERNAL";
-
-export interface NavigationItemDto {
-  key: string;
-  type: MenuType;
-  label: string;
-  href: string;
-  matchPath: string | null;
-  linkType: NavigationLinkType;
-  contentSiteKey?: string | null;
-  openInNewTab: boolean;
-  visible: boolean;
-  headerVisible: boolean;
-  mobileVisible: boolean;
-  lnbVisible: boolean;
-  breadcrumbVisible: boolean;
-  defaultLanding: boolean;
-}
-
-export interface NavigationGroupDto {
-  key: string;
-  type: MenuType;
-  label: string;
-  href: string;
-  matchPath: string | null;
-  linkType: NavigationLinkType;
-  contentSiteKey?: string | null;
-  openInNewTab: boolean;
-  visible: boolean;
-  headerVisible: boolean;
-  mobileVisible: boolean;
-  lnbVisible: boolean;
-  breadcrumbVisible: boolean;
-  defaultLandingHref: string | null;
-  items: NavigationItemDto[];
-}
-
-export interface NavigationResponse {
-  groups: NavigationGroupDto[];
-}
+export type NavigationItemDto = components["schemas"]["NavigationItemDto"];
+export type NavigationGroupDto = components["schemas"]["NavigationGroupDto"];
+export type NavigationResponse = components["schemas"]["PublicNavigationResponse"];
+export type NavigationLinkType = NavigationItemDto["linkType"];
 
 export interface NavSubItem {
   key: string;
-  type: MenuType;
+  type: NavigationItemDto["type"];
   href: string;
   label: string;
   matchPath?: string | null;
@@ -59,7 +23,7 @@ export interface NavSubItem {
 
 export interface NavMenuGroup {
   key: string;
-  type: MenuType;
+  type: NavigationItemDto["type"];
   href: string;
   label: string;
   matchPath?: string | null;

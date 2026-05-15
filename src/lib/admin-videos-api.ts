@@ -1,55 +1,13 @@
 import "server-only";
 
 import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import type { components } from "@/types/api";
 
-export type VideoContentForm = "LONGFORM" | "SHORTFORM";
-
-export interface AdminVideoSummary {
-  videoId: string;
-  title: string;
-  sourceTitle: string;
-  preacherName: string | null;
-  publishedAt: string | null;
-  hidden: boolean;
-  contentForm: VideoContentForm;
-  thumbnailUrl: string | null;
-  scriptureReference: string | null;
-}
-
-export interface AdminVideoListResponse {
-  items: AdminVideoSummary[];
-}
-
-export interface AdminVideoDetail {
-  videoId: string;
-  sourceTitle: string;
-  sourceDescription: string | null;
-  sourcePublishedAt: string | null;
-  sourceThumbnailUrl: string | null;
-  title: string;
-  preacherName: string | null;
-  publishedAt: string | null;
-  hidden: boolean;
-  scriptureReference: string | null;
-  scriptureBody: string | null;
-  messageBody: string | null;
-  summary: string | null;
-  thumbnailOverrideUrl: string | null;
-  contentForm: VideoContentForm;
-  publicHref: string | null;
-}
-
-export interface UpdateAdminVideoMetaRequest {
-  displayTitle: string | null;
-  preacherName: string | null;
-  displayPublishedAt: string | null;
-  hidden: boolean;
-  scriptureReference: string | null;
-  scriptureBody: string | null;
-  messageBody: string | null;
-  summary: string | null;
-  thumbnailOverrideUrl: string | null;
-}
+export type VideoContentForm = components["schemas"]["AdminVideoDetailResponse"]["contentForm"];
+export type AdminVideoSummary = components["schemas"]["AdminVideoSummaryDto"];
+export type AdminVideoListResponse = components["schemas"]["AdminVideoListResponse"];
+export type AdminVideoDetail = components["schemas"]["AdminVideoDetailResponse"];
+export type UpdateAdminVideoMetaRequest = components["schemas"]["UpdateVideoMetaRequest"];
 
 export async function getAdminVideos(params?: { form?: VideoContentForm; menuId?: number }): Promise<AdminVideoListResponse> {
   const query = new URLSearchParams();

@@ -4,6 +4,7 @@ import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
 import { PUBLIC_BOARD_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
 import { serverFetch, serverFetchJsonOrNull } from "@/lib/server-fetch";
+import type { components } from "@/types/api";
 
 export interface PublicBoardPostAsset {
   id: string;
@@ -59,67 +60,13 @@ export interface PublicBoardPostListResponse {
   searchTitle: string;
 }
 
-interface BackendBoardPostAsset {
-  id: string | number;
-  kind: string;
-  originalFilename: string;
-  storedPath: string;
-  mimeType: string;
-  byteSize: number;
-  width?: number | null;
-  height?: number | null;
-  sortOrder?: number | null;
-  publicUrl?: string | null;
-}
+type BackendBoardPostAsset = components["schemas"]["PublicBoardPostAssetResponse"];
+type BackendBoardAdjacentPost = components["schemas"]["PublicBoardAdjacentPostResponse"];
+type BackendBoardPostSummary = components["schemas"]["PublicBoardPostSummaryResponse"];
+type BackendBoardPostDetail = components["schemas"]["PublicBoardPostDetailResponse"];
+type BackendBoardPostListResponse = components["schemas"]["PublicBoardListPostsResponse"];
 
-interface BackendBoardAdjacentPost {
-  id: string | number;
-  title: string;
-}
-
-interface BackendBoardPostSummary {
-  id: string | number;
-  boardId: string | number;
-  menuId?: string | number | null;
-  title: string;
-  isPublic?: boolean;
-  isPinned?: boolean | null;
-  authorId?: string | number | null;
-  authorName?: string | null;
-  viewCount?: number | null;
-  contentHtml?: string | null;
-  hasInlineImage?: boolean | null;
-  hasVideoEmbed?: boolean | null;
-  hasAttachments?: boolean | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface BackendBoardPostDetail extends BackendBoardPostSummary {
-  contentJson: string | TiptapDocument | Record<string, unknown>;
-  contentHtml?: string | null;
-  assets?: BackendBoardPostAsset[];
-  previousPost?: BackendBoardAdjacentPost | null;
-  nextPost?: BackendBoardAdjacentPost | null;
-}
-
-interface BackendBoardPostListResponse {
-  posts?: BackendBoardPostSummary[];
-  page?: number;
-  size?: number;
-  totalElements?: number;
-  hasNext?: boolean;
-}
-
-function toFrontendId(value: string | number): string {
-  return String(value);
-}
-
-function normalizeContentJson(value: BackendBoardPostDetail["contentJson"]): TiptapDocument | Record<string, unknown> {
-  if (typeof value !== "string") {
-    return value;
-  }
-
+function normalizeContentJson(value: string): TiptapDocument | Record<string, unknown> {
   try {
     return JSON.parse(value) as TiptapDocument | Record<string, unknown>;
   } catch {
@@ -129,41 +76,41 @@ function normalizeContentJson(value: BackendBoardPostDetail["contentJson"]): Tip
 
 function normalizeAsset(asset: BackendBoardPostAsset): PublicBoardPostAsset {
   return {
-    id: toFrontendId(asset.id),
+    id: String(asset.id ?? ""),
     kind: asset.kind,
     originalFilename: asset.originalFilename,
     storedPath: asset.storedPath,
-    mimeType: asset.mimeType,
+    mimeType: asset.mimeType ?? "",
     byteSize: asset.byteSize,
     width: asset.width ?? null,
     height: asset.height ?? null,
-    sortOrder: asset.sortOrder ?? 0,
+    sortOrder: asset.sortOrder,
     publicUrl: asset.publicUrl ?? null,
   };
 }
 
 function normalizeAdjacentPost(post: BackendBoardAdjacentPost): PublicBoardAdjacentPost {
   return {
-    id: toFrontendId(post.id),
+    id: String(post.id),
     title: post.title,
   };
 }
 
 function normalizeSummary(post: BackendBoardPostSummary): PublicBoardPostSummary {
   return {
-    id: toFrontendId(post.id),
-    boardId: toFrontendId(post.boardId),
-    menuId: toFrontendId(post.menuId ?? post.boardId),
+    id: String(post.id ?? ""),
+    boardId: String(post.boardId),
+    menuId: String(post.menuId),
     title: post.title,
-    isPublic: post.isPublic ?? true,
-    isPinned: post.isPinned ?? false,
-    authorId: post.authorId == null ? "" : toFrontendId(post.authorId),
-    authorName: post.authorName ?? "",
-    viewCount: post.viewCount ?? 0,
+    isPublic: true,
+    isPinned: post.isPinned,
+    authorId: "",
+    authorName: post.authorName,
+    viewCount: Number(post.viewCount),
     contentHtml: post.contentHtml ?? "",
-    hasInlineImage: post.hasInlineImage ?? false,
-    hasVideoEmbed: post.hasVideoEmbed ?? false,
-    hasAttachments: post.hasAttachments ?? false,
+    hasInlineImage: post.hasInlineImage,
+    hasVideoEmbed: post.hasVideoEmbed,
+    hasAttachments: post.hasAttachments,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
   };
@@ -171,10 +118,23 @@ function normalizeSummary(post: BackendBoardPostSummary): PublicBoardPostSummary
 
 function normalizeDetail(post: BackendBoardPostDetail): PublicBoardPostDetail {
   return {
-    ...normalizeSummary(post),
-    contentJson: normalizeContentJson(post.contentJson),
+    id: String(post.id ?? ""),
+    boardId: String(post.boardId),
+    menuId: String(post.menuId),
+    title: post.title,
+    isPublic: true,
+    isPinned: post.isPinned,
+    authorId: "",
+    authorName: post.authorName,
+    viewCount: Number(post.viewCount),
     contentHtml: post.contentHtml ?? "",
-    assets: (post.assets ?? []).map(normalizeAsset),
+    hasInlineImage: false,
+    hasVideoEmbed: false,
+    hasAttachments: post.assets.some((a) => a.kind === "FILE_ATTACHMENT"),
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    contentJson: normalizeContentJson(post.contentJson),
+    assets: post.assets.map(normalizeAsset),
     previousPost: post.previousPost ? normalizeAdjacentPost(post.previousPost) : null,
     nextPost: post.nextPost ? normalizeAdjacentPost(post.nextPost) : null,
   };
@@ -190,15 +150,13 @@ function normalizeListResponse(
   requestedSize: number,
   requestedTitle: string,
 ): PublicBoardPostListResponse {
-  const page = typeof payload.page === "number" ? payload.page : requestedPage;
-  const size = typeof payload.size === "number" ? payload.size : requestedSize;
-  const totalItems = typeof payload.totalElements === "number" ? payload.totalElements : 0;
-  const totalPages = size > 0 ? Math.max(1, Math.ceil(totalItems / size)) : 0;
+  const totalItems = Number(payload.totalElements);
+  const totalPages = payload.size > 0 ? Math.max(1, Math.ceil(totalItems / payload.size)) : 0;
 
   return {
-    items: (payload.posts ?? []).map(normalizeSummary),
-    currentPage: page + 1,
-    pageSize: size,
+    items: payload.posts.map(normalizeSummary),
+    currentPage: payload.page + 1,
+    pageSize: payload.size,
     totalItems,
     totalPages,
     hasNext: payload.hasNext,

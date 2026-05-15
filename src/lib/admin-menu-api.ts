@@ -1,76 +1,20 @@
 import "server-only";
 
 import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import type { components } from "@/types/api";
 
-export type MenuType =
-  | "STATIC"
-  | "BOARD"
-  | "FOLDER"
-  | "YOUTUBE_PLAYLIST_GROUP"
-  | "YOUTUBE_PLAYLIST"
-  | "EXTERNAL_LINK";
+export type MenuType = components["schemas"]["AdminMenuTreeNodeDto"]["type"];
+export type MenuStatus = components["schemas"]["AdminMenuTreeNodeDto"]["status"];
+export type YouTubeSyncStatus = NonNullable<components["schemas"]["AdminMenuTreeNodeDto"]["syncStatus"]>;
+export type YouTubeContentForm = NonNullable<components["schemas"]["AdminMenuTreeNodeDto"]["playlistContentForm"]>;
 
-export type MenuStatus = "DRAFT" | "PUBLISHED" | "HIDDEN" | "ARCHIVED";
-export type YouTubeSyncStatus = "ACTIVE" | "REMOVED";
-export type YouTubeContentForm = "LONGFORM" | "SHORTFORM";
-
-export interface AdminMenuTreeNode {
-  id: number;
-  type: MenuType;
-  status: MenuStatus;
-  label: string;
-  slug: string;
-  isAuto: boolean;
-  labelCustomized: boolean;
-  slugCustomized: boolean;
-  staticPageKey: string | null;
-  boardKey: string | null;
-  boardTypeKey: string | null;
-  boardTypeLabel: string | null;
-  externalUrl: string | null;
-  openInNewTab: boolean;
-  playlistTitle: string | null;
-  playlistSourceTitle: string | null;
-  thumbnailUrl: string | null;
-  itemCount: number | null;
-  syncStatus: YouTubeSyncStatus | null;
-  playlistContentForm: YouTubeContentForm | null;
-  parentId: number | null;
-  children: AdminMenuTreeNode[];
-}
-
-export interface AdminMenuTreeResponse {
-  items: AdminMenuTreeNode[];
-}
-
-export interface AdminStaticPage {
-  key: string;
-  label: string;
-  path: string;
-}
-
-export interface AdminStaticPagesResponse {
-  pages: AdminStaticPage[];
-}
-
-export interface AdminYouTubePlaylist {
-  menuId: number;
-  playlistId: string;
-  menuLabel: string;
-  sourceTitle: string;
-  slug: string;
-  status: MenuStatus;
-  syncStatus: YouTubeSyncStatus;
-  parentId: number | null;
-  parentLabel: string | null;
-  thumbnailUrl: string | null;
-  itemCount: number;
-  playlistContentForm: YouTubeContentForm;
-}
-
-export interface AdminYouTubePlaylistsResponse {
-  playlists: AdminYouTubePlaylist[];
-}
+export type AdminMenuTreeNode = components["schemas"]["AdminMenuTreeNodeDto"];
+export type AdminMenuTreeResponse = components["schemas"]["AdminMenuTreeResponse"];
+export type AdminStaticPage = components["schemas"]["AdminStaticPageDto"];
+export type AdminStaticPagesResponse = components["schemas"]["AdminStaticPagesResponse"];
+export type AdminYouTubePlaylist = components["schemas"]["AdminYouTubePlaylistDto"];
+export type AdminYouTubePlaylistsResponse = components["schemas"]["AdminYouTubePlaylistsResponse"];
+export type YouTubeSyncResponse = components["schemas"]["YouTubeSyncResponse"];
 
 export interface MenuTreeNodePayload {
   id: number | null;
@@ -87,16 +31,6 @@ export interface MenuTreeNodePayload {
   isAuto?: boolean;
   playlistContentForm?: YouTubeContentForm | null;
   children: MenuTreeNodePayload[];
-}
-
-export interface YouTubeSyncResponse {
-  status: string;
-  totalPlaylists: number;
-  createdMenus: number;
-  updatedMenus: number;
-  archivedMenus: number;
-  restoredMenus: number;
-  completedAt: string;
 }
 
 export async function getAdminMenuTree(actorId: string): Promise<AdminMenuTreeResponse> {

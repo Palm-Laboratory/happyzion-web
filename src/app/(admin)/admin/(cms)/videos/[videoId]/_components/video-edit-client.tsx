@@ -130,11 +130,11 @@ export default function VideoEditClient({ initialDetail }: { initialDetail: Admi
           </div>
           <div>
             <dt className="font-semibold text-[#334155]">원본 공개일</dt>
-            <dd className="mt-1">{formatDateTime(detail.sourcePublishedAt)}</dd>
+            <dd className="mt-1">{formatDateTime(detail.sourcePublishedAt ?? null)}</dd>
           </div>
           <div>
             <dt className="font-semibold text-[#334155]">현재 공개일</dt>
-            <dd className="mt-1">{formatDateTime(detail.publishedAt)}</dd>
+            <dd className="mt-1">{formatDateTime(detail.publishedAt ?? null)}</dd>
           </div>
           <div className="sm:col-span-2">
             <dt className="font-semibold text-[#334155]">원본 설명</dt>

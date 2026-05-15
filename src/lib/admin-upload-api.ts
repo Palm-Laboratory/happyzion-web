@@ -1,18 +1,16 @@
 import "server-only";
 
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
+import type { components } from "@/types/api";
 
-export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+export type AdminUploadAssetKind = components["schemas"]["UploadTokenIssueRequest"]["kind"];
+export type AdminUploadTokenResponse = components["schemas"]["UploadTokenIssueResponse"];
 
 export interface AdminUploadTokenRequest {
   kind: AdminUploadAssetKind;
   boardId?: string;
   maxByteSize?: number;
   allowedMimeTypes?: string[];
-}
-
-export interface AdminUploadTokenResponse {
-  rawToken: string;
 }
 
 const DEFAULT_MAX_BYTE_SIZE = 10_000_000;

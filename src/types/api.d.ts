@@ -4,6 +4,262 @@
  */
 
 export interface paths {
+    "/api/v1/admin/videos/{videoId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVideoDetail"];
+        put: operations["updateVideoMeta"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/mission-history/{yearId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getYear"];
+        put: operations["updateYear"];
+        post?: never;
+        delete: operations["deleteYear"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/menu/tree": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["replaceTree"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/boards/{slug}/posts/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPost"];
+        put: operations["updatePost"];
+        post?: never;
+        delete: operations["deletePost"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/accounts/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAccount"];
+        put: operations["updateAccount"];
+        post?: never;
+        delete: operations["deleteAccount"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/boards/{slug}/posts/{postId}/views": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["recordPostView"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/youtube/sync": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["sync"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/uploads": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["upload"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/uploads/token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["issueToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/site/main-video": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAdminMainVideo"];
+        put?: never;
+        post: operations["uploadAdminMainVideo"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/mission-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listYears"];
+        put?: never;
+        post: operations["createYear"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listMembers"];
+        put?: never;
+        post: operations["createMember"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/boards/{slug}/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPosts"];
+        put?: never;
+        post: operations["createPost"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAccounts"];
+        put?: never;
+        post: operations["createAccount"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/members/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMember"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["updateMember"];
+        trace?: never;
+    };
     "/api/v1/public/videos": {
         parameters: {
             query?: never;
@@ -12,6 +268,70 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getVideoDetailByPath"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/videos/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPlaylistVideosByPath"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/videos/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPlaylistVideoDetailByPath"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/site/main-video": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPublicMainVideo"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/mission-history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listYears_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -52,10 +372,571 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/public/boards/{slug}/posts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listPosts_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/public/boards/{slug}/posts/{postId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPost_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/youtube/playlists": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getPlaylists"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getVideos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/menu": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getMenuTree"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/menu/static-pages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getStaticPages"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/members/{id}/attendance": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getAttendance"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/boards": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listBoards"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/menu/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["deleteMenu"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UpdateVideoMetaRequest: {
+            displayTitle?: string | null;
+            preacherName?: string | null;
+            /** Format: date-time */
+            displayPublishedAt?: string | null;
+            hidden: boolean;
+            scriptureReference?: string | null;
+            scriptureBody?: string | null;
+            messageBody?: string | null;
+            summary?: string | null;
+            thumbnailOverrideUrl?: string | null;
+        };
+        AdminVideoDetailResponse: {
+            videoId: string;
+            sourceTitle: string;
+            sourceDescription?: string | null;
+            /** Format: date-time */
+            sourcePublishedAt?: string | null;
+            sourceThumbnailUrl?: string | null;
+            title: string;
+            preacherName?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            hidden: boolean;
+            scriptureReference?: string | null;
+            scriptureBody?: string | null;
+            messageBody?: string | null;
+            summary?: string | null;
+            thumbnailOverrideUrl?: string | null;
+            /** @enum {string} */
+            contentForm: "LONGFORM" | "SHORTFORM";
+            publicHref?: string | null;
+        };
+        MissionEntryRequest: {
+            month?: string | null;
+            place: string;
+            isFirst: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        MissionYearUpdateRequest: {
+            year: string;
+            caption: string;
+            tone?: string | null;
+            /** Format: int32 */
+            sortOrder?: number | null;
+            entries: components["schemas"]["MissionEntryRequest"][];
+        };
+        MissionAdminEntryResponse: {
+            /** Format: int64 */
+            id: number;
+            month?: string | null;
+            place: string;
+            isFirst: boolean;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        MissionAdminYearDetailResponse: {
+            /** Format: int64 */
+            id: number;
+            year: string;
+            caption: string;
+            tone?: string | null;
+            /** Format: int32 */
+            sortOrder: number;
+            entries: components["schemas"]["MissionAdminEntryResponse"][];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        MenuTreeNodeRequest: {
+            /** Format: int64 */
+            id?: number | null;
+            /** @enum {string} */
+            type: "STATIC" | "BOARD" | "FOLDER" | "YOUTUBE_PLAYLIST_GROUP" | "YOUTUBE_PLAYLIST" | "EXTERNAL_LINK";
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "HIDDEN" | "ARCHIVED";
+            label: string;
+            slug: string;
+            slugCustomized: boolean;
+            staticPageKey?: string | null;
+            boardKey?: string | null;
+            /** @enum {string|null} */
+            boardType?: "NOTICE" | "BULLETIN" | "ALBUM" | "GENERAL" | null;
+            externalUrl?: string | null;
+            openInNewTab: boolean;
+            isAuto: boolean;
+            /** @enum {string|null} */
+            playlistContentForm?: "LONGFORM" | "SHORTFORM" | null;
+            children: components["schemas"]["MenuTreeNodeRequest"][];
+        };
+        ReplaceMenuTreeRequest: {
+            items: components["schemas"]["MenuTreeNodeRequest"][];
+        };
+        AdminMenuTreeNodeDto: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            type: "STATIC" | "BOARD" | "FOLDER" | "YOUTUBE_PLAYLIST_GROUP" | "YOUTUBE_PLAYLIST" | "EXTERNAL_LINK";
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "HIDDEN" | "ARCHIVED";
+            label: string;
+            slug: string;
+            isAuto: boolean;
+            labelCustomized: boolean;
+            slugCustomized: boolean;
+            staticPageKey?: string | null;
+            boardKey?: string | null;
+            boardTypeKey?: string | null;
+            boardTypeLabel?: string | null;
+            externalUrl?: string | null;
+            openInNewTab: boolean;
+            playlistTitle?: string | null;
+            playlistSourceTitle?: string | null;
+            thumbnailUrl?: string | null;
+            /** Format: int32 */
+            itemCount?: number | null;
+            /** @enum {string|null} */
+            syncStatus?: "ACTIVE" | "REMOVED" | null;
+            /** @enum {string|null} */
+            playlistContentForm?: "LONGFORM" | "SHORTFORM" | null;
+            /** Format: int64 */
+            parentId?: number | null;
+            children: components["schemas"]["AdminMenuTreeNodeDto"][];
+        };
+        AdminMenuTreeResponse: {
+            items: components["schemas"]["AdminMenuTreeNodeDto"][];
+        };
+        BoardPostSaveRequest: {
+            /** Format: int64 */
+            menuId?: number | null;
+            title: string;
+            contentJson: string;
+            contentHtml?: string | null;
+            isPublic: boolean;
+            isPinned: boolean;
+            assetIds: number[];
+        };
+        BoardAdminPostSaveResponse: {
+            /** Format: int64 */
+            id: number;
+        };
+        AdminAccountUpdateRequest: {
+            username: string;
+            displayName: string;
+            /** @enum {string} */
+            role: "SUPER_ADMIN" | "ADMIN";
+            active: boolean;
+            password?: string | null;
+        };
+        AdminAccountDto: {
+            /** Format: int64 */
+            id: number;
+            username: string;
+            displayName: string;
+            /** @enum {string} */
+            role: "SUPER_ADMIN" | "ADMIN";
+            active: boolean;
+            /** Format: date-time */
+            lastLoginAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        YouTubeSyncResponse: {
+            status: string;
+            /** Format: int32 */
+            totalPlaylists: number;
+            /** Format: int32 */
+            createdMenus: number;
+            /** Format: int32 */
+            updatedMenus: number;
+            /** Format: int32 */
+            archivedMenus: number;
+            /** Format: int32 */
+            restoredMenus: number;
+            completedAt: string;
+        };
+        UploadAssetResponse: {
+            /** Format: int64 */
+            assetId: number;
+            storedPath: string;
+            mimeType?: string | null;
+            /** Format: int64 */
+            byteSize: number;
+            /** Format: int32 */
+            width?: number | null;
+            /** Format: int32 */
+            height?: number | null;
+        };
+        UploadTokenIssueRequest: {
+            /** @enum {string} */
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            /** Format: int64 */
+            maxByteSize: number;
+            allowedMimeTypes: string[];
+        };
+        UploadTokenIssueResponse: {
+            rawToken: string;
+        };
+        MainVideoSettingResponse: {
+            videoUrl: string;
+        };
+        MissionYearCreateRequest: {
+            year: string;
+            caption: string;
+            tone?: string | null;
+            /** Format: int32 */
+            sortOrder?: number | null;
+            entries: components["schemas"]["MissionEntryRequest"][];
+        };
+        AdminMemberFaithRequest: {
+            /** Format: date */
+            confessDate?: string | null;
+            /** Format: date */
+            learningDate?: string | null;
+            /** Format: date */
+            baptismDate?: string | null;
+            baptismPlace?: string | null;
+            baptismOfficiant?: string | null;
+            /** Format: date */
+            confirmationDate?: string | null;
+            previousChurch?: string | null;
+            /** Format: date */
+            transferredInAt?: string | null;
+        };
+        AdminMemberSaveRequest: {
+            name: string;
+            nameEn?: string | null;
+            baptismName?: string | null;
+            /** @enum {string} */
+            sex: "M" | "F";
+            /** Format: date */
+            birthDate: string;
+            /** @enum {string} */
+            birthCalendar: "SOLAR" | "LUNAR";
+            phone: string;
+            emergencyPhone?: string | null;
+            emergencyRelation?: string | null;
+            email?: string | null;
+            address: string;
+            addressDetail?: string | null;
+            job?: string | null;
+            photoPath?: string | null;
+            cellId?: string | null;
+            cellLabel?: string | null;
+            /** @enum {string} */
+            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
+            /** @enum {string} */
+            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
+            /** @enum {string} */
+            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
+            /** Format: date */
+            officeAppointedAt?: string | null;
+            /** Format: date */
+            registeredAt: string;
+            memo?: string | null;
+            faith?: components["schemas"]["AdminMemberFaithRequest"] | null;
+        };
+        AdminMemberAttendanceWeekResponse: {
+            /** Format: int64 */
+            serviceDateId: number;
+            /** Format: date */
+            serviceDate: string;
+            serviceType: string;
+            /** @enum {string|null} */
+            status?: "ATTEND" | "ABSENT" | "EXCUSED" | "ONLINE" | null;
+            reason?: string | null;
+        };
+        AdminMemberDetailResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            nameEn?: string | null;
+            baptismName?: string | null;
+            /** @enum {string} */
+            sex: "M" | "F";
+            /** Format: date */
+            birthDate: string;
+            /** @enum {string} */
+            birthCalendar: "SOLAR" | "LUNAR";
+            phone: string;
+            emergencyPhone?: string | null;
+            emergencyRelation?: string | null;
+            email?: string | null;
+            address: string;
+            addressDetail?: string | null;
+            job?: string | null;
+            photoPath?: string | null;
+            cellId?: string | null;
+            cellLabel?: string | null;
+            /** @enum {string} */
+            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
+            /** @enum {string} */
+            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
+            /** @enum {string} */
+            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
+            /** Format: date */
+            officeAppointedAt?: string | null;
+            /** Format: date */
+            registeredAt: string;
+            memo?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            faith?: components["schemas"]["AdminMemberFaithResponse"] | null;
+            family: components["schemas"]["AdminMemberFamilyResponse"][];
+            services: components["schemas"]["AdminMemberServiceResponse"][];
+            trainings: components["schemas"]["AdminMemberTrainingResponse"][];
+            tags: string[];
+            events: components["schemas"]["AdminMemberEventResponse"][];
+            recentAttendance: components["schemas"]["AdminMemberAttendanceWeekResponse"][];
+        };
+        AdminMemberEventResponse: {
+            /** Format: int64 */
+            id: number;
+            /** @enum {string} */
+            type: "REGISTERED" | "STATUS_CHANGED" | "STAGE_CHANGED" | "OFFICE_CHANGED" | "CELL_MOVED" | "SERVICE_ASSIGNED" | "SERVICE_ENDED" | "TRAINING_COMPLETED" | "ADDRESS_CHANGED" | "PHOTO_CHANGED" | "FAMILY_LINKED" | "FAMILY_UNLINKED";
+            payload?: string | null;
+            /** Format: int64 */
+            actorId: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        AdminMemberFaithResponse: {
+            /** Format: int64 */
+            memberId: number;
+            /** Format: date */
+            confessDate?: string | null;
+            /** Format: date */
+            learningDate?: string | null;
+            /** Format: date */
+            baptismDate?: string | null;
+            baptismPlace?: string | null;
+            baptismOfficiant?: string | null;
+            /** Format: date */
+            confirmationDate?: string | null;
+            previousChurch?: string | null;
+            /** Format: date */
+            transferredInAt?: string | null;
+        };
+        AdminMemberFamilyResponse: {
+            /** Format: int64 */
+            id: number;
+            /** Format: int64 */
+            memberId: number;
+            /** Format: int64 */
+            relatedMemberId?: number | null;
+            externalName?: string | null;
+            /** @enum {string} */
+            relation: "SPOUSE" | "PARENT" | "CHILD" | "SIBLING" | "OTHER";
+            relationDetail?: string | null;
+            isHead: boolean;
+            /** @enum {string|null} */
+            sex?: "M" | "F" | null;
+            phone?: string | null;
+            /** Format: date */
+            birthDate?: string | null;
+            groupNote?: string | null;
+        };
+        AdminMemberServiceResponse: {
+            /** Format: int64 */
+            id: number;
+            department: string;
+            team?: string | null;
+            role: string;
+            /** Format: date */
+            startedAt: string;
+            /** Format: date */
+            endedAt?: string | null;
+            schedule?: string | null;
+            note?: string | null;
+        };
+        AdminMemberTrainingResponse: {
+            /** Format: int64 */
+            id: number;
+            programName: string;
+            /** Format: date */
+            completedAt: string;
+            note?: string | null;
+        };
+        AdminAccountAuthenticateRequest: {
+            username: string;
+            password: string;
+        };
+        AdminAuthenticatedAccountDto: {
+            /** Format: int64 */
+            id: number;
+            username: string;
+            displayName: string;
+            /** @enum {string} */
+            role: "SUPER_ADMIN" | "ADMIN";
+        };
+        AdminAccountCreateRequest: {
+            username: string;
+            displayName: string;
+            password: string;
+        };
         PublicVideoDetailResponse: {
             title: string;
             sourceTitle: string;
@@ -74,6 +955,87 @@ export interface components {
         PublicVideoSiblingDto: {
             label: string;
             href: string;
+        };
+        VideoPlaylistItemSummary: {
+            videoId: string;
+            title: string;
+            preacherName?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            thumbnailUrl?: string | null;
+            scriptureReference?: string | null;
+            summary?: string | null;
+            /** @enum {string} */
+            contentForm: "LONGFORM" | "SHORTFORM";
+            href: string;
+        };
+        VideoPlaylistItemsResponse: {
+            /** @enum {string} */
+            form: "LONGFORM" | "SHORTFORM";
+            featured?: components["schemas"]["VideoPlaylistItemSummary"] | null;
+            items: components["schemas"]["VideoPlaylistItemSummary"][];
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalItems: number;
+            /** Format: int32 */
+            totalPages: number;
+        };
+        VideoPlaylistItemDetailResponse: {
+            videoId: string;
+            title: string;
+            sourceTitle: string;
+            preacherName?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            thumbnailUrl?: string | null;
+            scriptureReference?: string | null;
+            scriptureBody?: string | null;
+            messageBody?: string | null;
+            summary?: string | null;
+            description?: string | null;
+            /** @enum {string} */
+            contentForm: "LONGFORM" | "SHORTFORM";
+            playlists: components["schemas"]["VideoPlaylistLink"][];
+            related: components["schemas"]["VideoPlaylistItemSummary"][];
+            shortformPlaylist?: components["schemas"]["VideoShortformPlaylistWindow"] | null;
+        };
+        VideoPlaylistLink: {
+            label: string;
+            href: string;
+        };
+        VideoShortformPlaylistWindow: {
+            items: components["schemas"]["VideoPlaylistItemSummary"][];
+            /** Format: int32 */
+            currentIndexInWindow: number;
+            /** Format: int32 */
+            currentPage: number;
+            /** Format: int32 */
+            pageSize: number;
+            /** Format: int32 */
+            totalItems: number;
+            /** Format: int32 */
+            totalPages: number;
+        };
+        MissionPublicEntryResponse: {
+            /** Format: int64 */
+            id: number;
+            month?: string | null;
+            place: string;
+            isFirst: boolean;
+        };
+        MissionPublicListYearsResponse: {
+            years: components["schemas"]["MissionPublicYearResponse"][];
+        };
+        MissionPublicYearResponse: {
+            /** Format: int64 */
+            id: number;
+            year: string;
+            caption: string;
+            tone?: string | null;
+            entries: components["schemas"]["MissionPublicEntryResponse"][];
         };
         NavigationGroupDto: {
             key: string;
@@ -128,6 +1090,269 @@ export interface components {
             boardKey?: string | null;
             redirectTo?: string | null;
         };
+        PublicBoardListPostsResponse: {
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: int64 */
+            totalElements: number;
+            hasNext: boolean;
+            posts: components["schemas"]["PublicBoardPostSummaryResponse"][];
+        };
+        PublicBoardPostSummaryResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** Format: int64 */
+            boardId: number;
+            /** Format: int64 */
+            menuId: number;
+            title: string;
+            authorName: string;
+            /** Format: int64 */
+            viewCount: number;
+            contentHtml?: string | null;
+            hasInlineImage: boolean;
+            hasVideoEmbed: boolean;
+            hasAttachments: boolean;
+            isPinned: boolean;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        PublicBoardAdjacentPostResponse: {
+            /** Format: int64 */
+            id: number;
+            title: string;
+        };
+        PublicBoardPostAssetResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** @enum {string} */
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            originalFilename: string;
+            storedPath: string;
+            publicUrl: string;
+            mimeType?: string | null;
+            /** Format: int64 */
+            byteSize: number;
+            /** Format: int32 */
+            width?: number | null;
+            /** Format: int32 */
+            height?: number | null;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        PublicBoardPostDetailResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** Format: int64 */
+            boardId: number;
+            /** Format: int64 */
+            menuId: number;
+            title: string;
+            authorName: string;
+            /** Format: int64 */
+            viewCount: number;
+            contentJson: string;
+            contentHtml?: string | null;
+            isPinned: boolean;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            assets: components["schemas"]["PublicBoardPostAssetResponse"][];
+            previousPost?: components["schemas"]["PublicBoardAdjacentPostResponse"] | null;
+            nextPost?: components["schemas"]["PublicBoardAdjacentPostResponse"] | null;
+        };
+        AdminYouTubePlaylistDto: {
+            /** Format: int64 */
+            menuId: number;
+            playlistId: string;
+            menuLabel: string;
+            sourceTitle: string;
+            slug: string;
+            /** @enum {string} */
+            status: "DRAFT" | "PUBLISHED" | "HIDDEN" | "ARCHIVED";
+            /** @enum {string} */
+            syncStatus: "ACTIVE" | "REMOVED";
+            /** Format: int64 */
+            parentId?: number | null;
+            parentLabel?: string | null;
+            thumbnailUrl?: string | null;
+            /** Format: int32 */
+            itemCount: number;
+            /** @enum {string} */
+            playlistContentForm: "LONGFORM" | "SHORTFORM";
+        };
+        AdminYouTubePlaylistsResponse: {
+            playlists: components["schemas"]["AdminYouTubePlaylistDto"][];
+        };
+        AdminVideoListResponse: {
+            items: components["schemas"]["AdminVideoSummaryDto"][];
+        };
+        AdminVideoSummaryDto: {
+            videoId: string;
+            title: string;
+            sourceTitle: string;
+            preacherName?: string | null;
+            /** Format: date-time */
+            publishedAt?: string | null;
+            hidden: boolean;
+            /** @enum {string} */
+            contentForm: "LONGFORM" | "SHORTFORM";
+            thumbnailUrl?: string | null;
+            scriptureReference?: string | null;
+        };
+        MissionAdminListYearsResponse: {
+            years: components["schemas"]["MissionAdminYearSummaryResponse"][];
+        };
+        MissionAdminYearSummaryResponse: {
+            /** Format: int64 */
+            id: number;
+            year: string;
+            caption: string;
+            tone?: string | null;
+            /** Format: int32 */
+            sortOrder: number;
+            entries: components["schemas"]["MissionAdminEntryResponse"][];
+        };
+        AdminStaticPageDto: {
+            key: string;
+            label: string;
+            path: string;
+        };
+        AdminStaticPagesResponse: {
+            pages: components["schemas"]["AdminStaticPageDto"][];
+        };
+        AdminMemberSummaryResponse: {
+            /** Format: int64 */
+            id: number;
+            name: string;
+            nameEn?: string | null;
+            baptismName?: string | null;
+            /** @enum {string} */
+            sex: "M" | "F";
+            /** Format: date */
+            birthDate: string;
+            /** @enum {string} */
+            birthCalendar: "SOLAR" | "LUNAR";
+            phone: string;
+            address: string;
+            addressDetail?: string | null;
+            cellId?: string | null;
+            cellLabel?: string | null;
+            /** @enum {string} */
+            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
+            /** @enum {string} */
+            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
+            /** @enum {string} */
+            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
+            /** Format: date */
+            registeredAt: string;
+        };
+        AdminMembersPageResponse: {
+            members: components["schemas"]["AdminMemberSummaryResponse"][];
+            /** Format: int32 */
+            page: number;
+            /** Format: int32 */
+            size: number;
+            /** Format: int64 */
+            totalElements: number;
+            hasNext: boolean;
+        };
+        AdminMemberAttendanceRecordResponse: {
+            /** Format: int64 */
+            serviceDateId: number;
+            /** Format: date */
+            serviceDate: string;
+            serviceType: string;
+            /** @enum {string|null} */
+            status?: "ATTEND" | "ABSENT" | "EXCUSED" | "ONLINE" | null;
+            reason?: string | null;
+        };
+        AdminMemberAttendanceResponse: {
+            records: components["schemas"]["AdminMemberAttendanceRecordResponse"][];
+        };
+        BoardAdminBoardResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            slug: string;
+            title: string;
+            /** @enum {string} */
+            type: "NOTICE" | "BULLETIN" | "ALBUM" | "GENERAL";
+            description?: string | null;
+        };
+        BoardAdminListBoardsResponse: {
+            boards: components["schemas"]["BoardAdminBoardResponse"][];
+        };
+        BoardAdminListPostsResponse: {
+            posts: components["schemas"]["BoardAdminPostSummaryResponse"][];
+            hasNext: boolean;
+        };
+        BoardAdminPostSummaryResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** Format: int64 */
+            boardId: number;
+            /** Format: int64 */
+            menuId: number;
+            title: string;
+            isPublic: boolean;
+            isPinned: boolean;
+            /** Format: int64 */
+            authorId: number;
+            authorName: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        BoardAdminPostAssetResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** @enum {string} */
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            originalFilename: string;
+            storedPath: string;
+            mimeType?: string | null;
+            /** Format: int64 */
+            byteSize: number;
+            /** Format: int32 */
+            width?: number | null;
+            /** Format: int32 */
+            height?: number | null;
+            /** Format: int32 */
+            sortOrder: number;
+        };
+        BoardAdminPostDetailResponse: {
+            /** Format: int64 */
+            id?: number | null;
+            /** Format: int64 */
+            boardId: number;
+            /** Format: int64 */
+            menuId: number;
+            title: string;
+            contentJson: string;
+            contentHtml?: string | null;
+            isPublic: boolean;
+            isPinned: boolean;
+            /** Format: int64 */
+            authorId: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+            assets: components["schemas"]["BoardAdminPostAssetResponse"][];
+        };
+        AdminAccountsResponse: {
+            accounts: components["schemas"]["AdminAccountDto"][];
+        };
     };
     responses: never;
     parameters: never;
@@ -137,6 +1362,742 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getVideoDetail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                videoId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminVideoDetailResponse"];
+                };
+            };
+        };
+    };
+    updateVideoMeta: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                videoId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateVideoMetaRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminVideoDetailResponse"];
+                };
+            };
+        };
+    };
+    getYear: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                yearId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MissionAdminYearDetailResponse"];
+                };
+            };
+        };
+    };
+    updateYear: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                yearId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MissionYearUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MissionAdminYearDetailResponse"];
+                };
+            };
+        };
+    };
+    deleteYear: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                yearId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    replaceTree: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReplaceMenuTreeRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMenuTreeResponse"];
+                };
+            };
+        };
+    };
+    getPost: {
+        parameters: {
+            query?: {
+                menuId?: number;
+            };
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                slug: string;
+                postId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BoardAdminPostDetailResponse"];
+                };
+            };
+        };
+    };
+    updatePost: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                slug: string;
+                postId: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BoardPostSaveRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BoardAdminPostSaveResponse"];
+                };
+            };
+        };
+    };
+    deletePost: {
+        parameters: {
+            query?: {
+                menuId?: number;
+            };
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                slug: string;
+                postId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getAccount: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAccountDto"];
+                };
+            };
+        };
+    };
+    updateAccount: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminAccountUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAccountDto"];
+                };
+            };
+        };
+    };
+    deleteAccount: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    recordPostView: {
+        parameters: {
+            query?: {
+                menuId?: number;
+            };
+            header?: never;
+            path: {
+                slug: string;
+                postId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    sync: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["YouTubeSyncResponse"];
+                };
+            };
+        };
+    };
+    upload: {
+        parameters: {
+            query: {
+                kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            };
+            header: {
+                "X-Upload-Token": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UploadAssetResponse"];
+                };
+            };
+        };
+    };
+    issueToken: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UploadTokenIssueRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["UploadTokenIssueResponse"];
+                };
+            };
+        };
+    };
+    getAdminMainVideo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MainVideoSettingResponse"];
+                };
+            };
+        };
+    };
+    uploadAdminMainVideo: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Upload-Token": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MainVideoSettingResponse"];
+                };
+            };
+        };
+    };
+    listYears: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MissionAdminListYearsResponse"];
+                };
+            };
+        };
+    };
+    createYear: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MissionYearCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MissionAdminYearDetailResponse"];
+                };
+            };
+        };
+    };
+    listMembers: {
+        parameters: {
+            query?: {
+                query?: string;
+                status?: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
+                stage?: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
+                cellId?: string;
+                page?: number;
+                size?: number;
+            };
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMembersPageResponse"];
+                };
+            };
+        };
+    };
+    createMember: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminMemberSaveRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
+                };
+            };
+        };
+    };
+    listPosts: {
+        parameters: {
+            query?: {
+                menuId?: number;
+                page?: number;
+                size?: number;
+                title?: string;
+            };
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BoardAdminListPostsResponse"];
+                };
+            };
+        };
+    };
+    createPost: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BoardPostSaveRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BoardAdminPostSaveResponse"];
+                };
+            };
+        };
+    };
+    login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminAccountAuthenticateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAuthenticatedAccountDto"];
+                };
+            };
+        };
+    };
+    getAccounts: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAccountsResponse"];
+                };
+            };
+        };
+    };
+    createAccount: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminAccountCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAccountDto"];
+                };
+            };
+        };
+    };
+    getMember: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
+                };
+            };
+        };
+    };
+    updateMember: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminMemberSaveRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
+                };
+            };
+        };
+    };
     getVideoDetailByPath: {
         parameters: {
             query: {
@@ -155,6 +2116,93 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["PublicVideoDetailResponse"];
+                };
+            };
+        };
+    };
+    getPlaylistVideosByPath: {
+        parameters: {
+            query: {
+                path: string;
+                page?: number;
+                size?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VideoPlaylistItemsResponse"];
+                };
+            };
+        };
+    };
+    getPlaylistVideoDetailByPath: {
+        parameters: {
+            query: {
+                path: string;
+                videoId: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["VideoPlaylistItemDetailResponse"];
+                };
+            };
+        };
+    };
+    getPublicMainVideo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MainVideoSettingResponse"];
+                };
+            };
+        };
+    };
+    listYears_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["MissionPublicListYearsResponse"];
                 };
             };
         };
@@ -198,6 +2246,238 @@ export interface operations {
                 content: {
                     "*/*": components["schemas"]["PublicResolvedMenuPageResponse"];
                 };
+            };
+        };
+    };
+    listPosts_1: {
+        parameters: {
+            query?: {
+                page?: number;
+                size?: number;
+                menuId?: number;
+                title?: string;
+            };
+            header?: never;
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicBoardListPostsResponse"];
+                };
+            };
+        };
+    };
+    getPost_1: {
+        parameters: {
+            query?: {
+                menuId?: number;
+            };
+            header?: never;
+            path: {
+                slug: string;
+                postId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["PublicBoardPostDetailResponse"];
+                };
+            };
+        };
+    };
+    getPlaylists: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminYouTubePlaylistsResponse"];
+                };
+            };
+        };
+    };
+    getVideos: {
+        parameters: {
+            query?: {
+                form?: "LONGFORM" | "SHORTFORM";
+                menuId?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminVideoListResponse"];
+                };
+            };
+        };
+    };
+    getMenuTree: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMenuTreeResponse"];
+                };
+            };
+        };
+    };
+    getStaticPages: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminStaticPagesResponse"];
+                };
+            };
+        };
+    };
+    getAttendance: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+            };
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminMemberAttendanceResponse"];
+                };
+            };
+        };
+    };
+    listBoards: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["BoardAdminListBoardsResponse"];
+                };
+            };
+        };
+    };
+    me: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["AdminAuthenticatedAccountDto"];
+                };
+            };
+        };
+    };
+    deleteMenu: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Admin-Actor-Id": number;
+            };
+            path: {
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

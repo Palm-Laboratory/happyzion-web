@@ -1,10 +1,9 @@
 import "server-only";
 
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
+import type { components } from "@/types/api";
 
-export interface MainVideoSetting {
-  videoUrl: string;
-}
+export type MainVideoSetting = components["schemas"]["MainVideoSettingResponse"];
 
 export async function getAdminMainVideoSetting(): Promise<MainVideoSetting> {
   const response = await adminApiFetch("/api/v1/admin/site/main-video");

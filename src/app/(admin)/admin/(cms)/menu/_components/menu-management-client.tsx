@@ -853,12 +853,12 @@ export default function MenuManagementClient({
                   const showTopDropLine =
                     Boolean(dropIndicator) &&
                     dropIndicator?.parentId === node.parentId &&
-                    dropIndicator.index === siblingIndex;
+                    dropIndicator?.index === siblingIndex;
                   const showBottomDropLine =
                     Boolean(dropIndicator) &&
                     dropIndicator?.parentId === node.parentId &&
                     siblings !== null &&
-                    dropIndicator.index === siblings.length &&
+                    dropIndicator?.index === siblings.length &&
                     siblingIndex === siblings.length - 1;
                   const dropDisabled =
                     draggingMenuId !== null &&

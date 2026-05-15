@@ -107,7 +107,7 @@ function ErrorMessage({ message }: { message: string }) {
 
 interface ServerEntry {
   id: number;
-  month: string | null;
+  month?: string | null;
   place: string;
   isFirst: boolean;
   sortOrder: number;
@@ -117,7 +117,7 @@ interface ServerYear {
   id: number;
   year: string;
   caption: string;
-  tone: string | null;
+  tone?: string | null;
   sortOrder: number;
   entries: ServerEntry[];
 }

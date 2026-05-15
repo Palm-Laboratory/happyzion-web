@@ -381,7 +381,7 @@ export default function VideoListClient({
                       {item.preacherName || "—"}
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-[12px] text-[#5d6f86]">
-                      {formatDateTime(item.publishedAt)}
+                      {formatDateTime(item.publishedAt ?? null)}
                     </td>
                     <td className="px-5 py-4">
                       <span className="rounded-full bg-[#f1f5f9] px-2.5 py-0.5 text-[10px] font-semibold text-[#475569]">

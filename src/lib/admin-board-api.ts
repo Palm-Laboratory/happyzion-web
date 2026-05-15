@@ -2,8 +2,9 @@ import "server-only";
 
 import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
+import type { components } from "@/types/api";
 
-export type AdminBoardType = "ANNOUNCEMENT" | "FREE" | "GALLERY" | "FAQ" | string;
+export type AdminBoardType = components["schemas"]["BoardAdminBoardResponse"]["type"];
 
 export interface AdminBoardSummary {
   id: string;
@@ -59,52 +60,11 @@ export interface BoardPostSavePayload {
   assetIds: Array<string | number>;
 }
 
-interface BackendBoardSummary {
-  id: string | number;
-  slug: string;
-  title: string;
-  type: AdminBoardType;
-  description?: string | null;
-}
-
-interface BackendPostSummary {
-  id: string | number;
-  boardId: string | number;
-  menuId?: string | number | null;
-  title: string;
-  isPublic: boolean;
-  isPinned?: boolean | null;
-  authorId: string | number;
-  authorName?: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface BackendPostAsset {
-  id: string | number;
-  kind: string;
-  originalFilename: string;
-  storedPath: string;
-  mimeType: string;
-  byteSize: number;
-  width?: number | null;
-  height?: number | null;
-  sortOrder?: number | null;
-}
-
-interface BackendPostDetail extends BackendPostSummary {
-  contentJson: string | TiptapDocument | Record<string, unknown>;
-  contentHtml?: string | null;
-  assets?: BackendPostAsset[];
-}
-
-interface BackendPostSaveResponse {
-  id?: string | number | null;
-}
-
-function toFrontendId(value: string | number) {
-  return String(value);
-}
+type BackendBoardSummary = components["schemas"]["BoardAdminBoardResponse"];
+type BackendPostSummary = components["schemas"]["BoardAdminPostSummaryResponse"];
+type BackendPostAsset = components["schemas"]["BoardAdminPostAssetResponse"];
+type BackendPostDetail = components["schemas"]["BoardAdminPostDetailResponse"];
+type BackendPostSaveResponse = components["schemas"]["BoardAdminPostSaveResponse"];
 
 function toBackendNumber(value: string | number, label: string) {
   const numberValue = typeof value === "number" ? value : Number(value);
@@ -116,11 +76,7 @@ function toBackendNumber(value: string | number, label: string) {
   return numberValue;
 }
 
-function normalizeContentJson(value: BackendPostDetail["contentJson"]) {
-  if (typeof value !== "string") {
-    return value;
-  }
-
+function normalizeContentJson(value: string): TiptapDocument | Record<string, unknown> {
   try {
     return JSON.parse(value) as TiptapDocument | Record<string, unknown>;
   } catch {
@@ -130,7 +86,7 @@ function normalizeContentJson(value: BackendPostDetail["contentJson"]) {
 
 function normalizeBoard(board: BackendBoardSummary): AdminBoardSummary {
   return {
-    id: toFrontendId(board.id),
+    id: String(board.id ?? ""),
     slug: board.slug,
     title: board.title,
     type: board.type,
@@ -140,14 +96,14 @@ function normalizeBoard(board: BackendBoardSummary): AdminBoardSummary {
 
 function normalizePostSummary(post: BackendPostSummary): AdminBoardPostSummary {
   return {
-    id: toFrontendId(post.id),
-    boardId: toFrontendId(post.boardId),
-    menuId: toFrontendId(post.menuId ?? post.boardId),
+    id: String(post.id ?? ""),
+    boardId: String(post.boardId),
+    menuId: String(post.menuId),
     title: post.title,
     isPublic: post.isPublic,
-    isPinned: post.isPinned ?? false,
-    authorId: toFrontendId(post.authorId),
-    authorName: post.authorName ?? "-",
+    isPinned: post.isPinned,
+    authorId: String(post.authorId),
+    authorName: post.authorName,
     createdAt: post.createdAt,
     updatedAt: post.updatedAt,
   };
@@ -155,33 +111,42 @@ function normalizePostSummary(post: BackendPostSummary): AdminBoardPostSummary {
 
 function normalizeAsset(asset: BackendPostAsset): AdminBoardPostAsset {
   return {
-    id: toFrontendId(asset.id),
+    id: String(asset.id ?? ""),
     kind: asset.kind,
     originalFilename: asset.originalFilename,
     storedPath: asset.storedPath,
-    mimeType: asset.mimeType,
+    mimeType: asset.mimeType ?? "",
     byteSize: asset.byteSize,
     width: asset.width ?? null,
     height: asset.height ?? null,
-    sortOrder: asset.sortOrder ?? 0,
+    sortOrder: asset.sortOrder,
   };
 }
 
 function normalizePostDetail(post: BackendPostDetail): AdminBoardPostDetail {
   return {
-    ...normalizePostSummary(post),
+    id: String(post.id ?? ""),
+    boardId: String(post.boardId),
+    menuId: String(post.menuId),
+    title: post.title,
+    isPublic: post.isPublic,
+    isPinned: post.isPinned,
+    authorId: String(post.authorId),
+    authorName: "",
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
     contentJson: normalizeContentJson(post.contentJson),
     contentHtml: post.contentHtml ?? "",
-    assets: (post.assets ?? []).map(normalizeAsset),
+    assets: post.assets.map(normalizeAsset),
   };
 }
 
 function normalizeSavedPostId(payload: BackendPostSaveResponse) {
-  if (payload.id === undefined || payload.id === null || String(payload.id).trim() === "") {
+  if (payload.id === null || payload.id === undefined) {
     throw new AdminApiError(502, "INVALID_BOARD_SAVE_RESPONSE", "게시글 저장 응답이 올바르지 않습니다.");
   }
 
-  return toFrontendId(payload.id);
+  return String(payload.id);
 }
 
 function buildSavePayload(payload: BoardPostSavePayload) {
@@ -207,8 +172,8 @@ export async function getAdminBoards(actorId: string): Promise<AdminBoardSummary
   const response = await adminApiFetch("/api/v1/admin/boards", {
     headers: actorHeaders(actorId),
   });
-  const payload = (await response.json()) as { boards?: BackendBoardSummary[] };
-  return (payload.boards ?? []).map(normalizeBoard);
+  const payload = (await response.json()) as components["schemas"]["BoardAdminListBoardsResponse"];
+  return payload.boards.map(normalizeBoard);
 }
 
 export async function getAdminBoardPosts(
@@ -230,10 +195,10 @@ export async function getAdminBoardPosts(
   const response = await adminApiFetch(`/api/v1/admin/boards/${encodeURIComponent(slug)}/posts${query}`, {
     headers: actorHeaders(actorId),
   });
-  const payload = (await response.json()) as { posts?: BackendPostSummary[]; hasNext?: boolean };
+  const payload = (await response.json()) as components["schemas"]["BoardAdminListPostsResponse"];
   return {
-    posts: (payload.posts ?? []).map(normalizePostSummary),
-    hasNext: payload.hasNext ?? false,
+    posts: payload.posts.map(normalizePostSummary),
+    hasNext: payload.hasNext,
   };
 }
 

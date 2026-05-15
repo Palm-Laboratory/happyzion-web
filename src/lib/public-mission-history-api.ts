@@ -1,24 +1,13 @@
 import "server-only";
 
 import { serverFetchJson } from "@/lib/server-fetch";
+import type { components } from "@/types/api";
 
-export interface PublicMissionEntry {
-  id: number;
-  month: string | null;
-  place: string;
-  isFirst: boolean;
-}
-
-export interface PublicMissionYear {
-  id: number;
-  year: string;
-  caption: string;
-  tone: "gold" | "red" | null;
-  entries: PublicMissionEntry[];
-}
+export type PublicMissionEntry = components["schemas"]["MissionPublicEntryResponse"];
+export type PublicMissionYear = components["schemas"]["MissionPublicYearResponse"];
 
 export async function getPublicMissionHistory(): Promise<PublicMissionYear[]> {
-  const data = await serverFetchJson<{ years: PublicMissionYear[] }>(
+  const data = await serverFetchJson<components["schemas"]["MissionPublicListYearsResponse"]>(
     "/api/v1/public/mission-history",
     { next: { revalidate: 60, tags: ["mission-history"] } },
   );

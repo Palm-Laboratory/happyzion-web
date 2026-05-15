@@ -1,30 +1,12 @@
 import "server-only";
 
 import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
+import type { components } from "@/types/api";
 
 export type MissionTone = "gold" | "red" | null;
-
-export interface MissionEntry {
-  id: number;
-  month: string | null;
-  place: string;
-  isFirst: boolean;
-  sortOrder: number;
-}
-
-export interface MissionYear {
-  id: number;
-  year: string;
-  caption: string;
-  tone: MissionTone;
-  sortOrder: number;
-  entries: MissionEntry[];
-}
-
-export interface MissionYearDetail extends MissionYear {
-  createdAt: string;
-  updatedAt: string;
-}
+export type MissionEntry = components["schemas"]["MissionAdminEntryResponse"];
+export type MissionYear = components["schemas"]["MissionAdminYearSummaryResponse"];
+export type MissionYearDetail = components["schemas"]["MissionAdminYearDetailResponse"];
 
 export interface MissionEntryPayload {
   month: string | null;

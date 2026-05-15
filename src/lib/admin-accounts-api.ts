@@ -3,46 +3,16 @@ import "server-only";
 import { joinApiUrl } from "@/lib/api-base-url";
 import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
+import type { components } from "@/types/api";
 
 // ── 타입 ──────────────────────────────────────────────────────────────────────
 
-export type AdminAccountRole = "SUPER_ADMIN" | "ADMIN";
-
-export interface AuthenticatedAdminAccount {
-  id: number;
-  username: string;
-  displayName: string;
-  role: AdminAccountRole;
-}
-
-export interface AdminAccount {
-  id: number;
-  username: string;
-  displayName: string;
-  role: AdminAccountRole;
-  active: boolean;
-  lastLoginAt: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface AdminAccountsResponse {
-  accounts: AdminAccount[];
-}
-
-export interface CreateAdminAccountPayload {
-  username: string;
-  displayName: string;
-  password: string;
-}
-
-export interface UpdateAdminAccountPayload {
-  username: string;
-  displayName: string;
-  role: AdminAccountRole;
-  active: boolean;
-  password?: string | null;
-}
+export type AdminAccountRole = components["schemas"]["AdminAccountDto"]["role"];
+export type AuthenticatedAdminAccount = components["schemas"]["AdminAuthenticatedAccountDto"];
+export type AdminAccount = components["schemas"]["AdminAccountDto"];
+export type AdminAccountsResponse = components["schemas"]["AdminAccountsResponse"];
+export type CreateAdminAccountPayload = components["schemas"]["AdminAccountCreateRequest"];
+export type UpdateAdminAccountPayload = components["schemas"]["AdminAccountUpdateRequest"];
 
 // ── 인증 ──────────────────────────────────────────────────────────────────────
 

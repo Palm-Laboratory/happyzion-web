@@ -112,7 +112,7 @@ function applyNodeSnapshot(nodes: EditorNode[], snapshot: EditorNode): EditorNod
     children: cloneTree(snapshot.children),
   };
 
-  if (snapshot.parentId === null) {
+  if (snapshot.parentId == null) {
     return [...withoutNode, movedNode];
   }
 

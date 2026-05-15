@@ -1,0 +1,62 @@
+name: OpenAPI Spec Drift Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - ".github/workflows/api-spec-drift.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/**"
+      - ".github/workflows/api-spec-drift.yml"
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout frontend
+        uses: actions/checkout@v4
+
+      - name: Checkout API
+        uses: actions/checkout@v4
+        with:
+          repository: Palm-Laboratory/happyzion-api
+          # If the API repo is private, add a PAT in repository secrets as API_REPO_TOKEN:
+          # token: ${{ secrets.API_REPO_TOKEN }}
+          path: happyzion_api
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Generate OpenAPI spec
+        working-directory: happyzion_api
+        run: |
+          chmod +x ./gradlew
+          ./gradlew --no-daemon openApiSpec
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate api.d.ts
+        run: npx openapi-typescript happyzion_api/build/openapi/openapi.yaml -o src/types/api.d.ts
+
+      - name: Check for spec drift
+        run: |
+          if ! git diff --exit-code src/types/api.d.ts; then
+            echo ""
+            echo "api.d.ts is out of sync with the API spec."
+            echo "Run './gradlew openApiSpec' in happyzion_api, then 'npm run gen:api' in happyzion-web, and commit the result."
+            exit 1
+          fi
