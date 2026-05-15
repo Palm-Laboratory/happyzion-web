@@ -7,12 +7,27 @@ import { fileURLToPath } from "node:url";
 const here = path.dirname(fileURLToPath(import.meta.url));
 const pagePath = path.join(here, "page.tsx");
 const clientPath = path.join(here, "_components", "board-management-client.tsx");
+const clientUnitPaths = [
+  clientPath,
+  path.join(here, "_components", "use-board-management-controller.ts"),
+  path.join(here, "_components", "board-management-list.tsx"),
+  path.join(here, "_components", "board-management-editor.tsx"),
+  path.join(here, "_components", "board-management-api.ts"),
+  path.join(here, "_components", "board-management-utils.ts"),
+  path.join(here, "_components", "board-management-types.ts"),
+  path.join(here, "_components", "board-management-schema.ts"),
+];
 const editorPath = path.join(here, "_components", "board-post-editor.tsx");
 const simpleEditorPath = path.join(here, "..", "..", "..", "..", "..", "components", "tiptap-templates", "simple", "simple-editor.tsx");
 const adminUploadApiPath = path.join(here, "..", "..", "..", "..", "..", "lib", "admin-upload-api.ts");
 
 async function readSource(sourcePath) {
   return readFile(sourcePath, "utf8");
+}
+
+async function readClientUnitSource() {
+  const parts = await Promise.all(clientUnitPaths.map(readSource));
+  return parts.join("\n");
 }
 
 test("board management page exists and uses the admin session gate", async () => {
@@ -83,7 +98,7 @@ test("board management page fetches real BOARD menu entries and passes them to t
 });
 
 test("board management client is a client component with list, save, loading, and error states", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
 
   assert.match(contents, /^["']use client["'];?/m, "Expected board-management-client.tsx to be a client component.");
   assert.match(contents, /BoardManagementClient/, "Expected the component to expose BoardManagementClient.");
@@ -94,7 +109,7 @@ test("board management client is a client component with list, save, loading, an
 });
 
 test("board management client opens on the list screen with filters above the post list", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
 
   assert.match(
     contents,
@@ -127,7 +142,7 @@ test("board management client opens on the list screen with filters above the po
 });
 
 test("board management client uses one editor screen for details and new posts", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
 
   assert.match(
     contents,
@@ -141,7 +156,7 @@ test("board management client uses one editor screen for details and new posts",
   );
   assert.match(
     contents,
-    /\{selectedPostId\s*\?\s*["']게시글 상세["']\s*:\s*["']새 게시글 작성["']\}/,
+    /\{(?:controller\.)?selectedPostId\s*\?\s*["']게시글 상세["']\s*:\s*["']새 게시글 작성["']\}/,
     "Expected the editor heading to switch between detail and new-post modes.",
   );
   assert.match(contents, /목록으로/, "Expected the shared editor screen to provide a route back to the list.");
@@ -149,7 +164,7 @@ test("board management client uses one editor screen for details and new posts",
 });
 
 test("board management client selects BOARD menu ids instead of only board slugs", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
 
   assert.match(
     contents,
@@ -179,7 +194,7 @@ test("board management client selects BOARD menu ids instead of only board slugs
 });
 
 test("board management client ignores disconnected BOARD menu entries", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
 
   assert.match(
     contents,
@@ -199,7 +214,7 @@ test("board management client ignores disconnected BOARD menu entries", async ()
 });
 
 test("board management client requests upload tokens and uploads assets directly", async () => {
-  const contents = await readSource(clientPath);
+  const contents = await readClientUnitSource();
   const uploadApiContents = await readSource(adminUploadApiPath);
 
   assert.match(
