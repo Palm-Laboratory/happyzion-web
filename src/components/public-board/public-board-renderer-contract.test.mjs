@@ -74,6 +74,21 @@ test("public board renderer supports official SimpleEditor uploaded image source
   );
 });
 
+test("public board renderer links summaries to explicit posts detail URLs", async () => {
+  const contents = await readRenderer();
+
+  assert.match(
+    contents,
+    /\/posts\/\$\{postId\}|["']\/posts\/["']\s*\+/,
+    "Expected board summary links to use an explicit /posts/{postId} detail URL segment.",
+  );
+  assert.doesNotMatch(
+    contents,
+    /return\s+`\$\{boardPath\.replace\([^`]+\/\$\{postId\}`/,
+    "Expected board summary links not to append the post id directly to the board path.",
+  );
+});
+
 test("public board renderer supports official SimpleEditor block nodes and text alignment", async () => {
   const contents = await readRenderer();
 

@@ -73,6 +73,10 @@ function DirectionBadge({ direction }: { direction: "left" | "right" }) {
   );
 }
 
+function getBoardPostHref(boardPath: string, postId: string) {
+  return `${boardPath.replace(/\/+$/, "")}/posts/${postId}`;
+}
+
 export default function PublicBoardDetailActions({
   boardPath,
   previousPost,
@@ -80,7 +84,6 @@ export default function PublicBoardDetailActions({
 }: PublicBoardDetailActionsProps) {
   const pathname = usePathname() ?? boardPath;
   const [shareLabel, setShareLabel] = useState("게시글 공유");
-  const normalizedBoardPath = boardPath.replace(/\/+$/, "");
 
   async function handleShare() {
     const shareUrl = typeof window !== "undefined" ? new URL(pathname, window.location.origin).toString() : pathname;
@@ -148,7 +151,7 @@ export default function PublicBoardDetailActions({
       <div className="mt-5 space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
         {previousPost ? (
           <Link
-            href={`${normalizedBoardPath}/${previousPost.id}`}
+            href={getBoardPostHref(boardPath, previousPost.id)}
             className="group flex items-center gap-4 rounded-[22px] border border-[#8b6db5]/15 bg-white px-4 py-4 transition hover:border-[#8b6db5] hover:bg-white hover:shadow-[0_10px_24px_rgba(51,16,63,0.08)]"
           >
             <DirectionBadge direction="left" />
@@ -171,7 +174,7 @@ export default function PublicBoardDetailActions({
 
         {nextPost ? (
           <Link
-            href={`${normalizedBoardPath}/${nextPost.id}`}
+            href={getBoardPostHref(boardPath, nextPost.id)}
             className="group flex items-center gap-4 rounded-[22px] border border-[#8b6db5]/15 bg-white px-4 py-4 transition hover:border-[#8b6db5] hover:bg-white hover:shadow-[0_10px_24px_rgba(51,16,63,0.08)]"
           >
             <div className="min-w-0 flex-1 text-right">

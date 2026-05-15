@@ -16,9 +16,42 @@ export type MenuDispatcherPageProps = {
 };
 
 const DEFAULT_BOARD_PAGE_SIZE = 20;
+const MAX_BOARD_PAGE_SIZE = 50;
 
 function normalizePath(menuPath: string[]) {
   return `/${menuPath.filter(Boolean).join("/")}`;
+}
+
+function getExplicitBoardPostRoute(path: string) {
+  const segments = path.split("/").filter(Boolean);
+  const postId = segments.at(-1);
+
+  if (segments.length < 3 || !postId) {
+    return null;
+  }
+
+  if (segments.at(-2) === "posts") {
+    return {
+      boardPath: `/${segments.slice(0, -2).join("/")}`,
+      postId,
+    };
+  }
+
+  return null;
+}
+
+function getLegacyBoardPostRoute(path: string) {
+  const segments = path.split("/").filter(Boolean);
+  const postId = segments.at(-1);
+
+  if (segments.length < 2 || !postId || !/^\d+$/.test(postId)) {
+    return null;
+  }
+
+  return {
+    boardPath: `/${segments.slice(0, -1).join("/")}`,
+    postId,
+  };
 }
 
 function getFirstSearchParam(
@@ -32,6 +65,10 @@ function getFirstSearchParam(
 function parsePositiveInteger(value: string | undefined, fallback: number) {
   const parsed = Number(value);
   return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function parseBoardPageSize(value: string | undefined) {
+  return Math.min(parsePositiveInteger(value, DEFAULT_BOARD_PAGE_SIZE), MAX_BOARD_PAGE_SIZE);
 }
 
 function getShellTitle(resolved: PublicResolvedMenuPage) {
@@ -52,6 +89,23 @@ export async function generateMenuDispatcherMetadata({
 }: Omit<MenuDispatcherPageProps, "searchParams">): Promise<Metadata> {
   const { menuPath } = await params;
   const path = normalizePath(menuPath);
+  const explicitPostRoute = getExplicitBoardPostRoute(path);
+
+  if (explicitPostRoute) {
+    const board = await resolvePublicMenuPath(explicitPostRoute.boardPath);
+
+    if (board?.type === "BOARD" && board.boardKey) {
+      const post = await getPublicBoardPost(board.boardKey, board.menuId, explicitPostRoute.postId);
+
+      if (post) {
+        return createPageMetadata({
+          title: `${post.title} | ${board.label}`,
+          path,
+        });
+      }
+    }
+  }
+
   const resolved = await resolvePublicMenuPath(path);
 
   if (resolved?.redirectTo) {
@@ -68,13 +122,11 @@ export async function generateMenuDispatcherMetadata({
     });
   }
 
-  const segments = path.split("/").filter(Boolean);
-  const boardPath = segments.length >= 2 ? `/${segments.slice(0, -1).join("/")}` : "";
-  const postId = segments.at(-1);
-  const board = boardPath ? await resolvePublicMenuPath(boardPath) : null;
+  const legacyPostRoute = getLegacyBoardPostRoute(path);
+  const board = legacyPostRoute ? await resolvePublicMenuPath(legacyPostRoute.boardPath) : null;
 
-  if (board?.type === "BOARD" && board.boardKey && postId) {
-    const post = await getPublicBoardPost(board.boardKey, board.menuId, postId);
+  if (legacyPostRoute && board?.type === "BOARD" && board.boardKey) {
+    const post = await getPublicBoardPost(board.boardKey, board.menuId, legacyPostRoute.postId);
 
     if (post) {
       return createPageMetadata({
@@ -117,10 +169,7 @@ async function renderBoardListPage(
   }
 
   const requestedPage = parsePositiveInteger(getFirstSearchParam(searchParams, "page"), 1);
-  const pageSize = parsePositiveInteger(
-    getFirstSearchParam(searchParams, "size"),
-    DEFAULT_BOARD_PAGE_SIZE,
-  );
+  const pageSize = parseBoardPageSize(getFirstSearchParam(searchParams, "size"));
   const title = getFirstSearchParam(searchParams, "title")?.trim() ?? "";
   const posts = await listPublicBoardPosts(resolved.boardKey, resolved.menuId, {
     page: requestedPage - 1,
@@ -149,20 +198,13 @@ async function renderBoardListPage(
   );
 }
 
-async function renderBoardDetailPage(path: string) {
-  const segments = path.split("/").filter(Boolean);
-
-  if (segments.length < 2) {
-    notFound();
-  }
-
-  const postId = segments.at(-1);
-  const boardPath = `/${segments.slice(0, -1).join("/")}`;
-
-  if (!postId) {
-    notFound();
-  }
-
+async function renderBoardDetailPage({
+  boardPath,
+  postId,
+}: {
+  boardPath: string;
+  postId: string;
+}) {
   const resolved = await resolvePublicMenuPath(boardPath);
 
   if (!resolved || resolved.type !== "BOARD" || !resolved.boardKey) {
@@ -179,12 +221,29 @@ async function renderBoardDetailPage(path: string) {
     <SitePageShell title={getShellTitle(resolved)} subtitle={getShellSubtitle(resolved.fullPath)}>
       <PublicBoardRenderer
         mode="detail"
+        boardKey={resolved.boardKey}
         boardLabel={resolved.label}
         boardPath={resolved.fullPath}
         post={post}
       />
     </SitePageShell>
   );
+}
+
+async function redirectLegacyBoardDetailPage(path: string): Promise<never> {
+  const legacyPostRoute = getLegacyBoardPostRoute(path);
+
+  if (!legacyPostRoute) {
+    notFound();
+  }
+
+  const resolved = await resolvePublicMenuPath(legacyPostRoute.boardPath);
+
+  if (!resolved || resolved.type !== "BOARD") {
+    notFound();
+  }
+
+  return redirect(`${resolved.fullPath.replace(/\/+$/, "")}/posts/${legacyPostRoute.postId}`);
 }
 
 export async function renderMenuDispatcherPage({
@@ -194,10 +253,16 @@ export async function renderMenuDispatcherPage({
   const { menuPath } = await params;
   const resolvedSearchParams = await searchParams;
   const path = normalizePath(menuPath);
+  const explicitPostRoute = getExplicitBoardPostRoute(path);
+
+  if (explicitPostRoute) {
+    return renderBoardDetailPage(explicitPostRoute);
+  }
+
   const resolved = await resolvePublicMenuPath(path);
 
   if (!resolved) {
-    return renderBoardDetailPage(path);
+    return redirectLegacyBoardDetailPage(path);
   }
 
   if (resolved.redirectTo) {

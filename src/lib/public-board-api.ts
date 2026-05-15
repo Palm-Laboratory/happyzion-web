@@ -3,7 +3,7 @@ import "server-only";
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
 import { PUBLIC_BOARD_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
-import { serverFetchJsonOrNull } from "@/lib/server-fetch";
+import { serverFetch, serverFetchJsonOrNull } from "@/lib/server-fetch";
 
 export interface PublicBoardPostAsset {
   id: string;
@@ -267,5 +267,19 @@ export async function getPublicBoardPost(
 ): Promise<PublicBoardPostDetail | null> {
   return getOrSetPublicRequestCache(`public-board-post:${slug}:${menuId}:${postId}`, () =>
     fetchPublicBoardPost(slug, menuId, postId),
+  );
+}
+
+export async function recordPublicBoardPostView(
+  slug: string,
+  menuId: string | number,
+  postId: string,
+): Promise<void> {
+  await serverFetch(
+    `/api/v1/public/boards/${encodeURIComponent(slug)}/posts/${encodeURIComponent(postId)}/views?menuId=${menuId}`,
+    {
+      method: "POST",
+      cache: "no-store",
+    },
   );
 }

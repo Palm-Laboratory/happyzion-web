@@ -5,6 +5,7 @@ import SectionHeading from "@/components/section-heading";
 import PublicBoardDetailActions from "@/components/public-board/public-board-detail-actions";
 import PublicBoardAttachmentsDropdown from "@/components/public-board/public-board-attachments-dropdown";
 import PublicBoardListControls from "@/components/public-board/public-board-list-controls";
+import PublicBoardViewRecorder from "@/components/public-board/public-board-view-recorder";
 import {
   type PublicBoardPostDetail,
   type PublicBoardPostListResponse,
@@ -26,6 +27,7 @@ type PublicBoardRendererListProps = {
 
 type PublicBoardRendererDetailProps = {
   mode: "detail";
+  boardKey: string;
   boardLabel: string;
   boardPath: string;
   post: PublicBoardPostDetail;
@@ -113,7 +115,7 @@ function storedPathFromEditorImageSource(value: unknown): string {
 }
 
 function getBoardPathHref(boardPath: string, postId: string) {
-  return `${boardPath.replace(/\/+$/, "")}/${postId}`;
+  return boardPath.replace(/\/+$/, "") + "/posts/" + postId;
 }
 
 function getBoardListPageHref(boardPath: string, page: number) {
@@ -123,6 +125,28 @@ function getBoardListPageHref(boardPath: string, page: number) {
 
 function getBoardPostNumber(currentPage: number, pageSize: number, totalItems: number, index: number) {
   return totalItems - (currentPage - 1) * pageSize - index;
+}
+
+function renderPostMediaIndicators(post: PublicBoardPostSummary) {
+  return (
+    <>
+      {post.hasAttachments ? (
+        <span className="shrink-0 text-site-muted" title="첨부파일 포함">
+          <AttachmentIndicatorIcon />
+        </span>
+      ) : null}
+      {post.hasInlineImage ? (
+        <span className="shrink-0 text-site-muted" title="이미지 포함">
+          <ImageIndicatorIcon />
+        </span>
+      ) : null}
+      {post.hasVideoEmbed ? (
+        <span className="shrink-0 text-site-muted" title="영상 포함">
+          <VideoIndicatorIcon />
+        </span>
+      ) : null}
+    </>
+  );
 }
 
 function ImageIndicatorIcon() {
@@ -444,21 +468,7 @@ function renderBoardPostSummary(
             <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
               {post.title}
             </span>
-            {post.hasAttachments ? (
-              <span className="shrink-0 text-site-muted" title="첨부파일 포함">
-                <AttachmentIndicatorIcon />
-              </span>
-            ) : null}
-            {post.hasInlineImage ? (
-              <span className="shrink-0 text-site-muted" title="이미지 포함">
-                <ImageIndicatorIcon />
-              </span>
-            ) : null}
-            {post.hasVideoEmbed ? (
-              <span className="shrink-0 text-site-muted" title="영상 포함">
-                <VideoIndicatorIcon />
-              </span>
-            ) : null}
+            {renderPostMediaIndicators(post)}
           </span>
           <span className="type-body-small flex min-w-0 items-center gap-1 whitespace-nowrap text-site-muted">
             <span className="truncate">{post.authorName || "-"}</span>
@@ -475,21 +485,7 @@ function renderBoardPostSummary(
           <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
             {post.title}
           </span>
-            {post.hasAttachments ? (
-              <span className="shrink-0 text-site-muted" title="첨부파일 포함">
-                <AttachmentIndicatorIcon />
-              </span>
-            ) : null}
-            {post.hasInlineImage ? (
-              <span className="shrink-0 text-site-muted" title="이미지 포함">
-                <ImageIndicatorIcon />
-              </span>
-            ) : null}
-            {post.hasVideoEmbed ? (
-            <span className="shrink-0 text-site-muted" title="영상 포함">
-              <VideoIndicatorIcon />
-            </span>
-          ) : null}
+          {renderPostMediaIndicators(post)}
         </span>
         <span className="hidden type-body-small truncate text-center text-site-muted md:block">
           {post.authorName || "-"}
@@ -641,6 +637,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           previousPost={props.post.previousPost}
           nextPost={props.post.nextPost}
         />
+        <PublicBoardViewRecorder boardKey={props.boardKey} menuId={props.post.menuId} postId={props.post.id} />
       </article>
     </main>
   );
