@@ -2,31 +2,22 @@ import "server-only";
 
 import { getOrSetPublicRequestCache } from "@/lib/public-request-cache";
 import { PUBLIC_MENU_REVALIDATE_OPTIONS } from "@/lib/public-cache-policy";
-import type { MenuType } from "@/lib/admin-menu-api";
-import type {
-  NavigationGroupDto,
-  NavigationItemDto,
-  NavigationLinkType,
-  NavigationResponse,
-} from "@/lib/navigation-types";
 import { serverFetchJson, serverFetchJsonOrNull } from "@/lib/server-fetch";
+import type { components } from "@/types/api";
 
-export type PublicNavigationItem = NavigationItemDto;
-export type PublicNavigationGroup = NavigationGroupDto;
-export type PublicNavigationResponse = NavigationResponse;
-export type { NavigationLinkType };
+export type PublicNavigationItem = components["schemas"]["NavigationItemDto"];
+export type PublicNavigationGroup = components["schemas"]["NavigationGroupDto"];
+export type PublicNavigationResponse = components["schemas"]["PublicNavigationResponse"];
+export type NavigationLinkType = PublicNavigationItem["linkType"];
 
-export interface PublicResolvedMenuPage {
-  menuId: number;
-  type: MenuType;
-  label: string;
-  slug: string;
-  fullPath: string;
+type GeneratedResolvedMenuPage = components["schemas"]["PublicResolvedMenuPageResponse"];
+
+export type PublicResolvedMenuPage = GeneratedResolvedMenuPage & {
   parentLabel: string | null;
   staticPageKey: string | null;
   boardKey: string | null;
   redirectTo: string | null;
-}
+};
 
 export async function resolvePublicMenuPath(path: string): Promise<PublicResolvedMenuPage | null> {
   return getOrSetPublicRequestCache(`public-menu-path:${path}`, () =>
