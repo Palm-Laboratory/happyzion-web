@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AdminToastProvider } from "./(cms)/components/admin-toast-provider";
+import { ReactQueryProvider } from "./_components/react-query-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -18,10 +19,12 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AdminToastProvider>
-      <div className="min-h-screen bg-[#0f1c2e] font-[var(--font-sans)] antialiased">
-        {children}
-      </div>
-    </AdminToastProvider>
+    <ReactQueryProvider>
+      <AdminToastProvider>
+        <div className="min-h-screen bg-[#0f1c2e] font-[var(--font-sans)] antialiased">
+          {children}
+        </div>
+      </AdminToastProvider>
+    </ReactQueryProvider>
   );
 }
