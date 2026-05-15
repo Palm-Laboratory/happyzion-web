@@ -49,6 +49,80 @@ const MENU_TYPE_LABEL: Record<MenuType, string> = {
   YOUTUBE_PLAYLIST: "유튜브 재생목록",
 };
 
+const HANGUL_BASE_CODE = 0xac00;
+const HANGUL_CHOSEONG_INTERVAL = 588;
+const HANGUL_JONGSEONG_COUNT = 28;
+const HANGUL_INITIAL_ROMANIZATION = [
+  "g", "kk", "n", "d", "tt", "r", "m", "b", "pp", "s",
+  "ss", "", "j", "jj", "ch", "k", "t", "p", "h",
+];
+const HANGUL_VOWEL_ROMANIZATION = [
+  "a", "ae", "ya", "yae", "eo", "e", "yeo", "ye", "o", "wa",
+  "wae", "oe", "yo", "u", "wo", "we", "wi", "yu", "eu", "ui", "i",
+];
+const HANGUL_FINAL_ROMANIZATION = [
+  "", "k", "k", "ks", "n", "nj", "nh", "t", "l", "lk",
+  "lm", "lb", "ls", "lt", "lp", "lh", "m", "p", "ps", "t",
+  "t", "ng", "t", "t", "k", "t", "p", "h",
+];
+
+function romanizeHangulSyllable(char: string): string {
+  const syllableIndex = char.charCodeAt(0) - HANGUL_BASE_CODE;
+  const choseongIndex = Math.floor(syllableIndex / HANGUL_CHOSEONG_INTERVAL);
+  const jungseongIndex = Math.floor((syllableIndex % HANGUL_CHOSEONG_INTERVAL) / HANGUL_JONGSEONG_COUNT);
+  const jongseongIndex = syllableIndex % HANGUL_JONGSEONG_COUNT;
+
+  return [
+    HANGUL_INITIAL_ROMANIZATION[choseongIndex],
+    HANGUL_VOWEL_ROMANIZATION[jungseongIndex],
+    HANGUL_FINAL_ROMANIZATION[jongseongIndex],
+  ].join("");
+}
+
+function slugifyToAscii(rawText: string): string {
+  let value = "";
+  let pendingSeparator = false;
+
+  const flushSeparator = () => {
+    if (pendingSeparator && value.length > 0) {
+      value += "-";
+    }
+    pendingSeparator = false;
+  };
+
+  for (const char of rawText.trim()) {
+    const code = char.charCodeAt(0);
+
+    if ((char >= "a" && char <= "z") || (char >= "A" && char <= "Z") || (char >= "0" && char <= "9")) {
+      flushSeparator();
+      value += char.toLowerCase();
+    } else if (code >= HANGUL_BASE_CODE && code <= 0xd7a3) {
+      const romanized = romanizeHangulSyllable(char);
+      if (romanized) {
+        flushSeparator();
+        value += romanized;
+      }
+    } else {
+      pendingSeparator = value.length > 0;
+    }
+  }
+
+  return value.replace(/-+$/g, "");
+}
+
+function getSlugPreview(node: EditorNode, manual: boolean) {
+  const source = manual ? node.slug : node.label;
+  const value = slugifyToAscii(source);
+
+  return {
+    source,
+    value,
+    modeLabel: manual ? "직접 입력 변환 결과" : "자동 생성 미리보기",
+    isEmptyInput: source.trim().length === 0,
+    isEmptyResult: value.length === 0,
+  };
+}
+
 function flattenTree(nodes: EditorNode[], depth = 0): Array<{ node: EditorNode; depth: number }> {
   return nodes.flatMap((node) => [
     { node, depth },
@@ -425,10 +499,14 @@ export default function MenuManagementClient({
     ? siblingNodes.findIndex((node) => node.id === selectedNode.id)
     : -1;
   const selectedManualSlugMode = selectedNode ? isManualSlugMode(selectedNode) : false;
+  const selectedSlugPreview = selectedNode ? getSlugPreview(selectedNode, selectedManualSlugMode) : null;
   const hiddenStatusAffectsDescendants =
     Boolean(selectedNode) && selectedNode?.parentId === null && descendantIds.size > 0;
   const confirmingSelectedDelete = selectedNode ? deleteConfirmId === selectedNode.id : false;
   const selectedPublicRoute = selectedNode ? getPublicRouteSummary(selectedNode, menuById) : "";
+  const selectedPreviewPublicRoute = selectedNode && selectedSlugPreview?.value
+    ? getPublicRouteSummary({ ...selectedNode, slug: selectedSlugPreview.value }, menuById)
+    : selectedPublicRoute;
   const canMoveUp = selectedSiblingIndex > 0;
   const canMoveDown =
     selectedSiblingIndex !== -1 && selectedSiblingIndex < siblingNodes.length - 1;
@@ -623,7 +701,7 @@ export default function MenuManagementClient({
       return;
     }
 
-    const rememberedSlug = manualSlugDrafts[selectedNode.id] ?? "";
+    const rememberedSlug = manualSlugDrafts[selectedNode.id] ?? slugifyToAscii(selectedNode.label);
     updateSelectedNode((node) => ({
       ...node,
       slug: node.slug.trim() ? node.slug : rememberedSlug,
@@ -1010,13 +1088,37 @@ export default function MenuManagementClient({
                             ? "유튜브 원제목 기준으로 URL 경로가 동기화됩니다. 고정하려면 직접 입력으로 전환하세요."
                             : "저장 시 메뉴 이름 기준으로 URL 경로가 자동 생성됩니다."}
                       </p>
+                      {selectedSlugPreview && (
+                        <div className="rounded-lg border border-[#dbe7f6] bg-white px-3 py-2">
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <span className="text-[11px] font-semibold text-[#334155]">
+                              {selectedSlugPreview.modeLabel}
+                            </span>
+                            <code className="max-w-full break-all rounded bg-[#f1f5f9] px-2 py-1 text-[12px] text-[#1f3f68]">
+                              {selectedSlugPreview.value || "(생성 불가)"}
+                            </code>
+                          </div>
+                          <p className={`mt-2 text-[11px] leading-5 ${selectedSlugPreview.isEmptyResult
+                            ? "text-[#b45309]"
+                            : "text-[#6d7f95]"
+                            }`}>
+                            {selectedSlugPreview.isEmptyResult
+                              ? selectedSlugPreview.isEmptyInput
+                                ? "메뉴 이름이나 직접 입력값을 입력하면 URL 경로 미리보기가 표시됩니다."
+                                : "영문, 숫자, 한글을 포함해야 URL 경로를 만들 수 있습니다."
+                              : selectedManualSlugMode
+                                ? "저장 시 이 변환 결과가 URL 경로로 사용됩니다."
+                                : "저장 시 서버가 같은 규칙으로 URL 경로를 확정합니다."}
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
                       <span className="text-[12px] font-semibold text-[#334155]">공개 주소</span>
                       <div className="flex flex-wrap items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-3 py-2">
                         <code className="min-w-0 flex-1 break-all text-[13px] text-[#475569]">
-                          {selectedPublicRoute}
+                          {selectedPreviewPublicRoute}
                         </code>
                       </div>
                       <p className="text-[11px] leading-5 text-[#6d7f95]">

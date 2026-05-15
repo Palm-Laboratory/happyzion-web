@@ -98,6 +98,36 @@ test("menu management client labels slug as a URL path field", async () => {
   );
 });
 
+test("menu management client previews automatic and custom slug conversion", async () => {
+  const contents = await readClient();
+
+  assert.match(
+    contents,
+    /function\s+slugifyToAscii\s*\(/,
+    "Expected the client to mirror the backend slug conversion for live previews.",
+  );
+  assert.match(
+    contents,
+    /getSlugPreview\s*\(\s*selectedNode\s*,\s*selectedManualSlugMode\s*\)/,
+    "Expected the selected menu to derive a live slug preview from the current slug mode.",
+  );
+  assert.match(
+    contents,
+    /source\s*=\s*manual\s*\?\s*node\.slug\s*:\s*node\.label/,
+    "Expected automatic preview to update from the menu label while custom mode previews the typed slug.",
+  );
+  assert.match(
+    contents,
+    /자동 생성 미리보기|직접 입력 변환 결과/,
+    "Expected the UI to label automatic and custom slug preview modes.",
+  );
+  assert.match(
+    contents,
+    /영문,\s*숫자,\s*한글을 포함해야 URL 경로를 만들 수 있습니다/,
+    "Expected an operator-facing guide when conversion produces an empty slug.",
+  );
+});
+
 test("menu management client keeps DRAFT as a server-created playlist state only", async () => {
   const contents = await readClient();
   const buildNewNodeMatch = contents.match(/function\s+buildNewNode[\s\S]*?\n}\n/);
