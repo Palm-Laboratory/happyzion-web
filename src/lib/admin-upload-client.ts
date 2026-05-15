@@ -1,6 +1,3 @@
-import { joinApiUrl } from "@/lib/api-base-url";
-import { readPublicApiBaseUrlFromEnv } from "@/lib/api-env";
-
 export type AdminUploadAssetKind = "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
 
 export interface AdminUploadDirectRequest {
@@ -35,8 +32,27 @@ interface MainVideoUploadResponse {
   videoUrl?: string;
 }
 
+function normalizeConfiguredApiBaseUrl(value: string): string {
+  return value.trim().replace(/\/+$/, "");
+}
+
 function getApiBaseUrl() {
-  return readPublicApiBaseUrlFromEnv(process.env);
+  const configuredBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+
+  if (configuredBaseUrl) {
+    return normalizeConfiguredApiBaseUrl(configuredBaseUrl);
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    return "http://localhost:8080";
+  }
+
+  throw new Error("Public API base URL is required for direct uploads.");
+}
+
+function joinApiUrl(baseUrl: string, path: string): string {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizeConfiguredApiBaseUrl(baseUrl)}${normalizedPath}`;
 }
 
 function buildPublicUrl(baseUrl: string, storedPath: string) {
@@ -118,20 +134,50 @@ export async function uploadAdminAssetDirect(
   };
 }
 
-export async function uploadAdminMainVideoDirect(file: File, rawToken: string): Promise<{ videoUrl: string }> {
+export async function uploadAdminMainVideoDirect(
+  file: File,
+  rawToken: string,
+  onProgress?: (loaded: number, total: number) => void,
+): Promise<{ videoUrl: string }> {
   const baseUrl = getApiBaseUrl();
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await postDirectUploadForm(
-    baseUrl,
-    "/api/v1/admin/site/main-video",
-    rawToken,
-    formData,
-    "메인 영상 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.",
-  );
+  const url = joinApiUrl(baseUrl, "/api/v1/admin/site/main-video");
 
-  const data = (await response.json()) as MainVideoUploadResponse;
+  const responseText = await new Promise<string>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+    xhr.setRequestHeader("X-Upload-Token", rawToken);
+
+    if (onProgress) {
+      xhr.upload.addEventListener("progress", (e) => {
+        if (e.lengthComputable) onProgress(e.loaded, e.total);
+      });
+    }
+
+    xhr.addEventListener("load", () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.responseText);
+      } else {
+        try {
+          const data = JSON.parse(xhr.responseText) as { message?: string };
+          reject(new Error(data.message?.trim() || `메인 영상 업로드에 실패했습니다. (${xhr.status})`));
+        } catch {
+          reject(new Error(`메인 영상 업로드에 실패했습니다. (${xhr.status})`));
+        }
+      }
+    });
+
+    xhr.addEventListener("error", () =>
+      reject(new Error("메인 영상 업로드에 실패했습니다. 잠시 후 다시 시도해 주세요.")),
+    );
+    xhr.addEventListener("abort", () => reject(new Error("업로드가 취소됐습니다.")));
+
+    xhr.send(formData);
+  });
+
+  const data = JSON.parse(responseText) as MainVideoUploadResponse;
   const videoUrl = data.videoUrl?.trim();
 
   if (!videoUrl) {

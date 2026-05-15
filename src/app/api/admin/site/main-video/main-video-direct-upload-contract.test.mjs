@@ -8,6 +8,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const routePath = path.join(here, "route.ts");
 const tokenRoutePath = path.join(here, "../../uploads/token/route.ts");
 const adminUploadApiPath = path.join(here, "../../../../../lib/admin-upload-api.ts");
+const adminUploadClientPath = path.join(here, "../../../../../lib/admin-upload-client.ts");
 
 async function readSource(filePath) {
   return readFile(filePath, "utf8");
@@ -57,5 +58,25 @@ test("admin upload API types allow MAIN_VIDEO tokens with video defaults", async
     contents,
     /MAIN_VIDEO[\s\S]*(video\/mp4|video\/quicktime|video\/webm)/,
     "Expected MAIN_VIDEO token defaults to allow browser-uploaded video MIME types.",
+  );
+});
+
+test("admin direct upload client statically reads the public API base URL for browser bundles", async () => {
+  const contents = await readSource(adminUploadClientPath);
+
+  assert.match(
+    contents,
+    /process\.env\.NEXT_PUBLIC_API_BASE_URL/,
+    "Expected browser upload code to directly reference NEXT_PUBLIC_API_BASE_URL so Next.js inlines the production value.",
+  );
+  assert.doesNotMatch(
+    contents,
+    /readPublicApiBaseUrlFromEnv\s*\(\s*process\.env\s*\)/,
+    "Expected browser upload code not to pass process.env dynamically, which can fall back to localhost in client bundles.",
+  );
+  assert.doesNotMatch(
+    contents,
+    /from\s+["']@\/lib\/api-(?:base-url|env)["']/,
+    "Expected browser upload code not to import shared API env helpers that carry server/local fallback behavior into client chunks.",
   );
 });

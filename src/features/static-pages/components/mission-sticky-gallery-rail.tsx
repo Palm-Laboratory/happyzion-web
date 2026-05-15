@@ -14,6 +14,7 @@ type MissionStickyGalleryRailProps = {
 };
 
 type RailPosition = {
+  height: number;
   left: number;
   mode: "before" | "fixed" | "after";
   width: number;
@@ -21,6 +22,8 @@ type RailPosition = {
 
 const RAIL_TOP = 120;
 const RAIL_HEIGHT = 880;
+const RAIL_BOTTOM_GUTTER = 40;
+const RAIL_MIN_HEIGHT = 520;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -59,14 +62,14 @@ function MissionGalleryCard({
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-0.5">
-        <div className="relative col-span-2 h-[420px] w-full lg:h-[600px]">
+      <div className="grid h-[calc(100%_-_40px)] grid-cols-2 grid-rows-[minmax(0,2.5fr)_minmax(0,1fr)] gap-0.5">
+        <div className="relative col-span-2 min-h-0 w-full">
           <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 400px, 300px" />
         </div>
-        <div className="relative h-[160px] w-full lg:h-[240px]">
+        <div className="relative min-h-0 w-full">
           <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
         </div>
-        <div className="relative h-[160px] w-full lg:h-[240px]">
+        <div className="relative min-h-0 w-full">
           <Image className="object-cover" src={gallery.images[2]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
         </div>
       </div>
@@ -79,6 +82,7 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
   const railRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [railPosition, setRailPosition] = useState<RailPosition>({
+    height: RAIL_HEIGHT,
     left: 0,
     mode: "before",
     width: 360,
@@ -92,17 +96,20 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
 
       if (rail) {
         const rect = rail.getBoundingClientRect();
+        const railHeight = clamp(window.innerHeight - RAIL_TOP - RAIL_BOTTOM_GUTTER, RAIL_MIN_HEIGHT, RAIL_HEIGHT);
         const mode: RailPosition["mode"] =
-          rect.top > RAIL_TOP ? "before" : rect.bottom <= RAIL_TOP + RAIL_HEIGHT ? "after" : "fixed";
+          rect.top > RAIL_TOP ? "before" : rect.bottom <= RAIL_TOP + railHeight ? "after" : "fixed";
 
         setRailPosition((currentPosition) => {
           const nextPosition = {
+            height: railHeight,
             left: rect.left,
             mode,
             width: rect.width,
           };
 
-          return currentPosition.left === nextPosition.left &&
+          return currentPosition.height === nextPosition.height &&
+            currentPosition.left === nextPosition.left &&
             currentPosition.mode === nextPosition.mode &&
             currentPosition.width === nextPosition.width
             ? currentPosition
@@ -134,6 +141,7 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
     railPosition.mode === "fixed"
       ? {
           left: railPosition.left,
+          height: railPosition.height,
           position: "fixed",
           top: RAIL_TOP,
           width: railPosition.width,
@@ -141,10 +149,12 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
       : railPosition.mode === "after"
         ? {
             bottom: 0,
+            height: railPosition.height,
             position: "absolute",
             width: "100%",
           }
         : {
+            height: railPosition.height,
             position: "absolute",
             top: 0,
             width: "100%",
@@ -152,7 +162,7 @@ export default function MissionStickyGalleryRail({ galleries }: MissionStickyGal
 
   return (
     <aside className="relative hidden min-h-[4312px] self-stretch md:block" ref={railRef}>
-      <div className="h-[620px] w-full lg:h-[880px]" style={railStyle}>
+      <div className="w-full" style={railStyle}>
         {galleries.map((gallery, index) => (
           <MissionGalleryCard
             activeIndex={activeIndex}

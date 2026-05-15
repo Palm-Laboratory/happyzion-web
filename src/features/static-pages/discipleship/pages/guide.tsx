@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import SectionHeading from "@/components/section-heading";
 import { cormorantGaramond } from "@/lib/fonts";
 import { CHURCH_EMAIL, CHURCH_PHONE } from "@/lib/site-config";
@@ -75,52 +73,53 @@ const newcomerFaqItems = [
 
 function ScriptureQuoteCard() {
   return (
-    <aside className="relative mt-8 overflow-hidden rounded-[8px] bg-[radial-gradient(circle_at_20%_20%,#4a2458_0%,#33103f_58%,#24052e_100%)] px-6 py-7 shadow-[0_18px_38px_rgba(51,16,63,0.16)] md:px-9 md:py-9">
-      <p className="type-quote relative z-10 text-white/90">
-        그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로
-        세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라
+    <aside className="relative mt-8 w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+        &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
+        이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
       </p>
-      <p className="type-caption relative z-10 mt-5 font-semibold text-[#d5b16c]">
+      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
         마태복음 28:19-20
       </p>
-      <p
+      <span
         aria-hidden="true"
-        className="pointer-events-none absolute -left-1 -top-9 text-[160px] leading-none text-white/10"
+        className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
         style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
       >
         &quot;
-      </p>
+      </span>
     </aside>
   );
 }
 
-function CoreValueCard({
-  number,
-  title,
-  description,
-  className = "",
-}: {
-  number: string;
-  title: string;
-  description: string;
-  className?: string;
-}) {
+function CoreValueList() {
   return (
-    <article
-      className={`flex min-h-[132px] flex-col items-center justify-start px-5 py-5 text-center tracking-[0.02em] md:min-h-[154px] md:px-6 md:py-4 ${className}`}
-    >
-      <p
-        className={`${cormorantGaramond.className} text-[2.3rem] font-bold leading-none tracking-[0.06em] text-[#33103f]/10 md:text-[2.5rem]`}
-      >
-        {number}
-      </p>
-      <h3 className="type-card-title mt-2 font-bold leading-none tracking-[0.02em] text-[#33103f]">
-        {title}
+    <div className="flex w-full flex-col gap-5">
+      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#1e1035]">
+        5대 핵심가치
       </h3>
-      <p className="type-body-small mt-4 whitespace-pre-line tracking-[0.02em] text-[#33103f]/62">
-        {description}
-      </p>
-    </article>
+      <div className="w-full border-y border-[#33103f]/10">
+        {coreValues.map((value) => (
+          <article
+            key={value.number}
+            className="grid grid-cols-[38px_72px_minmax(0,1fr)] items-start gap-4 border-b border-[#33103f]/10 py-5 last:border-b-0"
+          >
+            <p
+              className="text-[24px] italic leading-none text-[#c9a96e]"
+              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+            >
+              {value.number}
+            </p>
+            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#1e1035]">
+              {value.title}
+            </h3>
+            <p className="font-suit whitespace-pre-line text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]/68">
+              {value.description}
+            </p>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -210,7 +209,7 @@ function ContactSection() {
     <section className="mt-20 md:mt-[68px]" aria-labelledby="newcomer-contact-title">
       <div className="rounded-[8px] bg-[#33103f] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
         <div>
-          <p className="type-label font-semibold uppercase tracking-[0.18em] text-[#d5b16c]">
+          <p className="font-cormorant-infant type-label font-semibold uppercase tracking-[0.18em] text-[#d5b16c]">
             Contact
           </p>
           <h2
@@ -239,13 +238,6 @@ function ContactSection() {
             </p>
           </div>
         </div>
-
-        <Link
-          href="/discipleship/care#apply"
-          className="type-button mt-6 inline-flex h-10 items-center justify-center rounded-[6px] bg-[#d5b16c] px-[18px] font-bold tracking-[0.02em] text-[#33103f] transition hover:bg-[#e1c27f] md:mt-0"
-        >
-          신청하기
-        </Link>
       </div>
     </section>
   );
@@ -265,7 +257,7 @@ export default function DiscipleshipGuideStaticPage() {
 
         <ScriptureQuoteCard />
 
-        <div className="mt-6 max-w-[727px] space-y-2">
+        <div className="mt-6 w-full space-y-2">
           {newcomerIntroParagraphs.map((paragraph) => (
             <p key={paragraph} className="type-body leading-[1.7] tracking-[0.02em] text-[#33103f]/78">
               {paragraph}
@@ -287,46 +279,8 @@ export default function DiscipleshipGuideStaticPage() {
           향해 나아가는 교회입니다.
         </p>
 
-        <div className="mt-7">
-          <h3 className="font-hahmlet text-[18px] font-normal leading-none tracking-[0.12em] text-[#d5b16c]">
-            5대 핵심가치
-          </h3>
-          <div className="mt-3 border-y border-[#8b6db5]/18 py-4 md:py-5">
-            <div className="lg:hidden">
-              {coreValues.map((item, index) => (
-                <div
-                  key={item.number}
-                  className={`flex items-start gap-4 px-1 py-5 text-left md:gap-6 ${
-                    index === 0 ? "" : "border-t border-[#8b6db5]/12"
-                  }`}
-                >
-                  <div className="flex w-[112px] shrink-0 gap-4 md:w-[210px] md:gap-5">
-                    <span
-                      className={`${cormorantGaramond.className} w-[32px] translate-y-[0.02em] text-left text-[1.8rem] font-normal leading-[0.8] tracking-[0.08em] text-[#d5b16c] md:text-[2rem] md:leading-[0.5]`}
-                    >
-                      {item.number}
-                    </span>
-                    <h3 className="font-hahmlet text-[1.125rem] font-bold leading-[2] tracking-[0.02em] text-[#33103f] md:text-[1.375rem] md:leading-[1.3]">
-                      {item.title}
-                    </h3>
-                  </div>
-                  <p className="type-body-small flex-1 pt-0.5 leading-[1.7] tracking-[0.02em] text-[#33103f]/62 md:leading-[1.2]">
-                    {item.description.replace(/\n/g, " ")}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="hidden lg:grid lg:grid-cols-5 lg:gap-y-0">
-              {coreValues.map((item, index) => (
-                <CoreValueCard
-                  key={item.number}
-                  {...item}
-                  className={index === coreValues.length - 1 ? "border-r-0" : "border-r border-[#8b6db5]/18"}
-                />
-              ))}
-            </div>
-          </div>
+        <div className="mt-10">
+          <CoreValueList />
         </div>
       </section>
 
@@ -343,7 +297,7 @@ export default function DiscipleshipGuideStaticPage() {
             <TimelineStep
               key={step.number}
               {...step}
-              surfaceClassName={index % 2 === 1 ? "bg-white" : "bg-[#fffcf8]"}
+              surfaceClassName={index % 2 === 1 ? "bg-white" : "bg-[#f5f0f9]"}
               isFirst={index === 0}
               isLast={index === gettingStartedSteps.length - 1}
             />

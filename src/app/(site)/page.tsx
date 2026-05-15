@@ -21,7 +21,7 @@ export const metadata = createPageMetadata({
 export default async function HomePage() {
   const mainVideo = await getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" }));
   const welcomeSectionVars = {
-    "--welcome-scale": "clamp(0.78, calc((100dvh - 7rem) / 960px), 1)",
+    "--welcome-scale": "clamp(0.78, calc((100vh - 7rem) / 960px), 1)",
   } as CSSProperties;
   const visionSectionVars = {
     "--vision-column-gap": "clamp(0px, calc(100vw - 1550px), 200px)",
@@ -33,6 +33,8 @@ export default async function HomePage() {
     { label: "새가족 안내", href: "/discipleship/guide", icon: "person" },
     { label: "오시는 길", href: "/about/location", icon: "location" },
   ] as const;
+  const quickLinkIconClass =
+    "h-full w-full";
   const visionCards = [
     {
       number: "01",
@@ -86,23 +88,14 @@ export default async function HomePage() {
         <div className="relative z-10 -mt-[100vh]">
           <section
             data-bg-key="verse-cloud"
-            className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-[140px] md:px-10 lg:px-20 lg:py-10"
+            className="relative flex min-h-screen min-h-[100svh] items-center justify-center overflow-visible px-5 py-20 sm:py-24 md:px-10 md:py-[140px] lg:overflow-hidden lg:px-20 lg:py-10"
             style={welcomeSectionVars}
           >
             <div
-              className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center text-center lg:[--welcome-content-gap:calc(4rem*var(--welcome-scale))]"
-              style={{
-                gap: "var(--welcome-content-gap, calc(3rem * var(--welcome-scale)))",
-                paddingTop: "calc(2.5rem * var(--welcome-scale))",
-              }}
+              className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-col items-center gap-10 pt-6 text-center sm:gap-12 lg:gap-[calc(4rem*var(--welcome-scale))] lg:pt-[calc(2.5rem*var(--welcome-scale))]"
             >
               <div className="flex flex-col items-center gap-6 md:gap-8">
-                <div
-                  className="flex flex-col items-center"
-                  style={{
-                    gap: "calc(0.9rem * var(--welcome-scale))",
-                  }}
-                >
+                <div className="flex flex-col items-center gap-3 lg:gap-[calc(0.9rem*var(--welcome-scale))]">
                   <p className="type-label font-cormorant-infant text-[#5b3b63]">
                     welcome
                   </p>
@@ -128,10 +121,7 @@ export default async function HomePage() {
                 }}
               >
                 <div
-                  className="flex flex-col items-center text-center uppercase"
-                  style={{
-                    gap: "calc(2.25rem * var(--welcome-scale))",
-                  }}
+                  className="flex flex-col items-center gap-7 text-center uppercase md:gap-8 lg:gap-[calc(2.25rem*var(--welcome-scale))]"
                 >
                   <p
                     className="type-quote max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4f3657] md:max-w-[min(76vw,46rem)]"
@@ -149,43 +139,21 @@ export default async function HomePage() {
               </div>
 
               <div
-                className="grid w-full max-w-[760px] grid-cols-2 place-items-stretch min-[840px]:flex min-[840px]:flex-wrap min-[840px]:items-start min-[840px]:justify-center"
-                style={{
-                  columnGap: "calc(2.5rem * var(--welcome-scale))",
-                  rowGap: "calc(2.25rem * var(--welcome-scale))",
-                }}
+                className="grid w-full max-w-[760px] grid-cols-2 place-items-stretch gap-x-4 gap-y-8 sm:gap-x-8 sm:gap-y-10 lg:gap-x-[calc(2.5rem*var(--welcome-scale))] lg:gap-y-[calc(2.25rem*var(--welcome-scale))] min-[840px]:flex min-[840px]:flex-wrap min-[840px]:items-start min-[840px]:justify-center"
               >
                 {quickLinks.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="group flex w-full flex-col items-center min-[840px]:w-auto"
-                    style={{
-                      gap: "calc(1rem * var(--welcome-scale))",
-                    }}
+                    className="group flex w-full flex-col items-center gap-3 sm:gap-4 lg:gap-[calc(1rem*var(--welcome-scale))] min-[840px]:w-auto"
                   >
                     <div
-                      className="relative flex w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.72)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5 min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
-                      style={{
-                        height: "calc(8.75rem * var(--welcome-scale))",
-                      }}
+                      className="relative flex h-[6.875rem] w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.9)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition group-hover:-translate-y-0.5 md:bg-[rgba(255,255,255,0.72)] md:backdrop-blur-[6px] min-[480px]:h-[7.5rem] lg:h-[calc(8.75rem*var(--welcome-scale))] min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
                     >
                       <div
-                        className="relative"
-                        style={{
-                          width: "calc(3.625rem * var(--welcome-scale))",
-                          height: "calc(3.625rem * var(--welcome-scale))",
-                        }}
+                        className="relative h-[3rem] w-[3rem] min-[480px]:h-[3.25rem] min-[480px]:w-[3.25rem] lg:h-[calc(3.625rem*var(--welcome-scale))] lg:w-[calc(3.625rem*var(--welcome-scale))]"
                       >
-                        <div
-                          className="absolute rounded-full bg-[rgba(220,206,228,1)]"
-                          style={{
-                            bottom: "calc(-0.6rem * var(--welcome-scale))",
-                            left: "calc(-0.6rem * var(--welcome-scale))",
-                            width: "calc(3rem * var(--welcome-scale))",
-                            height: "calc(3rem * var(--welcome-scale))",
-                          }}
-                        />
+                        <div className="absolute -bottom-2 -left-2 h-10 w-10 rounded-full bg-[rgba(220,206,228,1)] min-[480px]:h-12 min-[480px]:w-12 lg:bottom-[calc(-0.6rem*var(--welcome-scale))] lg:left-[calc(-0.6rem*var(--welcome-scale))] lg:h-[calc(3rem*var(--welcome-scale))] lg:w-[calc(3rem*var(--welcome-scale))]" />
                         <div className="relative z-10 text-[#4d2d61]">
                           {item.icon === "church" ? (
                             <svg
@@ -196,10 +164,7 @@ export default async function HomePage() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               aria-hidden="true"
-                              style={{
-                                width: "calc(3.625rem * var(--welcome-scale))",
-                                height: "calc(3.625rem * var(--welcome-scale))",
-                              }}
+                              className={quickLinkIconClass}
                             >
                               <path d="M14 52V28l18-12 18 12v24H14Z" />
                               <path d="M26 52V39h12v13" />
@@ -216,10 +181,7 @@ export default async function HomePage() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               aria-hidden="true"
-                              style={{
-                                width: "calc(3.625rem * var(--welcome-scale))",
-                                height: "calc(3.625rem * var(--welcome-scale))",
-                              }}
+                              className={quickLinkIconClass}
                             >
                               <circle cx="32" cy="32" r="22" />
                               <path d="M32 20v14l10 8" />
@@ -234,10 +196,7 @@ export default async function HomePage() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               aria-hidden="true"
-                              style={{
-                                width: "calc(3.625rem * var(--welcome-scale))",
-                                height: "calc(3.625rem * var(--welcome-scale))",
-                              }}
+                              className={quickLinkIconClass}
                             >
                               <defs>
                                 <clipPath id="newcomer-back-person-clip">
@@ -260,10 +219,7 @@ export default async function HomePage() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               aria-hidden="true"
-                              style={{
-                                width: "calc(3.625rem * var(--welcome-scale))",
-                                height: "calc(3.625rem * var(--welcome-scale))",
-                              }}
+                              className={quickLinkIconClass}
                             >
                               <path d="M32 54s18-15.2 18-28a18 18 0 1 0-36 0c0 12.8 18 28 18 28Z" />
                               <circle cx="32" cy="26" r="4.5" fill="currentColor" stroke="none" />

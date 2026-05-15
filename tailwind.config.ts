@@ -37,6 +37,15 @@ const config: Config = {
       boxShadow: {
         soft: "0 14px 40px rgba(31, 43, 36, 0.12)",
       },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(400%)" },
+        },
+      },
+      animation: {
+        shimmer: "shimmer 2s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

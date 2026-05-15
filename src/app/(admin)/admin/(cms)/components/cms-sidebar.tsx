@@ -76,6 +76,19 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/mission-history",
+        label: "선교 이력 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M8.5 2.75c0 0-2.5 2-2.5 5.75s2.5 5.75 2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M8.5 2.75c0 0 2.5 2 2.5 5.75s-2.5 5.75-2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M2.75 8.5h11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/accounts",
         label: "관리자 계정",
         exact: false,

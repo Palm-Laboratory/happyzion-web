@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { primaryNavigation } from "@/lib/site-data";
@@ -12,14 +12,20 @@ type SiteHeaderProps = {
   navigationItems?: NavigationLink[];
 };
 
+function normalizePathname(pathname: string | null): string {
+  const normalized = pathname?.trim().replace(/\/+$/, "") ?? "";
+  return normalized || "/";
+}
+
 export default function SiteHeader({ navigationItems = primaryNavigation }: SiteHeaderProps) {
-  const pathname = usePathname() ?? "/";
+  const pathname = normalizePathname(usePathname());
+  const selectedLayoutSegments = useSelectedLayoutSegments();
   const [isVisible, setIsVisible] = useState(true);
   const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const lastScrollYRef = useRef(0);
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || selectedLayoutSegments.length === 0;
   const headerToneClass = isHome
     ? "border-white/10 bg-[rgba(36,31,37,0.72)]"
     : "border-cedar/10 bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.05)]";

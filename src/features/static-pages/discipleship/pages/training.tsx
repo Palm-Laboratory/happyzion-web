@@ -1,5 +1,10 @@
+"use client";
+
+import { useState } from "react";
+
 import SectionHeading from "@/components/section-heading";
-import { cormorantGaramond } from "@/lib/fonts";
+import ApplyForm from "@/features/static-pages/discipleship/components/apply-form";
+import { cormorant } from "@/lib/fonts";
 
 const discipleshipPrinciples = [
   {
@@ -155,18 +160,6 @@ const classStructure = [
   },
 ] as const;
 
-const multiplicationStages: ReadonlyArray<{
-  year: string;
-  generation: string;
-  items: readonly string[];
-  highlight?: boolean;
-}> = [
-  { year: "1년차", generation: "1", items: ["제자훈련 이수", "순종하는 삶"] },
-  { year: "2년차", generation: "2", items: ["리더 섬김", "제자 2-3명 양육"] },
-  { year: "3년차", generation: "3", items: ["다음 리더 세움", "공동체 확장"], highlight: true },
-  { year: "4년차", generation: "4", items: ["사역 재생산", "선교적 삶"], highlight: true },
-] as const;
-
 const annualSchedule = [
   ["1기", "1-3월"],
   ["2기", "4-6월"],
@@ -183,14 +176,21 @@ const applicationNotes = ["모든 교재 무료 제공", "이전 수료 과정 �
 
 function QuoteCard() {
   return (
-    <aside className="relative overflow-hidden rounded-[8px] bg-[radial-gradient(circle_at_20%_20%,#4a2458_0%,#33103f_58%,#24052e_100%)] px-6 py-7 shadow-[0_18px_38px_rgba(51,16,63,0.16)] md:px-9 md:py-9">
-      <p className="type-quote relative z-10 text-white/90">
-        또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이 또 다른
-        사람들을 가르칠 수 있으리라
+    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+        &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이
+        또 다른 사람들을 가르칠 수 있으리라&quot;
       </p>
-      <p className="type-caption relative z-10 mt-5 font-semibold text-[#d5b16c]">
+      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
         디모데후서 2:2
       </p>
+      <span
+        aria-hidden="true"
+        className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
+        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+      >
+        &quot;
+      </span>
     </aside>
   );
 }
@@ -210,22 +210,20 @@ function PrincipleItem({
     <article className="flex gap-4 border-b border-[#8b6db5]/18 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7">
       <div className="flex items-start pt-2">
         <span
-          className={`${cormorantGaramond.className} text-[2rem] leading-none tracking-[0.08em] text-[#d5b16c] md:text-[2.25rem]`}
+          className={`${cormorant.className} text-[2rem] leading-none tracking-[0.08em] text-[#d5b16c] md:text-[2.25rem]`}
         >
           {number}
         </span>
       </div>
 
       <div className="border-l border-[#8b6db5]/18 pl-4 md:pl-6">
-        <p
-          className={`${cormorantGaramond.className} type-body-small tracking-[0.12em] text-[#33103f]/54`}
-        >
-          {englishTitle}
+        <p className="font-cormorant-infant type-body-small tracking-[0.12em] text-[#8b6db5]">
+          {englishTitle.toUpperCase()}
         </p>
-        <h3 className="font-hahmlet mt-2 text-[1.25rem] font-bold leading-none tracking-[0.02em] text-[#33103f]">
+        <h3 className="font-hahmlet mt-2 text-[1.25rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-small mt-2 leading-[1.7] tracking-[0.02em] text-[#33103f]/62">
+        <p className="type-body-small mt-2 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
           {details.join(" · ")}
         </p>
       </div>
@@ -253,12 +251,12 @@ function Roadmap() {
                 <span
                   className={`flex h-[44px] w-[44px] items-center justify-center rounded-full md:h-[48px] md:w-[48px] ${
                     index === 0 || index === roadmapItems.length - 1
-                      ? "bg-[#d5b16c] text-[#33103f]"
-                      : "border-[2px] border-[#d5b16c] bg-[#33103f] text-[#d5b16c]"
+                      ? "bg-[#33103f] text-[rgb(228_185_107)]"
+                      : "bg-[#f5f0f9] text-[#8b6db5]"
                   }`}
                 >
                   <span
-                    className={`${cormorantGaramond.className} text-[1.4rem] font-bold leading-none tracking-[0.08em]`}
+                    className={`${cormorant.className} -translate-y-0.5 text-[1.4rem] font-bold leading-none tracking-[0.08em]`}
                   >
                     {index === 0 ? "N" : index === roadmapItems.length - 1 ? "G" : `0${index}`}
                   </span>
@@ -266,7 +264,7 @@ function Roadmap() {
               </div>
 
               <div className="min-w-0 flex-1 pt-3 md:pt-2">
-                <p className="type-label uppercase tracking-[0.18em] text-[#33103f]/54 md:type-body-small">
+                <p className="font-cormorant-infant text-xs uppercase leading-[1.2] tracking-[0.18em] text-[#33103f]/54 md:text-[0.9375rem]">
                   {item.label}
                   <span className="mx-3 tracking-[0.12em]">·</span>
                   {item.duration}
@@ -274,14 +272,22 @@ function Roadmap() {
                 <article
                   className={`mt-3 rounded-[8px] border px-5 py-5 shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-7 ${
                     index === roadmapItems.length - 1
-                      ? "border-[#d5b16c] bg-[#d5b16c] text-[#33103f]"
+                      ? "border-[#33103f] bg-[#33103f] text-white"
                       : "border-[#8b6db5]/18 bg-white"
                   }`}
                 >
-                  <h3 className="type-card-title font-bold leading-none tracking-[-0.02em] text-[#33103f]">
+                  <h3
+                    className={`font-hahmlet text-[1.5rem] font-semibold leading-none tracking-[-0.02em] ${
+                      index === roadmapItems.length - 1 ? "text-white" : "text-[#33103f]"
+                    }`}
+                  >
                     {item.title}
                   </h3>
-                  <p className="type-body-small mt-3 leading-[1.6] tracking-[0.02em] text-[#33103f]/62">
+                  <p
+                    className={`type-body-small mt-3 leading-[1.6] tracking-[0.02em] ${
+                      index === roadmapItems.length - 1 ? "text-white/78" : "text-[#4a3b5e]"
+                    }`}
+                  >
                     {item.details.join(" · ")}
                   </p>
                 </article>
@@ -291,7 +297,7 @@ function Roadmap() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-[8px] bg-[#fffcf8] px-5 py-5 text-center">
+      <div className="mt-8 rounded-[8px] bg-[#f5f0f9] px-5 py-5 text-center">
         <p className="type-body leading-[1.6] tracking-[0.02em] text-[#33103f]/62">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
@@ -303,41 +309,77 @@ function Roadmap() {
   );
 }
 
-function CurriculumStageCard({
-  stage,
-  index,
-}: {
-  stage: (typeof curriculumStages)[number];
-  index: number;
-}) {
+function CurriculumStageTabs() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedStage = curriculumStages[selectedIndex] ?? curriculumStages[0];
+
   return (
-    <article className="overflow-hidden rounded-[8px] border border-[#8b6db5]/24 bg-white">
-      <div className={`${index === 0 ? "bg-[#33103f]" : "bg-[#fffcf8]"} px-5 py-5 md:px-6`}>
-        <p className={`type-label tracking-[0.18em] ${index === 0 ? "text-[#d5b16c]" : "text-[#8b6db5]"}`}>
-          {stage.level} · {stage.duration}
-        </p>
-        <h3 className={`type-card-title mt-2 font-bold ${index === 0 ? "text-white" : "text-[#33103f]"}`}>
-          {stage.title}
-        </h3>
-        <p className={`type-body-small mt-3 ${index === 0 ? "text-white/72" : "text-[#33103f]/62"}`}>
-          대상: {stage.target}
-          <br />
-          목표: {stage.objective}
-        </p>
+    <div className="w-full">
+      <p className="type-body mb-8 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+        대상: {selectedStage.target}
+        <span className="mx-3 text-[#8b6db5]/42">·</span>
+        목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
+      </p>
+
+      <div className="grid grid-cols-3 overflow-hidden rounded-[4px] border border-[#8b6db5]/24 bg-white">
+        {curriculumStages.map((stage, index) => {
+          const active = index === selectedIndex;
+
+          return (
+            <button
+              key={stage.level}
+              type="button"
+              onClick={() => setSelectedIndex(index)}
+              className={`flex flex-col items-center justify-center gap-1 border-r border-[#8b6db5]/18 px-3 py-4 text-center transition last:border-r-0 ${
+                active ? "bg-[#33103f] text-white" : "bg-white text-[#33103f] hover:bg-[#f5f0f9]"
+              }`}
+              aria-pressed={active}
+            >
+              <span
+                className={`font-suit text-[0.9375rem] font-semibold uppercase leading-none tracking-[0.18em] ${
+                  active ? "text-[rgb(228_185_107)]" : "text-[#8b6db5]"
+                }`}
+              >
+                {stage.level}
+              </span>
+              <span className="font-hahmlet text-[1rem] font-semibold leading-[1.25] tracking-[-0.01em] md:text-[1.125rem]">
+                {stage.title}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <div className="grid grid-cols-[56px_minmax(0,1fr)]">
-        {stage.courses.map((course, courseIndex) => (
-          <div key={course} className="contents">
-            <div className="flex items-center justify-center border-r border-t border-[#8b6db5]/14 px-3 py-3">
+      <div className="mt-8 overflow-hidden rounded-[4px] border border-[#8b6db5]/24 bg-white">
+        <div className="grid grid-cols-[80px_minmax(0,1fr)] bg-[#33103f] md:grid-cols-[96px_minmax(0,1fr)]">
+          <div className="px-4 py-4 md:px-5">
+            <p className="font-suit text-[0.9375rem] font-medium leading-none tracking-[0.02em] text-white">
+              주차
+            </p>
+          </div>
+          <div className="px-6 py-4">
+            <p className="font-suit text-[0.9375rem] font-medium leading-none tracking-[0.02em] text-white">
+              과목
+            </p>
+          </div>
+        </div>
+
+        {selectedStage.courses.map((course, courseIndex) => (
+          <div
+            key={course}
+            className={`grid min-h-[62px] grid-cols-[80px_minmax(0,1fr)] border-b border-[#8b6db5]/18 last:border-b-0 md:grid-cols-[96px_minmax(0,1fr)] ${
+              courseIndex % 2 === 0 ? "bg-[#faf7fc]" : "bg-white"
+            }`}
+          >
+            <div className="flex items-center justify-start border-r border-[#8b6db5]/18 px-4 py-4 md:px-5">
               <span
-                className={`${cormorantGaramond.className} text-[1.1rem] font-bold leading-none tracking-[0.08em] text-[#d5b16c]`}
+                className={`${cormorant.className} text-[1.25rem] font-bold leading-none tracking-[0.12em] text-[rgb(228_185_107)]`}
               >
                 {String(courseIndex + 1).padStart(2, "0")}
               </span>
             </div>
-            <div className="border-t border-[#8b6db5]/14 px-4 py-3">
-              <p className="type-body-small font-medium leading-[1.5] tracking-[0.02em] text-[#33103f]">
+            <div className="flex items-center px-6 py-4">
+              <p className="font-suit text-[1rem] font-medium leading-[1.55] tracking-[0.01em] text-[#33103f]">
                 {course}
               </p>
             </div>
@@ -345,15 +387,15 @@ function CurriculumStageCard({
         ))}
       </div>
 
-      <div className="border-l-[3px] border-[#d5b16c] bg-[#fffcf8] px-5 py-4">
-        <p className="type-body-small font-bold leading-none tracking-[0.02em] text-[#33103f]">
-          수료 요건
+      <div className="mt-4 border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-5 py-4">
+        <p className="font-hahmlet text-[1rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
+          수료 기준
         </p>
-        <p className="type-body-small mt-3 leading-[1.7] tracking-[0.02em] text-[#33103f]/62">
-          {stage.requirements.join(" · ")}
+        <p className="type-body-small mt-3 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+          {selectedStage.requirements.join(" · ")}
         </p>
       </div>
-    </article>
+    </div>
   );
 }
 
@@ -369,19 +411,17 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span
-          className={`${cormorantGaramond.className} type-section-title font-bold leading-none text-[#d5b16c]`}
-        >
+        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#d5b16c]">
           {minute}
         </span>
         <span className="type-body pb-[2px] leading-none text-[#33103f]/62">분</span>
       </div>
-      <h3 className="type-body font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small mt-2 flex flex-col items-start gap-2 leading-none text-[#33103f]/62 md:mt-0 md:gap-1">
+      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#33103f]/62">
         {details.map((detail) => (
-          <p key={detail}>{detail}</p>
+          <p key={detail}>· {detail}</p>
         ))}
       </div>
     </article>
@@ -432,43 +472,12 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
-          총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 중심 진행
+        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
+          총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
+          일대일 진행
         </p>
       </div>
     </section>
-  );
-}
-
-function GenerationCard({
-  generation,
-  items,
-  highlight = false,
-}: {
-  generation: string;
-  items: readonly string[];
-  highlight?: boolean;
-}) {
-  return (
-    <article className="flex flex-col items-center px-7 text-center">
-      <div className="flex items-end justify-center gap-1">
-        <span
-          className={`${cormorantGaramond.className} type-section-title font-bold leading-none tracking-[0.08em] ${
-            highlight ? "text-[#d5b16c]" : "text-[#33103f]"
-          }`}
-        >
-          {generation}
-        </span>
-        <span className="pb-1 text-[1.125rem] tracking-[0.04em] text-[#33103f]/54">세대</span>
-      </div>
-      <div className="mt-3 space-y-1">
-        {items.map((item) => (
-          <p key={item} className="type-label leading-[1.35] tracking-[0.02em] text-[#33103f]/54">
-            {item}
-          </p>
-        ))}
-      </div>
-    </article>
   );
 }
 
@@ -480,7 +489,7 @@ function ScheduleCard({
   items: readonly (readonly [string, string])[];
 }) {
   return (
-    <article className="rounded-[8px] bg-[#fffcf8] p-6 md:p-8">
+    <article className="rounded-[8px] bg-[#f5f0f9] p-6 md:p-8">
       <h3 className="type-card-title font-bold leading-none tracking-[0.02em] text-[#33103f]">
         {title}
       </h3>
@@ -498,50 +507,6 @@ function ScheduleCard({
         ))}
       </div>
     </article>
-  );
-}
-
-function ApplyForm() {
-  const inputClassName =
-    "h-11 w-full rounded-[6px] border border-white/16 bg-white px-3 type-body-small text-[#33103f] outline-none transition focus:border-[#d5b16c]";
-
-  return (
-    <form className="mt-8 grid flex-1 gap-4 md:mt-0 md:max-w-[520px]">
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2">
-          <span className="type-caption font-semibold text-white/78">이름</span>
-          <input className={inputClassName} type="text" name="name" />
-        </label>
-        <label className="grid gap-2">
-          <span className="type-caption font-semibold text-white/78">연락처</span>
-          <input className={inputClassName} type="tel" name="phone" />
-        </label>
-      </div>
-
-      <label className="grid gap-2">
-        <span className="type-caption font-semibold text-white/78">희망 단계</span>
-        <select className={inputClassName} name="level" defaultValue="1단계">
-          <option>1단계</option>
-          <option>2단계</option>
-          <option>3단계</option>
-        </select>
-      </label>
-
-      <label className="grid gap-2">
-        <span className="type-caption font-semibold text-white/78">메모</span>
-        <textarea
-          className="min-h-[96px] w-full rounded-[6px] border border-white/16 bg-white px-3 py-3 type-body-small text-[#33103f] outline-none transition focus:border-[#d5b16c]"
-          name="memo"
-        />
-      </label>
-
-      <button
-        type="button"
-        className="type-button h-11 rounded-[6px] bg-[#d5b16c] px-5 font-bold text-[#33103f] transition hover:bg-[#e1c27f]"
-      >
-        신청하기
-      </button>
-    </form>
   );
 }
 
@@ -589,60 +554,12 @@ export default function DiscipleshipTrainingStaticPage() {
           className="max-w-none"
         />
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
-          {curriculumStages.map((stage, index) => (
-            <CurriculumStageCard key={stage.level} stage={stage} index={index} />
-          ))}
+        <div className="mt-6">
+          <CurriculumStageTabs />
         </div>
       </section>
 
       <ClassStructureSection />
-
-      <section aria-labelledby="disciples-multiplication-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="disciples-multiplication-title"
-          label="multiplication"
-          title="4세대 재생산 시스템"
-          className="max-w-none"
-        />
-
-        <div className="mt-8 overflow-hidden border-y border-[#8b6db5]/18 py-5">
-          <div className="md:hidden">
-            {multiplicationStages.map((stage, index) => (
-              <div
-                key={stage.year}
-                className={`flex items-center gap-4 px-1 py-5 text-left ${
-                  index === 0 ? "" : "border-t border-[#8b6db5]/12"
-                }`}
-              >
-                <div className="w-[72px] shrink-0">
-                  <span
-                    className={`font-hahmlet type-body font-bold leading-none tracking-[0.02em] ${
-                      stage.highlight ? "text-[#d5b16c]" : "text-[#33103f]"
-                    }`}
-                  >
-                    {stage.generation}세대
-                  </span>
-                </div>
-                <p className="type-body-small flex-1 leading-[1.6] tracking-[0.02em] text-[#33103f]/62">
-                  {stage.items.join(" · ")}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="hidden md:grid md:grid-cols-4 md:gap-y-0">
-            {multiplicationStages.map((stage, index) => (
-              <div
-                key={stage.year}
-                className={index < multiplicationStages.length - 1 ? "border-r border-[#8b6db5]/18" : ""}
-              >
-                <GenerationCard {...stage} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section aria-labelledby="disciples-schedule-title" className="mt-20 md:mt-[68px]">
         <SectionHeading
@@ -672,9 +589,9 @@ export default function DiscipleshipTrainingStaticPage() {
               className="max-w-none [&_h2]:text-white [&_p]:text-[#d5b16c] [&_span]:bg-[#d5b16c]"
             />
 
-            <ul className="mt-6 flex flex-col gap-3">
+            <ul className="mt-6 flex flex-col gap-2">
               {applicationNotes.map((note) => (
-                <li key={note} className="type-body flex items-start gap-1 tracking-[0.02em] text-white">
+                <li key={note} className="type-body flex items-start gap-1 tracking-[0.02em] text-white/80">
                   <span aria-hidden="true">·</span>
                   <span>{note}</span>
                 </li>

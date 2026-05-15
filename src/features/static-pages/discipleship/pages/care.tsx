@@ -1,4 +1,5 @@
 import SectionHeading from "@/components/section-heading";
+import ApplyForm from "@/features/static-pages/discipleship/components/apply-form";
 import { cormorantGaramond } from "@/lib/fonts";
 
 const overviewStats = [
@@ -89,21 +90,28 @@ const applicationNotes = [
 
 function QuoteCard() {
   return (
-    <aside className="relative overflow-hidden rounded-[8px] bg-[radial-gradient(circle_at_20%_20%,#4a2458_0%,#33103f_58%,#24052e_100%)] px-6 py-7 shadow-[0_18px_38px_rgba(51,16,63,0.16)] md:px-9 md:py-9">
-      <p className="type-quote relative z-10 text-white/90">
-        그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은 지혜로운
-        사람 같으리니
+    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+        &quot;그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은
+        지혜로운 사람 같으리니&quot;
       </p>
-      <p className="type-caption relative z-10 mt-5 font-semibold text-[#d5b16c]">
+      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
         마태복음 7:24
       </p>
+      <span
+        aria-hidden="true"
+        className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
+        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+      >
+        &quot;
+      </span>
     </aside>
   );
 }
 
 function OverviewStat({ title, label }: { title: string; label: string }) {
   return (
-    <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#fffcf8] px-4 py-5 text-center">
+    <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#f5f0f9] px-4 py-5 text-center">
       <div className="flex flex-col items-center gap-3 tracking-[0.04em]">
         <p className="font-hahmlet text-[22px] font-bold leading-none text-[#33103f]">
           {title}
@@ -128,7 +136,7 @@ function CurriculumTable() {
 
       {curriculumWeeks.map((week, index) => {
         const isLast = index === curriculumWeeks.length - 1;
-        const surfaceClassName = index % 2 === 1 ? "bg-[#fffcf8]" : "bg-white";
+        const surfaceClassName = index % 2 === 1 ? "bg-[#f5f0f9]" : "bg-white";
 
         return (
           <div
@@ -173,19 +181,17 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span
-          className={`${cormorantGaramond.className} type-section-title font-bold leading-none text-[#d5b16c]`}
-        >
+        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#d5b16c]">
           {minute}
         </span>
         <span className="type-body pb-[2px] leading-none text-[#33103f]/62">분</span>
       </div>
-      <h3 className="type-body font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small mt-2 flex flex-col items-start gap-2 leading-none text-[#33103f]/62 md:mt-0 md:gap-1">
+      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#33103f]/62">
         {details.map((detail) => (
-          <p key={detail}>{detail}</p>
+          <p key={detail}>· {detail}</p>
         ))}
       </div>
     </article>
@@ -236,7 +242,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
+        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -255,61 +261,6 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
         </li>
       ))}
     </ul>
-  );
-}
-
-function ApplyForm() {
-  const inputClassName =
-    "h-11 w-full rounded-[6px] border border-white/16 bg-white px-3 type-body-small text-[#33103f] outline-none transition focus:border-[#d5b16c]";
-
-  return (
-    <form className="mt-8 grid flex-1 gap-4 md:mt-0 md:max-w-[520px]">
-      <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2">
-          <span className="type-caption font-semibold text-white/78">이름</span>
-          <input className={inputClassName} type="text" name="name" />
-        </label>
-        <label className="grid gap-2">
-          <span className="type-caption font-semibold text-white/78">연락처</span>
-          <input className={inputClassName} type="tel" name="phone" />
-        </label>
-      </div>
-
-      <fieldset className="grid gap-2">
-        <legend className="type-caption font-semibold text-white/78">희망 시간</legend>
-        <div className="flex gap-3">
-          {["주일 반", "주중 반"].map((label, index) => (
-            <label
-              key={label}
-              className="type-body-small flex h-10 flex-1 items-center justify-center rounded-[6px] bg-white/10 text-white"
-            >
-              <input
-                className="mr-2 accent-[#d5b16c]"
-                type="radio"
-                name="time"
-                defaultChecked={index === 0}
-              />
-              {label}
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <label className="grid gap-2">
-        <span className="type-caption font-semibold text-white/78">메모</span>
-        <textarea
-          className="min-h-[96px] w-full rounded-[6px] border border-white/16 bg-white px-3 py-3 type-body-small text-[#33103f] outline-none transition focus:border-[#d5b16c]"
-          name="memo"
-        />
-      </label>
-
-      <button
-        type="button"
-        className="type-button h-11 rounded-[6px] bg-[#d5b16c] px-5 font-bold text-[#33103f] transition hover:bg-[#e1c27f]"
-      >
-        신청하기
-      </button>
-    </form>
   );
 }
 
@@ -365,6 +316,7 @@ export default function DiscipleshipCareStaticPage() {
 
       <ClassStructureSection />
 
+      {/*
       <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-[68px]">
         <SectionHeading
           id="newcomer-care-baptism-title"
@@ -393,6 +345,7 @@ export default function DiscipleshipCareStaticPage() {
           </article>
         </div>
       </section>
+      */}
 
       <section
         id="apply"
@@ -408,9 +361,9 @@ export default function DiscipleshipCareStaticPage() {
               className="max-w-none [&_h2]:text-white [&_p]:text-[#d5b16c] [&_span]:bg-[#d5b16c]"
             />
 
-            <ul className="mt-6 flex flex-col gap-3">
+            <ul className="mt-6 flex flex-col gap-2">
               {applicationNotes.map((note) => (
-                <li key={note} className="type-body flex items-start gap-1 text-white">
+                <li key={note} className="type-body flex items-start gap-1 text-white/80">
                   <span aria-hidden="true">·</span>
                   <span>{note}</span>
                 </li>
