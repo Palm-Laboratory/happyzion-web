@@ -35,7 +35,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
 
   try {
     [listResult, selectedDetail] = await Promise.all([
-      getAdminMembers(session.user.id, {
+      getAdminMembers({
         query: params.query ?? null,
         status: (params.status as MemberStatus | "ALL" | undefined) ?? null,
         stage: (params.stage as FaithStage | "ALL" | undefined) ?? null,
@@ -43,7 +43,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
         page: 0,
         size: 100,
       }),
-      params.id ? getAdminMemberDetail(session.user.id, params.id) : Promise.resolve(null),
+      params.id ? getAdminMemberDetail(params.id) : Promise.resolve(null),
     ]);
   } catch (error) {
     loadError = toFriendlyAdminMemberMessage(error, "교적부 데이터를 불러오지 못했습니다.");

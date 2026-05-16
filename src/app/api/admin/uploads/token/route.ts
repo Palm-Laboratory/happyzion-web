@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   try {
     const payload = (await request.json()) as AdminUploadTokenRequest;
-    const token = await issueAdminUploadToken(session.user.id, payload);
+    const token = await issueAdminUploadToken(payload);
     return NextResponse.json(token);
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 400;

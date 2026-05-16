@@ -18,7 +18,7 @@ export async function PUT(request: Request, context: RouteContext) {
 
   try {
     const payload = (await request.json()) as MissionYearPayload;
-    const result = await updateMissionYear(session.user.id, Number(yearId), payload);
+    const result = await updateMissionYear(Number(yearId), payload);
     revalidateTag("mission-history");
     return NextResponse.json(result);
   } catch (error) {
@@ -39,7 +39,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   const { yearId } = await context.params;
 
   try {
-    await deleteMissionYear(session.user.id, Number(yearId));
+    await deleteMissionYear(Number(yearId));
     revalidateTag("mission-history");
     return new NextResponse(null, { status: 204 });
   } catch (error) {

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { joinApiUrl } from "@/lib/api-base-url";
-import { AdminApiError, adminApiFetch, buildActorHeaders } from "@/lib/admin-api";
+import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
 import type { components } from "@/types/api";
 
@@ -48,66 +48,46 @@ export async function authenticateAdminCredentials(
   return response.json() as Promise<AuthenticatedAdminAccount>;
 }
 
-export async function getCurrentAdminAccount(actorId: string): Promise<AuthenticatedAdminAccount> {
-  const response = await adminApiFetch("/api/v1/admin/auth/me", {
-    headers: buildActorHeaders(actorId),
-  });
+export async function getCurrentAdminAccount(): Promise<AuthenticatedAdminAccount> {
+  const response = await adminApiFetch("/api/v1/admin/auth/me");
   return response.json() as Promise<AuthenticatedAdminAccount>;
 }
 
 // ── 조회 ──────────────────────────────────────────────────────────────────────
 
-export async function getAdminAccounts(actorId: string): Promise<AdminAccountsResponse> {
-  const response = await adminApiFetch("/api/v1/admin/accounts", {
-    headers: buildActorHeaders(actorId),
-  });
+export async function getAdminAccounts(): Promise<AdminAccountsResponse> {
+  const response = await adminApiFetch("/api/v1/admin/accounts");
   return response.json() as Promise<AdminAccountsResponse>;
 }
 
-export async function getAdminAccount(actorId: string, id: number): Promise<AdminAccount> {
-  const response = await adminApiFetch(`/api/v1/admin/accounts/${id}`, {
-    headers: buildActorHeaders(actorId),
-  });
+export async function getAdminAccount(id: number): Promise<AdminAccount> {
+  const response = await adminApiFetch(`/api/v1/admin/accounts/${id}`);
   return response.json() as Promise<AdminAccount>;
 }
 
 // ── CRUD ──────────────────────────────────────────────────────────────────────
 
-export async function createAdminAccount(
-  actorId: string,
-  payload: CreateAdminAccountPayload,
-): Promise<AdminAccount> {
+export async function createAdminAccount(payload: CreateAdminAccountPayload): Promise<AdminAccount> {
   const response = await adminApiFetch("/api/v1/admin/accounts", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...buildActorHeaders(actorId),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   return response.json() as Promise<AdminAccount>;
 }
 
-export async function updateAdminAccount(
-  actorId: string,
-  id: number,
-  payload: UpdateAdminAccountPayload,
-): Promise<AdminAccount> {
+export async function updateAdminAccount(id: number, payload: UpdateAdminAccountPayload): Promise<AdminAccount> {
   const response = await adminApiFetch(`/api/v1/admin/accounts/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      ...buildActorHeaders(actorId),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   return response.json() as Promise<AdminAccount>;
 }
 
-export async function deleteAdminAccount(actorId: string, id: number): Promise<void> {
+export async function deleteAdminAccount(id: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/accounts/${id}`, {
     method: "DELETE",
-    headers: buildActorHeaders(actorId),
   });
 }
 
@@ -120,10 +100,6 @@ export function toFriendlyAdminAccountMessage(error: unknown, fallback: string):
 
   if (error.status === 401 || error.status === 403) {
     return "권한이 없거나 로그인 정보가 만료되었습니다. 다시 로그인한 뒤 시도해 주세요.";
-  }
-
-  if (error.code === "ADMIN_SYNC_KEY_MISSING") {
-    return "관리자 계정 기능 설정이 아직 완료되지 않았습니다. 서버 설정을 확인해 주세요.";
   }
 
   const message = error.message.trim();

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
 import type { components } from "@/types/api";
 
 export type MissionTone = "gold" | "red" | null;
@@ -23,42 +23,33 @@ export interface MissionYearPayload {
   entries: MissionEntryPayload[];
 }
 
-export async function listMissionYears(actorId: string): Promise<MissionYear[]> {
-  const response = await adminApiFetch("/api/v1/admin/mission-history", {
-    headers: buildActorHeaders(actorId),
-  });
+export async function listMissionYears(): Promise<MissionYear[]> {
+  const response = await adminApiFetch("/api/v1/admin/mission-history");
   const data = (await response.json()) as { years: MissionYear[] };
   return data.years;
 }
 
-export async function createMissionYear(actorId: string, payload: MissionYearPayload): Promise<MissionYearDetail> {
+export async function createMissionYear(payload: MissionYearPayload): Promise<MissionYearDetail> {
   const response = await adminApiFetch("/api/v1/admin/mission-history", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...buildActorHeaders(actorId),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   return response.json() as Promise<MissionYearDetail>;
 }
 
-export async function updateMissionYear(actorId: string, yearId: number, payload: MissionYearPayload): Promise<MissionYearDetail> {
+export async function updateMissionYear(yearId: number, payload: MissionYearPayload): Promise<MissionYearDetail> {
   const response = await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      ...buildActorHeaders(actorId),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   return response.json() as Promise<MissionYearDetail>;
 }
 
-export async function deleteMissionYear(actorId: string, yearId: number): Promise<void> {
+export async function deleteMissionYear(yearId: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
     method: "DELETE",
-    headers: buildActorHeaders(actorId),
   });
 }
 

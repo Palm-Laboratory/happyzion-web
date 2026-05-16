@@ -19,27 +19,25 @@ export default async function CmsLayout({
   let topbarSession = session;
   const sessionSaysSuperAdmin = session.user.accountRole === "SUPER_ADMIN";
 
-  if (session.user.id) {
-    try {
-      const currentAccount = await getCurrentAdminAccount(session.user.id);
-      const effectiveAccountRole =
-        sessionSaysSuperAdmin || currentAccount.role === "SUPER_ADMIN"
-          ? "SUPER_ADMIN"
-          : currentAccount.role;
+  try {
+    const currentAccount = await getCurrentAdminAccount();
+    const effectiveAccountRole =
+      sessionSaysSuperAdmin || currentAccount.role === "SUPER_ADMIN"
+        ? "SUPER_ADMIN"
+        : currentAccount.role;
 
-      topbarSession = {
-        ...session,
-        user: {
-          ...session.user,
-          name: currentAccount.displayName,
-          username: currentAccount.username,
-          accountRole: effectiveAccountRole,
-        },
-      };
-    } catch (error) {
-      if (error instanceof AdminApiError && (error.status === 401 || error.status === 403)) {
-        redirect("/admin/login?callbackUrl=/admin");
-      }
+    topbarSession = {
+      ...session,
+      user: {
+        ...session.user,
+        name: currentAccount.displayName,
+        username: currentAccount.username,
+        accountRole: effectiveAccountRole,
+      },
+    };
+  } catch (error) {
+    if (error instanceof AdminApiError && (error.status === 401 || error.status === 403)) {
+      redirect("/admin/login?callbackUrl=/admin");
     }
   }
 

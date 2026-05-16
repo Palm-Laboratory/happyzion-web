@@ -36,7 +36,7 @@ export async function GET(request: Request, context: RouteContext) {
   const menuId = readMenuId(request);
 
   try {
-    const post = await getAdminBoardPost(session.user.id, slug, postId, menuId);
+    const post = await getAdminBoardPost(slug, postId, menuId);
     return NextResponse.json(post);
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 400;
@@ -63,7 +63,7 @@ export async function PUT(request: Request, context: RouteContext) {
 
   try {
     const payload = await request.json();
-    const post = await updateAdminBoardPost(session.user.id, slug, postId, menuId ? { ...payload, menuId } : payload);
+    const post = await updateAdminBoardPost(slug, postId, menuId ? { ...payload, menuId } : payload);
     revalidateTag("public-board");
     return NextResponse.json(post);
   } catch (error) {
@@ -90,7 +90,7 @@ export async function DELETE(request: Request, context: RouteContext) {
   const menuId = readMenuId(request);
 
   try {
-    await deleteAdminBoardPost(session.user.id, slug, postId, menuId);
+    await deleteAdminBoardPost(slug, postId, menuId);
     revalidateTag("public-board");
     return new NextResponse(null, { status: 204 });
   } catch (error) {

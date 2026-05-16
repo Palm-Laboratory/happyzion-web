@@ -11,10 +11,9 @@ export default async function AdminMenuPage() {
     redirect("/admin/login?callbackUrl=/admin/menu");
   }
 
-  const actorId = session.user.id ?? "";
   const [menuTree, staticPages] = await Promise.all([
-    getAdminMenuTree(actorId),
-    getAdminStaticPages(actorId),
+    getAdminMenuTree(),
+    getAdminStaticPages(),
   ]);
 
   return (

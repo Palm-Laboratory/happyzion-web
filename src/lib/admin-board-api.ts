@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
 import type { TiptapDocument } from "@/lib/admin-board-editor-content";
 import type { components } from "@/types/api";
 
@@ -161,23 +161,13 @@ function buildSavePayload(payload: BoardPostSavePayload) {
   };
 }
 
-function actorHeaders(actorId: string, contentType = false) {
-  return {
-    ...(contentType ? { "Content-Type": "application/json" } : {}),
-    ...buildActorHeaders(actorId),
-  };
-}
-
-export async function getAdminBoards(actorId: string): Promise<AdminBoardSummary[]> {
-  const response = await adminApiFetch("/api/v1/admin/boards", {
-    headers: actorHeaders(actorId),
-  });
+export async function getAdminBoards(): Promise<AdminBoardSummary[]> {
+  const response = await adminApiFetch("/api/v1/admin/boards");
   const payload = (await response.json()) as components["schemas"]["BoardAdminListBoardsResponse"];
   return payload.boards.map(normalizeBoard);
 }
 
 export async function getAdminBoardPosts(
-  actorId: string,
   slug: string,
   options?: {
     menuId?: string | number | null;
@@ -192,9 +182,7 @@ export async function getAdminBoardPosts(
   if (options?.size != null) params.set("size", String(options.size));
   if (options?.title) params.set("title", options.title);
   const query = params.size > 0 ? `?${params.toString()}` : "";
-  const response = await adminApiFetch(`/api/v1/admin/boards/${encodeURIComponent(slug)}/posts${query}`, {
-    headers: actorHeaders(actorId),
-  });
+  const response = await adminApiFetch(`/api/v1/admin/boards/${encodeURIComponent(slug)}/posts${query}`);
   const payload = (await response.json()) as components["schemas"]["BoardAdminListPostsResponse"];
   return {
     posts: payload.posts.map(normalizePostSummary),
@@ -203,7 +191,6 @@ export async function getAdminBoardPosts(
 }
 
 export async function getAdminBoardPost(
-  actorId: string,
   slug: string,
   postId: string,
   menuId?: string | number | null,
@@ -211,29 +198,21 @@ export async function getAdminBoardPost(
   const menuQuery = menuId == null ? "" : `?menuId=${toBackendNumber(menuId, "메뉴 ID")}`;
   const response = await adminApiFetch(
     `/api/v1/admin/boards/${encodeURIComponent(slug)}/posts/${toBackendNumber(postId, "게시글 ID")}${menuQuery}`,
-    {
-      headers: actorHeaders(actorId),
-    },
   );
   return normalizePostDetail((await response.json()) as BackendPostDetail);
 }
 
-export async function createAdminBoardPost(
-  actorId: string,
-  slug: string,
-  payload: BoardPostSavePayload,
-): Promise<AdminBoardPostDetail> {
+export async function createAdminBoardPost(slug: string, payload: BoardPostSavePayload): Promise<AdminBoardPostDetail> {
   const response = await adminApiFetch(`/api/v1/admin/boards/${encodeURIComponent(slug)}/posts`, {
     method: "POST",
-    headers: actorHeaders(actorId, true),
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(buildSavePayload(payload)),
   });
   const saved = (await response.json()) as BackendPostSaveResponse;
-  return getAdminBoardPost(actorId, slug, normalizeSavedPostId(saved), payload.menuId);
+  return getAdminBoardPost(slug, normalizeSavedPostId(saved), payload.menuId);
 }
 
 export async function updateAdminBoardPost(
-  actorId: string,
   slug: string,
   postId: string,
   payload: BoardPostSavePayload,
@@ -242,16 +221,15 @@ export async function updateAdminBoardPost(
     `/api/v1/admin/boards/${encodeURIComponent(slug)}/posts/${toBackendNumber(postId, "게시글 ID")}`,
     {
       method: "PUT",
-      headers: actorHeaders(actorId, true),
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(buildSavePayload(payload)),
     },
   );
   const saved = (await response.json()) as BackendPostSaveResponse;
-  return getAdminBoardPost(actorId, slug, normalizeSavedPostId(saved), payload.menuId);
+  return getAdminBoardPost(slug, normalizeSavedPostId(saved), payload.menuId);
 }
 
 export async function deleteAdminBoardPost(
-  actorId: string,
   slug: string,
   postId: string,
   menuId?: string | number | null,
@@ -259,10 +237,7 @@ export async function deleteAdminBoardPost(
   const menuQuery = menuId == null ? "" : `?menuId=${toBackendNumber(menuId, "메뉴 ID")}`;
   await adminApiFetch(
     `/api/v1/admin/boards/${encodeURIComponent(slug)}/posts/${toBackendNumber(postId, "게시글 ID")}${menuQuery}`,
-    {
-      method: "DELETE",
-      headers: actorHeaders(actorId),
-    },
+    { method: "DELETE" },
   );
 }
 
@@ -273,10 +248,6 @@ export function toFriendlyAdminBoardMessage(error: unknown, fallback: string): s
 
   if (error.status === 401 || error.status === 403) {
     return "권한이 없거나 로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
-  }
-
-  if (error.code === "ADMIN_SYNC_KEY_MISSING") {
-    return "게시판 관리 기능 설정이 아직 완료되지 않았습니다. 서버 설정을 확인해 주세요.";
   }
 
   if (error.status >= 500) {

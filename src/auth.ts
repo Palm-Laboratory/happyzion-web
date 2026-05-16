@@ -32,6 +32,7 @@ interface CredentialsAdminUser {
   name: string;
   username: string;
   adminAccountRole: AdminAccountRole;
+  adminJwt: string;
 }
 
 export const isAdminSession = (session?: Session | null): session is Session =>
@@ -72,6 +73,7 @@ export const adminAuthOptions: NextAuthOptions = {
             name: account.displayName,
             username: account.username,
             adminAccountRole: account.role,
+            adminJwt: account.token,
           } satisfies CredentialsAdminUser;
         } catch (error) {
           if (error instanceof AdminApiError && error.status >= 400 && error.status < 500) {
@@ -93,6 +95,7 @@ export const adminAuthOptions: NextAuthOptions = {
         token.username = normalizeUsername(credentialsUser.username);
         token.role = "admin";
         token.accountRole = credentialsUser.adminAccountRole;
+        token.adminJwt = credentialsUser.adminJwt;
       }
 
       return token;
@@ -110,6 +113,7 @@ export const adminAuthOptions: NextAuthOptions = {
           normalizedUsername;
         session.user.role = "admin";
         session.user.accountRole = (token.accountRole as AdminAccountRole | undefined) ?? "ADMIN";
+        session.user.adminJwt = token.adminJwt;
       }
 
       return session;

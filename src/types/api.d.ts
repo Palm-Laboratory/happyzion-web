@@ -931,6 +931,7 @@ export interface components {
             displayName: string;
             /** @enum {string} */
             role: "SUPER_ADMIN" | "ADMIN";
+            token: string;
         };
         AdminAccountCreateRequest: {
             username: string;

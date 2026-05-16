@@ -30,7 +30,7 @@ export default async function AdminAccountDetailPage({ params }: AdminAccountDet
 
   let account;
   try {
-    account = await getAdminAccount(session.user.id ?? "", id);
+    account = await getAdminAccount(id);
   } catch (err) {
     if (err instanceof AdminApiError && err.status === 404) notFound();
     throw err;

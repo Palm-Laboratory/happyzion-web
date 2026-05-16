@@ -5,12 +5,12 @@ import { getAdminYouTubePlaylists, type AdminYouTubePlaylist } from "@/lib/admin
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import VideoListClient from "../_components/video-list-client";
 
-async function resolveInitialState(actorId: string): Promise<{
+async function resolveInitialState(): Promise<{
   playlists: AdminYouTubePlaylist[];
   initialPlaylistMenuId: number | null;
   initialItems: AdminVideoSummary[];
 }> {
-  const { playlists } = await getAdminYouTubePlaylists(actorId);
+  const { playlists } = await getAdminYouTubePlaylists();
   const firstPlaylist = playlists[0] ?? null;
 
   if (!firstPlaylist) {
@@ -30,7 +30,7 @@ export default async function AdminVideoManagePage() {
   }
 
   const { playlists, initialPlaylistMenuId, initialItems } =
-    await resolveInitialState(session.user.id ?? "");
+    await resolveInitialState();
 
   return (
     <div className="space-y-6">

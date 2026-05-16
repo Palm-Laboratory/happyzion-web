@@ -1,11 +1,8 @@
 import "server-only";
 
-import { createHmac } from "crypto";
 import { joinApiUrl } from "@/lib/api-base-url";
 import { SERVER_API_BASE_URL } from "@/lib/server-config";
-
-const ADMIN_SYNC_KEY = process.env.ADMIN_SYNC_KEY?.trim() || "";
-const ADMIN_ACTOR_SIGNING_SECRET = process.env.ADMIN_ACTOR_SIGNING_SECRET?.trim() || "";
+import { getAdminSession, isAdminSession } from "@/auth";
 
 interface UpstreamApiErrorResponse {
   code?: string;
@@ -24,12 +21,6 @@ export class AdminApiError extends Error {
   }
 }
 
-function ensureAdminSyncKey() {
-  if (!ADMIN_SYNC_KEY) {
-    throw new AdminApiError(500, "ADMIN_SYNC_KEY_MISSING", "관리자 API 키가 설정되지 않았습니다.");
-  }
-}
-
 async function parseUpstreamError(response: Response) {
   try {
     const data = (await response.json()) as UpstreamApiErrorResponse;
@@ -45,33 +36,24 @@ async function parseUpstreamError(response: Response) {
   }
 }
 
-export function buildActorHeaders(actorId: string): Record<string, string> {
-  if (!ADMIN_ACTOR_SIGNING_SECRET) {
-    throw new AdminApiError(500, "ACTOR_SIGNING_SECRET_MISSING", "actor 서명 키가 설정되지 않았습니다.");
+async function resolveAdminJwt(): Promise<string> {
+  const session = await getAdminSession();
+  if (!isAdminSession(session) || !session.user.adminJwt) {
+    throw new AdminApiError(401, "UNAUTHORIZED", "관리자 인증이 필요합니다.");
   }
-  const timestamp = Math.floor(Date.now() / 1000).toString();
-  const sig = createHmac("sha256", ADMIN_ACTOR_SIGNING_SECRET).update(`${actorId}:${timestamp}`).digest("hex");
-  return {
-    "X-Admin-Actor-Id": actorId,
-    "X-Admin-Actor-Timestamp": timestamp,
-    "X-Admin-Actor-Sig": sig,
-  };
-}
-
-export function buildAdminApiHeaders(initHeaders: HeadersInit | undefined, adminSyncKey: string): Record<string, string> {
-  const headers = new Headers(initHeaders);
-  headers.set("Accept", "application/json");
-  headers.set("X-Admin-Key", adminSyncKey);
-
-  return Object.fromEntries(headers.entries());
+  return session.user.adminJwt;
 }
 
 export async function adminApiFetch(path: string, init?: RequestInit) {
-  ensureAdminSyncKey();
+  const jwt = await resolveAdminJwt();
+
+  const headers = new Headers(init?.headers);
+  headers.set("Accept", "application/json");
+  headers.set("Authorization", `Bearer ${jwt}`);
 
   const response = await fetch(joinApiUrl(SERVER_API_BASE_URL, path), {
     ...init,
-    headers: buildAdminApiHeaders(init?.headers, ADMIN_SYNC_KEY),
+    headers: Object.fromEntries(headers.entries()),
     cache: "no-store",
   });
 

@@ -5,17 +5,13 @@ import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import { createAdminMember, toFriendlyAdminMemberMessage, type CreateAdminMemberPayload } from "@/lib/admin-members-api";
 
-async function requireAdminActor() {
+async function requireAdminActor(): Promise<boolean> {
   const session = await getAdminSession();
-  if (!isAdminSession(session) || !session.user.id) {
-    return "";
-  }
-  return session.user.id;
+  return isAdminSession(session) && !!session.user.id;
 }
 
 export async function createAdminMemberAction(formData: FormData): Promise<void> {
-  const actorId = await requireAdminActor();
-  if (!actorId) {
+  if (!(await requireAdminActor())) {
     throw new Error("관리자 로그인 후 다시 시도해 주세요.");
   }
 
@@ -54,7 +50,7 @@ export async function createAdminMemberAction(formData: FormData): Promise<void>
   };
 
   try {
-    const result = await createAdminMember(actorId, payload);
+    const result = await createAdminMember(payload);
     revalidatePath("/admin/members");
     redirect(`/admin/members?id=${result.member.id}`);
   } catch (error) {

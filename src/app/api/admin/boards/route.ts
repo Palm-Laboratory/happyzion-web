@@ -19,7 +19,7 @@ export async function GET() {
   }
 
   try {
-    const boards = await getAdminBoards(session.user.id);
+    const boards = await getAdminBoards();
     return NextResponse.json({ boards });
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 400;

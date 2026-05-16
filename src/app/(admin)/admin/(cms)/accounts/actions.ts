@@ -25,9 +25,9 @@ function buildMessageState(message: string, success = false): AdminAccountFormSt
 async function requireSuperAdmin() {
   const session = await getAdminSession();
   if (!isAdminSession(session) || session.user.accountRole !== "SUPER_ADMIN") {
-    return { session: null, actorId: "" };
+    return { session: null };
   }
-  return { session, actorId: session.user.id ?? "" };
+  return { session };
 }
 
 // ── 계정 생성 ──────────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ export async function createAdminAccountAction(
   _prev: AdminAccountFormState,
   formData: FormData,
 ): Promise<AdminAccountFormState> {
-  const { actorId, session } = await requireSuperAdmin();
+  const { session } = await requireSuperAdmin();
   if (!session) return buildMessageState("슈퍼 관리자만 관리자 계정을 발급할 수 있습니다.");
 
   const username = String(formData.get("username") ?? "").trim().toLowerCase();
@@ -52,7 +52,7 @@ export async function createAdminAccountAction(
   if (Object.keys(errors).length > 0) return { errors };
 
   try {
-    await createAdminAccount(actorId, { username, displayName, password });
+    await createAdminAccount({ username, displayName, password });
   } catch (error) {
     return buildMessageState(
       toFriendlyAdminAccountMessage(error, "계정을 추가하지 못했습니다. 입력한 내용을 확인한 뒤 다시 시도해 주세요."),
@@ -69,7 +69,7 @@ export async function updateAdminAccountAction(
   _prev: AdminAccountFormState,
   formData: FormData,
 ): Promise<AdminAccountFormState> {
-  const { actorId, session } = await requireSuperAdmin();
+  const { session } = await requireSuperAdmin();
   if (!session) return buildMessageState("슈퍼 관리자만 계정을 수정할 수 있습니다.");
 
   const username = String(formData.get("username") ?? "").trim().toLowerCase();
@@ -88,7 +88,7 @@ export async function updateAdminAccountAction(
   if (Object.keys(errors).length > 0) return { errors };
 
   try {
-    await updateAdminAccount(actorId, id, { username, displayName, role, active, password });
+    await updateAdminAccount(id, { username, displayName, role, active, password });
   } catch (error) {
     return buildMessageState(
       toFriendlyAdminAccountMessage(error, "계정을 저장하지 못했습니다. 입력한 내용을 확인한 뒤 다시 시도해 주세요."),
@@ -102,11 +102,11 @@ export async function updateAdminAccountAction(
 
 // ── 계정 삭제 ──────────────────────────────────────────────────────────────────
 export async function deleteAdminAccountAction(id: number): Promise<void> {
-  const { actorId, session } = await requireSuperAdmin();
+  const { session } = await requireSuperAdmin();
   if (!session) throw new Error("슈퍼 관리자만 계정을 삭제할 수 있습니다.");
 
   try {
-    await deleteAdminAccount(actorId, id);
+    await deleteAdminAccount(id);
   } catch (error) {
     throw new Error(toFriendlyAdminAccountMessage(error, "계정을 삭제하지 못했습니다. 잠시 후 다시 시도해 주세요."));
   }

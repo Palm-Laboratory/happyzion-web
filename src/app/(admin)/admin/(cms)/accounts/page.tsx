@@ -14,7 +14,7 @@ export default async function AdminAccountsPage() {
     redirect("/admin");
   }
 
-  const { accounts } = await getAdminAccounts(session.user.id ?? "");
+  const { accounts } = await getAdminAccounts();
 
   return (
     <div className="space-y-5">

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { AdminApiError, adminApiFetch, buildActorHeaders } from "@/lib/admin-api";
+import { AdminApiError, adminApiFetch } from "@/lib/admin-api";
 import type { components } from "@/types/api";
 
 export type AdminUploadAssetKind = components["schemas"]["UploadTokenIssueRequest"]["kind"];
@@ -44,16 +44,10 @@ function buildUploadTokenPayload(payload: AdminUploadTokenRequest) {
   };
 }
 
-export async function issueAdminUploadToken(
-  actorId: string,
-  payload: AdminUploadTokenRequest,
-): Promise<AdminUploadTokenResponse> {
+export async function issueAdminUploadToken(payload: AdminUploadTokenRequest): Promise<AdminUploadTokenResponse> {
   const response = await adminApiFetch("/api/v1/admin/uploads/token", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...buildActorHeaders(actorId),
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(buildUploadTokenPayload(payload)),
   });
 
@@ -67,10 +61,6 @@ export function toFriendlyAdminUploadMessage(error: unknown, fallback: string): 
 
   if (error.status === 401 || error.status === 403) {
     return "권한이 없거나 로그인 정보가 만료되었습니다. 다시 로그인한 뒤 시도해 주세요.";
-  }
-
-  if (error.code === "ADMIN_SYNC_KEY_MISSING") {
-    return "관리자 업로드 기능 설정이 아직 완료되지 않았습니다. 서버 설정을 확인해 주세요.";
   }
 
   return error.message || fallback;

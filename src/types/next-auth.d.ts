@@ -8,6 +8,7 @@ declare module "next-auth" {
       username?: string;
       role: "admin";
       accountRole: "SUPER_ADMIN" | "ADMIN";
+      adminJwt?: string;
     };
   }
 }
@@ -17,5 +18,6 @@ declare module "next-auth/jwt" {
     role?: "admin";
     username?: string;
     accountRole?: "SUPER_ADMIN" | "ADMIN";
+    adminJwt?: string;
   }
 }

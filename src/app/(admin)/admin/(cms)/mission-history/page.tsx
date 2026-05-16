@@ -11,9 +11,7 @@ export default async function MissionHistoryPage() {
     redirect("/admin/login?callbackUrl=/admin/mission-history");
   }
 
-  const initialYears = session.user.id
-    ? await listMissionYears(session.user.id).catch(() => [])
-    : [];
+  const initialYears = await listMissionYears().catch(() => []);
 
   return (
     <div className="space-y-6">

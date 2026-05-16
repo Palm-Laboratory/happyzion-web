@@ -15,7 +15,7 @@ export async function PUT(request: Request) {
 
   try {
     const payload = (await request.json()) as { items: unknown[] };
-    const tree = await replaceAdminMenuTree(session.user.id, payload.items as never);
+    const tree = await replaceAdminMenuTree(payload.items as never);
 
     revalidateTag("menu");
     revalidatePath("/[...menuPath]", "page");

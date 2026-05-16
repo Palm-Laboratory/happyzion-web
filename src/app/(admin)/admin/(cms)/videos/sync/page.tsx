@@ -11,7 +11,7 @@ export default async function AdminVideoSyncPage() {
     redirect("/admin/login?callbackUrl=/admin/videos/sync");
   }
 
-  const menuTree = await getAdminMenuTree(session.user.id ?? "");
+  const menuTree = await getAdminMenuTree();
 
   return (
     <div className="space-y-6">

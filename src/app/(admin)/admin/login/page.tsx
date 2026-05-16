@@ -27,10 +27,8 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
   if (isAdminSession(session)) {
     try {
-      if (session.user.id) {
-        await getCurrentAdminAccount(session.user.id);
-        redirect("/admin");
-      }
+      await getCurrentAdminAccount();
+      redirect("/admin");
     } catch (error) {
       if (!(error instanceof AdminApiError) || (error.status !== 401 && error.status !== 403)) {
         throw error;

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { adminApiFetch, AdminApiError, buildActorHeaders } from "@/lib/admin-api";
+import { adminApiFetch, AdminApiError } from "@/lib/admin-api";
 import type {
   AttendanceWeek,
   FamilyMember,
@@ -411,15 +411,7 @@ function normalizeAttendance(attendance: BackendAttendanceWeek[]): AttendanceWee
   }));
 }
 
-function actorHeaders(actorId: string, contentType = false) {
-  return {
-    ...(contentType ? { "Content-Type": "application/json" } : {}),
-    ...buildActorHeaders(actorId),
-  };
-}
-
 export async function getAdminMembers(
-  actorId: string,
   options?: {
     query?: string | null;
     status?: MemberStatus | "ALL" | null;
@@ -438,9 +430,7 @@ export async function getAdminMembers(
   if (options?.size != null) params.set("size", String(options.size));
   const query = params.size > 0 ? `?${params.toString()}` : "";
 
-  const response = await adminApiFetch(`/api/v1/admin/members${query}`, {
-    headers: actorHeaders(actorId),
-  });
+  const response = await adminApiFetch(`/api/v1/admin/members${query}`);
   const payload = (await response.json()) as BackendMemberListResponse;
 
   return {
@@ -450,10 +440,8 @@ export async function getAdminMembers(
   };
 }
 
-export async function getAdminMemberDetail(actorId: string, memberId: string | number): Promise<AdminMemberDetailResult> {
-  const response = await adminApiFetch(`/api/v1/admin/members/${memberId}`, {
-    headers: actorHeaders(actorId),
-  });
+export async function getAdminMemberDetail(memberId: string | number): Promise<AdminMemberDetailResult> {
+  const response = await adminApiFetch(`/api/v1/admin/members/${memberId}`);
   const payload = (await response.json()) as BackendMemberDetail;
   const member = normalizeMember(payload, payload.faith);
   const services = normalizeServices(payload.services);
@@ -481,14 +469,14 @@ export async function getAdminMemberDetail(actorId: string, memberId: string | n
   };
 }
 
-export async function createAdminMember(actorId: string, payload: CreateAdminMemberPayload): Promise<AdminMemberDetailResult> {
+export async function createAdminMember(payload: CreateAdminMemberPayload): Promise<AdminMemberDetailResult> {
   const response = await adminApiFetch("/api/v1/admin/members", {
     method: "POST",
-    headers: actorHeaders(actorId, true),
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   const created = (await response.json()) as BackendMemberCreateResponse;
-  return getAdminMemberDetail(actorId, created.id);
+  return getAdminMemberDetail(created.id);
 }
 
 export function toFriendlyAdminMemberMessage(error: unknown, fallback: string): string {
@@ -498,10 +486,6 @@ export function toFriendlyAdminMemberMessage(error: unknown, fallback: string): 
 
   if (error.status === 401 || error.status === 403) {
     return "권한이 없거나 로그인 정보가 만료되었습니다. 다시 로그인해 주세요.";
-  }
-
-  if (error.code === "ADMIN_SYNC_KEY_MISSING") {
-    return "교적부 관리 기능 설정이 아직 완료되지 않았습니다. 서버 설정을 확인해 주세요.";
   }
 
   if (error.status >= 500) {

@@ -56,7 +56,7 @@ export async function GET(request: Request, context: RouteContext) {
   const options = readListOptions(request);
 
   try {
-    const result = await getAdminBoardPosts(session.user.id, slug, options);
+    const result = await getAdminBoardPosts(slug, options);
     return NextResponse.json(result);
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 400;
@@ -83,7 +83,7 @@ export async function POST(request: Request, context: RouteContext) {
 
   try {
     const payload = await request.json();
-    const post = await createAdminBoardPost(session.user.id, slug, menuId ? { ...payload, menuId } : payload);
+    const post = await createAdminBoardPost(slug, menuId ? { ...payload, menuId } : payload);
     revalidateTag("public-board");
     return NextResponse.json(post);
   } catch (error) {

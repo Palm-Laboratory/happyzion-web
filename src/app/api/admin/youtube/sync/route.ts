@@ -14,7 +14,7 @@ export async function POST() {
   }
 
   try {
-    const result = await syncAdminYouTube(session.user.id);
+    const result = await syncAdminYouTube();
 
     revalidateTag("menu");
     revalidateTag("videos");

@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   try {
-    const years = await listMissionYears(session.user.id);
+    const years = await listMissionYears();
     return NextResponse.json({ years });
   } catch (error) {
     const status = error instanceof AdminApiError ? error.status : 500;
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   try {
     const payload = (await request.json()) as MissionYearPayload;
-    const result = await createMissionYear(session.user.id, payload);
+    const result = await createMissionYear(payload);
     revalidateTag("mission-history");
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
