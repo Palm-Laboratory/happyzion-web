@@ -19,6 +19,13 @@ export type PublicResolvedMenuPage = GeneratedResolvedMenuPage & {
   redirectTo: string | null;
 };
 
+/**
+ * Resolves a public menu path to its page metadata.
+ *
+ * Results are deduplicated per request via `getOrSetPublicRequestCache`. Callers that
+ * need explicit per-call-site deduplication (e.g. between `generateMetadata` and page
+ * render) should wrap this with React `cache()` at the usage site.
+ */
 export async function resolvePublicMenuPath(path: string): Promise<PublicResolvedMenuPage | null> {
   return getOrSetPublicRequestCache(`public-menu-path:${path}`, () =>
     serverFetchJsonOrNull<PublicResolvedMenuPage>(

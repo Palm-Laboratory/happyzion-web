@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { cache } from "react";
 
 import PublicBoardRenderer from "@/components/public-board/public-board-renderer";
 import SitePageShell from "@/components/site-page-shell";
 import { getPublicBoardPost, listPublicBoardPosts } from "@/lib/public-board-api";
 import { resolvePublicMenuPath, type PublicResolvedMenuPage } from "@/lib/public-menu-api";
 import { createPageMetadata } from "@/lib/seo";
+
+// cache() makes the dedupe contract explicit: generateMetadata and the page render are
+// separate Next.js call paths but receive the same path argument, so they share one fetch.
+const resolveMenuPath = cache(resolvePublicMenuPath);
 
 export type MenuDispatcherPageProps = {
   params: Promise<{
@@ -91,7 +96,7 @@ export async function generateMenuDispatcherMetadata({
   const explicitPostRoute = getExplicitBoardPostRoute(path);
 
   if (explicitPostRoute) {
-    const board = await resolvePublicMenuPath(explicitPostRoute.boardPath);
+    const board = await resolveMenuPath(explicitPostRoute.boardPath);
 
     if (board?.type === "BOARD" && board.boardKey) {
       const post = await getPublicBoardPost(board.boardKey, board.menuId, explicitPostRoute.postId);
@@ -105,7 +110,7 @@ export async function generateMenuDispatcherMetadata({
     }
   }
 
-  const resolved = await resolvePublicMenuPath(path);
+  const resolved = await resolveMenuPath(path);
 
   if (resolved?.redirectTo) {
     return createPageMetadata({
@@ -122,7 +127,7 @@ export async function generateMenuDispatcherMetadata({
   }
 
   const legacyPostRoute = getLegacyBoardPostRoute(path);
-  const board = legacyPostRoute ? await resolvePublicMenuPath(legacyPostRoute.boardPath) : null;
+  const board = legacyPostRoute ? await resolveMenuPath(legacyPostRoute.boardPath) : null;
 
   if (legacyPostRoute && board?.type === "BOARD" && board.boardKey) {
     const post = await getPublicBoardPost(board.boardKey, board.menuId, legacyPostRoute.postId);
@@ -186,7 +191,7 @@ async function renderBoardDetailPage({
   boardPath: string;
   postId: string;
 }) {
-  const resolved = await resolvePublicMenuPath(boardPath);
+  const resolved = await resolveMenuPath(boardPath);
 
   if (!resolved || resolved.type !== "BOARD" || !resolved.boardKey) {
     notFound();
@@ -218,7 +223,7 @@ async function redirectLegacyBoardDetailPage(path: string): Promise<never> {
     notFound();
   }
 
-  const resolved = await resolvePublicMenuPath(legacyPostRoute.boardPath);
+  const resolved = await resolveMenuPath(legacyPostRoute.boardPath);
 
   if (!resolved || resolved.type !== "BOARD") {
     notFound();
@@ -253,7 +258,7 @@ export async function renderMenuDispatcherPage({
     return renderBoardDetailPage(explicitPostRoute);
   }
 
-  const resolved = await resolvePublicMenuPath(path);
+  const resolved = await resolveMenuPath(path);
 
   if (!resolved) {
     return redirectLegacyBoardDetailPage(path);
