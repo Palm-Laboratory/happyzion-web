@@ -227,6 +227,19 @@ async function redirectLegacyBoardDetailPage(path: string): Promise<never> {
   return redirect(`${resolved.fullPath.replace(/\/+$/, "")}/posts/${legacyPostRoute.postId}`);
 }
 
+type PageRenderer = (
+  resolved: PublicResolvedMenuPage,
+  searchParams: Record<string, string | string[] | undefined>,
+) => Promise<React.ReactElement>;
+
+const PAGE_RENDERERS: Partial<Record<string, PageRenderer>> = {
+  BOARD: renderBoardListPage,
+  EXTERNAL_LINK: async (resolved) => {
+    if (resolved.fullPath) redirect(resolved.fullPath);
+    notFound();
+  },
+};
+
 export async function renderMenuDispatcherPage({
   params,
   searchParams,
@@ -250,13 +263,7 @@ export async function renderMenuDispatcherPage({
     redirect(resolved.redirectTo);
   }
 
-  if (resolved.type === "BOARD") {
-    return renderBoardListPage(resolved, resolvedSearchParams);
-  }
-
-  if (resolved.type === "EXTERNAL_LINK" && resolved.fullPath) {
-    redirect(resolved.fullPath);
-  }
-
-  notFound();
+  const renderer = PAGE_RENDERERS[resolved.type];
+  if (!renderer) notFound();
+  return renderer(resolved, resolvedSearchParams);
 }
