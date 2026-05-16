@@ -1,28 +1,28 @@
 "use client";
 
 const inputClassName =
-  "apply-form-input h-9 w-full rounded-[5px] border border-white/10 bg-white/[0.06] px-5 font-suit text-sm text-white outline-none transition focus:border-[#d5b16c]/70";
+  "apply-form-input h-9 w-full rounded-[5px] border border-white/10 bg-white/[0.06] px-5 font-suit text-sm text-white outline-none transition focus:border-[#e4b96b]/70";
 
 export default function ApplyForm() {
   return (
     <form className="mt-8 grid w-full gap-4 rounded-[12px] bg-white/[0.04] px-6 py-7 md:mt-0 md:max-w-[294px]">
       <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">이름</span>
+        <span className="font-suit text-sm font-semibold leading-none text-white/80">이름</span>
         <input className={inputClassName} type="text" name="name" placeholder="이름을 입력하세요" />
       </label>
 
       <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">연락처</span>
+        <span className="font-suit text-sm font-semibold leading-none text-white/80">연락처</span>
         <input className={inputClassName} type="tel" name="phone" placeholder="연락처를 입력하세요" />
       </label>
 
       <label className="grid gap-2">
-        <span className="font-suit text-sm font-semibold leading-none text-white/70">이메일</span>
+        <span className="font-suit text-sm font-semibold leading-none text-white/80">이메일</span>
         <input className={inputClassName} type="email" name="email" placeholder="이메일을 입력하세요" />
       </label>
 
       <fieldset className="grid gap-2">
-        <legend className="font-suit text-sm font-semibold leading-none text-white/70">희망 요일</legend>
+        <legend className="font-suit text-sm font-semibold leading-none text-white/80">희망 요일</legend>
         <div className="flex gap-5 pt-2">
           {["주일 반", "주중 반"].map((label, index) => (
             <label
@@ -30,7 +30,7 @@ export default function ApplyForm() {
               className="font-suit flex items-center text-sm font-semibold leading-none text-white"
             >
               <input
-                className="mr-2 size-3.5 accent-[#d5b16c]"
+                className="mr-2 size-3.5 accent-[#e4b96b]"
                 type="radio"
                 name="time"
                 defaultChecked={index === 0}

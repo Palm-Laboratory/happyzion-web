@@ -43,14 +43,14 @@ const classStructure = [
     title: "환영 및 교제",
     details: ["찬양", "지난주 나눔", "출석 확인"],
     widthClassName: "w-2/12",
-    toneClassName: "bg-[#d5b16c]",
+    toneClassName: "bg-[#e4b96b]",
   },
   {
     minute: 30,
     title: "말씀 공부",
     details: ["교재 함께 읽기", "핵심 내용 설명", "질의응답"],
     widthClassName: "w-6/12",
-    toneClassName: "bg-[#33103f]",
+    toneClassName: "bg-[#2a123c]",
   },
   {
     minute: 15,
@@ -91,7 +91,7 @@ const applicationNotes = [
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+      <p className="font-hahmlet relative z-10 text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#33103f]">
         &quot;그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은
         지혜로운 사람 같으리니&quot;
       </p>
@@ -116,7 +116,7 @@ function OverviewStat({ title, label }: { title: string; label: string }) {
         <p className="font-hahmlet text-[22px] font-bold leading-none text-[#33103f]">
           {title}
         </p>
-        <p className="type-body leading-none text-[#33103f]/62">{label}</p>
+        <p className="type-body leading-none text-[#6F5576]">{label}</p>
       </div>
     </article>
   );
@@ -124,12 +124,12 @@ function OverviewStat({ title, label }: { title: string; label: string }) {
 
 function CurriculumTable() {
   return (
-    <div className="overflow-hidden rounded-[8px] border border-[#8b6db5]/28 bg-white">
+    <div className="overflow-hidden rounded-[8px] border border-[#8b6db5]/25 bg-white">
       <div className="grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)]">
-        <div className="flex h-10 items-center bg-[#33103f] px-4">
+        <div className="flex h-10 items-center bg-[#2a123c] px-4">
           <p className="type-body-small tracking-[0.08em] text-white md:type-body">주차</p>
         </div>
-        <div className="flex h-10 items-center bg-[#33103f] px-4 md:px-6">
+        <div className="flex h-10 items-center bg-[#2a123c] px-4 md:px-6">
           <p className="type-body-small tracking-[0.08em] text-white md:type-body">주제 및 내용</p>
         </div>
       </div>
@@ -144,12 +144,12 @@ function CurriculumTable() {
             className={`grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)] ${surfaceClassName}`}
           >
             <div
-              className={`flex items-center justify-center border-r border-[#8b6db5]/14 px-3 py-5 ${
+              className={`flex items-center justify-center border-r border-[#8b6db5]/12 px-3 py-5 ${
                 !isLast ? "border-b border-[#8b6db5]/18" : ""
               }`}
             >
               <span
-                className={`${cormorantGaramond.className} type-card-title font-bold leading-none tracking-[0.08em] text-[#d5b16c]`}
+                className={`${cormorantGaramond.className} type-card-title font-bold leading-none tracking-[0.08em] text-[#e4b96b]`}
               >
                 {week.week}
               </span>
@@ -158,7 +158,7 @@ function CurriculumTable() {
               <p className="type-body-small font-bold leading-[1.3] tracking-[-0.01em] text-[#33103f] md:type-body">
                 {week.title}
               </p>
-              <p className="type-body-small mt-[6px] leading-[1.5] tracking-[0.02em] text-[#33103f]/62">
+              <p className="type-body-small mt-[6px] leading-[1.5] tracking-[0.02em] text-[#6F5576]">
                 {week.details.join(" · ")}
               </p>
             </div>
@@ -181,15 +181,15 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#d5b16c]">
+        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
           {minute}
         </span>
-        <span className="type-body pb-[2px] leading-none text-[#33103f]/62">분</span>
+        <span className="type-body pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
       <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#33103f]/62">
+      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -234,7 +234,7 @@ function ClassStructureSection() {
             {classStructure.map((item, index) => (
               <div key={item.title} className="flex items-start">
                 {index > 0 ? (
-                  <span className="mr-9 mt-[30px] shrink-0 text-[#d5b16c]">-&gt;</span>
+                  <span className="mr-9 mt-[30px] shrink-0 text-[#e4b96b]">-&gt;</span>
                 ) : null}
                 <ClassStructureCard {...item} />
               </div>
@@ -242,7 +242,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
+        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -255,8 +255,8 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
   return (
     <ul className="flex flex-col gap-3">
       {items.map((item) => (
-        <li key={item} className={`type-body-small flex gap-2 ${dark ? "text-white/82" : "text-[#33103f]/68"}`}>
-          <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#d5b16c]" />
+        <li key={item} className={`type-body-small flex gap-2 ${dark ? "text-white/80" : "text-[#6F5576]"}`}>
+          <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#e4b96b]" />
           <span>{item}</span>
         </li>
       ))}
@@ -294,7 +294,7 @@ export default function DiscipleshipCareStaticPage() {
           ))}
         </div>
 
-        <p className="type-body mt-[18px] max-w-[727px] font-normal leading-[1.7] tracking-[0.02em] text-[#33103f]/78">
+        <p className="type-body mt-[18px] max-w-[727px] font-normal leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
           새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
           <br className="hidden md:block" />
           소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
@@ -335,8 +335,8 @@ export default function DiscipleshipCareStaticPage() {
             </div>
           </article>
 
-          <article className="rounded-[8px] bg-[#33103f] px-6 py-8">
-            <h3 className="type-body font-bold leading-none tracking-[0.08em] text-[#d5b16c]">
+          <article className="rounded-[8px] bg-[#2a123c] px-6 py-8">
+            <h3 className="type-body font-bold leading-none tracking-[0.08em] text-[#e4b96b]">
               침례 일정
             </h3>
             <div className="mt-4">
@@ -352,13 +352,13 @@ export default function DiscipleshipCareStaticPage() {
         className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
         aria-labelledby="newcomer-care-apply-title"
       >
-        <div className="rounded-[8px] bg-[#33103f] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
+        <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
           <div className="md:max-w-[300px]">
             <SectionHeading
               id="newcomer-care-apply-title"
               label="apply"
               title="새가족 양육 신청"
-              className="max-w-none [&_h2]:text-white [&_p]:text-[#d5b16c] [&_span]:bg-[#d5b16c]"
+              className="max-w-none [&_h2]:text-white [&_p]:text-[#e4b96b] [&_span]:bg-[#e4b96b]"
             />
 
             <ul className="mt-6 flex flex-col gap-2">

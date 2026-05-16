@@ -475,7 +475,7 @@ function MobileTabButton({
   const buttonClass =
     tone === "dark"
       ? "border-[#c9a96e]/45 text-[#c9a96e] focus-visible:outline-[#c9a96e]/70"
-      : "border-[#5d3d8a]/25 text-[#340653] focus-visible:outline-[#340653]/45";
+      : "border-[#5d3d8a]/25 text-[#33103f] focus-visible:outline-[var(--color-plum)]";
 
   return (
     <button
@@ -535,8 +535,8 @@ function MinistryTitle({ title }: { title: string }) {
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-[1.85rem] tracking-[1px] text-black xl:whitespace-nowrap">
-        “복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회”
+      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-[1.85rem] tracking-[1px] text-[#33103f] xl:whitespace-nowrap">
+        &ldquo;복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회&rdquo;
       </p>
       <p
         className="pointer-events-none absolute left-[19px] top-[-11px] h-[160px] w-[46px] text-[120px] leading-[120px] text-[#4d1367]/10"
@@ -545,7 +545,7 @@ function VisionQuote() {
         &quot;
       </p>
       <p
-        className="pointer-events-none absolute left-[min(724px,74%)] top-[38px] text-[96px] leading-[96px] text-[#c5aee0]/30"
+        className="pointer-events-none absolute left-[min(724px,74%)] top-[38px] text-[96px] leading-[96px] text-[rgba(77,19,103,0.08)]"
         style={{ fontFamily: "var(--font-estonia), cursive" }}
       >
         VISION
@@ -561,7 +561,7 @@ function MinistryDetailQuote({ quote }: { quote: string }) {
         &quot;{quote}&quot;
       </p>
       <p
-        className="pointer-events-none absolute left-[19px] top-[-11px] h-[160px] w-[46px] text-[120px] leading-[120px] text-[#e7cff2]/10"
+        className="pointer-events-none absolute left-[19px] top-[-11px] h-[160px] w-[46px] text-[120px] leading-[120px] text-[#4d1367]/10"
         style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
       >
         &quot;
@@ -595,7 +595,7 @@ function MinistryTeamPanel({
             {english}
           </p>
         </div>
-        <ul className="font-suit flex flex-col gap-3 text-sm leading-4 text-white/70">
+        <ul className="font-suit flex flex-col gap-3 text-sm leading-4 text-white/80">
           {items.map((item) => (
             <li key={item} className="flex gap-2.5">
               <span className="text-white">·</span>
@@ -611,7 +611,7 @@ function MinistryTeamPanel({
         {groups.map((group) => (
           <span
             key={group}
-            className="font-suit inline-flex items-center gap-1 border border-[#c5aee0]/50 bg-[#8b6db5]/15 py-1.5 pl-1.5 pr-3 text-[13px] font-light uppercase leading-[14px] tracking-[2px] text-[#c5aee0]"
+            className="font-suit inline-flex items-center gap-1 border border-[#e3bfff]/50 bg-[#e3bfff]/15 py-1.5 pl-1.5 pr-3 text-[13px] font-light uppercase leading-[14px] tracking-[2px] text-[#e3bfff]"
           >
             <span className="text-xs">◆</span>
             {group}
@@ -656,14 +656,14 @@ function MinistryTeamsSection() {
                   key={tab.title}
                   type="button"
                   onClick={() => setSelectedTabIndex(index)}
-                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-l-2 border-[#bdaad6]/15 px-4 py-3.5 text-left ${active ? "border-l-[#c9a96e] bg-[#190b2a]" : "border-l-transparent bg-white/[0.08]"
+                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-l-2 border-[#e3bfff]/15 px-4 py-3.5 text-left ${active ? "border-l-[#c9a96e] bg-[#190b2a]" : "border-l-transparent bg-white/[0.08]"
                     }`}
                   aria-pressed={active}
                 >
-                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#efe3ff]">
+                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#FDF8FF]">
                     {tab.title}
                   </span>
-                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-[#7a6890]">
+                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-white/80">
                     {tab.subtitle}
                   </span>
                 </button>
@@ -685,7 +685,7 @@ function MinistryTeamsSection() {
 
               <div className="flex items-start justify-between gap-6 md:gap-8">
                 <div className="min-w-0 flex-1">
-                  <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-[1.85rem] tracking-[0.01em] text-[#f2e7f5]">
+                  <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-[1.85rem] tracking-[0.01em] text-white">
                     <MinistryTitle title={activeMinistry.title} />
                   </h2>
                 </div>
@@ -695,7 +695,7 @@ function MinistryTeamsSection() {
                   <MobileTabButton direction="next" onClick={() => moveMinistryTab(1)} />
                 </div>
 
-                <div className="hidden flex-col items-end justify-center gap-1.5 text-center uppercase text-[#b49bd8] lg:flex">
+                <div className="hidden flex-col items-end justify-center gap-1.5 text-center uppercase text-[#e3bfff] lg:flex">
                   <p
                     className="text-[40px] italic leading-10 tracking-[1px]"
                     style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
@@ -725,7 +725,7 @@ function MinistryTeamsSection() {
                 >
                   members
                 </p>
-                <div className="font-suit flex flex-wrap gap-x-3 gap-y-2 text-[13px] uppercase leading-3 tracking-[1px] text-white/70">
+                <div className="font-suit flex flex-wrap gap-x-3 gap-y-2 text-[13px] uppercase leading-3 tracking-[1px] text-white/80">
                   {activeMinistry.members.map((member, index) => (
                     <span
                       key={member}
@@ -758,7 +758,7 @@ function SmallGroupPanelHeader({ label, number, title }: { label: string; number
           {label}
         </p>
       </div>
-      <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
+      <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#250030]">
         {title}
       </h2>
     </div>
@@ -795,7 +795,7 @@ function SmallGroupPanelHeaderWithControls({
       </div>
 
       <div className="flex w-full items-start justify-between gap-8">
-        <h2 className="min-w-0 flex-1 font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
+        <h2 className="min-w-0 flex-1 font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#250030]">
           {title}
         </h2>
         <div className="flex shrink-0 items-center gap-4 lg:hidden">
@@ -832,13 +832,13 @@ function RoadmapMonthCard({
   items: string[];
 }) {
   return (
-    <article className="flex min-h-[168px] flex-col gap-2 border-b border-r border-[#8d769d]/60 bg-white/10 p-4">
-      <p className="font-suit text-xs uppercase leading-3 tracking-[2px] text-[#c798d9]">{phase}</p>
+    <article className="flex min-h-[168px] flex-col gap-2 border-b border-r border-[#8b6db5]/25 bg-white/10 p-4">
+      <p className="font-suit text-xs uppercase leading-3 tracking-[2px] text-[#e3bfff]">{phase}</p>
       <div className="flex flex-1 flex-col gap-3.5">
-        <h3 className="font-hahmlet text-base font-semibold uppercase leading-6 tracking-[0.01em] text-[#f6e4fc]">
+        <h3 className="font-hahmlet text-base font-semibold uppercase leading-6 tracking-[0.01em] text-[#fdf8ff]">
           {month}
         </h3>
-        <ul className="font-suit flex flex-col gap-1 text-[13px] leading-[18px] text-[#f6e4fc]/70">
+        <ul className="font-suit flex flex-col gap-1 text-[13px] leading-[18px] text-[#fdf8ff]/80">
           {items.map((item) => (
             <li key={item} className="flex gap-1.5">
               <span className="text-sm leading-[22px]">·</span>
@@ -868,7 +868,7 @@ function SmallGroupSectionBlock({
         <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
           {label}
         </p>
-        <span className="h-px min-w-0 flex-1 bg-[#c5aee0]/45" />
+        <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
         {meta ? (
           <p className="font-suit shrink-0 text-sm leading-3 tracking-[0.01em] text-[#ffd17d]">
             {meta}
@@ -893,7 +893,7 @@ function SmallGroupCycleCard({
     <article className="flex flex-col gap-5 rounded bg-white/10 p-5">
       <div className="flex flex-col gap-2">
         <p
-          className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#c798d9]/60"
+          className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#e3bfff]"
           style={{ fontFamily: "var(--font-corinthia), cursive" }}
         >
           {number}
@@ -902,7 +902,7 @@ function SmallGroupCycleCard({
           {title}
         </h3>
       </div>
-      <ul className="font-suit flex flex-col gap-3 text-sm leading-[14px] text-[#fdf8ff]/70">
+      <ul className="font-suit flex flex-col gap-3 text-sm leading-[14px] text-[#FDF8FF]/80">
         {items.map((item) => (
           <li key={item} className="flex gap-1.5">
             <span className="tracking-[2.8px]">·</span>
@@ -920,7 +920,7 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
       {items.map((item) => (
         <div key={item.number} className="flex gap-6">
           <p
-            className="w-8 shrink-0 text-center text-sm leading-3 tracking-[0.04em] text-[#ffdea0]"
+            className="w-8 shrink-0 text-center text-sm leading-3 tracking-[0.04em] text-[#ffd17d]"
             style={{ fontFamily: "var(--font-cormorant), serif" }}
           >
             {item.number}
@@ -929,7 +929,7 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
             <h3 className="font-hahmlet text-base font-medium leading-4 tracking-[0.01em] text-[#fdf8ff]">
               {item.title}
             </h3>
-            <p className="font-suit text-sm font-light leading-5 tracking-[0.01em] text-[#fdf8ff]/70">
+            <p className="font-suit text-sm font-light leading-5 tracking-[0.01em] text-[#FDF8FF]/80">
               {item.description}
             </p>
           </div>
@@ -991,7 +991,7 @@ function PersonnelTable() {
     <div className="w-full overflow-x-auto">
       <table className="font-suit min-w-[620px] w-full border-collapse text-left text-sm tracking-[0.01em]">
         <thead>
-          <tr className="border-b border-[#d4b1eb]/50">
+          <tr className="border-b border-[#e3bfff]/50">
             {headers.map((header) => (
               <th key={header} className="px-3.5 py-5 font-normal tracking-[0.2em] text-[#ffd17d]">
                 {header}
@@ -1001,7 +1001,7 @@ function PersonnelTable() {
         </thead>
         <tbody>
           {personnelRows.map((row) => (
-            <tr key={row[0]} className="border-b border-[#d4b1eb]/50 text-[#f4f0fb]">
+            <tr key={row[0]} className="border-b border-[#e3bfff]/50 text-[#FDF8FF]">
               {row.map((cell, index) => (
                 <td key={`${row[0]}-${cell}`} className={`px-3.5 py-5 ${index === 0 ? "font-semibold" : ""}`}>
                   {cell}
@@ -1009,7 +1009,7 @@ function PersonnelTable() {
               ))}
             </tr>
           ))}
-          <tr className="border-b border-[#d4b1eb]/50 bg-white/10 text-[#e3bfff]">
+          <tr className="border-b border-[#e3bfff]/50 bg-white/10 text-[#e3bfff]">
             {totals.map((cell) => (
               <td key={cell} className="px-3.5 py-5 font-semibold">
                 {cell}
@@ -1027,13 +1027,13 @@ function PersonnelBars() {
     <div className="flex w-full flex-col gap-3">
       {personnelBars.map((bar) => (
         <div key={bar.label} className="flex w-full flex-col gap-3">
-          <div className="font-suit flex items-center justify-between text-sm tracking-[0.01em] text-[#f3ecfc]">
+          <div className="font-suit flex items-center justify-between text-sm tracking-[0.01em] text-[#fdf8ff]">
             <span>{bar.label}</span>
             <span>{bar.count}</span>
           </div>
-          <div className="h-[3px] w-full bg-[#c5aee0]/35">
+          <div className="h-[3px] w-full bg-[#e3bfff]/35">
             <div
-              className="h-full bg-[#d79cff]"
+              className="h-full bg-[#e3bfff]"
               style={{ width: `${(bar.value / personnelTotalCount) * 100}%` }}
             />
           </div>
@@ -1149,7 +1149,7 @@ function AnnualRoadmapContent({
           <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
           </p>
-          <span className="h-px min-w-0 flex-1 bg-[#c5aee0]/45" />
+          <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
         </div>
 
         <div className="flex w-full flex-col gap-6">
@@ -1178,7 +1178,7 @@ function SmallGroupsMinistrySection() {
   const nextSmallGroupTab = () => moveSmallGroupTab(1);
 
   return (
-    <section className="bg-[#fefbff] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
+    <section className="bg-[#fcf8ff] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Small Groups, Leaders, and Ministry"
@@ -1189,7 +1189,7 @@ function SmallGroupsMinistrySection() {
             </>
           }
           description="How We Serve Together"
-          className="[&_p]:text-[#b87f16] [&>div:first-child_span]:bg-[#b87f16]"
+          className="[&_p]:text-[#c9a96e] [&>div:first-child_span]:bg-[#c9a96e]"
         />
 
         <div className="flex w-full flex-col border border-[#5d3d8a]/15 lg:flex-row">
@@ -1206,10 +1206,10 @@ function SmallGroupsMinistrySection() {
                     }`}
                   aria-pressed={active}
                 >
-                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#1e1035]">
+                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#33103f]">
                     {tab.title}
                   </span>
-                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-[#7a6890]">
+                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-[#6F5576]">
                     {tab.subtitle}
                   </span>
                 </button>
@@ -1252,6 +1252,7 @@ function SmallGroupsMinistrySection() {
             ) : null}
           </div>
         </div>
+        <ClosingCallout />
       </div>
     </section>
   );
@@ -1279,7 +1280,7 @@ function CoreValueCard({
         </p>
         <div className="flex w-full flex-col items-start gap-[14px]">
           <h2 className="font-hahmlet text-[20px] font-normal leading-5 text-white">{title}</h2>
-          <p className="font-suit text-sm leading-[22px] text-white/70">{description}</p>
+          <p className="font-suit text-sm leading-[22px] text-white/80">{description}</p>
         </div>
       </div>
     </article>
@@ -1289,14 +1290,14 @@ function CoreValueCard({
 function CoreValueAccordion() {
   return (
     <div className="flex w-full flex-col gap-5 md:hidden">
-      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#1e1035]">
+      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#33103f]">
         5대 핵심가치
       </h3>
-      <div className="w-full border-y border-[#33103f]/10">
+      <div className="w-full border-y border-[#8b6db5]/12">
         {coreValues.map((value) => (
           <article
             key={value.number}
-            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#33103f]/10 py-5 last:border-b-0"
+            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#8b6db5]/12 py-5 last:border-b-0"
           >
             <p
               className="text-[24px] italic leading-none text-[#c9a96e]"
@@ -1304,10 +1305,10 @@ function CoreValueAccordion() {
             >
               {value.number}
             </p>
-            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#1e1035]">
+            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#33103f]">
               {value.title}
             </h3>
-            <p className="font-suit text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]/68">
+            <p className="font-suit text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]">
               {value.description}
             </p>
           </article>
@@ -1368,10 +1369,11 @@ function ClosingCallout() {
         >
           Isaiah 61:1
         </p>
-        <h2 className="font-hahmlet text-2xl font-semibold leading-10 tracking-[0.01em] text-white">
-          “여호와의 영이 내 위에 계시니 이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고”
+        <h2 className="font-hahmlet text-[22px] font-semibold leading-8 tracking-[0.01em] text-white">
+          &ldquo;여호와의 영이 내 위에 계시니<br className="max-[400px]:hidden" />
+          {" "}이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고&rdquo;
         </h2>
-        <p className="font-hahmlet text-base font-medium leading-7 tracking-[0.01em] text-white/70">
+        <p className="font-suit text-[18px] font-medium leading-7 tracking-[0.01em] text-white/80">
           우리가 팀을 세우고 소그룹을 훈련하고 리더를 키우는 것은 단 하나, 복음으로 사람을
           살리기 위함입니다.
         </p>
@@ -1386,11 +1388,6 @@ export default function RevivalOrganizationStaticPage() {
       <VisionCoreValuesSection />
       <MinistryTeamsSection />
       <SmallGroupsMinistrySection />
-      <section className="bg-[#fefbff] pb-[200px]">
-        <div className="section-shell section-shell--narrow">
-          <ClosingCallout />
-        </div>
-      </section>
     </main>
   );
 }

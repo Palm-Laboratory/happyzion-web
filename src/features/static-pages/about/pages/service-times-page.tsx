@@ -54,7 +54,7 @@ const serviceTimes: ServiceTime[] = [
 
 function MobileServiceCard({ title, schedule, location, audience }: ServiceTime) {
   return (
-    <article className="rounded-[8px] border border-[#8b6db5]/15 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
+    <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
       <h3 className="type-card-title font-bold text-black">{title}</h3>
       <dl className="type-body-small mt-4 space-y-3">
         <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
@@ -76,37 +76,37 @@ function MobileServiceCard({ title, schedule, location, audience }: ServiceTime)
 
 function ServiceTimesTable() {
   return (
-    <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-cedar/15 border-t-[#33103f] bg-white md:block">
+    <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-[#5d3d8a]/15 border-t-[#33103f] bg-white md:block">
       <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
         <thead>
-          <tr className="border-b border-cedar/15 bg-[#FAF7FF]">
-            <th className="type-label w-[24%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-black/72 lg:px-6 lg:py-5">
+          <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
+            <th className="type-label font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               구분
             </th>
-            <th className="type-label w-[30%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-black/72 lg:px-6 lg:py-5">
+            <th className="type-label font-suit w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               요일 / 시간
             </th>
-            <th className="type-label w-[23%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-black/72 lg:px-6 lg:py-5">
+            <th className="type-label font-suit w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               장소
             </th>
-            <th className="type-label px-4 py-4 text-center font-semibold tracking-[0.08em] text-black/72 lg:px-6 lg:py-5">
+            <th className="type-label font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               대상
             </th>
           </tr>
         </thead>
         <tbody>
           {serviceTimes.map((service) => (
-            <tr key={service.title} className="border-b border-cedar/15 last:border-b-0">
-              <td className="type-body-strong border-r border-cedar/15 px-4 py-5 text-center text-[18px] font-bold text-black lg:px-6 lg:py-6">
+            <tr key={service.title} className="border-b border-[#8b6db5]/12 last:border-b-0">
+              <td className="type-body-strong border-r border-[#8b6db5]/12 px-4 py-5 text-center text-[18px] font-bold text-[#33103f] lg:px-6 lg:py-6">
                 {service.title}
               </td>
-              <td className="type-body border-r border-cedar/15 px-4 py-5 text-center font-medium text-black/88 lg:px-6 lg:py-6">
+              <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.schedule}
               </td>
-              <td className="type-body border-r border-cedar/15 px-4 py-5 text-center font-medium text-black/88 lg:px-6 lg:py-6">
+              <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.location}
               </td>
-              <td className="type-body px-4 py-5 text-center font-medium text-black/88 lg:px-6 lg:py-6">
+              <td className="type-body px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.audience}
               </td>
             </tr>

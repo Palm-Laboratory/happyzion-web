@@ -135,14 +135,14 @@ const classStructure = [
     title: "환영 및 교제",
     details: ["찬양", "지난주 나눔", "출석 확인"],
     widthClassName: "w-2/12",
-    toneClassName: "bg-[#d5b16c]",
+    toneClassName: "bg-[#e4b96b]",
   },
   {
     minute: 30,
     title: "말씀 공부",
     details: ["교재 함께 읽기", "핵심 내용 설명", "질의응답"],
     widthClassName: "w-6/12",
-    toneClassName: "bg-[#33103f]",
+    toneClassName: "bg-[#2a123c]",
   },
   {
     minute: 15,
@@ -177,7 +177,7 @@ const applicationNotes = ["모든 교재 무료 제공", "이전 수료 과정 �
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+      <p className="font-hahmlet relative z-10 text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#33103f]">
         &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이
         또 다른 사람들을 가르칠 수 있으리라&quot;
       </p>
@@ -210,7 +210,7 @@ function PrincipleItem({
     <article className="flex gap-4 border-b border-[#8b6db5]/18 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7">
       <div className="flex items-start pt-2">
         <span
-          className={`${cormorant.className} text-[2rem] leading-none tracking-[0.08em] text-[#d5b16c] md:text-[2.25rem]`}
+          className={`${cormorant.className} text-[2rem] leading-none tracking-[0.08em] text-[#e4b96b] md:text-[2.25rem]`}
         >
           {number}
         </span>
@@ -242,7 +242,7 @@ function Roadmap() {
       />
 
       <div className="relative mt-8">
-        <span className="absolute bottom-[22px] left-[21px] top-[22px] w-px bg-[#8b6db5]/20 md:left-[23px]" />
+        <span className="absolute bottom-[22px] left-[21px] top-[22px] w-px bg-[#8b6db5]/18 md:left-[23px]" />
 
         <div className="space-y-7 md:space-y-8">
           {roadmapItems.map((item, index) => (
@@ -251,7 +251,7 @@ function Roadmap() {
                 <span
                   className={`flex h-[44px] w-[44px] items-center justify-center rounded-full md:h-[48px] md:w-[48px] ${
                     index === 0 || index === roadmapItems.length - 1
-                      ? "bg-[#33103f] text-[rgb(228_185_107)]"
+                      ? "bg-[#2a123c] text-[rgb(228_185_107)]"
                       : "bg-[#f5f0f9] text-[#8b6db5]"
                   }`}
                 >
@@ -264,7 +264,7 @@ function Roadmap() {
               </div>
 
               <div className="min-w-0 flex-1 pt-3 md:pt-2">
-                <p className="font-cormorant-infant text-xs uppercase leading-[1.2] tracking-[0.18em] text-[#33103f]/54 md:text-[0.9375rem]">
+                <p className="font-cormorant-infant text-xs uppercase leading-[1.2] tracking-[0.18em] text-[#928397] md:text-[0.9375rem]">
                   {item.label}
                   <span className="mx-3 tracking-[0.12em]">·</span>
                   {item.duration}
@@ -272,7 +272,7 @@ function Roadmap() {
                 <article
                   className={`mt-3 rounded-[8px] border px-5 py-5 shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-7 ${
                     index === roadmapItems.length - 1
-                      ? "border-[#33103f] bg-[#33103f] text-white"
+                      ? "border-[#2a123c] bg-[#2a123c] text-white"
                       : "border-[#8b6db5]/18 bg-white"
                   }`}
                 >
@@ -285,7 +285,7 @@ function Roadmap() {
                   </h3>
                   <p
                     className={`type-body-small mt-3 leading-[1.6] tracking-[0.02em] ${
-                      index === roadmapItems.length - 1 ? "text-white/78" : "text-[#4a3b5e]"
+                      index === roadmapItems.length - 1 ? "text-white/80" : "text-[#4a3b5e]"
                     }`}
                   >
                     {item.details.join(" · ")}
@@ -298,7 +298,7 @@ function Roadmap() {
       </div>
 
       <div className="mt-8 rounded-[8px] bg-[#f5f0f9] px-5 py-5 text-center">
-        <p className="type-body leading-[1.6] tracking-[0.02em] text-[#33103f]/62">
+        <p className="type-body leading-[1.6] tracking-[0.02em] text-[#6F5576]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
           <span className="mx-3">·</span>
@@ -317,11 +317,11 @@ function CurriculumStageTabs() {
     <div className="w-full">
       <p className="type-body mb-8 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
         대상: {selectedStage.target}
-        <span className="mx-3 text-[#8b6db5]/42">·</span>
+        <span className="mx-3 text-[#4a3b5e]">·</span>
         목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
       </p>
 
-      <div className="grid grid-cols-3 overflow-hidden rounded-[4px] border border-[#8b6db5]/24 bg-white">
+      <div className="grid grid-cols-3 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
         {curriculumStages.map((stage, index) => {
           const active = index === selectedIndex;
 
@@ -331,7 +331,7 @@ function CurriculumStageTabs() {
               type="button"
               onClick={() => setSelectedIndex(index)}
               className={`flex flex-col items-center justify-center gap-1 border-r border-[#8b6db5]/18 px-3 py-4 text-center transition last:border-r-0 ${
-                active ? "bg-[#33103f] text-white" : "bg-white text-[#33103f] hover:bg-[#f5f0f9]"
+                active ? "bg-[#2a123c] text-white" : "bg-white text-[#33103f] hover:bg-[#f5f0f9]"
               }`}
               aria-pressed={active}
             >
@@ -350,8 +350,8 @@ function CurriculumStageTabs() {
         })}
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-[4px] border border-[#8b6db5]/24 bg-white">
-        <div className="grid grid-cols-[80px_minmax(0,1fr)] bg-[#33103f] md:grid-cols-[96px_minmax(0,1fr)]">
+      <div className="mt-8 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
+        <div className="grid grid-cols-[80px_minmax(0,1fr)] bg-[#2a123c] md:grid-cols-[96px_minmax(0,1fr)]">
           <div className="px-4 py-4 md:px-5">
             <p className="font-suit text-[0.9375rem] font-medium leading-none tracking-[0.02em] text-white">
               주차
@@ -368,7 +368,7 @@ function CurriculumStageTabs() {
           <div
             key={course}
             className={`grid min-h-[62px] grid-cols-[80px_minmax(0,1fr)] border-b border-[#8b6db5]/18 last:border-b-0 md:grid-cols-[96px_minmax(0,1fr)] ${
-              courseIndex % 2 === 0 ? "bg-[#faf7fc]" : "bg-white"
+              courseIndex % 2 === 0 ? "bg-[#f5f0f9]" : "bg-white"
             }`}
           >
             <div className="flex items-center justify-start border-r border-[#8b6db5]/18 px-4 py-4 md:px-5">
@@ -411,15 +411,15 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#d5b16c]">
+        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
           {minute}
         </span>
-        <span className="type-body pb-[2px] leading-none text-[#33103f]/62">분</span>
+        <span className="type-body pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
       <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#33103f]/62">
+      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -464,7 +464,7 @@ function ClassStructureSection() {
             {classStructure.map((item, index) => (
               <div key={item.title} className="flex items-start">
                 {index > 0 ? (
-                  <span className="mr-9 mt-[30px] shrink-0 text-[#d5b16c]">-&gt;</span>
+                  <span className="mr-9 mt-[30px] shrink-0 text-[#e4b96b]">-&gt;</span>
                 ) : null}
                 <ClassStructureCard {...item} />
               </div>
@@ -472,7 +472,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#33103f]/62">
+        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -497,9 +497,9 @@ function ScheduleCard({
         {items.map(([left, right]) => (
           <div
             key={`${left}-${right}`}
-            className="flex items-center justify-between gap-6 border-b border-[#8b6db5]/16 py-3"
+            className="flex items-center justify-between gap-6 border-b border-[#8b6db5]/12 py-3"
           >
-            <span className="type-body-small tracking-[0.02em] text-[#33103f]/62">{left}</span>
+            <span className="type-body-small tracking-[0.02em] text-[#6F5576]">{left}</span>
             <span className="type-body-small font-semibold tracking-[0.02em] text-[#33103f]">
               {right}
             </span>
@@ -580,13 +580,13 @@ export default function DiscipleshipTrainingStaticPage() {
         aria-labelledby="disciples-apply-title"
         className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
       >
-        <div className="rounded-[8px] bg-[#33103f] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
+        <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
           <div className="md:max-w-[320px] lg:max-w-[360px]">
             <SectionHeading
               id="disciples-apply-title"
               label="apply"
               title="제자훈련 신청"
-              className="max-w-none [&_h2]:text-white [&_p]:text-[#d5b16c] [&_span]:bg-[#d5b16c]"
+              className="max-w-none [&_h2]:text-white [&_p]:text-[#e4b96b] [&_span]:bg-[#e4b96b]"
             />
 
             <ul className="mt-6 flex flex-col gap-2">

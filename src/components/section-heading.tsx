@@ -36,7 +36,7 @@ function SectionHeadingTitle({
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.25] tracking-[0.01em] text-[#33103f] md:text-[40px] md:leading-[52px]">
+    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.25] tracking-[0.01em] text-[#250030] md:text-[40px] md:leading-[52px]">
       {title}
     </TitleTag>
   );

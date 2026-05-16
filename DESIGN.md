@@ -16,51 +16,190 @@ Primary characteristics:
 
 ## 2. Colors
 
-### Core Tokens
+Colors are organized by the three background zones of the main page: cream (bright sections), soft-purple (vision section), and dark (mission sections). CSS variables in `globals.css` are marked *.
+
+### Surface & Background
 
 | Token | Value | Usage |
 | --- | --- | --- |
-| {colors.background} | #fffcf8 | global body background, warm ivory base |
-| {colors.surface} | #fffdf7 | warm surface card background |
-| {colors.surface.white} | #ffffff | page content, tables, cards |
-| {colors.surface.softPurple} | #fcf8ff | pale section background |
-| {colors.surface.purpleMist} | #f5f0f9 | quote blocks, soft purple cards |
-| {colors.ink} | #250030 | global root ink |
-| {colors.ink.deepPurple} | #33103f | primary page text |
-| {colors.ink.plum} | #3d1a46 | secondary brand plum |
-| {colors.ink.darkPlum} | #1e1035 | dark section base |
-| {colors.ink.footer} | #1f0f28 | footer background |
-| {colors.muted} | #928397 | global muted text |
-| {colors.muted.purple} | #7a6890 | secondary text on light pages |
-| {colors.accent.purple} | #8b6db5 | primary section label and UI accent |
-| {colors.accent.gold} | #c9a96e | editorial gold labels |
-| {colors.accent.goldStrong} | #d5b16c | global gold accent |
-| {colors.accent.goldBright} | #ffd17d | dark-panel highlight |
-| {colors.accent.red} | #b73838 | mission timeline interruption state |
+| {colors.background} | #ffffff | default page background (about pages, cards, content areas) |
+| {colors.surface.cream} * | #fffcf8 | main page join section, join image fade overlay, error page background |
+| {colors.surface.softPurple} | #fcf8ff | soft-purple section/panel bg (home vision, greeting page, location map overlay, revival organization 3rd section) |
+| {colors.surface.photoFrame} | #f2ebf6 | vision photo frame bg (desktop & mobile), mission story image placeholder |
+| {colors.surface.dark} | linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%) | mission scroll sections background |
+| {colors.surface.footer} | #1f0f28 | footer background |
+| {colors.surface.darkHeader} | #241f25 at variable opacity | home page nav bar(var:0.72) / dropdown(var:0.92) / mobile menu panel(var:0.96) |
+| {colors.surface.blockquote} | #f5f0f9 | blockquote bg; discipleship lavender bg (card, tab hover, table row, training course odd row) |
+| {colors.surface.tableHeader} | #FAF7FF | table header row bg (service-times, location) |
+| {colors.surface.ctaDark} | #2a123c | CTA button/card bg (dark section, discipleship pages, online-giving, greeting vision card) |
+| {colors.surface.greetingDark} | #1e1035 | greeting page dark (pastor) section bg |
+| {colors.surface.greetingPurple} | #3f2551 | greeting page purple (church leaders) section bg |
+| {colors.surface.greetingPurpleCard} | #56385E | greeting page church leaders card bg |
+| {colors.surface.greetingMosaicMid} | #9A8CA7 | greeting page mosaic grid filler (mid tone) |
+| {colors.surface.greetingMosaicLight} | #D2C5DB | greeting page mosaic grid filler (light tone) |
+| {colors.surface.revivalGradient} | bg-gradient-to-b from-[#1e1035] to-[#2f2047] | revival organization 2nd section bg |
+| {colors.surface.revivalPanel} | #190b2a | revival org 2nd section tab content panel bg |
+| {colors.surface.revivalInfoPanel} | #1a1028 | revival org 2nd section members info panel bg |
+| {colors.surface.revivalRowHeader} | #341a44 | revival org 3rd section roadmap quarter header row bg |
+| {colors.surface.revivalCard} | #594263 | revival org 3rd section small group section block bg |
+| {colors.surface.revivalSidebar} | #fcfaff | revival org 3rd section sidebar aside bg |
+| {colors.surface.revivalTabContent} | #f4f0f9 | revival org 3rd section tab content bg (incl. active tab) |
 
-### Border Tokens
+### Ink on Light
 
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.border.soft} | rgba(61, 26, 70, 0.12) | global soft border |
-| {colors.border.purple.05} | rgba(93, 61, 138, 0.05) | subtle timeline separators |
-| {colors.border.purple.12} | rgba(139, 109, 181, 0.12) | mobile cards, table rows |
-| {colors.border.purple.15} | rgba(93, 61, 138, 0.15) | section panel borders |
-| {colors.border.purple.20} | rgba(139, 109, 181, 0.20) | form/card borders |
-| {colors.border.white.20} | rgba(255, 255, 255, 0.20) | footer and dark dividers |
-
-### Dark Section Tokens
+Text colors used on light backgrounds (white, soft-purple `#fcf8ff`, cream `#fffcf8`).
 
 | Token | Value | Usage |
 | --- | --- | --- |
-| {colors.dark.bg.900} | #12091f | main dark scroll background start |
-| {colors.dark.bg.800} | #1b1032 | main dark scroll background mid |
-| {colors.dark.bg.700} | #2f2047 | revival organization gradient end |
-| {colors.dark.panel} | #190b2a | ministry active content panel |
-| {colors.dark.panelAlt} | #1a1028 | ministry members footer row |
-| {colors.dark.card} | #594263 | small-group content block |
-| {colors.dark.text} | #f0e8ff | dark-section primary text |
-| {colors.dark.textMuted} | #bfaed9 | dark-section secondary text |
+| {colors.ink} | #250030 | high-emphasis headings |
+| {colors.ink.heading2} | #33103f | secondary headings, quote card text, tab titles, table top accent border (3px) |
+| {colors.ink.subtitle} | #896B91 | section subtitles |
+| {colors.ink.body} | #4A3B5E | body text |
+| {colors.ink.soft} | #6F5576 | soft body text |
+| {colors.ink.muted} | #928397 | weak secondary text |
+| {colors.ink.emphasis} | #BD6FE0 | inline purple emphasis (church name, address, etc.) |
+| {colors.ink.citation} | #510a75 | quote card left border + scripture citation text, link hover color |
+| {colors.ink.purple} | #8b6db5 | purple accent text — labels, metadata, roadmap badges, section heading labels |
+
+### Ink on Dark
+
+Text colors used on top of deep purple backgrounds (`{colors.surface.dark}`, `{colors.surface.greetingDark}`, `{colors.surface.greetingPurple}`, etc.).
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.dark.heading} | #FFFFFF | headings |
+| {colors.dark.subtitle} | #E2CAF5 | subtitles |
+| {colors.dark.label} | #FDF4FF | section labels |
+| {colors.dark.body} | #FFFFFF | primary body text |
+| {colors.dark.bodyAlt} | #FDF8FF | soft body text variant |
+| {colors.dark.bodyMuted} | #ffffff at 80% | muted body / label text on dark bg (apply-form labels, revival supporting text, nav links) |
+| {colors.dark.accent} | #E3BFFF | purple point color (decorative accents, UI elements) |
+
+### Cream Background
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.cream.heading} | #000000 | heading on cream background |
+| {colors.cream.body} | #3C2348 | body text on cream background |
+
+### Section Labels
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.label.section23} | #5B3B63 | main page 2nd & 3rd section labels (soft-purple bg) |
+| {colors.label.section45} | #FDF4FF | main page 4th & 5th section labels (dark bg) |
+| {colors.label.join} | #3D1A46 | main page Join section label text + rule below label |
+| {colors.label.purple} | #8B6DB5 | purple label (sub-page common header) |
+
+### Accent / Display
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.accent.visionLabel} | #691393 at 40% | main page vision card English eyebrow label |
+| {colors.accent.visionNumber} | #691393 at 8% | main page vision card number display |
+| {colors.accent.quoteDisplay} | #4d1367 at 10% | quote card decorative quotation mark |
+
+### Point Colors
+
+Gold and red accent colors used across both light and dark sections.
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.point.gold} | #C9A96E | gold — metadata, dates, milestone labels |
+| {colors.point.goldMid} | #E4B96B | mid gold — discipleship pages accent |
+| {colors.point.goldBright} | #FFD17D | bright gold — decorative numerals, quarter headers |
+| {colors.point.red} | #B73838 | red — special period markers (e.g. COVID) |
+
+### Icon
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.icon} | #6B4A75 | icon color |
+| {colors.icon.circle} | #DCCEE4 | decorative circle behind icon (main page 2nd section, bottom-left) |
+
+### Border
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.border.soft} * | #3d1a46 at 12% | global soft border (CSS var) |
+| {colors.border.link} | #331440 at 10% | quick-link card border |
+
+<!-- #ffffff — white border (dark bg) -->
+| {colors.border.white} /5 | #ffffff at 5% | decorative circle border (page-header), dark tab border |
+| {colors.border.white} /10 | #ffffff at 10% | dark bg card / input / header border |
+| {colors.border.white} /20 | #ffffff at 20% | footer divider, home page header mobile hamburger button border |
+| {colors.border.white} /30 | #ffffff at 30% | glass card border (welcome section) |
+| {colors.border.white} /70 | #ffffff at 70% | map address panel border, slider nav button border |
+
+<!-- quote block left border (3px) -->
+| {colors.border.quoteLight} | #510a75 | quote card left border — light bg (lavender blockquote) |
+| {colors.border.quoteDark} | #6d5898 | quote card left border — dark bg (revival org 2nd section) |
+| {colors.border.quoteJoin} | #2a123c | quote block left border — home join section |
+
+<!-- #8b6db5 — light purple border -->
+| {colors.border.purple} /12 | #8b6db5 at 12% | table cell / row divider, vision card border, section divider, core value list divider (subtle) |
+| {colors.border.purple} /18 | #8b6db5 at 18% | list divider, general card border, vertical connector line (roadmap, FAQ timeline) |
+| {colors.border.purple} /25 | #8b6db5 at 25% | emphasized card / container border, roadmap month card border (revival) |
+| {colors.border.purple} /45 | #8b6db5 at 45% | button hover border (location page) |
+| {colors.border.purple} /60 | #8b6db5 at 60% | timeline date column vertical divider (church-story) |
+
+<!-- #5d3d8a — dark purple border -->
+| {colors.border.darkPurple} /5 | #5d3d8a at 5% | ultra-subtle row divider |
+| {colors.border.darkPurple} /15 | #5d3d8a at 15% | tab container, card, section border, table outer container border, light header border |
+| {colors.border.darkPurple} /25 | #5d3d8a at 25% | button border |
+
+<!-- #e3bfff — light accent border (dark bg) -->
+| {colors.border.accent} /15 | #E3BFFF at 15% | dark section tab border, ministry tag badge background (revival) |
+| {colors.border.accent} /50 | #E3BFFF at 50% | ministry tag badge border, table row divider (revival) |
+
+
+### Indicator Dot
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.indicator.light} | #340653 | active dot — light section slide indicator (revival) |
+| {colors.indicator.light} /25 | #340653 at 25% | inactive dot — light section slide indicator (revival) |
+| {colors.indicator.dark} | #c9a96e | active dot — dark section slide indicator (revival) |
+| {colors.indicator.dark} /30 | #c9a96e at 30% | inactive dot — dark section slide indicator (revival) |
+
+### Focus Outline
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.focus.light} | var(--color-plum) = #3d1a46 | focus outline on light bg (header, revival tab, error page buttons) |
+| {colors.focus.dark} | #ffffff at 50% | focus outline on dark bg (header dark mode, slider buttons) |
+| {colors.focus.gold} | #c9a96e at 70% | focus outline on dark bg — gold accent (revival dark tab button) |
+
+### Glass Overlay (welcome section)
+
+Not named tokens — always expressed inline as context-specific opacity values.
+
+| Element | Value |
+| --- | --- |
+| cloud image wash | #ffffff at 20% |
+| verse card background | #ffffff at 42% |
+| quick-link card background | #ffffff at 80% |
+| map address panel background | #ffffff at 88% |
+
+### Footer
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.footer.social} | #2c1838 | social button default |
+| {colors.footer.socialHover} | #3a2148 | social button hover |
+| {colors.footer.text} | #ffffff at 50% | address, child nav links |
+| {colors.footer.textMuted} | #ffffff at 30% | TEL/EMAIL label prefix, copyright text |
+
+### Timeline Bar
+
+4-segment ratio bar used in discipleship pages (training, care) to visualize class structure breakdown.
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.timeline.gold} | #e4b96b | first segment (welcome & fellowship / worship) |
+| {colors.timeline.dark} | #2a123c | second segment (main content) |
+| {colors.timeline.purple} | #8b6db5 | third segment (small group) |
+| {colors.timeline.muted} | #d9d4df | fourth segment (closing / wrap-up) |
 
 ## 3. Typography
 
@@ -306,7 +445,7 @@ Button rules:
 | --- | --- | --- |
 | {component.card.mobile.padding} | 20px | service/bus mobile cards |
 | {component.card.mobile.radius} | 8px | service/bus mobile cards |
-| {component.card.mobile.border} | 1px solid rgba(139, 109, 181, 0.15) | service/bus mobile cards |
+| {component.card.mobile.border} | 1px solid #8b6db5 at 15% | service/bus mobile cards |
 | {component.card.quote.borderLeft} | 3px | quote callouts |
 | {component.card.quote.padding.mobile} | 24px 28px | quote callouts |
 | {component.card.dark.padding.mobile} | 32px 20px | revival dark cards |
@@ -320,7 +459,7 @@ Button rules:
 | {component.table.cell.padding.mobile} | 16px 20px | mobile card rows |
 | {component.table.cell.padding.desktop} | 20px 24px | desktop table rows |
 | {component.table.header.bg} | #FAF7FF | desktop table header |
-| {component.table.border} | rgba(139, 109, 181, 0.12) | card/table separators |
+| {component.table.border} | #8b6db5 at 12% | card/table separators |
 
 ### Mission Gallery
 
@@ -429,8 +568,8 @@ Desktop rules:
 
 ## 10. Known Gaps
 
-- {gap.colorAudit} -- several one-off page colors remain outside centralized CSS variables, especially in `revival-organization.tsx`, `church-story.tsx`, and home sections.
-- {gap.tailwindTokens} -- Tailwind theme colors still include older green/blue tokens that are not aligned with the current purple/gold public-site direction.
+- {gap.colorAudit} -- many color values remain as inline arbitrary values (e.g. `text-[#3d1a46]`) rather than CSS variables or Tailwind tokens. The DESIGN.md Section 2 defines the intended consolidated palette, but the code has not been migrated to use it yet.
+- {gap.tailwindTokens} -- `tailwind.config.ts` still defines stale green/blue tokens (`ink: #1f2b24`, `forest`, `sage`, `cedar: #2a4f8f`, `themeBlue`, `site-ink`) that do not reflect the actual purple/plum brand. These tokens are referenced in `site-header.tsx`, `error-page.tsx`, `public-board-renderer.tsx`, and several about-page files. They need to be replaced with plum-aligned values and the referencing files updated.
 - {gap.typographyUtilities} -- some classes such as `type-body-strong` are used but not defined in `globals.css`.
 - {gap.componentLibrary} -- buttons, cards, tables, and tabs are implemented per page instead of as a shared component API.
 - {gap.motionTokens} -- transition durations/easings are embedded inline; only common values such as 300ms, 460ms, and 500ms are observable.

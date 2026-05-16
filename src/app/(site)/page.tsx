@@ -99,7 +99,7 @@ export default async function HomePage() {
                   <p className="type-label font-cormorant-infant text-[#5b3b63]">
                     welcome
                   </p>
-                  <div className="h-px w-[60px] bg-[#6d4f78]" />
+                  <div className="h-px w-[60px] bg-[#5b3b63]" />
                 </div>
 
                 <h2 className="type-section-title max-w-[1000px] text-[#250030]">
@@ -124,7 +124,7 @@ export default async function HomePage() {
                   className="flex flex-col items-center gap-7 text-center uppercase md:gap-8 lg:gap-[calc(2.25rem*var(--welcome-scale))]"
                 >
                   <p
-                    className="type-quote max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4f3657] md:max-w-[min(76vw,46rem)]"
+                    className="type-quote max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4A3B5E] md:max-w-[min(76vw,46rem)]"
                   >
                     “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와
                     땅 끝까지 이르러 내 증인이 되리라 하시니라”
@@ -148,13 +148,13 @@ export default async function HomePage() {
                     className="group flex w-full flex-col items-center gap-3 sm:gap-4 lg:gap-[calc(1rem*var(--welcome-scale))] min-[840px]:w-auto"
                   >
                     <div
-                      className="relative flex h-[6.875rem] w-full items-center justify-center rounded-[12px] border border-[rgba(51,20,64,0.1)] bg-[rgba(255,255,255,0.9)] shadow-[0_8px_24px_rgba(0,0,0,0.15)] transition group-hover:-translate-y-0.5 md:bg-[rgba(255,255,255,0.72)] md:backdrop-blur-[6px] min-[480px]:h-[7.5rem] lg:h-[calc(8.75rem*var(--welcome-scale))] min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
+                      className="relative flex h-[6.875rem] w-full items-center justify-center rounded-[12px] border border-[#331440]/10 bg-white/80 shadow-[0_8px_24px_rgba(0,0,0,0.15)] backdrop-blur-[6px] transition group-hover:-translate-y-0.5 min-[480px]:h-[7.5rem] lg:h-[calc(8.75rem*var(--welcome-scale))] min-[840px]:w-[calc(8.75rem*var(--welcome-scale))]"
                     >
                       <div
                         className="relative h-[3rem] w-[3rem] min-[480px]:h-[3.25rem] min-[480px]:w-[3.25rem] lg:h-[calc(3.625rem*var(--welcome-scale))] lg:w-[calc(3.625rem*var(--welcome-scale))]"
                       >
                         <div className="absolute -bottom-2 -left-2 h-10 w-10 rounded-full bg-[rgba(220,206,228,1)] min-[480px]:h-12 min-[480px]:w-12 lg:bottom-[calc(-0.6rem*var(--welcome-scale))] lg:left-[calc(-0.6rem*var(--welcome-scale))] lg:h-[calc(3rem*var(--welcome-scale))] lg:w-[calc(3rem*var(--welcome-scale))]" />
-                        <div className="relative z-10 text-[#4d2d61]">
+                        <div className="relative z-10 text-[#6B4A75]">
                           {item.icon === "church" ? (
                             <svg
                               viewBox="0 0 64 64"
@@ -228,7 +228,7 @@ export default async function HomePage() {
                         </div>
                       </div>
                     </div>
-                    <p className="type-button text-[#341939]">
+                    <p className="type-button text-[#4A3B5E]">
                       {item.label}
                     </p>
                   </Link>
@@ -253,10 +253,10 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p className="type-label font-cormorant-infant text-[#4a2856]">
+                      <p className="type-label font-cormorant-infant text-[#5b3b63]">
                         our vision
                       </p>
-                      <div className="h-px w-[60px] bg-[#7a4f86]" />
+                      <div className="h-px w-[60px] bg-[#5b3b63]" />
                     </div>
 
                     <div
@@ -265,7 +265,7 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <h2 className="type-section-title text-[#421d4c]">
+                      <h2 className="type-section-title text-[#250030]">
                         <span className="min-[1061px]:inline max-[1060px]:hidden">
                           성령 안에 하나된 교회
                         </span>
@@ -285,7 +285,7 @@ export default async function HomePage() {
                           하나된 교회
                         </span>
                       </h2>
-                      <p className="type-section-subtitle text-[#855b91]">
+                      <p className="type-section-subtitle text-[#896B91]">
                         ONE CHURCH · ONE SPIRIT
                       </p>
                     </div>
@@ -304,7 +304,7 @@ export default async function HomePage() {
                     {visionCards.map((card) => (
                       <article
                         key={card.number}
-                        className="relative overflow-hidden rounded-[4px] border border-[rgba(124,88,141,0.12)] bg-[#fcf6ff] px-6 py-6 shadow-[0_4px_12px_rgba(52,22,67,0.15),4px_8px_24px_rgba(44,11,64,0.2)] md:px-8 md:py-8"
+                        className="relative overflow-hidden rounded-[4px] border border-[#8b6db5]/12 bg-[#fcf8ff] px-6 py-6 shadow-[0_4px_12px_rgba(52,22,67,0.15),4px_8px_24px_rgba(44,11,64,0.2)] md:px-8 md:py-8"
                       >
                         <div
                           className="relative flex flex-col items-start uppercase"
@@ -317,10 +317,10 @@ export default async function HomePage() {
                           >
                             {card.eyebrow}
                           </p>
-                          <h3 className="type-card-title text-[#40144d]">
+                          <h3 className="type-card-title text-[#250030]">
                             {card.title}
                           </h3>
-                          <p className="type-card-body normal-case text-[rgba(83,54,100,0.8)]">
+                          <p className="type-card-body normal-case text-[#4A3B5E]">
                             {card.body}
                           </p>
                         </div>

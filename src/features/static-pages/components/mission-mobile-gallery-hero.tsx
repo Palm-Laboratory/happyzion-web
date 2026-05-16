@@ -97,7 +97,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
       <div className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between bg-black/70 px-5">
         <button
           type="button"
-          className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/60 text-2xl leading-none text-white"
+          className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/70 text-2xl leading-none text-white"
           aria-label="이전 선교 사진"
           onClick={() => moveImage(-1)}
         >
@@ -116,7 +116,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
         </div>
         <button
           type="button"
-          className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/60 text-2xl leading-none text-white"
+          className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/70 text-2xl leading-none text-white"
           aria-label="다음 선교 사진"
           onClick={() => moveImage(1)}
         >

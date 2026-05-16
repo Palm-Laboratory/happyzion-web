@@ -9,9 +9,9 @@ const smoothstep = (value: number) => value * value * (3 - 2 * value);
 const mixChannel = (from: number, to: number, amount: number) => from + (to - from) * amount;
 const mixColor = (amount: number) => {
   const eased = smoothstep(amount);
-  const r = Math.round(mixChannel(179, 255, eased));
-  const g = Math.round(mixChannel(160, 250, eased));
-  const b = Math.round(mixChannel(205, 240, eased));
+  const r = Math.round(mixChannel(179, 253, eased));
+  const g = Math.round(mixChannel(160, 248, eased));
+  const b = Math.round(mixChannel(205, 255, eased));
 
   return `rgb(${r}, ${g}, ${b})`;
 };
@@ -25,27 +25,27 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
     <div className={`flex flex-col items-center justify-center gap-16 text-center ${className}`}>
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label font-cormorant-infant text-[#f0e8ff] min-[1300px]:text-[#edaeff]">
+          <p className="type-label font-cormorant-infant text-[#FDF4FF]">
             mission countries
           </p>
-          <div className="h-px w-[60px] bg-[rgba(240,232,255,0.55)] min-[1300px]:bg-[#edaeff]" />
+          <div className="h-px w-[60px] bg-[#FDF4FF]" />
         </div>
         <div className="uppercase min-[1300px]:hidden">
           <div className="flex flex-col items-center gap-3">
             <div className="flex flex-col items-center">
-              <p className="type-section-title w-fit max-w-none text-[#f0e8ff] min-[481px]:w-max min-[481px]:whitespace-nowrap">
+              <p className="type-section-title w-fit max-w-none text-white min-[481px]:w-max min-[481px]:whitespace-nowrap">
                 선교는 지금도
                 <br className="min-[481px]:hidden" />
                 <span className="hidden min-[481px]:inline"> </span>
                 계속되고 있습니다
               </p>
-              <p className="type-section-title text-[#f0e8ff]">이 사명에 함께하세요</p>
+              <p className="type-section-title text-white">이 사명에 함께하세요</p>
             </div>
-            <p className="type-section-subtitle text-[#bfaed9]">Be Part of the Mission</p>
+            <p className="type-section-subtitle text-[#E2CAF5]">Be Part of the Mission</p>
           </div>
         </div>
       </div>
-      <div className="type-body text-[#fdf4ff] lg:text-xl">
+      <div className="type-body text-[#FDF8FF] lg:text-xl">
         <p>필리핀부터 미얀마, 태국과 말레이시아까지,</p>
         <p>
           우리는 다양한 땅에서 복음을 전하며
@@ -143,7 +143,7 @@ function MissionCountriesMobile() {
         {missionCountries.map((country) => (
           <p
             key={country}
-            className="font-hahmlet text-[20px] min-[441px]:text-[24px] min-[801px]:text-[28px] min-[901px]:text-[32px] min-[1001px]:text-[36px] min-[1101px]:text-[40px] font-semibold uppercase leading-[1.5] tracking-[0.01em] text-[#e5dbe9] text-center whitespace-nowrap"
+            className="font-hahmlet text-[20px] min-[441px]:text-[24px] min-[801px]:text-[28px] min-[901px]:text-[32px] min-[1001px]:text-[36px] min-[1101px]:text-[40px] font-semibold uppercase leading-[1.5] tracking-[0.01em] text-[#fdf8ff] text-center whitespace-nowrap"
           >
             {country}
           </p>
@@ -201,10 +201,10 @@ function MissionCountriesDesktop() {
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <div>
-              <p className="type-label font-cormorant-infant text-[#f0e8ff]">
+              <p className="type-label font-cormorant-infant text-[#FDF4FF]">
                 mission countries
               </p>
-              <div className="mt-3 h-px w-16 bg-[rgba(240,232,255,0.55)]" />
+              <div className="mt-3 h-px w-16 bg-[#FDF4FF]" />
             </div>
           </div>
 
@@ -212,7 +212,7 @@ function MissionCountriesDesktop() {
             className="absolute right-[var(--countries-copy-right)] top-1/2 z-10"
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
-            <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#f0e8ff] md:text-xl">
+            <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#FDF8FF] md:text-xl">
               필리핀부터 미얀마, 태국과 말레이시아까지, 우리는 다양한 땅에서 복음을 전하며
               선교의 사명을 이어가고 있습니다.
             </p>

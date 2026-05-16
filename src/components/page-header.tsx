@@ -36,10 +36,10 @@ export default function PageHeader({
           "radial-gradient(ellipse 620px 300px at 78% 34%, rgba(49, 4, 90, 0.2), rgba(49, 4, 90, 0) 68%), radial-gradient(ellipse 430px 260px at 23% 82%, rgba(191, 114, 236, 0.1), rgba(191, 114, 236, 0) 70%), linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(118deg, #2e1f46 27%, #4b3473 87%)",
       }}
     >
-      <div className="pointer-events-none absolute -left-[136px] -top-[176px] h-[392px] w-[392px] rounded-full border border-white/[0.055]" />
-      <div className="pointer-events-none absolute -right-[160px] -top-[68px] h-[512px] w-[512px] rounded-full border border-white/[0.06]" />
-      <div className="pointer-events-none absolute right-[8%] top-[38%] h-[392px] w-[392px] rounded-full border border-white/[0.045]" />
-      <div className="pointer-events-none absolute left-[4%] top-[78%] h-[314px] w-[314px] rounded-full border border-white/[0.045]" />
+      <div className="pointer-events-none absolute -left-[136px] -top-[176px] h-[392px] w-[392px] rounded-full border border-white/5" />
+      <div className="pointer-events-none absolute -right-[160px] -top-[68px] h-[512px] w-[512px] rounded-full border border-white/5" />
+      <div className="pointer-events-none absolute right-[8%] top-[38%] h-[392px] w-[392px] rounded-full border border-white/5" />
+      <div className="pointer-events-none absolute left-[4%] top-[78%] h-[314px] w-[314px] rounded-full border border-white/5" />
       <div className="relative z-10 flex h-full items-center justify-center">
         <div className="text-center uppercase">
           <p className="mb-4 font-serif text-xs font-light leading-none tracking-[0.16em] text-[#c9a96e] md:mb-5">
