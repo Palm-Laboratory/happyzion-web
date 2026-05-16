@@ -12,6 +12,7 @@ import ScrollFadeGroup from "@/components/home/scroll-fade-group";
 import { createPageMetadata } from "@/lib/seo";
 import { SITE_ALTERNATE_NAME, SITE_NAME } from "@/lib/site-config";
 import { getPublicMainVideoSetting } from "@/lib/site-settings-api";
+import { linkToStaticPage } from "@/lib/canonical-menu-path";
 
 export const metadata = createPageMetadata({
   title: `${SITE_ALTERNATE_NAME} | ${SITE_NAME}`,
@@ -19,7 +20,13 @@ export const metadata = createPageMetadata({
 });
 
 export default async function HomePage() {
-  const mainVideo = await getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" }));
+  const [mainVideo, greetingHref, serviceTimesHref, newcomerHref, locationHref] = await Promise.all([
+    getPublicMainVideoSetting().catch(() => ({ videoUrl: "/video/sample.mp4" })),
+    linkToStaticPage("about.greeting", "/about/greeting"),
+    linkToStaticPage("about.service-times", "/about/service-times"),
+    linkToStaticPage("discipleship.guide", "/discipleship/guide"),
+    linkToStaticPage("about.location", "/about/location"),
+  ]);
   const welcomeSectionVars = {
     "--welcome-scale": "clamp(0.78, calc((100vh - 7rem) / 960px), 1)",
   } as CSSProperties;
@@ -28,10 +35,10 @@ export default async function HomePage() {
     "--vision-right-follow": "clamp(0px, calc(80rem - 100vw), 45rem)",
   } as CSSProperties;
   const quickLinks = [
-    { label: "교회 소개", href: "/about/greeting", icon: "church" },
-    { label: "예배 안내", href: "/about/service-times", icon: "time" },
-    { label: "새가족 안내", href: "/discipleship/guide", icon: "person" },
-    { label: "오시는 길", href: "/about/location", icon: "location" },
+    { label: "교회 소개", href: greetingHref, icon: "church" },
+    { label: "예배 안내", href: serviceTimesHref, icon: "time" },
+    { label: "새가족 안내", href: newcomerHref, icon: "person" },
+    { label: "오시는 길", href: locationHref, icon: "location" },
   ] as const;
   const quickLinkIconClass =
     "h-full w-full";
@@ -405,7 +412,11 @@ export default async function HomePage() {
           <MissionCountriesSection />
           <MissionCtaSection />
 
-          <JoinMissionSection />
+          <JoinMissionSection
+            serviceTimesHref={serviceTimesHref}
+            newcomerHref={newcomerHref}
+            locationHref={locationHref}
+          />
         </div>
       </div>
     </div>

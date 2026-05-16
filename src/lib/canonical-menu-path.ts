@@ -3,6 +3,7 @@ import "server-only";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getNavigationResponse } from "@/lib/navigation-api";
+import type { StaticPageKey } from "@/features/static-pages/types";
 
 export async function getCanonicalStaticPath(contentSiteKey: string): Promise<string | null> {
   try {
@@ -36,6 +37,16 @@ export async function getCanonicalStaticHref(
   }
 
   return `${canonicalPath}${hash.startsWith("#") ? hash : `#${hash}`}`;
+}
+
+/**
+ * Returns the current published path for a static page key (from the live menu DB),
+ * falling back to a hardcoded path when the nav API is unavailable.
+ * Use this instead of hardcoding paths in <Link> — slugs can change when menus are edited.
+ */
+export async function linkToStaticPage(key: StaticPageKey, fallback: string): Promise<string> {
+  const resolved = await getCanonicalStaticHref(key);
+  return resolved ?? fallback;
 }
 
 export async function redirectToCanonicalStaticPathIfNeeded(

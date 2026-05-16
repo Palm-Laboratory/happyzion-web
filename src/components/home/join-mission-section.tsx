@@ -12,7 +12,13 @@ const CONTENT_REVEAL_MIN_BAND = 260;
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const smoothstep = (value: number) => value * value * (3 - 2 * value);
 
-export default function JoinMissionSection() {
+interface JoinMissionSectionProps {
+  serviceTimesHref: string;
+  newcomerHref: string;
+  locationHref: string;
+}
+
+export default function JoinMissionSection({ serviceTimesHref, newcomerHref, locationHref }: JoinMissionSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [isImageVisible, setIsImageVisible] = useState(false);
   const [contentReveal, setContentReveal] = useState(0);
@@ -110,9 +116,9 @@ export default function JoinMissionSection() {
 
           <div className="grid gap-4 sm:grid-cols-3 min-[1281px]:w-fit">
             {[
-              { label: "service time", title: "예배안내", href: "/about/service-times" },
-              { label: "newcomer", title: "새가족 안내", href: "/discipleship/guide" },
-              { label: "way to church", title: "오시는 길", href: "/about/location" },
+              { label: "service time", title: "예배안내", href: serviceTimesHref },
+              { label: "newcomer", title: "새가족 안내", href: newcomerHref },
+              { label: "way to church", title: "오시는 길", href: locationHref },
             ].map((item) => (
               <Link
                 key={item.title}
