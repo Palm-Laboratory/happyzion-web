@@ -3,7 +3,6 @@ import { notFound, redirect } from "next/navigation";
 
 import PublicBoardRenderer from "@/components/public-board/public-board-renderer";
 import SitePageShell from "@/components/site-page-shell";
-import { renderStaticPage } from "@/features/static-pages/static-page-registry";
 import { getPublicBoardPost, listPublicBoardPosts } from "@/lib/public-board-api";
 import { resolvePublicMenuPath, type PublicResolvedMenuPage } from "@/lib/public-menu-api";
 import { createPageMetadata } from "@/lib/seo";
@@ -142,24 +141,6 @@ export async function generateMenuDispatcherMetadata({
   });
 }
 
-async function renderStaticMenuPage(resolved: PublicResolvedMenuPage) {
-  if (!resolved.staticPageKey) {
-    notFound();
-  }
-
-  const content = renderStaticPage(resolved.staticPageKey);
-
-  if (!content) {
-    notFound();
-  }
-
-  return (
-    <SitePageShell title={getShellTitle(resolved)} subtitle={getShellSubtitle(resolved.fullPath)}>
-      {content}
-    </SitePageShell>
-  );
-}
-
 async function renderBoardListPage(
   resolved: PublicResolvedMenuPage,
   searchParams: Record<string, string | string[] | undefined>,
@@ -267,10 +248,6 @@ export async function renderMenuDispatcherPage({
 
   if (resolved.redirectTo) {
     redirect(resolved.redirectTo);
-  }
-
-  if (resolved.type === "STATIC") {
-    return renderStaticMenuPage(resolved);
   }
 
   if (resolved.type === "BOARD") {

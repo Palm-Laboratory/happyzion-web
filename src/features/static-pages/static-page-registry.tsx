@@ -10,7 +10,9 @@ import DiscipleshipTrainingStaticPage from "@/features/static-pages/discipleship
 import type { StaticPageComponent, StaticPageKey } from "@/features/static-pages/types";
 import RevivalOrganizationStaticPage from "./about/pages/revival-organization";
 
-const STATIC_PAGE_COMPONENTS: Record<StaticPageKey, StaticPageComponent> = {
+// Component registry — each file route in (static)/ imports the component directly.
+// This table exists as a single source of truth for all registered static pages.
+export const STATIC_PAGE_COMPONENTS: Record<StaticPageKey, StaticPageComponent> = {
   "about.greeting": GreetingStaticPage,
   "about.church-story": ChurchStoryStaticPage,
   "about.revival-organization": RevivalOrganizationStaticPage,
@@ -22,17 +24,3 @@ const STATIC_PAGE_COMPONENTS: Record<StaticPageKey, StaticPageComponent> = {
   "discipleship.care": DiscipleshipCareStaticPage,
   "discipleship.training": DiscipleshipTrainingStaticPage,
 };
-
-function isStaticPageKey(value: string): value is StaticPageKey {
-  return value in STATIC_PAGE_COMPONENTS;
-}
-
-export function renderStaticPage(staticPageKey: string) {
-  if (!isStaticPageKey(staticPageKey)) {
-    return null;
-  }
-
-  const StaticPage = STATIC_PAGE_COMPONENTS[staticPageKey];
-
-  return <StaticPage />;
-}

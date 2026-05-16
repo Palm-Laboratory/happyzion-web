@@ -38,7 +38,7 @@ export async function getPublicNavigation(): Promise<PublicNavigationResponse> {
   );
 }
 
-const RENDERABLE_TYPES = new Set<string>(["STATIC", "BOARD"]);
+const RENDERABLE_TYPES = new Set<string>(["BOARD"]);
 
 function extractInternalPaths(nav: PublicNavigationResponse): string[] {
   const paths: string[] = [];
