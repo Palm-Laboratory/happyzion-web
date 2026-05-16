@@ -21,8 +21,6 @@ API_BASE_URL=https://<happyzion-api-domain>
 NEXT_PUBLIC_API_BASE_URL=https://<happyzion-api-domain>
 NEXTAUTH_URL=https://<vercel-preview-or-production-domain>
 AUTH_SECRET=<strong-random-secret>
-ADMIN_SYNC_KEY=<happyzion_api ADMIN_SYNC_KEY와 동일한 값>
-ADMIN_ACTOR_SIGNING_SECRET=<happyzion_api ADMIN_ACTOR_SIGNING_SECRET와 동일한 값>
 ADMIN_SESSION_MAX_AGE_SECONDS=28800
 ```
 
@@ -34,8 +32,6 @@ NEXT_PUBLIC_API_BASE_URL=https://api.happyzion.com
 NEXTAUTH_URL=https://www.happyzion.com
 NEXT_PUBLIC_SITE_URL=https://www.happyzion.com
 AUTH_SECRET=<strong-random-secret>
-ADMIN_SYNC_KEY=<happyzion_api ADMIN_SYNC_KEY와 동일한 값>
-ADMIN_ACTOR_SIGNING_SECRET=<happyzion_api ADMIN_ACTOR_SIGNING_SECRET와 동일한 값>
 ADMIN_SESSION_MAX_AGE_SECONDS=28800
 ```
 
