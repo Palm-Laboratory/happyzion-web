@@ -180,22 +180,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/admin/members": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["listMembers"];
-        put?: never;
-        post: operations["createMember"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/admin/boards/{slug}/posts": {
         parameters: {
             query?: never;
@@ -242,22 +226,6 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
-        trace?: never;
-    };
-    "/api/v1/admin/members/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getMember"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: operations["updateMember"];
         trace?: never;
     };
     "/api/v1/public/videos": {
@@ -460,22 +428,6 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getStaticPages"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/v1/admin/members/{id}/attendance": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["getAttendance"];
         put?: never;
         post?: never;
         delete?: never;
@@ -748,177 +700,6 @@ export interface components {
             /** Format: int32 */
             sortOrder?: number | null;
             entries: components["schemas"]["MissionEntryRequest"][];
-        };
-        AdminMemberFaithRequest: {
-            /** Format: date */
-            confessDate?: string | null;
-            /** Format: date */
-            learningDate?: string | null;
-            /** Format: date */
-            baptismDate?: string | null;
-            baptismPlace?: string | null;
-            baptismOfficiant?: string | null;
-            /** Format: date */
-            confirmationDate?: string | null;
-            previousChurch?: string | null;
-            /** Format: date */
-            transferredInAt?: string | null;
-        };
-        AdminMemberSaveRequest: {
-            name: string;
-            nameEn?: string | null;
-            baptismName?: string | null;
-            /** @enum {string} */
-            sex: "M" | "F";
-            /** Format: date */
-            birthDate: string;
-            /** @enum {string} */
-            birthCalendar: "SOLAR" | "LUNAR";
-            phone: string;
-            emergencyPhone?: string | null;
-            emergencyRelation?: string | null;
-            email?: string | null;
-            address: string;
-            addressDetail?: string | null;
-            job?: string | null;
-            photoPath?: string | null;
-            cellId?: string | null;
-            cellLabel?: string | null;
-            /** @enum {string} */
-            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
-            /** @enum {string} */
-            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
-            /** @enum {string} */
-            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
-            /** Format: date */
-            officeAppointedAt?: string | null;
-            /** Format: date */
-            registeredAt: string;
-            memo?: string | null;
-            faith?: components["schemas"]["AdminMemberFaithRequest"] | null;
-        };
-        AdminMemberAttendanceWeekResponse: {
-            /** Format: int64 */
-            serviceDateId: number;
-            /** Format: date */
-            serviceDate: string;
-            serviceType: string;
-            /** @enum {string|null} */
-            status?: "ATTEND" | "ABSENT" | "EXCUSED" | "ONLINE" | null;
-            reason?: string | null;
-        };
-        AdminMemberDetailResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            nameEn?: string | null;
-            baptismName?: string | null;
-            /** @enum {string} */
-            sex: "M" | "F";
-            /** Format: date */
-            birthDate: string;
-            /** @enum {string} */
-            birthCalendar: "SOLAR" | "LUNAR";
-            phone: string;
-            emergencyPhone?: string | null;
-            emergencyRelation?: string | null;
-            email?: string | null;
-            address: string;
-            addressDetail?: string | null;
-            job?: string | null;
-            photoPath?: string | null;
-            cellId?: string | null;
-            cellLabel?: string | null;
-            /** @enum {string} */
-            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
-            /** @enum {string} */
-            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
-            /** @enum {string} */
-            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
-            /** Format: date */
-            officeAppointedAt?: string | null;
-            /** Format: date */
-            registeredAt: string;
-            memo?: string | null;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            faith?: components["schemas"]["AdminMemberFaithResponse"] | null;
-            family: components["schemas"]["AdminMemberFamilyResponse"][];
-            services: components["schemas"]["AdminMemberServiceResponse"][];
-            trainings: components["schemas"]["AdminMemberTrainingResponse"][];
-            tags: string[];
-            events: components["schemas"]["AdminMemberEventResponse"][];
-            recentAttendance: components["schemas"]["AdminMemberAttendanceWeekResponse"][];
-        };
-        AdminMemberEventResponse: {
-            /** Format: int64 */
-            id: number;
-            /** @enum {string} */
-            type: "REGISTERED" | "STATUS_CHANGED" | "STAGE_CHANGED" | "OFFICE_CHANGED" | "CELL_MOVED" | "SERVICE_ASSIGNED" | "SERVICE_ENDED" | "TRAINING_COMPLETED" | "ADDRESS_CHANGED" | "PHOTO_CHANGED" | "FAMILY_LINKED" | "FAMILY_UNLINKED";
-            payload?: string | null;
-            /** Format: int64 */
-            actorId: number;
-            /** Format: date-time */
-            createdAt: string;
-        };
-        AdminMemberFaithResponse: {
-            /** Format: int64 */
-            memberId: number;
-            /** Format: date */
-            confessDate?: string | null;
-            /** Format: date */
-            learningDate?: string | null;
-            /** Format: date */
-            baptismDate?: string | null;
-            baptismPlace?: string | null;
-            baptismOfficiant?: string | null;
-            /** Format: date */
-            confirmationDate?: string | null;
-            previousChurch?: string | null;
-            /** Format: date */
-            transferredInAt?: string | null;
-        };
-        AdminMemberFamilyResponse: {
-            /** Format: int64 */
-            id: number;
-            /** Format: int64 */
-            memberId: number;
-            /** Format: int64 */
-            relatedMemberId?: number | null;
-            externalName?: string | null;
-            /** @enum {string} */
-            relation: "SPOUSE" | "PARENT" | "CHILD" | "SIBLING" | "OTHER";
-            relationDetail?: string | null;
-            isHead: boolean;
-            /** @enum {string|null} */
-            sex?: "M" | "F" | null;
-            phone?: string | null;
-            /** Format: date */
-            birthDate?: string | null;
-            groupNote?: string | null;
-        };
-        AdminMemberServiceResponse: {
-            /** Format: int64 */
-            id: number;
-            department: string;
-            team?: string | null;
-            role: string;
-            /** Format: date */
-            startedAt: string;
-            /** Format: date */
-            endedAt?: string | null;
-            schedule?: string | null;
-            note?: string | null;
-        };
-        AdminMemberTrainingResponse: {
-            /** Format: int64 */
-            id: number;
-            programName: string;
-            /** Format: date */
-            completedAt: string;
-            note?: string | null;
         };
         AdminAccountAuthenticateRequest: {
             username: string;
@@ -1231,55 +1012,6 @@ export interface components {
         AdminStaticPagesResponse: {
             pages: components["schemas"]["AdminStaticPageDto"][];
         };
-        AdminMemberSummaryResponse: {
-            /** Format: int64 */
-            id: number;
-            name: string;
-            nameEn?: string | null;
-            baptismName?: string | null;
-            /** @enum {string} */
-            sex: "M" | "F";
-            /** Format: date */
-            birthDate: string;
-            /** @enum {string} */
-            birthCalendar: "SOLAR" | "LUNAR";
-            phone: string;
-            address: string;
-            addressDetail?: string | null;
-            cellId?: string | null;
-            cellLabel?: string | null;
-            /** @enum {string} */
-            status: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
-            /** @enum {string} */
-            faithStage: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
-            /** @enum {string} */
-            office: "LAY" | "DEACON_TEMP" | "DEACON" | "GWONSA" | "ELDER" | "ELDER_EMERITUS" | "EVANGELIST" | "PASTOR";
-            /** Format: date */
-            registeredAt: string;
-        };
-        AdminMembersPageResponse: {
-            members: components["schemas"]["AdminMemberSummaryResponse"][];
-            /** Format: int32 */
-            page: number;
-            /** Format: int32 */
-            size: number;
-            /** Format: int64 */
-            totalElements: number;
-            hasNext: boolean;
-        };
-        AdminMemberAttendanceRecordResponse: {
-            /** Format: int64 */
-            serviceDateId: number;
-            /** Format: date */
-            serviceDate: string;
-            serviceType: string;
-            /** @enum {string|null} */
-            status?: "ATTEND" | "ABSENT" | "EXCUSED" | "ONLINE" | null;
-            reason?: string | null;
-        };
-        AdminMemberAttendanceResponse: {
-            records: components["schemas"]["AdminMemberAttendanceRecordResponse"][];
-        };
         BoardAdminBoardResponse: {
             /** Format: int64 */
             id?: number | null;
@@ -1414,9 +1146,7 @@ export interface operations {
     getYear: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 yearId: number;
             };
@@ -1438,9 +1168,7 @@ export interface operations {
     updateYear: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 yearId: number;
             };
@@ -1466,9 +1194,7 @@ export interface operations {
     deleteYear: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 yearId: number;
             };
@@ -1488,9 +1214,7 @@ export interface operations {
     replaceTree: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -1516,9 +1240,7 @@ export interface operations {
             query?: {
                 menuId?: number;
             };
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 slug: string;
                 postId: number;
@@ -1541,9 +1263,7 @@ export interface operations {
     updatePost: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 slug: string;
                 postId: number;
@@ -1572,9 +1292,7 @@ export interface operations {
             query?: {
                 menuId?: number;
             };
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 slug: string;
                 postId: number;
@@ -1595,9 +1313,7 @@ export interface operations {
     getAccount: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 id: number;
             };
@@ -1619,9 +1335,7 @@ export interface operations {
     updateAccount: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 id: number;
             };
@@ -1647,9 +1361,7 @@ export interface operations {
     deleteAccount: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 id: number;
             };
@@ -1743,9 +1455,7 @@ export interface operations {
     issueToken: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -1818,9 +1528,7 @@ export interface operations {
     listYears: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -1840,9 +1548,7 @@ export interface operations {
     createYear: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -1863,61 +1569,6 @@ export interface operations {
             };
         };
     };
-    listMembers: {
-        parameters: {
-            query?: {
-                query?: string;
-                status?: "ACTIVE" | "NEW" | "RESTING" | "LONG_ABSENT" | "TRANSFERRED_OUT" | "DECEASED" | "REMOVED";
-                stage?: "SEEKER" | "NEW_COMER" | "SETTLED" | "GROWING" | "DISCIPLE" | "MINISTER" | "LEADER";
-                cellId?: string;
-                page?: number;
-                size?: number;
-            };
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AdminMembersPageResponse"];
-                };
-            };
-        };
-    };
-    createMember: {
-        parameters: {
-            query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminMemberSaveRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
-                };
-            };
-        };
-    };
     listPosts: {
         parameters: {
             query?: {
@@ -1926,9 +1577,7 @@ export interface operations {
                 size?: number;
                 title?: string;
             };
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 slug: string;
             };
@@ -1950,9 +1599,7 @@ export interface operations {
     createPost: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 slug: string;
             };
@@ -2002,9 +1649,7 @@ export interface operations {
     getAccounts: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2024,9 +1669,7 @@ export interface operations {
     createAccount: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2043,58 +1686,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AdminAccountDto"];
-                };
-            };
-        };
-    };
-    getMember: {
-        parameters: {
-            query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
-                };
-            };
-        };
-    };
-    updateMember: {
-        parameters: {
-            query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AdminMemberSaveRequest"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AdminMemberDetailResponse"];
                 };
             };
         };
@@ -2348,9 +1939,7 @@ export interface operations {
     getMenuTree: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2370,9 +1959,7 @@ export interface operations {
     getStaticPages: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2389,39 +1976,10 @@ export interface operations {
             };
         };
     };
-    getAttendance: {
-        parameters: {
-            query?: {
-                from?: string;
-                to?: string;
-            };
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
-            path: {
-                id: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["AdminMemberAttendanceResponse"];
-                };
-            };
-        };
-    };
     listBoards: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2441,9 +1999,7 @@ export interface operations {
     me: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path?: never;
             cookie?: never;
         };
@@ -2463,9 +2019,7 @@ export interface operations {
     deleteMenu: {
         parameters: {
             query?: never;
-            header: {
-                "X-Admin-Actor-Id": number;
-            };
+            header?: never;
             path: {
                 id: number;
             };
