@@ -123,13 +123,13 @@ test("public board renderer follows the shared section header and narrow content
   );
   assert.match(
     contents,
-    /type-label font-semibold uppercase tracking-\[0\.18em\] text-site-gold/,
-    "Expected public board headers to use the shared eyebrow typography.",
+    /<SectionHeading\s+label="Board"\s+title=\{props\.boardLabel\}/,
+    "Expected public board list headers to use the shared section heading component.",
   );
   assert.match(
     contents,
-    /type-section-title font-hahmlet font-bold tracking-\[-0\.02em\] text-site-ink/,
-    "Expected public board headers to use the shared section title typography.",
+    /md:grid-cols-\[100px_minmax\(0,1fr\)_140px_140px\]/,
+    "Expected public board list rows to use the Figma four-column board layout.",
   );
   assert.match(contents, /<h2\b/, "Expected public board content headers to use section-level h2 headings.");
 });

@@ -69,6 +69,19 @@ function formatDate(value: string) {
   return `${year}.${month}.${day} ${formatter.format(date)}`;
 }
 
+function formatListDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function normalizeYouTubeVideoId(value: unknown): string | null {
   if (typeof value !== "string") {
     return null;
@@ -392,7 +405,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       }
 
       return (
-        <div key={key} className="overflow-hidden rounded-[8px] bg-[#33103f]">
+        <div key={key} className="overflow-hidden bg-[#201426]">
           <div className="relative aspect-video w-full">
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${videoId}`}
@@ -437,16 +450,16 @@ function renderBoardPostSummary(
   number: number,
 ) {
   const itemClassName = post.isPinned
-    ? "border-b border-cedar/14 bg-cedar/5 last:border-b-0"
-    : "border-b border-cedar/12 last:border-b-0";
+    ? "border-b border-[rgba(93,61,138,0.1)] bg-[#8b6db5]/5 last:border-b-0"
+    : "border-b border-[rgba(93,61,138,0.1)] last:border-b-0";
   const numberLabel = post.isPinned ? "공지" : String(number);
-  const numberClassName = post.isPinned ? "text-cedar" : "text-site-muted";
+  const numberClassName = post.isPinned ? "text-[#2a123c]" : "text-[#4a3b5e]";
 
   return (
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group block px-3 py-4 md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:items-center md:gap-3 md:px-5"
+        className="group block px-3 py-4 md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px] md:items-center md:py-5"
       >
         <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-3 gap-y-1 md:hidden">
           <span
@@ -470,32 +483,29 @@ function renderBoardPostSummary(
             </span>
             {renderPostMediaIndicators(post)}
           </span>
-          <span className="type-body-small flex min-w-0 items-center gap-1 whitespace-nowrap text-site-muted">
+          <span className="type-body-small flex min-w-0 items-center gap-1 whitespace-nowrap text-[#4a3b5e]">
             <span className="truncate">{post.authorName || "-"}</span>
-            <span className="text-cedar/30">/</span>
-            <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
-            <span className="text-cedar/30">/</span>
+            <span className="text-[#4a3b5e]/30">/</span>
+            <time dateTime={post.createdAt}>{formatListDate(post.createdAt)}</time>
+            <span className="text-[#4a3b5e]/30">/</span>
             <span>조회 {post.viewCount.toLocaleString("ko-KR")}</span>
           </span>
         </div>
-        <span className={`hidden type-body-small text-center font-medium md:block ${numberClassName}`}>
+        <span className={`hidden type-body-small px-5 text-left leading-none md:block ${numberClassName}`}>
           {numberLabel}
         </span>
-        <span className="hidden min-w-0 items-center gap-2 md:flex">
-          <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
+        <span className="hidden min-w-0 items-center gap-2 px-5 md:flex">
+          <span className="type-body-small min-w-0 truncate leading-none text-[#4a3b5e] group-hover:text-[#2a123c]">
             {post.title}
           </span>
           {renderPostMediaIndicators(post)}
         </span>
-        <span className="hidden type-body-small truncate text-center text-site-muted md:block">
+        <span className="hidden type-body-small truncate px-5 text-left leading-none text-[#4a3b5e] md:block">
           {post.authorName || "-"}
         </span>
-        <time dateTime={post.createdAt} className="hidden type-body-small text-center text-site-muted md:block">
-          {formatDate(post.createdAt)}
+        <time dateTime={post.createdAt} className="hidden type-body-small px-5 text-left leading-none text-[#4a3b5e] md:block">
+          {formatListDate(post.createdAt)}
         </time>
-        <span className="hidden type-body-small text-center text-site-muted md:block">
-          {post.viewCount.toLocaleString("ko-KR")}
-        </span>
       </Link>
     </li>
   );
@@ -525,13 +535,12 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} searchTitle={props.searchTitle} />
           {props.posts.length > 0 ? (
             <>
-              <div className="border-b border-[#33103f]">
-                <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">등록일</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
+              <div className="border-b border-[rgba(93,61,138,0.16)]">
+                <div className="hidden md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px]">
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">No</span>
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">제목</span>
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">작성자</span>
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">등록일</span>
                 </div>
               </div>
               <ul>
@@ -544,18 +553,18 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                 )}
               </ul>
               {props.totalPages > 1 ? (
-                <nav aria-label={`${props.boardLabel} 페이지 이동`} className="mt-10 flex items-center justify-center gap-2 pt-2">
+                <nav aria-label={`${props.boardLabel} 페이지 이동`} className="mt-[84px] flex items-center justify-center gap-5 md:gap-9">
                   <Link
                     href={getBoardListPageHref(props.boardPath, props.currentPage - 1)}
                     aria-disabled={props.currentPage <= 1}
-                    className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
-                        ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                    className={`type-body-small inline-flex items-center justify-center leading-none tracking-[0.08em] transition ${props.currentPage <= 1
+                        ? "pointer-events-none text-[#4a3b5e]/40"
+                        : "text-[#4a3b5e] hover:text-[#2a123c]"
                       }`}
                   >
                     이전
                   </Link>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     {paginationPages.map((page) => {
                       const isCurrent = page === props.currentPage;
                       return (
@@ -563,9 +572,9 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                           key={page}
                           href={getBoardListPageHref(props.boardPath, page)}
                           aria-current={isCurrent ? "page" : undefined}
-                          className={`type-body-small inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
-                              ? "border-[#33103f] bg-[#33103f] text-white"
-                              : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                          className={`type-body-small inline-flex h-12 w-12 items-center justify-center rounded-[4px] leading-none tracking-[0.08em] transition ${isCurrent
+                              ? "bg-[#2a123c] font-semibold text-white"
+                              : "text-[rgba(74,59,94,0.6)] hover:bg-[#8b6db5]/6 hover:text-[#2a123c]"
                             }`}
                         >
                           {page}
@@ -576,9 +585,9 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                   <Link
                     href={getBoardListPageHref(props.boardPath, props.currentPage + 1)}
                     aria-disabled={props.currentPage >= props.totalPages}
-                    className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
-                        ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                    className={`type-body-small inline-flex items-center justify-center leading-none tracking-[0.08em] transition ${props.currentPage >= props.totalPages
+                        ? "pointer-events-none text-[#4a3b5e]/40"
+                        : "text-[#4a3b5e] hover:text-[#2a123c]"
                       }`}
                   >
                     다음
@@ -600,19 +609,26 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
 
   return (
     <main className="bg-white pb-20">
-      <article className="section-shell section-shell--narrow pt-10 md:pt-16">
-        <header className="border-b border-cedar/12 pb-8">
-          <Link href={props.boardPath} className="type-body-small font-semibold text-cedar underline-offset-4 hover:underline">
-            {props.boardLabel}
-          </Link>
-          <div className="mt-5">
-            <SectionHeading label="Board" title={props.post.title} titleAs="h1" className="max-w-none" />
-          </div>
-          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <p className="type-body-small text-site-muted">
-              {props.post.authorName || "-"} {" | "} 등록일:{" "}
-              <time dateTime={props.post.createdAt}>{formatDate(props.post.createdAt)}</time>
-              {" | "} 조회수: {props.post.viewCount.toLocaleString("ko-KR")}
+      <article className="section-shell section-shell--narrow pt-16 md:pt-[100px]">
+        <header className="border-b border-[rgba(93,61,138,0.16)] pb-5">
+          <h1 className="font-hahmlet text-4xl font-semibold leading-[52px] tracking-[0.01em] text-[#33103f]">
+            {props.post.title}
+          </h1>
+          <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <p className="type-body-small flex flex-wrap items-center gap-x-3 gap-y-2 leading-none tracking-[0.08em] text-[#4a3b5e]">
+              <span>{props.post.authorName || "-"}</span>
+              <span className="h-[15px] w-px bg-[rgba(93,61,138,0.24)]" aria-hidden="true" />
+              <span className="inline-flex items-center gap-1.5">
+                등록일:
+                <time dateTime={props.post.createdAt} className="font-medium">
+                  {formatListDate(props.post.createdAt)}
+                </time>
+              </span>
+              <span className="h-[15px] w-px bg-[rgba(93,61,138,0.24)]" aria-hidden="true" />
+              <span className="inline-flex items-center gap-1.5">
+                조회수:
+                <span className="font-medium">{props.post.viewCount.toLocaleString("ko-KR")}</span>
+              </span>
             </p>
             {fileAttachments.length > 0 ? (
               <PublicBoardAttachmentsDropdown
@@ -628,10 +644,10 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </div>
         </header>
 
-        <div className="type-body prose mt-10 max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
+        <div className="type-quote prose mt-9 max-w-none text-black prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
           {renderTiptapDocument(props.post.contentJson)}
         </div>
-        <div className="mt-10 border-b border-cedar/12" />
+        <div className="mt-10 border-b border-[rgba(93,61,138,0.16)]" />
         <PublicBoardDetailActions
           boardPath={props.boardPath}
           previousPost={props.post.previousPost}
