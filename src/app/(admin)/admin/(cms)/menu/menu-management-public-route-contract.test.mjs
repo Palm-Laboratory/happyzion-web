@@ -6,7 +6,12 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const pagePath = path.join(here, "page.tsx");
-const clientPath = path.join(here, "_components", "menu-management-client.tsx");
+const componentsDir = path.join(here, "_components");
+const clientPath = path.join(componentsDir, "menu-management-client.tsx");
+const treeUtilsPath = path.join(componentsDir, "menu-tree-utils.ts");
+const treeConstantsPath = path.join(componentsDir, "menu-tree-constants.ts");
+const detailPanelPath = path.join(componentsDir, "menu-detail-panel.tsx");
+const useMenuTreePath = path.join(componentsDir, "use-menu-tree.ts");
 
 async function readPage() {
   return readFile(pagePath, "utf8");
@@ -14,6 +19,32 @@ async function readPage() {
 
 async function readClient() {
   return readFile(clientPath, "utf8");
+}
+
+async function readTreeUtils() {
+  return readFile(treeUtilsPath, "utf8");
+}
+
+async function readTreeConstants() {
+  return readFile(treeConstantsPath, "utf8");
+}
+
+async function readDetailPanel() {
+  return readFile(detailPanelPath, "utf8");
+}
+
+async function readUseMenuTree() {
+  return readFile(useMenuTreePath, "utf8");
+}
+
+async function readClientSurfaces() {
+  const sources = await Promise.all([
+    readClient(),
+    readTreeUtils(),
+    readUseMenuTree(),
+    readDetailPanel(),
+  ]);
+  return sources.join("\n");
 }
 
 function extractBoardCase(contents) {
@@ -38,7 +69,7 @@ test("admin menu page does not fetch global boards for BOARD menu editing", asyn
 });
 
 test("admin menu public address preview builds BOARD URLs from parent and child slugs", async () => {
-  const contents = await readClient();
+  const contents = await readTreeUtils();
   const boardCase = extractBoardCase(contents);
 
   assert.match(
@@ -64,27 +95,29 @@ test("admin menu public address preview builds BOARD URLs from parent and child 
 });
 
 test("menu management client hides BOARD type editing from admins", async () => {
-  const contents = await readClient();
+  const clientSurfaces = await readClientSurfaces();
+  const detailPanel = await readDetailPanel();
+  const treeUtils = await readTreeUtils();
 
   assert.doesNotMatch(
-    contents,
+    clientSurfaces,
     /availableBoards|AdminBoardSummary|getAdminBoards|AdminBoardTypeSummary|getAdminBoardTypes/s,
-    "Expected MenuManagementClient to avoid global board and board type props.",
+    "Expected the menu admin client surfaces to avoid global board and board type props.",
   );
   assert.doesNotMatch(
-    contents,
+    detailPanel,
     /게시판 타입|게시판 키|연결 게시판/,
     "Expected BOARD editor to hide board type and raw board key controls.",
   );
   assert.match(
-    contents,
+    treeUtils,
     /boardType:\s*node\.boardTypeKey/,
     "Expected menu payload to send boardType from node.boardTypeKey so new nodes with null boardTypeKey let the backend assign the default board type.",
   );
 });
 
 test("menu management client labels slug as a URL path field", async () => {
-  const contents = await readClient();
+  const contents = await readDetailPanel();
 
   assert.match(
     contents,
@@ -99,40 +132,44 @@ test("menu management client labels slug as a URL path field", async () => {
 });
 
 test("menu management client previews automatic and custom slug conversion", async () => {
-  const contents = await readClient();
+  const treeUtils = await readTreeUtils();
+  const useMenuTreeContents = await readUseMenuTree();
+  const detailPanel = await readDetailPanel();
 
   assert.match(
-    contents,
+    treeUtils,
     /function\s+slugifyToAscii\s*\(/,
     "Expected the client to mirror the backend slug conversion for live previews.",
   );
   assert.match(
-    contents,
+    useMenuTreeContents,
     /getSlugPreview\s*\(\s*selectedNode\s*,\s*selectedManualSlugMode\s*\)/,
     "Expected the selected menu to derive a live slug preview from the current slug mode.",
   );
   assert.match(
-    contents,
+    treeUtils,
     /source\s*=\s*manual\s*\?\s*node\.slug\s*:\s*node\.label/,
     "Expected automatic preview to update from the menu label while custom mode previews the typed slug.",
   );
   assert.match(
-    contents,
+    treeUtils,
     /자동 생성 미리보기|직접 입력 변환 결과/,
-    "Expected the UI to label automatic and custom slug preview modes.",
+    "Expected the slug preview helper to label automatic and custom slug preview modes.",
   );
   assert.match(
-    contents,
+    detailPanel,
     /영문,\s*숫자,\s*한글을 포함해야 URL 경로를 만들 수 있습니다/,
     "Expected an operator-facing guide when conversion produces an empty slug.",
   );
 });
 
 test("menu management client keeps DRAFT as a server-created playlist state only", async () => {
-  const contents = await readClient();
-  const buildNewNodeMatch = contents.match(/function\s+buildNewNode[\s\S]*?\n}\n/);
+  const treeUtils = await readTreeUtils();
+  const treeConstants = await readTreeConstants();
+  const detailPanel = await readDetailPanel();
+  const buildNewNodeMatch = treeUtils.match(/function\s+buildNewNode[\s\S]*?\n}\n/);
 
-  assert.ok(buildNewNodeMatch?.[0], "Expected MenuManagementClient to define buildNewNode.");
+  assert.ok(buildNewNodeMatch?.[0], "Expected menu-tree-utils to define buildNewNode.");
   assert.match(
     buildNewNodeMatch[0],
     /status:\s*"HIDDEN"/,
@@ -143,33 +180,35 @@ test("menu management client keeps DRAFT as a server-created playlist state only
     /status:\s*"DRAFT"/,
     "Expected manual menu creation to avoid client-created DRAFT status.",
   );
+  const statusOptionSurfaces = [treeUtils, treeConstants, detailPanel].join("\n");
   assert.doesNotMatch(
-    contents,
+    statusOptionSurfaces,
     /\[\s*"DRAFT"\s*,\s*"PUBLISHED"\s*,\s*"HIDDEN"\s*\]/,
     "Expected manual menu status options to exclude DRAFT.",
   );
   assert.match(
-    contents,
+    treeConstants,
     /MANAGED_STATUS_OPTIONS[\s\S]*PUBLISHED[\s\S]*HIDDEN/,
     "Expected menu status editing to expose published and hidden as the managed choices.",
   );
 });
 
 test("menu management client hides all children when a root menu is hidden", async () => {
-  const contents = await readClient();
+  const treeUtils = await readTreeUtils();
+  const detailPanel = await readDetailPanel();
 
   assert.match(
-    contents,
+    treeUtils,
     /function\s+hideNodeTree[\s\S]*children:\s*node\.children\.map\s*\(\s*hideNodeTree\s*\)/,
     "Expected a recursive helper that hides the selected menu subtree.",
   );
   assert.match(
-    contents,
+    detailPanel,
     /node\.parentId\s*===\s*null\s*&&\s*nextStatus\s*===\s*["']HIDDEN["'][\s\S]*hideNodeTree\s*\(\s*node\s*\)/,
     "Expected root menu status changes to HIDDEN to cascade to descendants.",
   );
   assert.match(
-    contents,
+    treeUtils,
     /node\.status\s*===\s*["']ARCHIVED["']\s*\?\s*node\.status\s*:\s*["']HIDDEN["']/,
     "Expected archived children to keep their archived state while published or hidden children become hidden.",
   );
