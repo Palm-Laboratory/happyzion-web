@@ -175,34 +175,43 @@ export function MenuDetailPanel({
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span className="text-[12px] font-semibold text-[#334155]">URL 경로</span>
-                  <span className="rounded-full bg-[#e8f0fb] px-2 py-0.5 text-[10px] font-semibold text-[#2d5da8]">
-                    {selectedManualSlugMode ? "직접 입력" : "자동 생성"}
-                  </span>
+                  {selectedNode.type !== "STATIC" && (
+                    <span className="rounded-full bg-[#e8f0fb] px-2 py-0.5 text-[10px] font-semibold text-[#2d5da8]">
+                      {selectedManualSlugMode ? "직접 입력" : "자동 생성"}
+                    </span>
+                  )}
+                  {selectedNode.type === "STATIC" && (
+                    <span className="rounded-full bg-[#f1f5f9] px-2 py-0.5 text-[10px] font-semibold text-[#475569]">
+                      코드 관리
+                    </span>
+                  )}
                 </div>
-                <div className="inline-flex rounded-lg border border-[#d5deea] bg-white p-0.5">
-                  <button
-                    type="button"
-                    onClick={() => onSwitchSlugMode(false)}
-                    className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${
-                      selectedManualSlugMode
-                        ? "text-[#64748b] hover:bg-[#f8fafc]"
-                        : "bg-[#3f74c7] text-white"
-                    }`}
-                  >
-                    자동
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onSwitchSlugMode(true)}
-                    className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${
-                      selectedManualSlugMode
-                        ? "bg-[#3f74c7] text-white"
-                        : "text-[#64748b] hover:bg-[#f8fafc]"
-                    }`}
-                  >
-                    직접 입력
-                  </button>
-                </div>
+                {selectedNode.type !== "STATIC" && (
+                  <div className="inline-flex rounded-lg border border-[#d5deea] bg-white p-0.5">
+                    <button
+                      type="button"
+                      onClick={() => onSwitchSlugMode(false)}
+                      className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${
+                        selectedManualSlugMode
+                          ? "text-[#64748b] hover:bg-[#f8fafc]"
+                          : "bg-[#3f74c7] text-white"
+                      }`}
+                    >
+                      자동
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => onSwitchSlugMode(true)}
+                      className={`rounded-md px-3 py-1.5 text-[11px] font-semibold ${
+                        selectedManualSlugMode
+                          ? "bg-[#3f74c7] text-white"
+                          : "text-[#64748b] hover:bg-[#f8fafc]"
+                      }`}
+                    >
+                      직접 입력
+                    </button>
+                  </div>
+                )}
               </div>
               <input
                 value={selectedNode.slug}
@@ -213,12 +222,14 @@ export function MenuDetailPanel({
                     slugCustomized: true,
                   }))
                 }
-                disabled={!selectedManualSlugMode}
+                disabled={selectedNode.type === "STATIC" || !selectedManualSlugMode}
                 placeholder="비워두면 저장 시 메뉴명 기준으로 자동 생성됩니다."
                 className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] disabled:bg-[#f8fafc] disabled:text-[#94a3b8]"
               />
               <p className="text-[11px] leading-5 text-[#6d7f95]">
-                {selectedManualSlugMode
+                {selectedNode.type === "STATIC"
+                  ? "URL 경로는 코드에 등록된 라우트와 묶여 있어 어드민에서 변경할 수 없습니다."
+                  : selectedManualSlugMode
                   ? selectedNode.isAuto
                     ? "저장 후 유튜브 동기화가 실행되어도 이 URL 경로를 유지합니다."
                     : "입력한 값이 공개 URL에 사용됩니다. 비워두면 저장 시 자동 생성 모드로 돌아갑니다."
@@ -226,7 +237,7 @@ export function MenuDetailPanel({
                     ? "유튜브 원제목 기준으로 URL 경로가 동기화됩니다. 고정하려면 직접 입력으로 전환하세요."
                     : "저장 시 메뉴 이름 기준으로 URL 경로가 자동 생성됩니다."}
               </p>
-              {selectedSlugPreview && (
+              {selectedNode.type !== "STATIC" && selectedSlugPreview && (
                 <div className="rounded-lg border border-[#dbe7f6] bg-white px-3 py-2">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-[11px] font-semibold text-[#334155]">
@@ -276,16 +287,7 @@ export function MenuDetailPanel({
             </div>
 
             {selectedNode.type === "FOLDER" && selectedNode.parentId === null && (
-              <div className="grid gap-2 sm:grid-cols-3">
-                {staticPages.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => onAddChild("STATIC")}
-                    className="rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-2 text-[12px] font-semibold text-[#2d5da8]"
-                  >
-                    정적 페이지 추가
-                  </button>
-                )}
+              <div className="grid gap-2 sm:grid-cols-2">
                 <button
                   type="button"
                   onClick={() => onAddChild("BOARD")}
@@ -316,11 +318,13 @@ export function MenuDetailPanel({
             {selectedNode.type === "STATIC" && (
               <div className="rounded-xl border border-[#fde68a] bg-[#fffbeb] p-4">
                 <p className="text-[12px] font-semibold text-[#92400e]">
-                  콘텐츠는 별도 개발 배포가 필요합니다
+                  정적 페이지는 개발팀이 코드로 관리합니다
                 </p>
                 <p className="mt-2 text-[12px] leading-5 text-[#78350f]">
-                  정적 페이지는 개발자가 컴포넌트를 코드에 미리 등록해야 실제 페이지가 표시됩니다.
-                  어드민에서 메뉴만 추가한다고 콘텐츠가 자동으로 생기지 않습니다.
+                  정적 페이지 메뉴는 실제 페이지 컴포넌트와 1:1로 묶여 있어 어드민에서{" "}
+                  <b>추가·삭제·연결 페이지 변경·URL 경로 변경</b>을 할 수 없습니다. 어드민에서는{" "}
+                  메뉴 이름, 노출 상태, 상위 메뉴 위치, 표시 순서만 조정할 수 있습니다.
+                  새 정적 페이지가 필요하면 개발팀에 요청해 주세요.
                 </p>
               </div>
             )}
@@ -330,10 +334,8 @@ export function MenuDetailPanel({
                 <span className="text-[12px] font-semibold text-[#334155]">연결 페이지</span>
                 <select
                   value={selectedNode.staticPageKey ?? ""}
-                  onChange={(event) =>
-                    onUpdateNode((node) => ({ ...node, staticPageKey: event.target.value }))
-                  }
-                  className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px]"
+                  disabled
+                  className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[13px] text-[#475569]"
                 >
                   {staticPages.map((page) => (
                     <option key={page.key} value={page.key}>
@@ -341,6 +343,9 @@ export function MenuDetailPanel({
                     </option>
                   ))}
                 </select>
+                <p className="text-[11px] leading-5 text-[#6d7f95]">
+                  연결 페이지는 코드에 정의된 컴포넌트와 묶여 있어 변경할 수 없습니다.
+                </p>
               </label>
             )}
 

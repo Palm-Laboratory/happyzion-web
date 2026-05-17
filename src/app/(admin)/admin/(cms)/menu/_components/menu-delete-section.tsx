@@ -20,6 +20,7 @@ export function MenuDeleteSection({
   onCancelDelete,
 }: Props) {
   if (selectedNode.isAuto) return null;
+  if (selectedNode.type === "STATIC") return null;
 
   if (confirmingSelectedDelete) {
     return (
