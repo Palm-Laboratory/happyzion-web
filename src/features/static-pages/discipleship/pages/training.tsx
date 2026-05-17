@@ -575,6 +575,7 @@ export default function DiscipleshipTrainingStaticPage() {
         </div>
       </section>
 
+      {/*
       <section
         id="apply"
         aria-labelledby="disciples-apply-title"
@@ -602,6 +603,7 @@ export default function DiscipleshipTrainingStaticPage() {
           <ApplyForm />
         </div>
       </section>
+      */}
     </main>
   );
 }

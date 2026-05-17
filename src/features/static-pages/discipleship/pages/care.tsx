@@ -347,6 +347,7 @@ export default function DiscipleshipCareStaticPage() {
       </section>
       */}
 
+      {/*
       <section
         id="apply"
         className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
@@ -374,6 +375,7 @@ export default function DiscipleshipCareStaticPage() {
           <ApplyForm />
         </div>
       </section>
+      */}
     </main>
   );
 }
