@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { cache } from "react";
 
 import PublicBoardRenderer from "@/components/public-board/public-board-renderer";
@@ -265,6 +265,9 @@ export async function renderMenuDispatcherPage({
   }
 
   if (resolved.redirectTo) {
+    if (resolved.type === "STATIC") {
+      permanentRedirect(resolved.redirectTo);
+    }
     redirect(resolved.redirectTo);
   }
 

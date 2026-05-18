@@ -1,8 +1,13 @@
 "use client";
 
 import type { DragEvent, RefObject } from "react";
-import { MENU_TYPE_LABEL, STATUS_LABEL, STATUS_META } from "./menu-tree-constants";
-import { type DropIndicator, type EditorNode, findSiblingList } from "./menu-tree-utils";
+import { STATUS_LABEL, STATUS_META } from "./menu-tree-constants";
+import {
+  type DropIndicator,
+  type EditorNode,
+  findSiblingList,
+  getMenuTypeDisplayLabel,
+} from "./menu-tree-utils";
 
 type Props = {
   flatItems: Array<{ node: EditorNode; depth: number }>;
@@ -201,7 +206,7 @@ export function MenuTreePanel({
                           {node.label}
                         </span>
                         <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
-                          {MENU_TYPE_LABEL[node.type]}
+                          {getMenuTypeDisplayLabel(node)}
                         </span>
                       </span>
                     </span>

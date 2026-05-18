@@ -94,6 +94,22 @@ test("admin menu public address preview builds BOARD URLs from parent and child 
   );
 });
 
+test("admin menu public address preview shows code registered paths for STATIC pages", async () => {
+  const treeUtils = await readTreeUtils();
+  const useMenuTreeContents = await readUseMenuTree();
+
+  assert.match(
+    treeUtils,
+    /case\s+["']STATIC["'][\s\S]*staticPagePathByKey\.get\s*\(\s*node\.staticPageKey\s*\)/,
+    "Expected STATIC previews to use the code-registered static page path instead of parent and child menu slugs.",
+  );
+  assert.match(
+    useMenuTreeContents,
+    /new Map\s*\(\s*staticPages\.map\s*\(\s*\(page\)\s*=>\s*\[\s*page\.key,\s*page\.path\s*\]\s*\)\s*\)/,
+    "Expected the menu editor to build STATIC preview paths from the admin static page catalog response.",
+  );
+});
+
 test("menu management client hides BOARD type editing from admins", async () => {
   const clientSurfaces = await readClientSurfaces();
   const detailPanel = await readDetailPanel();

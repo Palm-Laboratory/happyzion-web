@@ -11,6 +11,7 @@ import {
   HANGUL_INITIAL_ROMANIZATION,
   HANGUL_JONGSEONG_COUNT,
   HANGUL_VOWEL_ROMANIZATION,
+  MENU_TYPE_LABEL,
 } from "./menu-tree-constants";
 
 export type EditorNode = AdminMenuTreeNode;
@@ -119,6 +120,14 @@ export function cloneTree(nodes: EditorNode[]): EditorNode[] {
 
 export function isDetachedPlaylist(node: EditorNode): boolean {
   return node.type === "YOUTUBE_PLAYLIST" && node.parentId === null;
+}
+
+export function isStaticMenuGroup(node: EditorNode): boolean {
+  return node.type === "FOLDER" && node.parentId === null && node.children.some((child) => child.type === "STATIC");
+}
+
+export function getMenuTypeDisplayLabel(node: EditorNode): string {
+  return isStaticMenuGroup(node) ? "정적 페이지 그룹" : MENU_TYPE_LABEL[node.type];
 }
 
 export function mapTree(
@@ -352,14 +361,12 @@ export function buildVideoNodePath(
 export function getPublicRouteSummary(
   node: EditorNode,
   menuById: Map<number, EditorNode>,
+  staticPagePathByKey: Map<string, string> = new Map(),
 ): string {
   switch (node.type) {
     case "STATIC":
       if (!node.staticPageKey) return "연결 페이지를 선택해 주세요";
-      if (!node.parentId) return "상위 메뉴를 먼저 선택해 주세요";
-      return node.slug
-        ? `/${menuById.get(node.parentId)?.slug ?? "root"}/${node.slug}`
-        : `/${menuById.get(node.parentId)?.slug ?? "root"}/(저장 시 자동 생성)`;
+      return staticPagePathByKey.get(node.staticPageKey) ?? "코드에 등록된 정적 페이지 경로를 확인해 주세요";
     case "BOARD":
       if (!node.parentId) return "상위 메뉴를 먼저 선택해 주세요";
       return node.slug
@@ -382,6 +389,10 @@ export function isManualSlugMode(node: EditorNode): boolean {
 }
 
 export function getParentRuleDescription(node: EditorNode): string {
+  if (isStaticMenuGroup(node)) {
+    return "정적 페이지 그룹은 코드에 등록된 정적 페이지를 묶는 GNB입니다. 메뉴 이름, 상태, 표시 순서만 조정할 수 있습니다.";
+  }
+
   switch (node.type) {
     case "FOLDER":
       return "일반 메뉴 그룹은 최상위 GNB에만 배치됩니다. 하위에는 정적 페이지, 게시판, 외부 링크를 추가할 수 있습니다.";

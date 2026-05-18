@@ -3,14 +3,15 @@
 import type { AdminStaticPage, MenuStatus, MenuType } from "@/lib/admin-menu-api";
 import {
   MANAGED_STATUS_OPTIONS,
-  MENU_TYPE_LABEL,
   STATUS_LABEL,
 } from "./menu-tree-constants";
 import { MenuDeleteSection } from "./menu-delete-section";
 import {
   type EditorNode,
+  getMenuTypeDisplayLabel,
   getParentRuleDescription,
   hideNodeTree,
+  isStaticMenuGroup,
   moveNodeWithinSiblings,
   reparentNode,
 } from "./menu-tree-utils";
@@ -71,6 +72,8 @@ export function MenuDetailPanel({
   onSwitchSlugMode,
   onAddChild,
 }: Props) {
+  const isStaticLockedMenu = selectedNode.type === "STATIC" || isStaticMenuGroup(selectedNode);
+
   return (
     <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
@@ -113,7 +116,7 @@ export function MenuDetailPanel({
               <label className="space-y-1.5">
                 <span className="text-[12px] font-semibold text-[#334155]">타입</span>
                 <input
-                  value={MENU_TYPE_LABEL[selectedNode.type]}
+                  value={getMenuTypeDisplayLabel(selectedNode)}
                   readOnly
                   className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[13px]"
                 />
@@ -175,18 +178,18 @@ export function MenuDetailPanel({
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span className="text-[12px] font-semibold text-[#334155]">URL 경로</span>
-                  {selectedNode.type !== "STATIC" && (
+                  {!isStaticLockedMenu && (
                     <span className="rounded-full bg-[#e8f0fb] px-2 py-0.5 text-[10px] font-semibold text-[#2d5da8]">
                       {selectedManualSlugMode ? "직접 입력" : "자동 생성"}
                     </span>
                   )}
-                  {selectedNode.type === "STATIC" && (
+                  {isStaticLockedMenu && (
                     <span className="rounded-full bg-[#f1f5f9] px-2 py-0.5 text-[10px] font-semibold text-[#475569]">
                       코드 관리
                     </span>
                   )}
                 </div>
-                {selectedNode.type !== "STATIC" && (
+                {!isStaticLockedMenu && (
                   <div className="inline-flex rounded-lg border border-[#d5deea] bg-white p-0.5">
                     <button
                       type="button"
@@ -222,13 +225,13 @@ export function MenuDetailPanel({
                     slugCustomized: true,
                   }))
                 }
-                disabled={selectedNode.type === "STATIC" || !selectedManualSlugMode}
+                disabled={isStaticLockedMenu || !selectedManualSlugMode}
                 placeholder="비워두면 저장 시 메뉴명 기준으로 자동 생성됩니다."
                 className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] disabled:bg-[#f8fafc] disabled:text-[#94a3b8]"
               />
               <p className="text-[11px] leading-5 text-[#6d7f95]">
-                {selectedNode.type === "STATIC"
-                  ? "URL 경로는 코드에 등록된 라우트와 묶여 있어 어드민에서 변경할 수 없습니다."
+                {isStaticLockedMenu
+                  ? "정적 페이지 메뉴와 정적 GNB의 URL 경로는 코드에 등록된 라우트와 묶여 있어 어드민에서 변경할 수 없습니다."
                   : selectedManualSlugMode
                   ? selectedNode.isAuto
                     ? "저장 후 유튜브 동기화가 실행되어도 이 URL 경로를 유지합니다."
@@ -237,7 +240,7 @@ export function MenuDetailPanel({
                     ? "유튜브 원제목 기준으로 URL 경로가 동기화됩니다. 고정하려면 직접 입력으로 전환하세요."
                     : "저장 시 메뉴 이름 기준으로 URL 경로가 자동 생성됩니다."}
               </p>
-              {selectedNode.type !== "STATIC" && selectedSlugPreview && (
+              {!isStaticLockedMenu && selectedSlugPreview && (
                 <div className="rounded-lg border border-[#dbe7f6] bg-white px-3 py-2">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-[11px] font-semibold text-[#334155]">
@@ -411,14 +414,18 @@ export function MenuDetailPanel({
                   onMarkDirty(reparentNode(items, selectedNode.id, nextParentId));
                 }}
                 disabled={
+                  selectedNode.type === "STATIC" ||
                   selectedNode.type === "FOLDER" ||
                   selectedNode.type === "YOUTUBE_PLAYLIST_GROUP"
                 }
                 className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] disabled:bg-[#f8fafc]"
               >
-                {(selectedNode.type === "FOLDER" ||
+                {(selectedNode.type === "STATIC" ||
+                  selectedNode.type === "FOLDER" ||
                   selectedNode.type === "YOUTUBE_PLAYLIST_GROUP") && (
-                  <option value="">루트(GNB)</option>
+                  <option value={selectedNode.parentId ?? ""}>
+                    {selectedNode.type === "STATIC" ? "고정된 상위 메뉴" : "루트(GNB)"}
+                  </option>
                 )}
                 {selectedNode.type === "YOUTUBE_PLAYLIST" && (
                   <option value="">미분류</option>

@@ -55,6 +55,10 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     () => new Map(allFlatItems.map(({ node }) => [node.id, node])),
     [allFlatItems],
   );
+  const staticPagePathByKey = useMemo(
+    () => new Map(staticPages.map((page) => [page.key, page.path])),
+    [staticPages],
+  );
   const changedMenuIds = useMemo(() => {
     const savedSignatures = buildNodeChangeSignatures(savedItems);
     return new Set(
@@ -83,11 +87,15 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     Boolean(selectedNode) && selectedNode?.parentId === null && descendantIds.size > 0;
   const confirmingSelectedDelete = selectedNode ? deleteConfirmId === selectedNode.id : false;
   const selectedPublicRoute = selectedNode
-    ? getPublicRouteSummary(selectedNode, menuById)
+    ? getPublicRouteSummary(selectedNode, menuById, staticPagePathByKey)
     : "";
   const selectedPreviewPublicRoute =
     selectedNode && selectedSlugPreview?.value
-      ? getPublicRouteSummary({ ...selectedNode, slug: selectedSlugPreview.value }, menuById)
+      ? getPublicRouteSummary(
+          { ...selectedNode, slug: selectedSlugPreview.value },
+          menuById,
+          staticPagePathByKey,
+        )
       : selectedPublicRoute;
   const canMoveUp = selectedSiblingIndex > 0;
   const canMoveDown =
