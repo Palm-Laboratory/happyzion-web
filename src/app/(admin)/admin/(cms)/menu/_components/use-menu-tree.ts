@@ -12,8 +12,9 @@ import {
   cloneTree,
   collectDescendantIds,
   type EditorNode,
+  findManagedSiblingList,
   findNode,
-  findSiblingList,
+  flattenVisibleTree,
   flattenTree,
   getPublicRouteSummary,
   getSlugPreview,
@@ -39,14 +40,15 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
   const [showAddModal, setShowAddModal] = useState(false);
   const [manualSlugDrafts, setManualSlugDrafts] = useState<Record<number, string>>({});
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [expandedRootIds, setExpandedRootIds] = useState<Set<number>>(() => new Set());
 
   const itemsRef = useRef(items);
   itemsRef.current = items;
 
   const allFlatItems = useMemo(() => flattenTree(items), [items]);
   const flatItems = useMemo(
-    () => allFlatItems.filter(({ node }) => !isDetachedPlaylist(node)),
-    [allFlatItems],
+    () => flattenVisibleTree(items, expandedRootIds).filter(({ node }) => !isDetachedPlaylist(node)),
+    [items, expandedRootIds],
   );
   const selectedNode = selectedId !== null ? findNode(items, selectedId) : null;
   const menuById = useMemo(
@@ -67,7 +69,7 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     [selectedNode],
   );
   const siblingNodes = useMemo(
-    () => (selectedNode ? (findSiblingList(items, selectedNode.id) ?? []) : []),
+    () => (selectedNode ? (findManagedSiblingList(items, selectedNode.id) ?? []) : []),
     [items, selectedNode],
   );
   const selectedSiblingIndex = selectedNode
@@ -94,8 +96,9 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     selectedSiblingIndex >= 0
       ? `현재 ${selectedSiblingIndex + 1} / ${siblingNodes.length}번째`
       : "현재 순서를 확인할 수 없습니다.";
-  const parentCandidates = flatItems.filter(({ node }) => {
+  const parentCandidates = allFlatItems.filter(({ node }) => {
     if (!selectedNode) return false;
+    if (isDetachedPlaylist(node)) return false;
     if (node.id === selectedNode.id) return false;
     if (descendantIds.has(node.id)) return false;
     if (selectedNode.type === "YOUTUBE_PLAYLIST") {
@@ -114,6 +117,18 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
   const markDirty = (nextItems: EditorNode[]) => {
     setItems(nextItems);
     setDeleteConfirmId(null);
+  };
+
+  const toggleRootExpanded = (rootId: number) => {
+    setExpandedRootIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(rootId)) {
+        next.delete(rootId);
+      } else {
+        next.add(rootId);
+      }
+      return next;
+    });
   };
 
   const updateSelectedNode = (updater: (node: EditorNode) => EditorNode) => {
@@ -140,6 +155,9 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
         children: [...node.children, { ...nextNode, parentId: selectedNode.id }],
       })),
     );
+    if (selectedNode.parentId === null) {
+      setExpandedRootIds((prev) => new Set(prev).add(selectedNode.id));
+    }
     setSelectedId(nextId);
   };
 
@@ -292,6 +310,8 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     parentCandidates,
     selectedId,
     setSelectedId,
+    expandedRootIds,
+    toggleRootExpanded,
     showAddModal,
     setShowAddModal,
     deleteConfirmId,

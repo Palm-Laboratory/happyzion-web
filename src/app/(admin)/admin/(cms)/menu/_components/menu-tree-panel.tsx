@@ -8,11 +8,13 @@ type Props = {
   flatItems: Array<{ node: EditorNode; depth: number }>;
   items: EditorNode[];
   selectedId: number | null;
+  expandedRootIds: Set<number>;
   changedMenuIds: Set<number>;
   draggingMenuId: number | null;
   dropIndicator: DropIndicator | null;
   treeScrollRef: RefObject<HTMLDivElement | null>;
   onSelect: (id: number) => void;
+  onToggleRootExpanded: (id: number) => void;
   onAddMenu: () => void;
   onDragStart: (event: DragEvent<HTMLButtonElement>, nodeId: number) => void;
   onDragOver: (
@@ -54,11 +56,13 @@ export function MenuTreePanel({
   flatItems,
   items,
   selectedId,
+  expandedRootIds,
   changedMenuIds,
   draggingMenuId,
   dropIndicator,
   treeScrollRef,
   onSelect,
+  onToggleRootExpanded,
   onAddMenu,
   onDragStart,
   onDragOver,
@@ -89,6 +93,8 @@ export function MenuTreePanel({
         ) : (
           <ul className="space-y-1">
             {flatItems.map(({ node, depth }) => {
+              const canToggle = depth === 0 && node.children.length > 0;
+              const isExpanded = expandedRootIds.has(node.id);
               const siblings = findSiblingList(items, node.id);
               const siblingIndex = siblings?.findIndex((item) => item.id === node.id) ?? -1;
               const showTopDropLine =
@@ -139,6 +145,44 @@ export function MenuTreePanel({
                       />
                     )}
                     <span className="flex min-w-0 items-center gap-2">
+                      {canToggle ? (
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          aria-label={`${node.label} ${isExpanded ? "접기" : "펼치기"}`}
+                          aria-expanded={isExpanded}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onToggleRootExpanded(node.id);
+                          }}
+                          onKeyDown={(event) => {
+                            if (event.key !== "Enter" && event.key !== " ") return;
+                            event.preventDefault();
+                            event.stopPropagation();
+                            onToggleRootExpanded(node.id);
+                          }}
+                          className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-[#d7e3f4] bg-white text-[#64748b] transition hover:bg-[#f1f5f9]"
+                        >
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                            className={`transition-transform ${isExpanded ? "rotate-90" : ""}`}
+                            aria-hidden="true"
+                          >
+                            <path
+                              d="M4.25 2.5L7.75 6L4.25 9.5"
+                              stroke="currentColor"
+                              strokeWidth="1.6"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </span>
+                      ) : (
+                        <span className="h-6 w-6 shrink-0" aria-hidden="true" />
+                      )}
                       <span
                         className="flex h-7 w-5 shrink-0 items-center justify-center rounded-md text-[#94a3b8]"
                         aria-hidden="true"

@@ -28,11 +28,13 @@ export default function MenuManagementClient({
           flatItems={tree.flatItems}
           items={tree.items}
           selectedId={tree.selectedId}
+          expandedRootIds={tree.expandedRootIds}
           changedMenuIds={tree.changedMenuIds}
           draggingMenuId={drag.draggingMenuId}
           dropIndicator={drag.dropIndicator}
           treeScrollRef={drag.treeScrollRef}
           onSelect={tree.setSelectedId}
+          onToggleRootExpanded={tree.toggleRootExpanded}
           onAddMenu={() => tree.setShowAddModal(true)}
           onDragStart={drag.handleMenuDragStart}
           onDragOver={drag.handleMenuDragOver}

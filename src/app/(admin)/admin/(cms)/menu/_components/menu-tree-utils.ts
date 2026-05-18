@@ -93,6 +93,22 @@ export function flattenTree(
   ]);
 }
 
+export function flattenVisibleTree(
+  nodes: EditorNode[],
+  expandedRootIds: Set<number>,
+  depth = 0,
+): Array<{ node: EditorNode; depth: number }> {
+  return nodes.flatMap((node) => {
+    const isCollapsedRoot =
+      depth === 0 && node.children.length > 0 && !expandedRootIds.has(node.id);
+
+    return [
+      { node, depth },
+      ...(isCollapsedRoot ? [] : flattenVisibleTree(node.children, expandedRootIds, depth + 1)),
+    ];
+  });
+}
+
 export function cloneTree(nodes: EditorNode[]): EditorNode[] {
   return nodes.map((node) => ({
     ...node,
@@ -181,12 +197,24 @@ export function moveNodeWithinSiblings(
       return list.map((item) => ({ ...item, children: moveInList(item.children) }));
     }
 
-    const nextIndex = index + direction;
-    if (nextIndex < 0 || nextIndex >= list.length) return list;
+    const visibleIndexes = list[index].parentId === null
+      ? list.flatMap((item, itemIndex) => (isDetachedPlaylist(item) ? [] : [itemIndex]))
+      : list.map((_, itemIndex) => itemIndex);
+    const visibleIndex = visibleIndexes.indexOf(index);
+    const nextVisibleIndex = visibleIndex + direction;
+
+    if (visibleIndex === -1 || nextVisibleIndex < 0 || nextVisibleIndex >= visibleIndexes.length) {
+      return list;
+    }
+
+    const visibleNodes = visibleIndexes.map((itemIndex) => list[itemIndex]);
+    const [moving] = visibleNodes.splice(visibleIndex, 1);
+    visibleNodes.splice(nextVisibleIndex, 0, moving);
 
     const nextList = [...list];
-    const [moving] = nextList.splice(index, 1);
-    nextList.splice(nextIndex, 0, moving);
+    visibleIndexes.forEach((itemIndex, reorderIndex) => {
+      nextList[itemIndex] = visibleNodes[reorderIndex];
+    });
     return nextList;
   };
 
@@ -233,6 +261,19 @@ export function findSiblingList(
     if (childResult) return childResult;
   }
   return null;
+}
+
+export function findManagedSiblingList(
+  nodes: EditorNode[],
+  targetId: number,
+): EditorNode[] | null {
+  const targetNode = findNode(nodes, targetId);
+  const siblings = findSiblingList(nodes, targetId);
+  if (!targetNode || !siblings) return siblings;
+
+  return targetNode.parentId === null
+    ? siblings.filter((node) => !isDetachedPlaylist(node))
+    : siblings;
 }
 
 export function toPayload(nodes: EditorNode[]): MenuTreeNodePayload[] {
