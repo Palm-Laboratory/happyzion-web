@@ -28,6 +28,17 @@ test("public menu API types come from generated OpenAPI components", async () =>
   );
 });
 
+test("public static params include renderable dynamic menu types", async () => {
+  const contents = await readFile(publicMenuApiPath, "utf8");
+
+  assert.match(contents, /RENDERABLE_TYPES[\s\S]*["']BOARD["']/, "Expected board menus to be static-param candidates.");
+  assert.match(
+    contents,
+    /RENDERABLE_TYPES[\s\S]*["']YOUTUBE_PLAYLIST["']/,
+    "Expected YouTube playlist menus to be static-param candidates.",
+  );
+});
+
 test("frontend exposes an API type generation script", async () => {
   const packageJson = JSON.parse(await readFile(packageJsonPath, "utf8"));
 

@@ -45,7 +45,7 @@ export async function getPublicNavigation(): Promise<PublicNavigationResponse> {
   );
 }
 
-const RENDERABLE_TYPES = new Set<string>(["BOARD"]);
+const RENDERABLE_TYPES = new Set<string>(["BOARD", "YOUTUBE_PLAYLIST"]);
 
 function extractInternalPaths(nav: PublicNavigationResponse): string[] {
   const paths: string[] = [];

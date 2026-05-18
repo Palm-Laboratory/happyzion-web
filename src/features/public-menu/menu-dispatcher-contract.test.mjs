@@ -30,3 +30,18 @@ test("menu dispatcher recognizes explicit board post detail URLs before menu res
     "Expected detail routing not to rely only on resolvePublicMenuPath failing for /{boardPath}/{postId}.",
   );
 });
+
+test("menu dispatcher renders public YouTube playlist list and detail routes", async () => {
+  const contents = await readDispatcher();
+
+  assert.match(
+    contents,
+    /YOUTUBE_PLAYLIST\s*:\s*renderVideoListPage/,
+    "Expected dispatcher to render YOUTUBE_PLAYLIST menu items as public video list pages.",
+  );
+  assert.match(
+    contents,
+    /getPublicPlaylistVideoDetailByPath\(\s*playlist\.fullPath\s*,\s*childRoute\.childId\s*\)/,
+    "Expected dispatcher to resolve /{playlistPath}/{videoId} as a public video detail route.",
+  );
+});

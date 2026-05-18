@@ -3,10 +3,19 @@ import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { cache } from "react";
 
 import PublicBoardRenderer from "@/components/public-board/public-board-renderer";
+import PublicVideoPlaylistDetailView from "@/components/public-video/public-video-playlist-detail-view";
+import PublicVideoPlaylistView from "@/components/public-video/public-video-playlist-view";
 import SitePageShell from "@/components/site-page-shell";
 import { getPublicBoardPost, listPublicBoardPosts } from "@/lib/public-board-api";
 import { resolvePublicMenuPath, type PublicResolvedMenuPage } from "@/lib/public-menu-api";
 import { createPageMetadata } from "@/lib/seo";
+import {
+  getPublicPlaylistDetailByPath,
+  getPublicPlaylistVideoDetailByPath,
+  getPublicPlaylistVideoListByPath,
+  type PublicVideoDetail,
+} from "@/lib/videos-api";
+import { isYouTubeVideoId } from "@/lib/youtube-id";
 
 // cache() makes the dedupe contract explicit: generateMetadata and the page render are
 // separate Next.js call paths but receive the same path argument, so they share one fetch.
@@ -21,6 +30,8 @@ export type MenuDispatcherPageProps = {
 
 const DEFAULT_BOARD_PAGE_SIZE = 20;
 const MAX_BOARD_PAGE_SIZE = 50;
+const LONGFORM_VIDEO_PAGE_SIZE = 6;
+const SHORTFORM_VIDEO_PAGE_SIZE = 8;
 
 function normalizePath(menuPath: string[]) {
   return `/${menuPath.filter(Boolean).join("/")}`;
@@ -58,6 +69,20 @@ function getLegacyBoardPostRoute(path: string) {
   };
 }
 
+function getChildRoute(path: string) {
+  const segments = path.split("/").filter(Boolean);
+  const childId = segments.at(-1);
+
+  if (segments.length < 2 || !childId) {
+    return null;
+  }
+
+  return {
+    parentPath: `/${segments.slice(0, -1).join("/")}`,
+    childId,
+  };
+}
+
 function getFirstSearchParam(
   searchParams: Record<string, string | string[] | undefined>,
   key: string,
@@ -88,10 +113,48 @@ function getPageTitle(resolved: PublicResolvedMenuPage) {
   return resolved.parentLabel ? `${resolved.label} | ${resolved.parentLabel}` : resolved.label;
 }
 
+type VideoDetailRoute =
+  | {
+      kind: "found";
+      playlist: PublicResolvedMenuPage;
+      video: PublicVideoDetail;
+    }
+  | {
+      kind: "missing";
+      playlist: PublicResolvedMenuPage;
+    }
+  | {
+      kind: "none";
+    };
+
+async function resolveVideoDetailRoute(path: string): Promise<VideoDetailRoute> {
+  const childRoute = getChildRoute(path);
+
+  if (!childRoute || !isYouTubeVideoId(childRoute.childId)) {
+    return { kind: "none" };
+  }
+
+  const playlist = await resolveMenuPath(childRoute.parentPath);
+
+  if (!playlist || playlist.type !== "YOUTUBE_PLAYLIST") {
+    return { kind: "none" };
+  }
+
+  const video = await getPublicPlaylistVideoDetailByPath(playlist.fullPath, childRoute.childId);
+
+  if (!video) {
+    return { kind: "missing", playlist };
+  }
+
+  return { kind: "found", playlist, video };
+}
+
 export async function generateMenuDispatcherMetadata({
   params,
-}: Omit<MenuDispatcherPageProps, "searchParams">): Promise<Metadata> {
+  searchParams,
+}: MenuDispatcherPageProps): Promise<Metadata> {
   const { menuPath } = await params;
+  const resolvedSearchParams = await searchParams;
   const path = normalizePath(menuPath);
   const explicitPostRoute = getExplicitBoardPostRoute(path);
 
@@ -119,10 +182,37 @@ export async function generateMenuDispatcherMetadata({
     });
   }
 
+  if (resolved?.type === "YOUTUBE_PLAYLIST") {
+    const requestedPage = parsePositiveInteger(getFirstSearchParam(resolvedSearchParams, "page"), 1);
+    const playlist = await getPublicPlaylistDetailByPath(resolved.fullPath);
+
+    return createPageMetadata({
+      title: playlist?.title ?? getPageTitle(resolved),
+      description: playlist?.description ?? undefined,
+      path:
+        playlist?.contentForm === "SHORTFORM" || requestedPage <= 1
+          ? resolved.fullPath
+          : `${resolved.fullPath}?page=${requestedPage}`,
+    });
+  }
+
   if (resolved) {
     return createPageMetadata({
       title: getPageTitle(resolved),
       path: resolved.fullPath,
+    });
+  }
+
+  const videoDetailRoute = await resolveVideoDetailRoute(path);
+
+  if (videoDetailRoute.kind === "found") {
+    return createPageMetadata({
+      title: `${videoDetailRoute.video.title} | ${videoDetailRoute.playlist.label}`,
+      description:
+        videoDetailRoute.video.summary ||
+        videoDetailRoute.video.description ||
+        `${videoDetailRoute.playlist.label} 영상입니다.`,
+      path: `${videoDetailRoute.playlist.fullPath}/${videoDetailRoute.video.videoId}`,
     });
   }
 
@@ -184,6 +274,79 @@ async function renderBoardListPage(
   );
 }
 
+async function renderVideoListPage(
+  resolved: PublicResolvedMenuPage,
+  searchParams: Record<string, string | string[] | undefined>,
+) {
+  const playlist = await getPublicPlaylistDetailByPath(resolved.fullPath);
+
+  if (!playlist) {
+    notFound();
+  }
+
+  const requestedPage = parsePositiveInteger(getFirstSearchParam(searchParams, "page"), 1);
+  const pageSize =
+    playlist.contentForm === "SHORTFORM" ? SHORTFORM_VIDEO_PAGE_SIZE : LONGFORM_VIDEO_PAGE_SIZE;
+  const videos = await getPublicPlaylistVideoListByPath(playlist.fullPath, requestedPage, pageSize);
+
+  if (!videos) {
+    notFound();
+  }
+
+  if (playlist.fullPath !== resolved.fullPath) {
+    redirect(playlist.fullPath);
+  }
+
+  if (videos.form === "SHORTFORM" && requestedPage !== 1) {
+    redirect(playlist.fullPath);
+  }
+
+  if (videos.form !== "SHORTFORM" && videos.currentPage !== requestedPage) {
+    const target =
+      videos.currentPage > 1 ? `${playlist.fullPath}?page=${videos.currentPage}` : playlist.fullPath;
+    redirect(target);
+  }
+
+  return (
+    <SitePageShell title={getShellTitle(resolved)} subtitle={getShellSubtitle(resolved.fullPath)}>
+      <PublicVideoPlaylistView playlist={playlist} videos={videos} />
+    </SitePageShell>
+  );
+}
+
+async function renderVideoDetailPage(path: string) {
+  const videoDetailRoute = await resolveVideoDetailRoute(path);
+
+  if (videoDetailRoute.kind === "none") {
+    return null;
+  }
+
+  if (videoDetailRoute.kind === "missing") {
+    notFound();
+  }
+
+  const playlist = await getPublicPlaylistDetailByPath(videoDetailRoute.playlist.fullPath);
+
+  if (!playlist) {
+    notFound();
+  }
+
+  const canonicalDetailPath = `${playlist.fullPath}/${videoDetailRoute.video.videoId}`;
+
+  if (canonicalDetailPath !== path) {
+    redirect(canonicalDetailPath);
+  }
+
+  return (
+    <SitePageShell
+      title={getShellTitle(videoDetailRoute.playlist)}
+      subtitle={getShellSubtitle(videoDetailRoute.playlist.fullPath)}
+    >
+      <PublicVideoPlaylistDetailView playlist={playlist} video={videoDetailRoute.video} />
+    </SitePageShell>
+  );
+}
+
 async function renderBoardDetailPage({
   boardPath,
   postId,
@@ -239,6 +402,7 @@ type PageRenderer = (
 
 const PAGE_RENDERERS: Partial<Record<string, PageRenderer>> = {
   BOARD: renderBoardListPage,
+  YOUTUBE_PLAYLIST: renderVideoListPage,
   EXTERNAL_LINK: async (resolved) => {
     if (resolved.fullPath) redirect(resolved.fullPath);
     notFound();
@@ -261,6 +425,11 @@ export async function renderMenuDispatcherPage({
   const resolved = await resolveMenuPath(path);
 
   if (!resolved) {
+    const videoDetailPage = await renderVideoDetailPage(path);
+    if (videoDetailPage) {
+      return videoDetailPage;
+    }
+
     return redirectLegacyBoardDetailPage(path);
   }
 
