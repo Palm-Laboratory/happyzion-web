@@ -64,10 +64,10 @@ function FoundationCard() {
         <p className="type-label-lg text-[#c9a96e]">
           Church Foundation
         </p>
-        <h3 className="type-title-lg whitespace-pre-line uppercase text-white">
+        <h3 className="type-title-lg whitespace-pre-line text-white">
           {"1997년 7월 1일\n신원당 시영아파트 (14평 가정교회)"}
         </h3>
-        <p className="type-caption-lg whitespace-pre-line font-medium uppercase text-white/80">
+        <p className="type-caption-lg whitespace-pre-line font-medium text-white/80">
           하나님의 부르심에 응답하여, 작은 가정에서 시작된 시온장로교회의 첫걸음
         </p>
       </div>
@@ -99,7 +99,7 @@ function BeginningSection() {
         className="md:max-w-none [&_h2]:md:whitespace-nowrap"
       />
       <div className="grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-[60px]">
-        <div className="type-body-md flex min-w-0 flex-col gap-8 uppercase text-[#4A3B5E]">
+        <div className="type-body-md flex min-w-0 flex-col gap-8 text-[#4A3B5E]">
           {beginningParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -173,20 +173,20 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
       }`}
     >
       <div className="flex flex-col gap-2">
-        <p className="type-label-lg uppercase text-[#c9a96e]">
+        <p className="type-label-lg text-[#c9a96e]">
           <TimelinePlace place={item.place} />
         </p>
-        <h3 className="type-title-xl font-medium uppercase text-[#250030]">
+        <h3 className="type-title-xl font-medium text-[#250030]">
           <TimelineTitle title={item.title} />
         </h3>
       </div>
-      <p className="type-body-sm uppercase text-[#4a3b5e]">
+      <p className="type-body-sm text-[#4a3b5e]">
         {item.body}
       </p>
       {item.quote ? (
         <blockquote className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-          <p className="type-quote-md relative z-10 uppercase text-[#33103f]">
-            “{item.quote}”
+          <p className="type-quote-md relative z-10 text-[#33103f]">
+            "{item.quote}"
           </p>
           <span
             className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
@@ -198,7 +198,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
         </blockquote>
       ) : null}
       {item.closing ? (
-        <p className="type-body-sm uppercase text-[#4a3b5e]">
+        <p className="type-body-sm text-[#4a3b5e]">
           {item.closing}
         </p>
       ) : null}
@@ -229,16 +229,16 @@ function TimelineSection() {
 
 function ClosingCallout() {
   return (
-    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-[54px] uppercase md:px-[60px]">
+    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-[54px] md:px-[60px]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_46%,rgba(153,63,186,0.12),rgba(153,63,186,0)_52%)]" />
       <div className="relative z-10 flex flex-col items-start gap-4">
         <p className="type-label-lg text-[#c9a96e]">
           God&apos;s Faithfulness
         </p>
-        <h2 className="type-title-lg uppercase text-white">
+        <h2 className="type-title-lg text-white">
           부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그 시작입니다.
         </h2>
-        <p className="type-caption-lg font-medium uppercase text-white/80">
+        <p className="type-caption-lg font-medium text-white/80">
           지난 30년의 걸음 하나하나가 하나님의 인도하심이었습니다.
           <br />
           작은 14평 가정에서 시작된 교회가 오늘도 사람을 살리는 사역을 이어가고 있습니다.

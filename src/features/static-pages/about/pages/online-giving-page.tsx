@@ -86,7 +86,7 @@ function CopyAccountButton({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       disabled={!canCopy}
-      className="type-body-sm relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-[#8b6db5]/25 px-5 py-2 font-semibold text-[#33103f] transition hover:border-[#2a123c] hover:bg-[#2a123c] hover:text-white disabled:cursor-not-allowed disabled:hover:border-[#8b6db5]/25 disabled:hover:bg-white"
+      className="type-button-md relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-[#8b6db5]/25 px-5 py-2 font-semibold text-[#33103f] transition hover:border-[#2a123c] hover:bg-[#2a123c] hover:text-white disabled:cursor-not-allowed disabled:hover:border-[#8b6db5]/25 disabled:hover:bg-white"
       aria-label="계좌번호 복사하기"
     >
       {copied ? "복사됨" : "복사하기"}
@@ -119,7 +119,7 @@ export default function OnlineGivingStaticPage() {
 
       <section className="overflow-hidden border border-[#8b6db5]/18 bg-white">
         <div className="px-6 py-7 md:px-10 md:py-9">
-          <p className="type-label-md font-semibold text-[#33103f]">
+          <p className="type-label-lg font-suit font-semibold text-[#33103f]">
             입금자명 기재 방법
           </p>
 
@@ -136,7 +136,7 @@ export default function OnlineGivingStaticPage() {
           </div>
 
           <div className="mt-7 border-t border-[#8b6db5]/18 pt-7 md:mt-8 md:pt-8">
-            <p className="type-body-md font-semibold text-[#4A3B5E]">
+            <p className="type-body-md font-medium text-[#4A3B5E]">
               {senderNameExamples.description}
             </p>
 
@@ -156,8 +156,8 @@ export default function OnlineGivingStaticPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="m13 6 6 6-6 6" />
                   </svg>
                   <p className="type-body-md leading-[1.7]">
-                    <span className="font-semibold text-[#33103f]">{item.label}</span>{" "}
-                    <strong className="font-bold text-[#bd6fe0]">{item.value}</strong>
+                    <span className="font-medium text-[#33103f]">{item.label}</span>{" "}
+                    <strong className="font-medium text-[#bd6fe0]">{item.value}</strong>
                   </p>
                 </div>
               ))}
@@ -190,20 +190,20 @@ export default function OnlineGivingStaticPage() {
         <div className="flex flex-col gap-6 px-6 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10 md:py-7">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-7">
             <div className="shrink-0">
-              <p className="type-label-md font-semibold text-[#33103f]">
+              <p className="type-title-xxs font-semibold uppercase text-[#33103f]">
                 Bank Account
               </p>
-              <p className="type-body-sm mt-2 font-bold text-[#33103f] md:mt-1 md:font-normal md:text-[#8b6db5]">
+              <p className="type-body-xs mt-2 font-bold text-[#33103f] md:mt-1 md:font-normal md:text-[#8b6db5]">
                 온라인 계좌
               </p>
             </div>
             <div className="hidden h-14 w-px bg-[#8b6db5]/12 md:block" />
             <div className="tracking-[-0.01em] text-[#33103f] md:font-serif md:tracking-[-0.04em]">
-              <p className="type-body-md font-semibold leading-[1.4] text-[#33103f] md:text-[1.25rem] md:font-bold md:leading-[1.2]">
+              <p className="type-title-md font-semibold text-[#33103f]">
                 {givingAccount.bankName}
                 <span className="hidden md:inline"> {givingAccount.accountNumber}</span>
               </p>
-              <p className="type-title-sm mt-2 font-bold leading-[1.2] text-[#33103f] md:hidden">
+              <p className="type-title-md mt-2 font-semibold text-[#33103f] md:hidden">
                 {givingAccount.accountNumber}
               </p>
               <p className="type-body-xs mt-1 leading-[1.3] text-[#8b6db5]">

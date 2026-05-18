@@ -1,6 +1,6 @@
 # 행복이 가득한 시온교회 디자인 시스템
 
-범위: 이 문서는 구현된 메인 페이지와 완성된 `about` 정적 페이지(담임 목사 인사말, 교회 스토리, 부흥 조직도, 예배 안내, 오시는 길, 선교 역사, 온라인 헌금)를 기준으로 작성되었습니다.
+범위: 이 문서는 구현된 메인 페이지와 완성된 정적 페이지(담임 목사 인사말, 교회 스토리, 부흥 조직도, 예배 안내, 오시는 길, 선교 역사, 온라인 헌금, 새가족 안내, 새가족 양육, 제자훈련)를 기준으로 작성되었습니다.
 
 ## 1. 개요
 
@@ -209,40 +209,50 @@
 | --- | --- | --- | --- |
 | {font.sans} | SUIT, sans-serif | `globals.css` CDN 임포트 | 본문, 내비게이션, 단락, UI |
 | {font.serifKo} | Hahmlet, serif | `next/font/google` | 한국어 헤딩, 카드, 인용문 |
-| {font.cormorant} | Cormorant, serif | `next/font/google` | 선택적 세리프 액센트 |
-| {font.cormorantGaramond} | Cormorant Garamond, serif | `next/font/google` | 영문 레이블, 카운터, 사역 번호 |
+| {font.cormorant} | Cormorant, serif | `next/font/google` | 카운터 숫자, 장식 숫자 |
+| {font.cormorantGaramond} | Cormorant Garamond, serif | `next/font/google` | 레거시 — {font.cormorant}로 교체 중 |
 | {font.cormorantInfant} | Cormorant Infant, serif | `next/font/google` | 섹션 레이블, 서브타이틀, 갤러리 캡션 |
 | {font.corinthia} | Corinthia, cursive | `next/font/google` | 장식용 카운터 |
 | {font.estonia} | Estonia, cursive | `next/font/google` | 스크립트 서브타이틀 |
 
 ### 전역 타입 스케일
 
-스케일 기반 네이밍 (xl / lg / md / sm / xs). 헤딩 토큰은 반응형이며 나머지는 고정값입니다. CSS 클래스는 `.type-{토큰}` 형식 (예: `.type-heading-xl`). nav 활성 상태는 컴포넌트 레벨에서 `font-weight: 700` 오버라이드. 장식용 토큰(script-display, display-counter, script-accent)은 인라인 전용으로 스케일에 포함하지 않습니다.
+스케일 기반 네이밍 (xl / lg / md / sm / xs). 헤딩 토큰은 반응형이며 나머지는 고정값입니다. CSS 클래스는 `.type-{토큰}` 형식 (예: `.type-heading-xl`). nav 활성 상태는 컴포넌트 레벨에서 `font-weight: 700` 오버라이드. 장식용 토큰(script-display, display-counter, script-accent)은 인라인 전용으로 스케일에 포함하지 않습니다. label 토큰은 text-transform: uppercase를 포함하므로 별도 uppercase 클래스를 추가하지 않습니다.
 
 | 토큰 | 역할 | 패밀리 | 크기 | 두께 | 줄 높이 | 자간 | 반응형 |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | {type.heading.xl} | 페이지 배너 타이틀 | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
+| {type.heading.lg} | 섹션 헤딩 (대) | {font.serifKo} | 36px | 600 | 1.3 | 0.01em | 42px ≥768px / 48px ≥1024px |
 | {type.heading.md} | 섹션 헤딩 | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
-| {type.subtitle.sm} | 섹션 설명 | {font.sans} | 16px | 400 | 1.2 | 0.02em | — |
+| {type.subtitle.lg} | 섹션 설명 (대) | {font.cormorantInfant} | 24px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.md} | 섹션 설명 (중) | {font.cormorantInfant} | 20px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.sm} | 섹션 설명 | {font.cormorantInfant} | 16px | 400 | 1.2 | 0.08em | — |
+| {type.title.xxs} | 마이크로 타이틀 / 테이블 헤더 | {font.serifKo} | 14px | 600 | 1.5 | 0.01em | — |
 | {type.title.xs} | 컴포넌트 소제목 | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
-| {type.title.sm} | 카드 제목 (소) | {font.serifKo} | 18px | 600 | 1.75 | 0.01em | — |
-| {type.title.md} | 카드 제목 (중) | {font.serifKo} | 20px | 600 | 1.75 | 0.01em | — |
-| {type.title.lg} | 카드 제목 (대) | {font.serifKo} | 22px | 600 | 1.85 | 0.01em | — |
-| {type.title.xl} | 카드 제목 (특대) | {font.serifKo} | 24px | 600 | 1.35 | 0.01em | — |
+| {type.title.sm} | 카드 제목 (소) | {font.serifKo} | 18px | 600 | 1.5 | 0.01em | — |
+| {type.title.md} | 카드 제목 (중) | {font.serifKo} | 20px | 600 | 1.5 | 0.01em | — |
+| {type.title.lg} | 카드 제목 (대) | {font.serifKo} | 22px | 600 | 1.5 | 0.01em | — |
+| {type.title.xl} | 카드 제목 (특대) | {font.serifKo} | 24px | 600 | 1.5 | 0.01em | — |
+| {type.body.lg} | 본문 (대) | {font.sans} | 20px | 400 | 1.8 | 0.01em | — |
 | {type.body.md} | 본문 | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
 | {type.body.sm} | 본문 (소) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
 | {type.body.xs} | 본문 (극소) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
-| {type.quote.md} | 인용 텍스트 | {font.sans} | 18px | 500 | 1.8 | 0.01em | — |
-| {type.quote.xs} | 인용 텍스트 (소) | {font.sans} | 14px | 500 | 1.75 | 0.01em | — |
-| {type.label.xl} | 인물명 / 대형 레이블 | {font.sans} | 16px | 300 | 1.2 | 0.18em | — |
-| {type.label.lg} | 섹션 아이브로 | {font.sans} | 14px | 300 | 1.2 | 0.18em | — |
-| {type.label.md} | 카드 레이블 | {font.sans} | 12px | 300 | 1.2 | 0.18em | — |
-| {type.label.sm} | 마이크로 레이블 | {font.sans} | 10px | 300 | 1.2 | 0.18em | — |
+| {type.quote.lg} | 인용 텍스트 (대) | {font.serifKo} | 20px | 500 | 1.8 | 0.01em | — |
+| {type.quote.md} | 인용 텍스트 | {font.serifKo} | 18px | 500 | 1.8 | 0.01em | — |
+| {type.quote.sm} | 인용 텍스트 (소) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | 인용 텍스트 (극소) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | 인물명 / 대형 레이블 | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | — |
+| {type.label.lg} | 섹션 아이브로 | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
+| {type.label.md} | 카드 레이블 | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
+| {type.label.sm} | 마이크로 레이블 | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
 | {type.nav.md} | 내비게이션 / 브레드크럼 | {font.sans} | 16px | 500 | 1 | 0.01em | — |
 | {type.caption.lg} | 캡션 (대) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
 | {type.caption.md} | 캡션 | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.button.lg} | 버튼 레이블 (대) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
 | {type.button.md} | 버튼 레이블 | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
-| {type.counter.md} | 통계 카운터 | {font.sans} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.counter.sm} | 카운터 숫자 (소) | {font.cormorant} | 20px | 400 | 0.75 | 0.04em | — |
+| {type.counter.md} | 카운터 숫자 | {font.cormorant} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.counter.lg} | 카운터 숫자 (대) | {font.cormorant} | 28px | 400 | 0.75 | 0.04em | — |
 | {type.scriptDisplay} | 장식용 | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
 | {type.displayCounter} | 장식용 | {font.corinthia} | 56px | 400 | 1 | 0.01em | — |
 | {type.scriptAccent} | 장식용 | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |

@@ -4,7 +4,6 @@ import { useState } from "react";
 
 import SectionHeading from "@/components/section-heading";
 import ApplyForm from "@/features/static-pages/discipleship/components/apply-form";
-import { cormorant } from "@/lib/fonts";
 
 const discipleshipPrinciples = [
   {
@@ -177,17 +176,17 @@ const applicationNotes = ["모든 교재 무료 제공", "이전 수료 과정 �
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#33103f]">
+      <p className="type-quote-md relative z-10 text-[#33103f]">
         &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이
         또 다른 사람들을 가르칠 수 있으리라&quot;
       </p>
-      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
+      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
         디모데후서 2:2
       </p>
       <span
         aria-hidden="true"
         className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        style={{ fontFamily: "var(--font-cormorant), serif" }}
       >
         &quot;
       </span>
@@ -208,22 +207,22 @@ function PrincipleItem({
 }) {
   return (
     <article className="flex gap-4 border-b border-[#8b6db5]/18 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7">
-      <div className="flex items-start pt-2">
+      <div className="flex items-center">
         <span
-          className={`${cormorant.className} text-[2rem] leading-none tracking-[0.08em] text-[#e4b96b] md:text-[2.25rem]`}
+          className="type-counter-lg -translate-y-[4px] text-[#e4b96b]"
         >
           {number}
         </span>
       </div>
 
       <div className="border-l border-[#8b6db5]/18 pl-4 md:pl-6">
-        <p className="font-cormorant-infant type-body-xs tracking-[0.12em] text-[#8b6db5]">
+        <p className="type-label-md tracking-[0.12em] text-[#8b6db5]">
           {englishTitle.toUpperCase()}
         </p>
-        <h3 className="font-hahmlet mt-2 text-[1.25rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
+        <h3 className="type-title-md mt-2 font-medium text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-xs mt-2 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+        <p className="type-body-xs mt-2 text-[#4a3b5e]">
           {details.join(" · ")}
         </p>
       </div>
@@ -256,7 +255,7 @@ function Roadmap() {
                   }`}
                 >
                   <span
-                    className={`${cormorant.className} -translate-y-0.5 text-[1.4rem] font-bold leading-none tracking-[0.08em]`}
+                    className={`type-counter-md font-bold ${index === 0 || index === roadmapItems.length - 1 ? "" : "-translate-y-0.5"}`}
                   >
                     {index === 0 ? "N" : index === roadmapItems.length - 1 ? "G" : `0${index}`}
                   </span>
@@ -264,27 +263,27 @@ function Roadmap() {
               </div>
 
               <div className="min-w-0 flex-1 pt-3 md:pt-2">
-                <p className="font-cormorant-infant text-xs uppercase leading-[1.2] tracking-[0.18em] text-[#928397] md:text-[0.9375rem]">
+                <p className="type-label-md md:type-label-lg tracking-[0.18em] text-[#928397]">
                   {item.label}
                   <span className="mx-3 tracking-[0.12em]">·</span>
                   {item.duration}
                 </p>
                 <article
-                  className={`mt-3 rounded-[8px] border px-5 py-5 shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-7 ${
+                  className={`mt-3 rounded-[8px] border px-5 py-4 shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-7 ${
                     index === roadmapItems.length - 1
                       ? "border-[#2a123c] bg-[#2a123c] text-white"
                       : "border-[#8b6db5]/18 bg-white"
                   }`}
                 >
                   <h3
-                    className={`font-hahmlet text-[1.5rem] font-semibold leading-none tracking-[-0.02em] ${
+                    className={`type-title-xl ${
                       index === roadmapItems.length - 1 ? "text-white" : "text-[#33103f]"
                     }`}
                   >
                     {item.title}
                   </h3>
                   <p
-                    className={`type-body-xs mt-3 leading-[1.6] tracking-[0.02em] ${
+                    className={`type-body-xs mt-[6px] ${
                       index === roadmapItems.length - 1 ? "text-white/80" : "text-[#4a3b5e]"
                     }`}
                   >
@@ -298,7 +297,7 @@ function Roadmap() {
       </div>
 
       <div className="mt-8 rounded-[8px] bg-[#f5f0f9] px-5 py-5 text-center">
-        <p className="type-body-md leading-[1.6] tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-md text-[#6F5576]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
           <span className="mx-3">·</span>
@@ -315,7 +314,7 @@ function CurriculumStageTabs() {
 
   return (
     <div className="w-full">
-      <p className="type-body-md mb-8 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+      <p className="type-body-md mb-8 text-[#4a3b5e]">
         대상: {selectedStage.target}
         <span className="mx-3 text-[#4a3b5e]">·</span>
         목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
@@ -336,13 +335,13 @@ function CurriculumStageTabs() {
               aria-pressed={active}
             >
               <span
-                className={`font-suit text-[0.9375rem] font-semibold uppercase leading-none tracking-[0.18em] ${
+                className={`type-label-lg font-suit font-semibold tracking-[0.18em] ${
                   active ? "text-[rgb(228_185_107)]" : "text-[#8b6db5]"
                 }`}
               >
                 {stage.level}
               </span>
-              <span className="font-hahmlet text-[1rem] font-semibold leading-[1.25] tracking-[-0.01em] md:text-[1.125rem]">
+              <span className="type-title-xs md:type-title-sm">
                 {stage.title}
               </span>
             </button>
@@ -353,12 +352,12 @@ function CurriculumStageTabs() {
       <div className="mt-8 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
         <div className="grid grid-cols-[80px_minmax(0,1fr)] bg-[#2a123c] md:grid-cols-[96px_minmax(0,1fr)]">
           <div className="px-4 py-4 md:px-5">
-            <p className="font-suit text-[0.9375rem] font-medium leading-none tracking-[0.02em] text-white">
+            <p className="type-title-xxs font-suit font-bold text-white">
               주차
             </p>
           </div>
           <div className="px-6 py-4">
-            <p className="font-suit text-[0.9375rem] font-medium leading-none tracking-[0.02em] text-white">
+            <p className="type-title-xxs font-suit font-bold text-white">
               과목
             </p>
           </div>
@@ -373,13 +372,13 @@ function CurriculumStageTabs() {
           >
             <div className="flex items-center justify-start border-r border-[#8b6db5]/18 px-4 py-4 md:px-5">
               <span
-                className={`${cormorant.className} text-[1.25rem] font-bold leading-none tracking-[0.12em] text-[rgb(228_185_107)]`}
+                className="type-counter-sm -translate-y-[2px] font-bold tracking-[0.12em] text-[rgb(228_185_107)]"
               >
                 {String(courseIndex + 1).padStart(2, "0")}
               </span>
             </div>
             <div className="flex items-center px-6 py-4">
-              <p className="font-suit text-[1rem] font-medium leading-[1.55] tracking-[0.01em] text-[#33103f]">
+              <p className="type-body-sm font-medium text-[#33103f]">
                 {course}
               </p>
             </div>
@@ -388,10 +387,10 @@ function CurriculumStageTabs() {
       </div>
 
       <div className="mt-4 border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-5 py-4">
-        <p className="font-hahmlet text-[1rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
+        <p className="type-title-xs text-[#33103f]">
           수료 기준
         </p>
-        <p className="type-body-xs mt-3 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+        <p className="type-body-xs mt-3 text-[#4a3b5e]">
           {selectedStage.requirements.join(" · ")}
         </p>
       </div>
@@ -411,15 +410,15 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
+        <span className="text-[2rem] font-bold leading-none text-[#e4b96b]" style={{ fontFamily: "var(--font-cormorant), serif" }}>
           {minute}
         </span>
         <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-body-md mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-title-xs font-medium mb-1 text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-xs flex flex-col items-start gap-2 leading-none text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-1 text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -472,7 +471,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label-md mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-xs mt-4 text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -490,7 +489,7 @@ function ScheduleCard({
 }) {
   return (
     <article className="rounded-[8px] bg-[#f5f0f9] p-6 md:p-8">
-      <h3 className="type-title-md font-bold leading-none tracking-[0.02em] text-[#33103f]">
+      <h3 className="type-title-md text-[#33103f]">
         {title}
       </h3>
       <div className="mt-5">
@@ -499,8 +498,8 @@ function ScheduleCard({
             key={`${left}-${right}`}
             className="flex items-center justify-between gap-6 border-b border-[#8b6db5]/12 py-3"
           >
-            <span className="type-body-xs tracking-[0.02em] text-[#6F5576]">{left}</span>
-            <span className="type-body-xs font-semibold tracking-[0.02em] text-[#33103f]">
+            <span className="type-body-xs text-[#6F5576]">{left}</span>
+            <span className="type-body-xs font-semibold text-[#33103f]">
               {right}
             </span>
           </div>
@@ -592,7 +591,7 @@ export default function DiscipleshipTrainingStaticPage() {
 
             <ul className="mt-6 flex flex-col gap-2">
               {applicationNotes.map((note) => (
-                <li key={note} className="type-body-md flex items-start gap-1 tracking-[0.02em] text-white/80">
+                <li key={note} className="type-body-md flex items-start gap-1 text-white/80">
                   <span aria-hidden="true">·</span>
                   <span>{note}</span>
                 </li>

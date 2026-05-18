@@ -110,7 +110,7 @@ function VisionList() {
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="type-quote-md relative z-10 uppercase text-[#33103f]">
+      <p className="type-quote-md relative z-10 text-[#33103f]">
         우리는 예수그리스도의 복음 때문에 교회가 세워졌고, 교회는 사람 살리는 사역을 위해
         최선을 다해 선교의 사명을 감당하고 있습니다.
       </p>

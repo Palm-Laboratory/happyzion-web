@@ -1,6 +1,6 @@
 # Happy Zion Design System
 
-Scope: this document is based on the implemented main page and the completed `about` static pages: greeting, church story, revival organization, service times, location, mission history, and online giving.
+Scope: this document is based on the implemented main page and the completed static pages: greeting, church story, revival organization, service times, location, mission history, online giving, newcomer guide, newcomer care, and discipleship training.
 
 ## 1. Overview
 
@@ -209,40 +209,50 @@ Not named tokens — always expressed inline as context-specific opacity values.
 | --- | --- | --- | --- |
 | {font.sans} | SUIT, sans-serif | CDN import in `globals.css` | body, nav, paragraphs, UI |
 | {font.serifKo} | Hahmlet, serif | `next/font/google` | Korean headings, cards, quotes |
-| {font.cormorant} | Cormorant, serif | `next/font/google` | selected serif accents |
-| {font.cormorantGaramond} | Cormorant Garamond, serif | `next/font/google` | English labels, counters, ministry numbers |
+| {font.cormorant} | Cormorant, serif | `next/font/google` | counter numerals, decorative numbers |
+| {font.cormorantGaramond} | Cormorant Garamond, serif | `next/font/google` | legacy — being replaced by {font.cormorant} |
 | {font.cormorantInfant} | Cormorant Infant, serif | `next/font/google` | section labels, subtitles, gallery captions |
 | {font.corinthia} | Corinthia, cursive | `next/font/google` | decorative counters |
 | {font.estonia} | Estonia, cursive | `next/font/google` | script subtitles |
 
 ### Global Type Scale
 
-Scale-based naming (xl / lg / md / sm / xs). Heading tokens are responsive; all others are fixed. CSS classes follow the pattern `.type-{token}` (e.g. `.type-heading-xl`). Nav active state uses a `font-weight: 700` component-level override. Decorative tokens (script-display, display-counter, script-accent) are inline-only and not part of the scale.
+Scale-based naming (xl / lg / md / sm / xs). Heading tokens are responsive; all others are fixed. CSS classes follow the pattern `.type-{token}` (e.g. `.type-heading-xl`). Nav active state uses a `font-weight: 700` component-level override. Decorative tokens (script-display, display-counter, script-accent) are inline-only and not part of the scale. Label tokens include `text-transform: uppercase` — do not add a separate `uppercase` class.
 
 | Token | Role | Family | Size | Weight | Line Height | Letter Spacing | Responsive |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
 | {type.heading.xl} | page banner title | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
+| {type.heading.lg} | section heading (large) | {font.serifKo} | 36px | 600 | 1.3 | 0.01em | 42px ≥768px / 48px ≥1024px |
 | {type.heading.md} | section heading | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
-| {type.subtitle.sm} | section description | {font.sans} | 16px | 400 | 1.2 | 0.02em | — |
+| {type.subtitle.lg} | section description (large) | {font.cormorantInfant} | 24px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.md} | section description (medium) | {font.cormorantInfant} | 20px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.sm} | section description | {font.cormorantInfant} | 16px | 400 | 1.2 | 0.08em | — |
+| {type.title.xxs} | micro title / table header | {font.serifKo} | 14px | 600 | 1.5 | 0.01em | — |
 | {type.title.xs} | component sub-heading | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
-| {type.title.sm} | card title (small) | {font.serifKo} | 18px | 600 | 1.75 | 0.01em | — |
-| {type.title.md} | card title (medium) | {font.serifKo} | 20px | 600 | 1.75 | 0.01em | — |
-| {type.title.lg} | card title (large) | {font.serifKo} | 22px | 600 | 1.85 | 0.01em | — |
-| {type.title.xl} | card title (x-large) | {font.serifKo} | 24px | 600 | 1.35 | 0.01em | — |
+| {type.title.sm} | card title (small) | {font.serifKo} | 18px | 600 | 1.5 | 0.01em | — |
+| {type.title.md} | card title (medium) | {font.serifKo} | 20px | 600 | 1.5 | 0.01em | — |
+| {type.title.lg} | card title (large) | {font.serifKo} | 22px | 600 | 1.5 | 0.01em | — |
+| {type.title.xl} | card title (x-large) | {font.serifKo} | 24px | 600 | 1.5 | 0.01em | — |
+| {type.body.lg} | body text (large) | {font.sans} | 20px | 400 | 1.8 | 0.01em | — |
 | {type.body.md} | body text | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
 | {type.body.sm} | body text (small) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
 | {type.body.xs} | body text (x-small) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
-| {type.quote.md} | quote text | {font.sans} | 18px | 500 | 1.8 | 0.01em | — |
-| {type.quote.xs} | quote text (small) | {font.sans} | 14px | 500 | 1.75 | 0.01em | — |
-| {type.label.xl} | person name / large label | {font.sans} | 16px | 300 | 1.2 | 0.18em | — |
-| {type.label.lg} | section eyebrow | {font.sans} | 14px | 300 | 1.2 | 0.18em | — |
-| {type.label.md} | card label | {font.sans} | 12px | 300 | 1.2 | 0.18em | — |
-| {type.label.sm} | micro label | {font.sans} | 10px | 300 | 1.2 | 0.18em | — |
+| {type.quote.lg} | quote text (large) | {font.serifKo} | 20px | 500 | 1.8 | 0.01em | — |
+| {type.quote.md} | quote text | {font.serifKo} | 18px | 500 | 1.8 | 0.01em | — |
+| {type.quote.sm} | quote text (small) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | quote text (x-small) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | person name / large label | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | — |
+| {type.label.lg} | section eyebrow | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
+| {type.label.md} | card label | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
+| {type.label.sm} | micro label | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
 | {type.nav.md} | nav / breadcrumb | {font.sans} | 16px | 500 | 1 | 0.01em | — |
 | {type.caption.lg} | caption (large) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
 | {type.caption.md} | caption | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.button.lg} | button label (large) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
 | {type.button.md} | button label | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
-| {type.counter.md} | stat counter | {font.sans} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.counter.sm} | counter numeral (small) | {font.cormorant} | 20px | 400 | 0.75 | 0.04em | — |
+| {type.counter.md} | counter numeral | {font.cormorant} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.counter.lg} | counter numeral (large) | {font.cormorant} | 28px | 400 | 0.75 | 0.04em | — |
 | {type.scriptDisplay} | decorative | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
 | {type.displayCounter} | decorative | {font.corinthia} | 56px | 400 | 1 | 0.01em | — |
 | {type.scriptAccent} | decorative | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |

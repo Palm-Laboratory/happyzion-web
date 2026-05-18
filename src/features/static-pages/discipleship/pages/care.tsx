@@ -1,6 +1,5 @@
 import SectionHeading from "@/components/section-heading";
 import ApplyForm from "@/features/static-pages/discipleship/components/apply-form";
-import { cormorantGaramond } from "@/lib/fonts";
 
 const overviewStats = [
   { title: "5주", label: "기간" },
@@ -91,17 +90,17 @@ const applicationNotes = [
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#33103f]">
+      <p className="type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은
         지혜로운 사람 같으리니&quot;
       </p>
-      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
+      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
         마태복음 7:24
       </p>
       <span
         aria-hidden="true"
         className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        style={{ fontFamily: "var(--font-cormorant), serif" }}
       >
         &quot;
       </span>
@@ -113,7 +112,7 @@ function OverviewStat({ title, label }: { title: string; label: string }) {
   return (
     <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#f5f0f9] px-4 py-5 text-center">
       <div className="flex flex-col items-center gap-3 tracking-[0.04em]">
-        <p className="font-hahmlet text-[22px] font-bold leading-none text-[#33103f]">
+        <p className="type-title-lg font-bold text-[#33103f]">
           {title}
         </p>
         <p className="type-body-md leading-none text-[#6F5576]">{label}</p>
@@ -126,11 +125,11 @@ function CurriculumTable() {
   return (
     <div className="overflow-hidden rounded-[8px] border border-[#8b6db5]/25 bg-white">
       <div className="grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)]">
-        <div className="flex h-10 items-center bg-[#2a123c] px-4">
-          <p className="type-body-xs tracking-[0.08em] text-white md:type-body-md">주차</p>
+        <div className="flex h-10 items-center justify-center bg-[#2a123c] px-4">
+          <p className="type-title-xxs font-suit font-bold text-white">주차</p>
         </div>
         <div className="flex h-10 items-center bg-[#2a123c] px-4 md:px-6">
-          <p className="type-body-xs tracking-[0.08em] text-white md:type-body-md">주제 및 내용</p>
+          <p className="type-title-xxs font-suit font-bold text-white">주제 및 내용</p>
         </div>
       </div>
 
@@ -144,23 +143,25 @@ function CurriculumTable() {
             className={`grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)] ${surfaceClassName}`}
           >
             <div
-              className={`flex items-center justify-center border-r border-[#8b6db5]/12 px-3 py-5 ${
+              className={`flex items-start justify-center border-r border-[#8b6db5]/12 px-3 py-4 ${
                 !isLast ? "border-b border-[#8b6db5]/18" : ""
               }`}
             >
               <span
-                className={`${cormorantGaramond.className} type-title-sm font-bold leading-none tracking-[0.08em] text-[#e4b96b]`}
+                className="type-counter-md font-bold text-[#e4b96b]"
               >
                 {week.week}
               </span>
             </div>
             <div className={`px-[18px] py-[14px] md:px-6 ${!isLast ? "border-b border-[#8b6db5]/18" : ""}`}>
-              <p className="type-body-xs font-bold leading-[1.3] tracking-[-0.01em] text-[#33103f] md:type-body-md">
-                {week.title}
-              </p>
-              <p className="type-body-xs mt-[6px] leading-[1.5] tracking-[0.02em] text-[#6F5576]">
-                {week.details.join(" · ")}
-              </p>
+              <div className="flex flex-col gap-2">
+                <p className="type-body-sm font-medium leading-[1.5] text-[#33103f] md:type-body-md md:font-medium md:leading-[1.5]">
+                  {week.title}
+                </p>
+                <p className="type-body-xs text-[#6F5576]">
+                  {week.details.join(" · ")}
+                </p>
+              </div>
             </div>
           </div>
         );
@@ -181,15 +182,15 @@ function ClassStructureCard({
   return (
     <article className="relative flex flex-col items-start gap-3 text-left">
       <div className="flex items-end gap-1">
-        <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
+        <span className="text-[2rem] font-bold leading-none text-[#e4b96b]" style={{ fontFamily: "var(--font-cormorant), serif" }}>
           {minute}
         </span>
         <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-body-md mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-title-xs font-medium mb-1 text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-xs flex flex-col items-start gap-2 leading-none text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-1 text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -242,7 +243,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label-md mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-xs mt-4 text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -294,7 +295,7 @@ export default function DiscipleshipCareStaticPage() {
           ))}
         </div>
 
-        <p className="type-body-md mt-[18px] max-w-[727px] font-normal leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+        <p className="type-body-md mt-[18px] max-w-[727px] text-[#4A3B5E]">
           새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
           <br className="hidden md:block" />
           소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
