@@ -5,12 +5,12 @@ import { coreValues } from "./revival-data";
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-[1.85rem] tracking-[1px] text-black xl:whitespace-nowrap">
+      <p className="type-quote-md relative z-10 text-[#33103f]">
         {"\u201c복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회\u201d"}
       </p>
       <p
         className="pointer-events-none absolute left-[19px] top-[-11px] h-[160px] w-[46px] text-[120px] leading-[120px] text-[#4d1367]/10"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        style={{ fontFamily: "var(--font-cormorant), serif" }}
       >
         &quot;
       </p>
@@ -45,8 +45,8 @@ function CoreValueCard({
           {number}
         </p>
         <div className="flex w-full flex-col items-start gap-[14px]">
-          <h2 className="font-hahmlet text-[20px] font-normal leading-5 text-white">{title}</h2>
-          <p className="font-suit text-sm leading-[22px] text-white/70">{description}</p>
+          <h2 className="type-title-md font-normal text-white">{title}</h2>
+          <p className="type-body-xs text-white/80">{description}</p>
         </div>
       </div>
     </article>
@@ -56,25 +56,25 @@ function CoreValueCard({
 function CoreValueAccordion() {
   return (
     <div className="flex w-full flex-col gap-5 md:hidden">
-      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#1e1035]">
+      <h3 className="type-title-lg text-[#33103f]">
         5대 핵심가치
       </h3>
-      <div className="w-full border-y border-[#33103f]/10">
+      <div className="w-full border-y border-[#8b6db5]/12">
         {coreValues.map((value) => (
           <article
             key={value.number}
-            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#33103f]/10 py-5 last:border-b-0"
+            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#8b6db5]/12 py-5 last:border-b-0"
           >
             <p
               className="text-[24px] italic leading-none text-[#c9a96e]"
-              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              style={{ fontFamily: "var(--font-cormorant), serif" }}
             >
               {value.number}
             </p>
-            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#1e1035]">
+            <h3 className="type-title-xs text-[#33103f]">
               {value.title}
             </h3>
-            <p className="font-suit text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]/68">
+            <p className="type-body-xs text-[#4a3b5e]">
               {value.description}
             </p>
           </article>
@@ -98,7 +98,7 @@ export default function VisionCoreValuesSection() {
         <div className="flex w-full flex-col items-start gap-20">
           <div className="flex w-full flex-col items-start gap-10">
             <VisionQuote />
-            <div className="font-suit w-full max-w-[900px] text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
+            <div className="type-body-md w-full max-w-[900px] text-[#4a3b5e]">
               <p>
                 시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
                 <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로

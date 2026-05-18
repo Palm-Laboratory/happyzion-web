@@ -20,18 +20,11 @@ import { MobileTabButton, ContentHeaderIndicator } from "./revival-ui-parts";
 function SmallGroupPanelHeader({ label, number, title }: { label: string; number: string; title: string }) {
   return (
     <div className="flex flex-col items-start gap-1">
-      <div
-        className="flex w-full items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-      >
-        <span className="shrink-0 -translate-y-[2px]">{number}</span>
-        <p
-          className="min-w-0 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]"
-        >
-          {label}
-        </p>
+      <div className="flex w-full items-start gap-2 text-[#c9a96e]">
+        <span className="type-label-lg shrink-0 -translate-y-[0.5px]">{number}</span>
+        <p className="type-label-lg min-w-0">{label}</p>
       </div>
-      <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
+      <h2 className="type-title-xl text-[#250030]">
         {title}
       </h2>
     </div>
@@ -57,18 +50,13 @@ function SmallGroupPanelHeaderWithControls({
 }) {
   return (
     <div className="flex w-full min-w-0 flex-col gap-2">
-      <div
-        className="flex items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-      >
-        <span className="shrink-0 -translate-y-[2px]">{number}</span>
-        <p className="min-w-0 flex-1 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]">
-          {label}
-        </p>
+      <div className="flex items-start gap-2 text-[#c9a96e]">
+        <span className="type-label-lg shrink-0 -translate-y-[0.5px]">{number}</span>
+        <p className="type-label-lg min-w-0 flex-1">{label}</p>
       </div>
 
       <div className="flex w-full items-start justify-between gap-8">
-        <h2 className="min-w-0 flex-1 font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#33103f]">
+        <h2 className="type-title-xl min-w-0 flex-1 text-[#250030]">
           {title}
         </h2>
         <div className="flex shrink-0 items-center gap-4 lg:hidden">
@@ -96,12 +84,12 @@ function SmallGroupSectionBlock({
   return (
     <div className={`flex w-full flex-col gap-6 rounded bg-[#594263] px-5 py-8 md:px-10 md:py-10 ${className}`}>
       <div className="flex w-full items-center justify-center gap-3">
-        <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
+        <p className="type-label-lg font-suit font-semibold shrink-0 text-[#ffd17d]">
           {label}
         </p>
-        <span className="h-px min-w-0 flex-1 bg-[#c5aee0]/45" />
+        <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
         {meta ? (
-          <p className="font-suit shrink-0 text-sm leading-3 tracking-[0.01em] text-[#ffd17d]">
+          <p className="type-body-xs shrink-0 text-[#ffd17d]">
             {meta}
           </p>
         ) : null}
@@ -124,16 +112,16 @@ function SmallGroupCycleCard({
     <article className="flex flex-col gap-5 rounded bg-white/10 p-5">
       <div className="flex flex-col gap-2">
         <p
-          className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#c798d9]/60"
+          className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#e3bfff]"
           style={{ fontFamily: "var(--font-corinthia), cursive" }}
         >
           {number}
         </p>
-        <h3 className="font-hahmlet text-lg font-semibold leading-[18px] tracking-[0.01em] text-[#fdf8ff]">
+        <h3 className="type-title-sm text-[#fdf8ff]">
           {title}
         </h3>
       </div>
-      <ul className="font-suit flex flex-col gap-3 text-sm leading-[14px] text-[#fdf8ff]/70">
+      <ul className="type-body-xs flex flex-col gap-2 text-[#FDF8FF]/80">
         {items.map((item) => (
           <li key={item} className="flex gap-1.5">
             <span className="tracking-[2.8px]">·</span>
@@ -150,17 +138,14 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
     <div className="flex w-full flex-col gap-4">
       {items.map((item) => (
         <div key={item.number} className="flex gap-6">
-          <p
-            className="w-8 shrink-0 text-center text-sm leading-3 tracking-[0.04em] text-[#ffdea0]"
-            style={{ fontFamily: "var(--font-cormorant), serif" }}
-          >
+          <p className="type-counter-sm w-8 shrink-0 translate-y-[2px] text-center text-[#ffd17d]">
             {item.number}
           </p>
           <div className="flex min-w-0 flex-1 flex-col gap-3">
-            <h3 className="font-hahmlet text-base font-medium leading-4 tracking-[0.01em] text-[#fdf8ff]">
+            <h3 className="type-title-xs text-[#fdf8ff]">
               {item.title}
             </h3>
-            <p className="font-suit text-sm font-light leading-5 tracking-[0.01em] text-[#fdf8ff]/70">
+            <p className="type-body-xs text-[#FDF8FF]/80">
               {item.description}
             </p>
           </div>
@@ -176,10 +161,10 @@ function RoadmapQuarterHeader({ quarter, summary }: { quarter: string; summary: 
   return (
     <div className="flex w-full items-center overflow-hidden rounded-t">
       <div className="flex h-10 shrink-0 items-center bg-[#341a44] pl-6 pr-4">
-        <p className="font-hahmlet text-xs leading-3 tracking-[1px] text-[#ffd17d]">{quarter}</p>
+        <p className="type-label-md font-semibold text-[#ffd17d]">{quarter}</p>
       </div>
       <div className="flex h-10 min-w-0 flex-1 items-center bg-[#341a44] px-6 py-2.5">
-        <p className="font-suit truncate text-xs leading-3 tracking-[1px] text-[#ffd17d]">{summary}</p>
+        <p className="type-label-md font-suit font-semibold truncate text-[#ffd17d]">{summary}</p>
       </div>
     </div>
   );
@@ -196,12 +181,12 @@ function RoadmapMonthCard({
 }) {
   return (
     <article className="flex min-h-[168px] flex-col gap-2 border-b border-r border-[#8d769d]/60 bg-white/10 p-4">
-      <p className="font-suit text-xs uppercase leading-3 tracking-[2px] text-[#c798d9]">{phase}</p>
+      <p className="type-label-md font-normal text-[#e3bfff]">{phase}</p>
       <div className="flex flex-1 flex-col gap-3.5">
-        <h3 className="font-hahmlet text-base font-semibold uppercase leading-6 tracking-[0.01em] text-[#f6e4fc]">
+        <h3 className="type-title-xs text-[#fdf8ff]">
           {month}
         </h3>
-        <ul className="font-suit flex flex-col gap-1 text-[13px] leading-[18px] text-[#f6e4fc]/70">
+        <ul className="type-body-xs flex flex-col gap-1 text-[#fdf8ff]/80">
           {items.map((item) => (
             <li key={item} className="flex gap-1.5">
               <span className="text-sm leading-[22px]">·</span>
@@ -222,11 +207,11 @@ function PersonnelTable() {
 
   return (
     <div className="w-full overflow-x-auto">
-      <table className="font-suit min-w-[620px] w-full border-collapse text-left text-sm tracking-[0.01em]">
+      <table className="min-w-[620px] w-full border-collapse text-left">
         <thead>
-          <tr className="border-b border-[#d4b1eb]/50">
+          <tr className="border-b border-[#e3bfff]/50">
             {headers.map((header) => (
-              <th key={header} className="px-3.5 py-5 font-normal tracking-[0.2em] text-[#ffd17d]">
+              <th key={header} className="type-title-xxs font-suit px-3.5 py-5 font-normal tracking-[0.2em] text-[#ffd17d]">
                 {header}
               </th>
             ))}
@@ -234,17 +219,17 @@ function PersonnelTable() {
         </thead>
         <tbody>
           {personnelRows.map((row) => (
-            <tr key={row[0]} className="border-b border-[#d4b1eb]/50 text-[#f4f0fb]">
+            <tr key={row[0]} className="border-b border-[#e3bfff]/50 text-[#FDF8FF]">
               {row.map((cell, index) => (
-                <td key={`${row[0]}-${cell}`} className={`px-3.5 py-5 ${index === 0 ? "font-semibold" : ""}`}>
+                <td key={`${row[0]}-${cell}`} className={`type-body-xs px-3.5 py-5 ${index === 0 ? "font-semibold" : ""}`}>
                   {cell}
                 </td>
               ))}
             </tr>
           ))}
-          <tr className="border-b border-[#d4b1eb]/50 bg-white/10 text-[#e3bfff]">
+          <tr className="border-b border-[#e3bfff]/50 bg-white/10 text-[#e3bfff]">
             {totals.map((cell) => (
-              <td key={cell} className="px-3.5 py-5 font-semibold">
+              <td key={cell} className="type-body-xs px-3.5 py-5 font-semibold">
                 {cell}
               </td>
             ))}
@@ -260,13 +245,13 @@ function PersonnelBars() {
     <div className="flex w-full flex-col gap-3">
       {personnelBars.map((bar) => (
         <div key={bar.label} className="flex w-full flex-col gap-3">
-          <div className="font-suit flex items-center justify-between text-sm tracking-[0.01em] text-[#f3ecfc]">
+          <div className="type-body-xs flex items-center justify-between text-[#f3ecfc]">
             <span>{bar.label}</span>
             <span>{bar.count}</span>
           </div>
-          <div className="h-[3px] w-full bg-[#c5aee0]/35">
+          <div className="h-[3px] w-full bg-[#e3bfff]/35">
             <div
-              className="h-full bg-[#d79cff]"
+              className="h-full bg-[#e3bfff]"
               style={{ width: `${(bar.value / personnelTotalCount) * 100}%` }}
             />
           </div>
@@ -392,7 +377,7 @@ function AnnualRoadmapContent({ activeIndex = 0, count = 1, onPrevious, onNext }
 
       <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-10">
         <div className="flex w-full items-center justify-center gap-3">
-          <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
+          <p className="type-label-lg font-suit font-semibold shrink-0 text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
           </p>
           <span className="h-px min-w-0 flex-1 bg-[#c5aee0]/45" />
@@ -450,14 +435,14 @@ export default function SmallGroupsMinistrySection() {
                   key={tab.title}
                   type="button"
                   onClick={() => setSelectedTabIndex(index)}
-                  className={`flex min-h-[66px] flex-col items-start justify-center gap-3 border-b border-l-2 border-[#5d3d8a]/15 px-4 py-3.5 text-left ${active ? "border-l-[#340653] bg-[#f4f0f9]" : "border-l-transparent bg-white/60"
+                  className={`flex min-h-[66px] flex-col items-start justify-center gap-1 border-b border-l-2 border-[#5d3d8a]/15 px-4 py-3.5 text-left ${active ? "border-l-[#340653] bg-[#f4f0f9]" : "border-l-transparent bg-white/60"
                     }`}
                   aria-pressed={active}
                 >
-                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#1e1035]">
+                  <span className="type-title-xs text-[#33103f]">
                     {tab.title}
                   </span>
-                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-[#7a6890]">
+                  <span className="type-body-xs text-[#6F5576]">
                     {tab.subtitle}
                   </span>
                 </button>

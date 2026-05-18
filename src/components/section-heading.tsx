@@ -33,7 +33,7 @@ function SectionHeadingTitle({
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="type-heading-lg text-[#250030]">
+    <TitleTag className="type-heading-md text-[#250030]">
       {title}
     </TitleTag>
   );
