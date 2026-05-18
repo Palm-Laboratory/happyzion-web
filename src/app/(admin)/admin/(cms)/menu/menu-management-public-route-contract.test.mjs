@@ -12,6 +12,7 @@ const treeUtilsPath = path.join(componentsDir, "menu-tree-utils.ts");
 const treeConstantsPath = path.join(componentsDir, "menu-tree-constants.ts");
 const detailPanelPath = path.join(componentsDir, "menu-detail-panel.tsx");
 const useMenuTreePath = path.join(componentsDir, "use-menu-tree.ts");
+const menuSchemaPath = path.join(componentsDir, "menu-schema.ts");
 
 async function readPage() {
   return readFile(pagePath, "utf8");
@@ -35,6 +36,10 @@ async function readDetailPanel() {
 
 async function readUseMenuTree() {
   return readFile(useMenuTreePath, "utf8");
+}
+
+async function readMenuSchema() {
+  return readFile(menuSchemaPath, "utf8");
 }
 
 async function readClientSurfaces() {
@@ -114,6 +119,7 @@ test("menu management client hides BOARD type editing from admins", async () => 
   const clientSurfaces = await readClientSurfaces();
   const detailPanel = await readDetailPanel();
   const treeUtils = await readTreeUtils();
+  const menuSchema = await readMenuSchema();
 
   assert.doesNotMatch(
     clientSurfaces,
@@ -129,6 +135,11 @@ test("menu management client hides BOARD type editing from admins", async () => 
     treeUtils,
     /boardType:\s*node\.boardTypeKey/,
     "Expected menu payload to send boardType from node.boardTypeKey so new nodes with null boardTypeKey let the backend assign the default board type.",
+  );
+  assert.doesNotMatch(
+    menuSchema,
+    /node\.type\s*===\s*["']BOARD["'][\s\S]{0,120}!node\.boardKey|게시판\s*키가\s*없습니다/,
+    "Expected BOARD menu creation to allow an empty boardKey because the backend creates the menu-scoped board and assigns the key.",
   );
 });
 

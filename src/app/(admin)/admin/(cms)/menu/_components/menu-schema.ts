@@ -41,12 +41,6 @@ export const menuTreeNodeSchema: z.ZodType<MenuTreeNodePayload> = baseNodeSchema
         message: `'${node.label}' 메뉴의 연결 페이지를 선택해 주세요.`,
       });
     }
-    if (node.type === "BOARD" && !node.boardKey) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `'${node.label}' 게시판 메뉴의 게시판 키가 없습니다.`,
-      });
-    }
     if (node.type === "EXTERNAL_LINK" && !node.externalUrl) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
