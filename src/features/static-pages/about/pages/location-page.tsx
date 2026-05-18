@@ -130,15 +130,15 @@ export default function LocationStaticPage() {
 
               <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
                 <div className="rounded border border-white/70 bg-white/88 px-3 py-2 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
-                  <p className="text-center text-[0.8125rem] font-medium leading-6 text-[#33103f]/72">
+                  <p className="type-body-xs text-center font-medium text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
                 <div className="hidden max-w-[20rem] rounded border border-white/70 bg-white/88 px-4 py-3 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:block">
-                  <h2 className="text-[1rem] font-bold leading-6 text-[#33103f]">
+                  <h2 className="type-title-xs font-suit font-bold text-[#33103f]">
                     {SITE_NAME}
                   </h2>
-                  <p className="mt-1 text-[0.875rem] font-medium leading-6 text-[#33103f]/72">
+                  <p className="type-body-xs mt-1 font-medium text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
@@ -207,13 +207,13 @@ export default function LocationStaticPage() {
               <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                 <thead>
                   <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-                    <th className="type-label-md font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       구분
                     </th>
-                    <th className="type-label-md font-suit w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-title-xs font-suit font-bold w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       노선
                     </th>
-                    <th className="type-label-md font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-title-xs font-suit font-bold px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       안내
                     </th>
                   </tr>

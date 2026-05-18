@@ -81,7 +81,7 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
         <p className={`font-serif text-[32px] font-medium italic leading-none tracking-[0] md:text-[36px] ${yearColor}`}>
           {item.year}
         </p>
-        <p className={`pb-1 font-hahmlet text-base font-normal leading-6 tracking-[0.01em] ${captionColor}`}>
+        <p className={`type-caption-lg font-hahmlet pb-1 ${captionColor}`}>
           {item.caption}
         </p>
       </header>
@@ -91,16 +91,16 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
             className="flex min-h-[42px] items-center border-t border-[#5d3d8a]/5 py-2 first:border-t-0"
             key={`${item.year}-${entry.month}-${entry.place}`}
           >
-            <div className="w-[72px] shrink-0 pl-3 font-cormorant-infant text-sm uppercase leading-[26px] tracking-[0.01em] text-[#8b6db5] sm:w-[84px]">
+            <div className="type-label-lg w-[72px] shrink-0 pl-3 text-[#8b6db5] sm:w-[84px]">
               {entry.month}
             </div>
             <div className="flex min-w-0 items-center gap-3">
               <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isGold ? "bg-[#c9a96e]" : isRed ? "bg-[#b73838]" : "bg-[#8b6db5]"}`} />
-              <p className="font-suit text-base uppercase leading-[1.35] tracking-[0.01em] text-[#4a3b5e]">
+              <p className="type-body-sm text-[#4a3b5e]">
                 {entry.place}
               </p>
               {entry.isFirst ? (
-                <span className="border border-[#c9a96e]/30 bg-[#c9a96e]/10 px-1.5 py-[3px] font-suit text-[10px] uppercase leading-none tracking-[0.08em] text-[#c9a96e]">
+                <span className="type-label-sm border border-[#c9a96e]/30 bg-[#c9a96e]/10 px-1.5 py-[3px] text-[#c9a96e]">
                   First
                 </span>
               ) : null}
@@ -114,14 +114,14 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
 
 function MissionCallout() {
   return (
-    <section className="mt-[100px] w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-6 py-10 uppercase md:px-[60px] md:py-[72px]">
-      <p className="mb-4 font-cormorant-infant text-sm leading-none tracking-[0.14em] text-[#c9a96e]">The Mission Continues</p>
-      <h3 className="font-hahmlet text-[22px] font-semibold leading-8 tracking-[0.01em] text-white">
+    <section className="mt-[100px] w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-6 py-[54px] md:px-[60px]">
+      <p className="type-label-lg mb-4 text-[#c9a96e]">The Mission Continues</p>
+      <h3 className="type-title-lg text-white">
         변함없는 20년의 선교,
         <br />
         시온장로교회는 오늘도 달려갑니다.
       </h3>
-      <p className="mt-6 font-suit text-[18px] font-medium leading-[1.8] tracking-[0.01em] text-white/80">
+      <p className="type-caption-lg mt-6 font-medium text-white/80">
         &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot; - 사도행전 1:8
       </p>
     </section>

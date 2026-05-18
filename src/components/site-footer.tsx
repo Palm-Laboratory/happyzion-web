@@ -61,7 +61,8 @@ function FooterSiteName() {
     return (
       <>
         행복이 가득한
-        <br />
+        <br className="hidden min-[251px]:max-[400px]:block" />
+        <span className="min-[251px]:max-[400px]:hidden"> </span>
         시온장로교회
       </>
     );

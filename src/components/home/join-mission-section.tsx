@@ -81,7 +81,7 @@ export default function JoinMissionSection() {
         }}
       >
         <div
-          className="relative z-10 flex w-fit max-w-full flex-col gap-12 transition-[opacity,transform] duration-500 ease-out min-[768px]:h-[560px] min-[768px]:justify-between min-[768px]:max-w-[620px] min-[1024px]:h-[632px] min-[1281px]:h-auto min-[1281px]:max-w-full min-[1281px]:self-stretch min-[1281px]:gap-0"
+          className="relative z-10 flex w-fit max-w-full flex-col gap-[4rem] transition-[opacity,transform] duration-500 ease-out min-[768px]:h-[560px] min-[768px]:max-w-[620px] min-[1024px]:h-[632px] min-[1281px]:h-auto min-[1281px]:max-w-full min-[1281px]:self-start"
           style={{
             opacity: contentReveal,
             transform: `translateY(${(1 - contentReveal) * 32}px)`,
@@ -89,11 +89,11 @@ export default function JoinMissionSection() {
         >
           <div className="flex flex-col gap-6 md:gap-8">
             <div>
-              <p className="type-label-md font-cormorant-infant text-[#3d1a46]">JOIN THE MISSION</p>
+              <p className="type-label-xl font-cormorant-infant text-[#3d1a46]">JOIN THE MISSION</p>
               <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />
             </div>
 
-            <h2 className="type-heading-md text-black">
+            <h2 className="type-heading-lg text-black">
               예배로, 선교로, 공동체로
               <br />
               우리는 함께 걸어갑니다
@@ -101,7 +101,7 @@ export default function JoinMissionSection() {
           </div>
 
           <div className="border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9">
-            <p className="type-body-md text-[#3c2348] lg:text-xl">
+            <p className="type-quote-sm md:type-quote-md lg:type-quote-lg text-[#3c2348]">
               주님을 깊이 알아가고, 성령 안에서 하나 되어
               <br />
               사랑의 공동체로 함께 이 길을 걷기를 소망합니다.
@@ -122,7 +122,7 @@ export default function JoinMissionSection() {
                 <p className="type-caption-md font-cormorant-infant uppercase tracking-[0.12em] text-[#FDF4FF]">
                   {item.label}
                 </p>
-                <p className="type-button-md mt-2 text-white">{item.title}</p>
+                <p className="type-button-lg text-white">{item.title}</p>
               </Link>
             ))}
           </div>

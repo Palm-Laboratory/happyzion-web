@@ -306,17 +306,17 @@ const roadmapQuarters = [
       {
         phase: "출발·발대",
         month: "1월",
-        items: ["신년 감사예배·목회 비전 선포", "7대 사역팀 발대식·헌신 예배"],
+        items: ["신년 감사예배", "목회 비전 선포", "7대 사역팀 발대식", "헌신 예배"],
       },
       {
         phase: "기초·훈련",
         month: "2월",
-        items: ["제자훈련 1기 개강 · 소그룹 리더 훈련", "복음경제영성 진단 프로그램"],
+        items: ["제자훈련 1기 개강", "소그룹 리더 훈련", "복음경제영성 진단 프로그램"],
       },
       {
         phase: "성장·선교",
         month: "3월",
-        items: ["2040 봄 집회·청년 열린예배", "소야도 1차 섬 선교 출동"],
+        items: ["2040 봄 집회", "청년 열린예배", "소야도 1차 섬 선교 출동"],
       },
     ],
   },
@@ -327,17 +327,17 @@ const roadmapQuarters = [
       {
         phase: "부활·점검",
         month: "4월",
-        items: ["부활절 대예배·지역 전도 총동원", "신앙성장팀 문화선교 출동"],
+        items: ["부활절 대예배", "지역 전도 총동원", "신앙성장팀 문화선교 출동"],
       },
       {
         phase: "가정·셀",
         month: "5월",
-        items: ["가정의 달·부부·가족 셀 집중", "하늘독서불패 새 시즌 개강"],
+        items: ["가정의 달", "부부·가족 셀 집중", "하늘독서불패 새 시즌 개강"],
       },
       {
         phase: "점검·해외",
         month: "6월",
-        items: ["상반기 사역 평가·소그룹 점검", "해외 단기선교 파송대·후원예배"],
+        items: ["상반기 사역 평가", "소그룹 점검", "해외 단기선교 파송대", "후원예배"],
       },
     ],
   },
@@ -348,17 +348,17 @@ const roadmapQuarters = [
       {
         phase: "여름·수련회",
         month: "7월",
-        items: ["전교인 여름 수련회 (2040 집중)", "해외 단기선교 출발·현지 사역"],
+        items: ["전교인 여름 수련회 (2040 집중)", "해외 단기선교 출발", "현지 사역"],
       },
       {
         phase: "훈련·음악",
         month: "8월",
-        items: ["제자훈련 2기 개강·기도학교", "브라스밴드 여름 정기 연주회"],
+        items: ["제자훈련 2기 개강", "기도학교", "브라스밴드 여름 정기 연주회"],
       },
       {
         phase: "전도·결실",
         month: "9월",
-        items: ["전도의 달·새가족 집중 초청", "3040 가을 집회·소야도 2차 선교"],
+        items: ["전도의 달", "새가족 집중 초청", "3040 가을 집회", "소야도 2차 선교"],
       },
     ],
   },
@@ -369,17 +369,17 @@ const roadmapQuarters = [
       {
         phase: "부흥성회",
         month: "10월",
-        items: ["부흥성회 3일·강사 초청 집회", "미니콘서트 기획 수립·전도 행사"],
+        items: ["부흥성회 3일", "강사 초청 집회", "미니콘서트 기획 수립", "전도 행사"],
       },
       {
         phase: "감사·분가",
         month: "11월",
-        items: ["추수감사 대예배·선교 보고회", "소그룹 분가 축하 예배·새 셀 개설"],
+        items: ["추수감사 대예배", "선교 보고회", "소그룹 분가 축하 예배", "새 셀 개설"],
       },
       {
         phase: "비전·성탄",
         month: "12월",
-        items: ["성탄 문화선교·지역 나눔 사역", "나비 비전 선포 예배·사역 결산"],
+        items: ["성탄 문화선교", "지역 나눔 사역", "나비 비전 선포 예배", "사역 결산"],
       },
     ],
   },
@@ -535,7 +535,7 @@ function MinistryTitle({ title }: { title: string }) {
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="type-quote-md relative z-10 uppercase text-[#33103f] xl:whitespace-nowrap">
+      <p className="type-quote-md relative z-10 text-[#33103f] xl:whitespace-nowrap">
         &ldquo;복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회&rdquo;
       </p>
       <p
@@ -557,7 +557,7 @@ function VisionQuote() {
 function MinistryDetailQuote({ quote }: { quote: string }) {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#6d5898] bg-white/[0.04] px-8 py-9 md:px-12">
-      <p className="type-body-sm font-hahmlet relative z-10 uppercase text-white">
+      <p className="type-quote-sm relative z-10 text-white">
         &quot;{quote}&quot;
       </p>
       <p
@@ -588,10 +588,7 @@ function MinistryTeamPanel({
           <h3 className="type-label-lg text-[#c9a96e]">
             {title}
           </h3>
-          <p
-            className="text-2xl font-bold text-white"
-            style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-          >
+          <p className="type-title-xl font-medium text-white">
             {english}
           </p>
         </div>
@@ -611,7 +608,7 @@ function MinistryTeamPanel({
         {groups.map((group) => (
           <span
             key={group}
-            className="font-suit inline-flex items-center gap-1 border border-[#e3bfff]/50 bg-[#e3bfff]/15 py-1.5 pl-1.5 pr-3 text-[13px] font-light uppercase leading-[14px] tracking-[2px] text-[#e3bfff]"
+            className="type-label-md font-suit inline-flex items-center gap-1 border border-[#e3bfff]/50 bg-[#e3bfff]/15 py-1.5 pl-1.5 pr-3 tracking-[0.16em] text-[#e3bfff]"
           >
             <span className="text-xs">◆</span>
             {group}
@@ -673,19 +670,16 @@ function MinistryTeamsSection() {
 
           <div className="flex min-w-0 flex-1 flex-col gap-11 bg-[#190b2a] p-6 md:p-[60px]">
             <div className="flex w-full min-w-0 flex-col gap-2">
-              <div
-                className="flex w-full items-start gap-2 uppercase tracking-[1px] text-[#c9a96e]"
-                style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-              >
-                <span className="shrink-0 -translate-y-[2px] text-base leading-4">{activeMinistry.number}</span>
-                <span className="min-w-0 flex-1 text-xs leading-4 tracking-[2px]">
+              <div className="flex w-full items-start gap-2 text-[#c9a96e]">
+                <span className="type-label-lg shrink-0 -translate-y-[0.5px]">{activeMinistry.number}</span>
+                <span className="type-label-lg min-w-0 flex-1">
                   {activeMinistry.english}
                 </span>
               </div>
 
               <div className="flex items-start justify-between gap-6 md:gap-8">
                 <div className="min-w-0 flex-1">
-                  <h2 className="type-title-xl uppercase text-white">
+                  <h2 className="type-title-xl text-white">
                     <MinistryTitle title={activeMinistry.title} />
                   </h2>
                 </div>
@@ -719,13 +713,10 @@ function MinistryTeamsSection() {
               </div>
 
               <div className="flex flex-col gap-4 bg-[#1a1028] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
-                <p
-                  className="text-xs uppercase leading-3 tracking-[2px] text-[#c9a96e]"
-                  style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-                >
+                <p className="type-label-lg text-[#c9a96e]">
                   members
                 </p>
-                <div className="type-body-xs flex flex-wrap gap-x-3 gap-y-2 uppercase text-white/80">
+                <div className="type-body-xs flex flex-wrap gap-x-3 gap-y-2 text-white/80">
                   {activeMinistry.members.map((member, index) => (
                     <span
                       key={member}
@@ -747,18 +738,11 @@ function MinistryTeamsSection() {
 function SmallGroupPanelHeader({ label, number, title }: { label: string; number: string; title: string }) {
   return (
     <div className="flex flex-col items-start gap-1">
-      <div
-        className="flex w-full items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-      >
-        <span className="shrink-0 -translate-y-[2px]">{number}</span>
-        <p
-          className="min-w-0 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]"
-        >
-          {label}
-        </p>
+      <div className="flex w-full items-start gap-2 text-[#c9a96e]">
+        <span className="type-label-lg shrink-0 -translate-y-[0.5px]">{number}</span>
+        <p className="type-label-lg min-w-0">{label}</p>
       </div>
-      <h2 className="type-title-xl uppercase text-[#250030]">
+      <h2 className="type-title-xl text-[#250030]">
         {title}
       </h2>
     </div>
@@ -784,18 +768,13 @@ function SmallGroupPanelHeaderWithControls({
 }) {
   return (
     <div className="flex w-full min-w-0 flex-col gap-2">
-      <div
-        className="flex items-start gap-2 text-base uppercase leading-4 tracking-[1px] text-[#c9a96e]"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
-      >
-        <span className="shrink-0 -translate-y-[2px]">{number}</span>
-        <p className="min-w-0 flex-1 text-xs uppercase leading-4 tracking-[2px] text-[#c9a96e]">
-          {label}
-        </p>
+      <div className="flex items-start gap-2 text-[#c9a96e]">
+        <span className="type-label-lg shrink-0 -translate-y-[0.5px]">{number}</span>
+        <p className="type-label-lg min-w-0 flex-1">{label}</p>
       </div>
 
       <div className="flex w-full items-start justify-between gap-8">
-        <h2 className="type-title-xl min-w-0 flex-1 uppercase text-[#250030]">
+        <h2 className="type-title-xl min-w-0 flex-1 text-[#250030]">
           {title}
         </h2>
         <div className="flex shrink-0 items-center gap-4 lg:hidden">
@@ -813,10 +792,10 @@ function RoadmapQuarterHeader({ quarter, summary }: { quarter: string; summary: 
   return (
     <div className="flex w-full items-center overflow-hidden rounded-t">
       <div className="flex h-10 shrink-0 items-center bg-[#341a44] pl-6 pr-4">
-        <p className="type-label-md text-[#ffd17d]">{quarter}</p>
+        <p className="type-label-md font-semibold text-[#ffd17d]">{quarter}</p>
       </div>
       <div className="flex h-10 min-w-0 flex-1 items-center bg-[#341a44] px-6 py-2.5">
-        <p className="type-label-md truncate text-[#ffd17d]">{summary}</p>
+        <p className="type-label-md font-suit font-semibold truncate text-[#ffd17d]">{summary}</p>
       </div>
     </div>
   );
@@ -833,9 +812,9 @@ function RoadmapMonthCard({
 }) {
   return (
     <article className="flex min-h-[168px] flex-col gap-2 border-b border-r border-[#8b6db5]/25 bg-white/10 p-4">
-      <p className="type-label-md uppercase text-[#e3bfff]">{phase}</p>
+      <p className="type-label-md font-suit font-normal text-[#e3bfff]">{phase}</p>
       <div className="flex flex-1 flex-col gap-3.5">
-        <h3 className="type-title-xs uppercase text-[#fdf8ff]">
+        <h3 className="type-title-xs text-[#fdf8ff]">
           {month}
         </h3>
         <ul className="type-body-xs flex flex-col gap-1 text-[#fdf8ff]/80">
@@ -865,7 +844,7 @@ function SmallGroupSectionBlock({
   return (
     <div className={`flex w-full flex-col gap-6 rounded bg-[#594263] px-5 py-8 md:px-10 md:py-10 ${className}`}>
       <div className="flex w-full items-center justify-center gap-3">
-        <p className="type-label-lg shrink-0 text-[#ffd17d]">
+        <p className="type-label-lg font-suit font-semibold shrink-0 text-[#ffd17d]">
           {label}
         </p>
         <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
@@ -920,8 +899,7 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
       {items.map((item) => (
         <div key={item.number} className="flex gap-6">
           <p
-            className="w-8 shrink-0 text-center text-sm leading-3 tracking-[0.04em] text-[#ffd17d]"
-            style={{ fontFamily: "var(--font-cormorant), serif" }}
+            className="type-counter-sm w-8 shrink-0 translate-y-[2px] text-center text-[#ffd17d]"
           >
             {item.number}
           </p>
@@ -989,11 +967,11 @@ function PersonnelTable() {
 
   return (
     <div className="w-full overflow-x-auto">
-      <table className="font-suit min-w-[620px] w-full border-collapse text-left text-sm tracking-[0.01em]">
+      <table className="min-w-[620px] w-full border-collapse text-left">
         <thead>
           <tr className="border-b border-[#e3bfff]/50">
             {headers.map((header) => (
-              <th key={header} className="px-3.5 py-5 font-normal tracking-[0.2em] text-[#ffd17d]">
+              <th key={header} className="type-title-xxs font-suit px-3.5 py-5 font-normal tracking-[0.2em] text-[#ffd17d]">
                 {header}
               </th>
             ))}
@@ -1003,7 +981,7 @@ function PersonnelTable() {
           {personnelRows.map((row) => (
             <tr key={row[0]} className="border-b border-[#e3bfff]/50 text-[#FDF8FF]">
               {row.map((cell, index) => (
-                <td key={`${row[0]}-${cell}`} className={`px-3.5 py-5 ${index === 0 ? "font-semibold" : ""}`}>
+                <td key={`${row[0]}-${cell}`} className={`type-body-xs px-3.5 py-5 ${index === 0 ? "font-semibold" : ""}`}>
                   {cell}
                 </td>
               ))}
@@ -1011,7 +989,7 @@ function PersonnelTable() {
           ))}
           <tr className="border-b border-[#e3bfff]/50 bg-white/10 text-[#e3bfff]">
             {totals.map((cell) => (
-              <td key={cell} className="px-3.5 py-5 font-semibold">
+              <td key={cell} className="type-body-xs px-3.5 py-5 font-semibold">
                 {cell}
               </td>
             ))}
@@ -1146,7 +1124,7 @@ function AnnualRoadmapContent({
 
       <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-10">
         <div className="flex w-full items-center justify-center gap-3">
-          <p className="type-label-lg shrink-0 text-[#ffd17d]">
+          <p className="type-label-lg font-suit font-semibold shrink-0 text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
           </p>
           <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
@@ -1332,7 +1310,7 @@ function VisionCoreValuesSection() {
         <div className="flex w-full flex-col items-start gap-20">
           <div className="flex w-full flex-col items-start gap-10">
             <VisionQuote />
-            <p className="type-body-md w-full max-w-[900px] uppercase text-[#4a3b5e]">
+            <p className="type-body-md w-full max-w-[900px] text-[#4a3b5e]">
               시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
               <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로
               삼습니다.
@@ -1358,17 +1336,17 @@ function VisionCoreValuesSection() {
 
 function ClosingCallout() {
   return (
-    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-12 uppercase md:px-[60px] md:py-[72px]">
+    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-12 md:px-[60px] md:py-[72px]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_46%,rgba(153,63,186,0.12),rgba(153,63,186,0)_52%)]" />
       <div className="relative z-10 flex flex-col items-start gap-4">
         <p className="type-label-lg text-[#c9a96e]">
           Isaiah 61:1
         </p>
-        <h2 className="type-title-lg uppercase text-white">
+        <h2 className="type-title-lg text-white">
           &ldquo;여호와의 영이 내 위에 계시니<br className="max-[400px]:hidden" />
           {" "}이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고&rdquo;
         </h2>
-        <p className="type-caption-lg font-medium uppercase text-white/80">
+        <p className="type-caption-lg font-medium text-white/80">
           우리가 팀을 세우고 소그룹을 훈련하고 리더를 키우는 것은 단 하나, 복음으로 사람을
           살리기 위함입니다.
         </p>

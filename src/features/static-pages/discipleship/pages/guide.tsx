@@ -1,5 +1,4 @@
 import SectionHeading from "@/components/section-heading";
-import { cormorantGaramond } from "@/lib/fonts";
 import { CHURCH_EMAIL, CHURCH_PHONE } from "@/lib/site-config";
 
 const newcomerIntroParagraphs = [
@@ -8,11 +7,11 @@ const newcomerIntroParagraphs = [
 ] as const;
 
 const coreValues = [
-  { number: "01", title: "예배", description: "하나님의 임재를\n경험하는 공동체" },
-  { number: "02", title: "복음", description: "사람을 살리는\n복음의 능력" },
-  { number: "03", title: "교제", description: "서로를 세우는\n믿음의 가족" },
-  { number: "04", title: "양육", description: "말씀 안에서 자라는\n제자의 삶" },
-  { number: "05", title: "선교", description: "세상으로 흘려보내는\n복음의 사명" },
+  { number: "01", title: "예배", description: ["하나님의 임재를", "경험하는 공동체"] },
+  { number: "02", title: "복음", description: ["사람을 살리는", "복음의 능력"] },
+  { number: "03", title: "교제", description: ["서로를 세우는", "믿음의 가족"] },
+  { number: "04", title: "양육", description: ["말씀 안에서 자라는", "제자의 삶"] },
+  { number: "05", title: "선교", description: ["세상으로 흘려보내는", "복음의 사명"] },
 ] as const;
 
 const gettingStartedSteps = [
@@ -74,17 +73,17 @@ const newcomerFaqItems = [
 function ScriptureQuoteCard() {
   return (
     <aside className="relative mt-8 w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#33103f]">
+      <p className="type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
         이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
       </p>
-      <p className="font-suit relative z-10 mt-4 text-sm font-semibold uppercase leading-[1.4] tracking-[0.08em] text-[#510a75]">
+      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
         마태복음 28:19-20
       </p>
       <span
         aria-hidden="true"
         className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
-        style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+        style={{ fontFamily: "var(--font-cormorant), serif" }}
       >
         &quot;
       </span>
@@ -95,7 +94,7 @@ function ScriptureQuoteCard() {
 function CoreValueList() {
   return (
     <div className="flex w-full flex-col gap-5">
-      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#33103f]">
+      <h3 className="type-title-md text-[#33103f]">
         5대 핵심가치
       </h3>
       <div className="w-full border-y border-[#8b6db5]/12">
@@ -105,17 +104,18 @@ function CoreValueList() {
             className="grid grid-cols-[38px_72px_minmax(0,1fr)] items-start gap-4 border-b border-[#8b6db5]/12 py-5 last:border-b-0"
           >
             <p
-              className="text-[24px] italic leading-none text-[#e4b96b]"
-              style={{ fontFamily: "var(--font-cormorant-garamond), serif" }}
+              className="type-counter-md text-[#e4b96b]"
             >
               {value.number}
             </p>
-            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#33103f]">
+            <h3 className="type-title-sm font-medium leading-none text-[#33103f]">
               {value.title}
             </h3>
-            <p className="font-suit whitespace-pre-line text-sm leading-6 tracking-[0.01em] text-[#6F5576]">
-              {value.description}
-            </p>
+            <div className="type-body-xs font-suit flex flex-col gap-1 text-[#6F5576]">
+              {value.description.map((line, i) => (
+                <p key={i}>· {line}</p>
+              ))}
+            </div>
           </article>
         ))}
       </div>
@@ -148,16 +148,16 @@ function TimelineStep({
       ) : null}
       <div className="absolute left-2 top-1/2 flex h-[42px] w-[42px] -translate-y-1/2 items-center justify-center rounded-full border-[1.5px] border-[#e4b96b] bg-[#2a123c]">
         <span
-          className={`${cormorantGaramond.className} text-[1.125rem] font-bold leading-none tracking-[0.08em] text-[#e4b96b]`}
+          className="type-counter-sm -translate-y-[2px] font-black text-[#e4b96b]"
         >
           {number}
         </span>
       </div>
       <div className={`rounded-[8px] px-4 py-4 md:px-6 md:py-[18px] ${surfaceClassName}`}>
-        <h3 className="type-body-md font-bold leading-none tracking-[0.02em] text-[#33103f]">
+        <h3 className="type-title-xs text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-xs mt-2 leading-[1.5] tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-xs mt-2 text-[#6F5576]">
           {details.join(" · ")}
         </p>
       </div>
@@ -172,10 +172,10 @@ function FaqList() {
         <details key={item.question} className="group border-b border-[#8b6db5]/18 bg-white">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left marker:hidden md:min-h-[5.1rem] md:py-5 [&::-webkit-details-marker]:hidden">
             <div className="flex items-center gap-2 md:gap-3">
-              <span className="shrink-0 text-[14px] font-medium leading-[1.34] text-[#e4b96b]">
+              <span className="shrink-0 type-body-xs font-semibold leading-[2.0] text-[#e4b96b]">
                 Q.
               </span>
-              <h3 className="type-body-sm font-semibold tracking-[-0.01em] text-[#33103f]">
+              <h3 className="type-title-sm font-suit font-medium text-[#33103f]">
                 {item.question}
               </h3>
             </div>
@@ -190,10 +190,10 @@ function FaqList() {
 
           <div className="pb-5 pr-10 md:pb-6">
             <div className="flex items-start gap-2 md:gap-3">
-              <span className="shrink-0 text-[14px] font-medium leading-[1.7] text-[#e4b96b]">
+              <span className="shrink-0 type-body-xs font-semibold leading-[2.0] text-[#e4b96b]">
                 A.
               </span>
-              <p className="type-body-xs leading-[1.7] tracking-[0.02em] text-[#6F5576] md:type-body-md">
+              <p className="type-body-xs md:type-body-sm text-[#6F5576]">
                 {item.answer}
               </p>
             </div>
@@ -208,18 +208,20 @@ function ContactSection() {
   return (
     <section className="mt-20 md:mt-[68px]" aria-labelledby="newcomer-contact-title">
       <div className="rounded-[8px] bg-[#2a123c] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
-        <div>
-          <p className="font-cormorant-infant type-label-md font-semibold text-[#e4b96b]">
-            Contact
-          </p>
-          <h2
-            id="newcomer-contact-title"
-            className="type-title-xl mt-5 font-bold leading-none tracking-[0.02em] text-white"
-          >
-            문의
-          </h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="type-label-md font-semibold text-[#e4b96b]">
+              Contact
+            </p>
+            <h2
+              id="newcomer-contact-title"
+              className="type-title-xl mt-1 font-bold text-white"
+            >
+              문의
+            </h2>
+          </div>
 
-          <div className="type-body-md mt-6 space-y-2 leading-[1.5] tracking-[0.02em]">
+          <div className="type-body-md flex flex-col gap-1">
             <p>
               <span className="font-bold text-[#e4b96b]">담당</span>
               <span className="ml-2 text-white">새가족 안내팀</span>
@@ -257,9 +259,9 @@ export default function DiscipleshipGuideStaticPage() {
 
         <ScriptureQuoteCard />
 
-        <div className="mt-6 w-full space-y-2">
+        <div className="mt-6 w-full">
           {newcomerIntroParagraphs.map((paragraph) => (
-            <p key={paragraph} className="type-body-md leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+            <p key={paragraph} className="type-body-md text-[#4A3B5E]">
               {paragraph}
             </p>
           ))}
@@ -274,7 +276,7 @@ export default function DiscipleshipGuideStaticPage() {
           className="max-w-none"
         />
 
-        <p className="type-body-md mt-5 max-w-[787px] leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+        <p className="type-body-md mt-5 max-w-[787px] text-[#4A3B5E]">
           우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
           향해 나아가는 교회입니다.
         </p>

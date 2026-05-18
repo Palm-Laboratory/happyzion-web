@@ -104,7 +104,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
           &lt;
         </button>
         <div className="flex min-w-0 flex-1 items-center justify-between gap-4 px-4">
-          <p className="truncate font-cormorant-infant text-base font-medium uppercase leading-4 tracking-[0.01em] text-[#c9a96e]">
+          <p className="type-label-lg font-black truncate text-[#c9a96e]">
             {activeCountry}
           </p>
           <p

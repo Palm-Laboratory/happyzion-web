@@ -80,16 +80,16 @@ function ServiceTimesTable() {
       <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
         <thead>
           <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-            <th className="type-label-md font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               구분
             </th>
-            <th className="type-label-md font-suit w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit font-bold w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               요일 / 시간
             </th>
-            <th className="type-label-md font-suit w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit font-bold w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               장소
             </th>
-            <th className="type-label-md font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit font-bold px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               대상
             </th>
           </tr>

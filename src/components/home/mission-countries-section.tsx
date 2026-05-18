@@ -25,7 +25,7 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
     <div className={`flex flex-col items-center justify-center gap-16 text-center ${className}`}>
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label-md font-cormorant-infant text-[#FDF4FF]">
+          <p className="type-label-xl font-cormorant-infant text-[#FDF4FF]">
             mission countries
           </p>
           <div className="h-px w-[60px] bg-[#FDF4FF]" />
@@ -33,19 +33,19 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
         <div className="uppercase min-[1300px]:hidden">
           <div className="flex flex-col items-center gap-3">
             <div className="flex flex-col items-center">
-              <p className="type-heading-md w-fit max-w-none text-white min-[481px]:w-max min-[481px]:whitespace-nowrap">
+              <p className="type-heading-lg w-fit max-w-none text-white min-[481px]:w-max min-[481px]:whitespace-nowrap">
                 선교는 지금도
                 <br className="min-[481px]:hidden" />
                 <span className="hidden min-[481px]:inline"> </span>
                 계속되고 있습니다
               </p>
-              <p className="type-heading-md text-white">이 사명에 함께하세요</p>
+              <p className="type-heading-lg text-white">이 사명에 함께하세요</p>
             </div>
-            <p className="type-subtitle-sm text-[#E2CAF5]">Be Part of the Mission</p>
+            <p className="type-subtitle-sm md:type-subtitle-md lg:type-subtitle-lg text-[#E2CAF5]">Be Part of the Mission</p>
           </div>
         </div>
       </div>
-      <div className="type-body-md text-[#FDF8FF] lg:text-xl">
+      <div className="type-body-md lg:type-body-lg text-[#FDF8FF]">
         <p>필리핀부터 미얀마, 태국과 말레이시아까지,</p>
         <p>
           우리는 다양한 땅에서 복음을 전하며
@@ -201,7 +201,7 @@ function MissionCountriesDesktop() {
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
             <div>
-              <p className="type-label-md font-cormorant-infant text-[#FDF4FF]">
+              <p className="type-label-xl font-cormorant-infant text-[#FDF4FF]">
                 mission countries
               </p>
               <div className="mt-3 h-px w-16 bg-[#FDF4FF]" />
@@ -212,7 +212,7 @@ function MissionCountriesDesktop() {
             className="absolute right-[var(--countries-copy-right)] top-1/2 z-10"
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
-            <p className="max-w-[360px] text-right font-suit text-base leading-8 tracking-[0.01em] text-[#FDF8FF] md:text-xl">
+            <p className="max-w-[360px] text-right type-body-md lg:type-body-lg text-[#FDF8FF]">
               필리핀부터 미얀마, 태국과 말레이시아까지, 우리는 다양한 땅에서 복음을 전하며
               선교의 사명을 이어가고 있습니다.
             </p>
