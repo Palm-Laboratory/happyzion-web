@@ -90,15 +90,15 @@ function VisionList() {
       {visionItems.map((item) => (
         <article
           key={item.number}
-          className="relative overflow-hidden rounded border border-white/5 bg-[#403254] px-7 py-[1.125rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+          className="relative overflow-hidden rounded border border-white/5 bg-[#2a123c] px-7 py-[1.125rem] shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
         >
-          <p className="type-card-label whitespace-nowrap leading-none tracking-[0.18em] text-[#faf0ff]/30">
+          <p className="type-label-md whitespace-nowrap leading-none text-white/50">
             {item.english}
           </p>
-          <h3 className="type-card-title mt-1 text-lg leading-none tracking-[0.01em] text-[#f5f0f6] md:text-lg">
+          <h3 className="type-title-sm mt-2 leading-none tracking-[0.01em] text-white">
             {item.title}
           </h3>
-          <p className="type-display-counter pointer-events-none absolute left-4 -top-3.5 text-[64px] leading-none tracking-[0.01em] text-[#dcc7e7]/10">
+          <p className="type-display-counter pointer-events-none absolute left-4 -top-3.5 text-[64px] leading-none tracking-[0.01em] text-[#4d1367]/10">
             {item.number}
           </p>
         </article>
@@ -110,7 +110,7 @@ function VisionList() {
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="font-hahmlet relative z-10 text-[18px] font-light uppercase leading-[30px] tracking-[0.01em] text-black">
+      <p className="type-quote-md relative z-10 uppercase text-[#33103f]">
         우리는 예수그리스도의 복음 때문에 교회가 세워졌고, 교회는 사람 살리는 사역을 위해
         최선을 다해 선교의 사명을 감당하고 있습니다.
       </p>
@@ -139,7 +139,7 @@ function IntroSection() {
 
         <div className="flex w-full flex-col gap-10">
           <div className="grid w-full gap-10 min-[660px]:grid-cols-[minmax(0,1fr)_max-content] min-[660px]:items-start min-[660px]:gap-6 md:grid-cols-[minmax(0,1fr)_325px] md:gap-8 lg:gap-20">
-            <div className="type-body flex min-w-0 max-w-[610px] flex-col gap-8 text-[#33103f]/78">
+            <div className="type-body-md flex min-w-0 max-w-[610px] flex-col gap-8 text-[#4A3B5E]">
               <p>
                 행복이 가득한 시온교회는 사람 살리는 일에 최선을 다하는 교회입니다. 우리가
                 믿는 복음이 진짜복음이라면 우리는 복음의 치료제를 가지고 죽어가는 영혼을 살리는
@@ -191,14 +191,14 @@ function PastorSection() {
   );
 
   return (
-    <section className="bg-[#1f102f] py-16 text-white md:py-32">
+    <section className="bg-[#1e1035] py-16 text-white md:py-32">
       <div className="section-shell section-shell--narrow flex flex-col gap-12">
         <div className="min-[1280px]:hidden">{heading}</div>
 
         <div className="grid gap-12 min-[660px]:grid-cols-[minmax(0,1fr)_300px] min-[660px]:items-center min-[660px]:gap-8 lg:gap-16 min-[1280px]:grid-cols-[minmax(0,1fr)_360px] min-[1280px]:gap-20">
           <div className="flex flex-col gap-[60px]">
             <div className="hidden min-[1280px]:block">{heading}</div>
-            <div className="type-body flex flex-col gap-8 text-white/68">
+            <div className="type-body-md flex flex-col gap-8 text-white/80">
               <p>
                 하나님은 프로그램이 아니라 사람을 찾으십니다. 화려한 무대가 아니라, 무릎 꿇은 한
                 사람의 기도를 찾으십니다. 저희 시온교회는 그 믿음 하나로 1997년 문을 열었습니다.
@@ -217,7 +217,7 @@ function PastorSection() {
           </div>
 
           <figure className="flex h-full flex-col justify-self-center text-center min-[660px]:justify-self-end">
-            <div className="relative h-[360px] w-[300px] shrink-0 overflow-hidden bg-[#2a1739] min-[1280px]:h-full min-[1280px]:min-h-[420px] min-[1280px]:w-[340px] min-[1280px]:flex-1">
+            <div className="relative h-[360px] w-[300px] shrink-0 overflow-hidden bg-[#f2ebf6] min-[1280px]:h-full min-[1280px]:min-h-[420px] min-[1280px]:w-[340px] min-[1280px]:flex-1">
               <Image
                 src="/images/greeting/pastor_main.png"
                 alt="박완섭 담임목사"
@@ -227,11 +227,8 @@ function PastorSection() {
               />
             </div>
             <figcaption className="mt-5">
-              <p className="type-card-title text-base text-white md:text-base">박완섭 목사</p>
-              <p
-                className="type-caption mt-1 text-base italic text-[#c9a96e]"
-                style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-              >
+              <p className="type-title-xs text-white">박완섭 목사</p>
+              <p className="type-label-xl mt-1 italic text-[#c9a96e]">
                 Senior Pastor
               </p>
             </figcaption>
@@ -244,7 +241,7 @@ function PastorSection() {
 
 function ElderTeamSection() {
   return (
-    <section className="bg-[#56305f] py-16 text-white md:py-[7rem]">
+    <section className="bg-[#3f2551] py-16 text-white md:py-[7rem]">
       <div className="section-shell section-shell--narrow min-[551px]:max-[880px]:grid min-[551px]:max-[880px]:grid-cols-[220px_minmax(0,1fr)] min-[551px]:max-[880px]:items-start min-[551px]:max-[880px]:gap-8">
         <div>
           <SectionHeading
@@ -264,15 +261,15 @@ function ElderTeamSection() {
               <div className="h-[88px] w-[72px] shrink-0 bg-[#d2c5db]" />
               <div className="min-w-0">
                 <p
-                  className="type-card-label text-xs leading-none tracking-[0.16em] text-[#c9a96e]"
+                  className="type-label-md leading-none text-[#c9a96e]"
                   style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   {person.label}
                 </p>
-                <h3 className="type-card-title mt-3 text-lg leading-tight text-white md:text-lg">
+                <h3 className="type-title-sm mt-3 leading-tight text-white">
                   {person.name}
                 </h3>
-                <p className="type-caption mt-1 text-sm leading-6 text-white/60">{person.role}</p>
+                <p className="type-caption-md mt-2 text-white/80">{person.role}</p>
               </div>
             </article>
           ))}
@@ -295,7 +292,7 @@ function MinistryProgramCard({
 
   return (
     <article
-      className={`border border-[#5d3d8a]/20 bg-[#fefdff] ${isStacked ? "flex items-start justify-center px-7 py-9 md:px-10 md:py-11" : "flex items-center px-7 py-7 md:px-10 md:py-7"
+      className={`border border-[#5d3d8a]/15 bg-white ${isStacked ? "flex items-start justify-center px-7 py-9 md:px-10 md:py-11" : "flex items-center px-7 py-7 md:px-10 md:py-7"
         } ${className}`}
     >
       <div className={isStacked ? "flex min-w-0 flex-col gap-9" : "flex min-w-0 gap-7"}>
@@ -313,12 +310,12 @@ function MinistryProgramCard({
               </div>
               <div className="min-w-0">
                 <p
-                  className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
+                  className="type-label-md leading-none text-[#928397]"
                   style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
                 >
                   {program.english}
                 </p>
-                <h3 className="type-card-title mt-2 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+                <h3 className="type-title-md mt-2 leading-tight tracking-[0.01em] text-[#33103f]">
                   {program.title}
                 </h3>
               </div>
@@ -338,17 +335,17 @@ function MinistryProgramCard({
           {!isStacked && (
             <>
               <p
-                className="type-card-label text-xs leading-none tracking-[0.16em] text-[#8b6db5]"
+                className="type-label-md leading-none text-[#928397]"
                 style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
               >
                 {program.english}
               </p>
-              <h3 className="type-card-title mt-2 text-xl leading-tight tracking-[0.01em] text-[#220b29] md:text-xl">
+              <h3 className="type-title-md mt-2 leading-tight tracking-[0.01em] text-[#33103f]">
                 {program.title}
               </h3>
             </>
           )}
-          <p className={`type-caption text-sm leading-[22px] tracking-[0.01em] text-[#7a6890] ${isStacked ? "" : "mt-4"}`}>
+          <p className={`type-caption-md text-[#6F5576] ${isStacked ? "" : "mt-4"}`}>
             {program.description}
           </p>
         </div>

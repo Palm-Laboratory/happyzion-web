@@ -86,7 +86,7 @@ function CopyAccountButton({ value }: { value: string }) {
       type="button"
       onClick={handleCopy}
       disabled={!canCopy}
-      className="type-body-small relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-[#8b6db5]/25 px-5 py-2 font-semibold text-[#33103f] transition hover:border-[#33103f] hover:bg-[#33103f] hover:text-white disabled:cursor-not-allowed disabled:text-site-ink/35 disabled:hover:border-[#8b6db5]/25 disabled:hover:bg-white"
+      className="type-body-sm relative z-10 inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center border border-[#8b6db5]/25 px-5 py-2 font-semibold text-[#33103f] transition hover:border-[#2a123c] hover:bg-[#2a123c] hover:text-white disabled:cursor-not-allowed disabled:hover:border-[#8b6db5]/25 disabled:hover:bg-white"
       aria-label="계좌번호 복사하기"
     >
       {copied ? "복사됨" : "복사하기"}
@@ -109,7 +109,7 @@ export default function OnlineGivingStaticPage() {
           description="Online Giving Information"
           titleAs="h1"
         />
-        <ul className="type-body mt-5 space-y-3 text-black/88">
+        <ul className="type-body-md mt-5 space-y-3 text-[#4A3B5E]">
           <BulletItem>
             온라인 입금 시 정확한 본인 확인을 위해 아래 방법으로 입금자명을 기재해
             주세요.
@@ -117,30 +117,30 @@ export default function OnlineGivingStaticPage() {
         </ul>
       </section>
 
-      <section className="overflow-hidden border border-[#8b6db5]/20 bg-white">
+      <section className="overflow-hidden border border-[#8b6db5]/18 bg-white">
         <div className="px-6 py-7 md:px-10 md:py-9">
-          <p className="type-label font-semibold uppercase tracking-[0.18em] text-black/70">
+          <p className="type-label-md font-semibold text-[#33103f]">
             입금자명 기재 방법
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3 md:gap-4">
-            <span className="type-card-title inline-flex min-h-11 items-center rounded-[6px] bg-[#33103f] px-6 py-2 font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-7">
+            <span className="type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-6 py-2 font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-7">
               이름
             </span>
-            <span className="type-card-title font-light leading-none text-[#8b6db5]">
+            <span className="type-title-xl font-light leading-none text-[#8b6db5]">
               +
             </span>
-            <span className="type-card-title inline-flex min-h-11 items-center rounded-[6px] bg-[#33103f] px-6 py-2 font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-7">
+            <span className="type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-6 py-2 font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-7">
               헌금종류 앞 두 글자
             </span>
           </div>
 
-          <div className="mt-7 border-t border-[#8b6db5]/20 pt-7 md:mt-8 md:pt-8">
-            <p className="type-body-strong text-black/88">
+          <div className="mt-7 border-t border-[#8b6db5]/18 pt-7 md:mt-8 md:pt-8">
+            <p className="type-body-md font-semibold text-[#4A3B5E]">
               {senderNameExamples.description}
             </p>
 
-            <div className="mt-4 space-y-3 text-black/88">
+            <div className="mt-4 space-y-3">
               {senderNameExamples.items.map((item) => (
                 <div key={item.label} className="flex items-start gap-3">
                   <svg
@@ -155,9 +155,9 @@ export default function OnlineGivingStaticPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="m13 6 6 6-6 6" />
                   </svg>
-                  <p className="type-body leading-[1.7]">
-                    <span className="font-semibold text-black">{item.label}</span>{" "}
-                    <strong className="font-bold text-black">{item.value}</strong>
+                  <p className="type-body-md leading-[1.7]">
+                    <span className="font-semibold text-[#33103f]">{item.label}</span>{" "}
+                    <strong className="font-bold text-[#bd6fe0]">{item.value}</strong>
                   </p>
                 </div>
               ))}
@@ -167,17 +167,17 @@ export default function OnlineGivingStaticPage() {
       </section>
 
       <section className="mt-6 md:mt-8">
-        <ul className="type-body space-y-3 text-black/88">
+        <ul className="type-body-md space-y-3 text-[#4A3B5E]">
           <BulletItem>
             <span>헌금 종류 예시입니다.</span>
-            <ul className="mt-3 space-y-2 text-black/72">
+            <ul className="mt-3 space-y-2 text-[#4A3B5E]">
               {offeringTypeExamples.map((item) => (
                 <li key={item.korean} className="flex items-start gap-3">
-                  <span className="mt-[0.72rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-[#8b6db5]/70" />
+                  <span className="mt-[0.72rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-[#8b6db5]" />
                   <span>
                     {item.korean}
                     <span className="mx-2 text-black/28">-</span>
-                    <strong className="font-semibold text-black">{item.code}</strong>
+                    <strong className="font-semibold text-[#bd6fe0]">{item.code}</strong>
                   </span>
                 </li>
               ))}
@@ -186,27 +186,27 @@ export default function OnlineGivingStaticPage() {
         </ul>
       </section>
 
-      <section className="mt-8 border border-cedar/12 bg-white">
+      <section className="mt-8 border border-[#8b6db5]/12 bg-white">
         <div className="flex flex-col gap-6 px-6 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-10 md:py-7">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-7">
             <div className="shrink-0">
-              <p className="type-label font-semibold uppercase tracking-[0.24em] text-site-ink/38">
+              <p className="type-label-md font-semibold text-[#33103f]">
                 Bank Account
               </p>
-              <p className="type-card-title mt-2 font-bold text-[#33103f] md:mt-1 md:text-[length:inherit] md:font-normal md:text-[#8b6db5]">
+              <p className="type-body-sm mt-2 font-bold text-[#33103f] md:mt-1 md:font-normal md:text-[#8b6db5]">
                 온라인 계좌
               </p>
             </div>
-            <div className="hidden h-14 w-px bg-cedar/12 md:block" />
+            <div className="hidden h-14 w-px bg-[#8b6db5]/12 md:block" />
             <div className="tracking-[-0.01em] text-[#33103f] md:font-serif md:tracking-[-0.04em]">
-              <p className="type-body font-semibold leading-[1.4] text-[#33103f] md:text-[1.25rem] md:font-bold md:leading-[1.2]">
+              <p className="type-body-md font-semibold leading-[1.4] text-[#33103f] md:text-[1.25rem] md:font-bold md:leading-[1.2]">
                 {givingAccount.bankName}
                 <span className="hidden md:inline"> {givingAccount.accountNumber}</span>
               </p>
-              <p className="type-card-title mt-2 font-bold leading-[1.2] text-[#33103f] md:hidden">
+              <p className="type-title-sm mt-2 font-bold leading-[1.2] text-[#33103f] md:hidden">
                 {givingAccount.accountNumber}
               </p>
-              <p className="type-body-small mt-1 leading-[1.3] text-[#8b6db5]">
+              <p className="type-body-xs mt-1 leading-[1.3] text-[#8b6db5]">
                 예금주:{givingAccount.owner}
               </p>
             </div>

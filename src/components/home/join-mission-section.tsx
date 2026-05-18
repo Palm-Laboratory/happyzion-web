@@ -95,11 +95,11 @@ export default function JoinMissionSection({ serviceTimesHref, newcomerHref, loc
         >
           <div className="flex flex-col gap-6 md:gap-8">
             <div>
-              <p className="type-label font-cormorant-infant text-[#3d1a46]">JOIN THE MISSION</p>
+              <p className="type-label-md font-cormorant-infant text-[#3d1a46]">JOIN THE MISSION</p>
               <div className="mt-3 h-px w-[60px] bg-[#3d1a46]" />
             </div>
 
-            <h2 className="type-section-title text-black">
+            <h2 className="type-heading-md text-black">
               예배로, 선교로, 공동체로
               <br />
               우리는 함께 걸어갑니다
@@ -107,7 +107,7 @@ export default function JoinMissionSection({ serviceTimesHref, newcomerHref, loc
           </div>
 
           <div className="border-l-[3px] border-[#2a123c] bg-[linear-gradient(90deg,rgba(52,16,65,0.04)_0%,rgba(255,252,248,0)_100%)] px-6 py-7 md:px-10 md:py-9">
-            <p className="type-body text-[#3c2348] lg:text-xl">
+            <p className="type-body-md text-[#3c2348] lg:text-xl">
               주님을 깊이 알아가고, 성령 안에서 하나 되어
               <br />
               사랑의 공동체로 함께 이 길을 걷기를 소망합니다.
@@ -125,10 +125,10 @@ export default function JoinMissionSection({ serviceTimesHref, newcomerHref, loc
                 href={item.href}
                 className="rounded-lg bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5 min-[1281px]:w-[var(--join-button-width)]"
               >
-                <p className="type-caption font-cormorant-infant uppercase tracking-[0.12em] text-[#dfd6e5]">
+                <p className="type-caption-md font-cormorant-infant uppercase tracking-[0.12em] text-[#FDF4FF]">
                   {item.label}
                 </p>
-                <p className="type-button mt-2 text-white">{item.title}</p>
+                <p className="type-button-md mt-2 text-white">{item.title}</p>
               </Link>
             ))}
           </div>

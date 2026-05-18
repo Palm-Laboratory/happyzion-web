@@ -28,7 +28,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
   const isHome = pathname === "/" || selectedLayoutSegments.length === 0;
   const headerToneClass = isHome
     ? "border-white/10 bg-[rgba(36,31,37,0.72)]"
-    : "border-cedar/10 bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.05)]";
+    : "border-[#5d3d8a]/15 bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.05)]";
   const logoImageClass = isHome ? "" : "brightness-0";
   const logoTextClass = isHome ? "text-white" : "text-ink";
   const navLinkClass = isHome
@@ -36,22 +36,22 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
     : "text-ink hover:border-ink/10 hover:bg-ink/5 hover:shadow-[0_4px_5px_rgba(0,0,0,0.04)] focus-visible:border-ink/20 focus-visible:bg-ink/5";
   const dropdownClass = isHome
     ? "border-white/10 bg-[rgba(36,31,37,0.92)] shadow-[0_18px_45px_rgba(0,0,0,0.24)]"
-    : "border-cedar/10 bg-white shadow-[0_18px_45px_rgba(0,0,0,0.12)]";
+    : "border-[#5d3d8a]/15 bg-white shadow-[0_18px_45px_rgba(0,0,0,0.12)]";
   const dropdownLinkClass = isHome
     ? "text-white/90 hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white"
     : "text-ink/80 hover:bg-ink/5 hover:text-ink focus-visible:bg-ink/5 focus-visible:text-ink";
   const mobilePanelClass = isHome
     ? "border-white/10 bg-[rgba(36,31,37,0.96)] text-white shadow-[0_18px_45px_rgba(0,0,0,0.28)]"
-    : "border-cedar/10 bg-white text-ink shadow-[0_18px_45px_rgba(0,0,0,0.12)]";
+    : "border-[#5d3d8a]/15 bg-white text-ink shadow-[0_18px_45px_rgba(0,0,0,0.12)]";
   const mobileLinkClass = isHome
     ? "border-white/10 text-white focus-visible:outline-white/50"
-    : "border-ink/10 text-ink focus-visible:outline-ink/40";
+    : "border-ink/10 text-ink focus-visible:outline-[var(--color-plum)]";
   const mobileChildLinkClass = isHome
-    ? "text-white/70 hover:text-white focus-visible:text-white"
+    ? "text-white/80 hover:text-white focus-visible:text-white"
     : "text-ink/60 hover:text-ink focus-visible:text-ink";
   const mobileButtonClass = isHome
     ? "border-white/20 text-white focus-visible:outline-white/50"
-    : "border-ink/10 text-ink focus-visible:outline-ink/40";
+    : "border-ink/10 text-ink focus-visible:outline-[var(--color-plum)]";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -164,10 +164,22 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
           onClick={() => setIsMobileMenuOpen((current) => !current)}
         >
           <span className="sr-only">{isMobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}</span>
-          <span className="flex w-5 flex-col gap-1.5" aria-hidden="true">
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`} />
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`} />
-            <span className={`h-px w-full bg-current transition ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
+          <span className="relative h-5 w-5" aria-hidden="true">
+            <span
+              className={`absolute left-0 top-[5px] h-px w-full origin-center bg-current transition-transform duration-200 ease-out ${
+                isMobileMenuOpen ? "translate-y-[5px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[10px] h-px w-full origin-center bg-current transition-[opacity,transform] duration-150 ease-out ${
+                isMobileMenuOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[15px] h-px w-full origin-center bg-current transition-transform duration-200 ease-out ${
+                isMobileMenuOpen ? "-translate-y-[5px] -rotate-45" : ""
+              }`}
+            />
           </span>
         </button>
 

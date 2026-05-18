@@ -65,12 +65,12 @@ export default function PublicBoardListControls({
   }
 
   return (
-    <div className="mt-8 flex flex-col gap-4 border-b border-[rgba(93,61,138,0.32)] pb-5 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center justify-between gap-[22px] md:justify-start">
-        <p className="type-body-small whitespace-nowrap leading-none text-[#4a3b5e]">
+    <div className="mt-8 flex flex-col gap-4 border-b border-cedar/12 pb-5 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center justify-between gap-4">
+        <p className="type-body-xs text-[#6f5a7a]">
           전체 <span className="font-semibold text-[#33103f]">{totalItems.toLocaleString("ko-KR")}</span>건
         </p>
-        <label className="type-body-small relative flex items-center text-[#4a3b5e]">
+        <label className="type-body-xs flex items-center gap-2 text-site-muted">
           <select
             value={String(pageSize)}
             disabled={isPending}
@@ -97,12 +97,12 @@ export default function PublicBoardListControls({
           disabled={isPending}
           onChange={(event) => setSearchValue(event.target.value)}
           placeholder="게시글 검색"
-          className="type-body-small h-11 min-w-0 flex-1 rounded-[8px] border border-[rgba(93,61,138,0.15)] bg-white px-4 leading-none text-[#33103f] outline-none transition placeholder:text-[rgba(74,59,94,0.6)] hover:border-[#8b6db5] focus:border-[#8b6db5] md:w-[240px] md:flex-none"
+          className="type-body-xs h-10 min-w-0 flex-1 rounded-full border border-[#8b6db5]/15 bg-white px-4 text-[#33103f] outline-none transition placeholder:text-[#6f5a7a]/70 hover:border-[#8b6db5] hover:bg-[#8b6db5]/6 focus:border-[#8b6db5] md:max-w-[260px]"
         />
         <button
           type="submit"
           disabled={isPending}
-          className="type-body-small inline-flex h-11 shrink-0 items-center justify-center rounded-[8px] border border-[#2a123c] bg-[#2a123c] px-5 leading-none text-white transition hover:border-[#4a2a68] hover:bg-[#4a2a68] disabled:pointer-events-none disabled:opacity-60"
+          className="type-body-xs inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[#33103f] bg-[#33103f] px-[18px] font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] disabled:pointer-events-none disabled:opacity-60"
         >
           검색
         </button>

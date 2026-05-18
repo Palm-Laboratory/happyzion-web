@@ -109,7 +109,7 @@ export default function PublicBoardAttachmentsDropdown({
       <DropdownMenuTrigger asChild>
         <button
           type="button"
-          className="type-body-small inline-flex shrink-0 cursor-pointer items-center gap-2 self-start font-semibold text-[#8b6db5] underline underline-offset-4 transition hover:text-[#33103f]"
+          className="type-body-xs inline-flex shrink-0 cursor-pointer items-center gap-2 self-start font-semibold text-[#8b6db5] underline underline-offset-4 transition hover:text-[#33103f]"
           aria-label="첨부파일 다운로드 메뉴 열기"
         >
           <span className="inline-flex h-5 w-5 items-center justify-center text-current">
@@ -138,12 +138,12 @@ export default function PublicBoardAttachmentsDropdown({
                 <span className="text-[#33103f]">
                   {isDownloadingAll ? "일괄 다운로드 중..." : "전체 다운로드"}
                 </span>
-                <span className="type-label text-site-muted">
+                <span className="type-label-md text-site-muted">
                   첨부파일을 순서대로 내려받습니다
                 </span>
               </span>
             </span>
-            <span className="type-label rounded-full bg-cedar/8 px-2.5 py-1 text-site-muted">
+            <span className="type-label-md rounded-full bg-cedar/8 px-2.5 py-1 text-site-muted">
               {downloadableAttachments.length}개
             </span>
           </DropdownMenuItem>
@@ -165,10 +165,10 @@ export default function PublicBoardAttachmentsDropdown({
                 </span>
                 <span className="flex min-w-0 flex-col">
                   <span className="min-w-0 truncate text-[#33103f]">{attachment.filename}</span>
-                  <span className="type-label text-site-muted">개별 다운로드</span>
+                  <span className="type-label-md text-site-muted">개별 다운로드</span>
                 </span>
               </span>
-              <span className="type-label shrink-0 rounded-full bg-[#33103f]/5 px-2.5 py-1 text-site-muted">
+              <span className="type-label-md shrink-0 rounded-full bg-[#33103f]/5 px-2.5 py-1 text-site-muted">
                 {formatByteSize(attachment.byteSize)}
               </span>
             </DropdownMenuItem>

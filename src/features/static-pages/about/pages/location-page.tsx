@@ -27,9 +27,9 @@ const busRoutes = [
 
 function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
   return (
-    <article className="rounded-[8px] border border-[#8b6db5]/15 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-card-title font-bold text-black">{type}</h3>
-      <dl className="type-body-small mt-4 space-y-3">
+    <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
+      <h3 className="type-title-md font-bold text-black">{type}</h3>
+      <dl className="type-body-xs mt-4 space-y-3">
         <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
           <dt className="shrink-0 font-semibold text-black/70">노선</dt>
           <dd className="text-right font-bold text-black/88">{routes}</dd>
@@ -72,7 +72,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-small inline-flex items-center gap-2 rounded border border-[#8b6db5]/20 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
+      className="type-body-xs inline-flex items-center gap-2 rounded border border-[#8b6db5]/18 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -119,7 +119,7 @@ export default function LocationStaticPage() {
         <div className="section-shell section-shell--narrow relative py-12 md:py-16">
           <LocationPageHeader />
 
-          <div className="mt-10 overflow-hidden border border-[#8b6db5]/15 bg-white">
+          <div className="mt-10 overflow-hidden border border-[#8b6db5]/18 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap
                 clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
@@ -146,8 +146,8 @@ export default function LocationStaticPage() {
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#8b6db5]/12 bg-[#fcf8ff] px-4 py-4 md:px-6">
-              <p className="type-body-small text-[#33103f]/55">
-                지도를 크게 확인하거나 길찾기를 시작하려면 아래 버튼을 사용해 주세요.
+              <p className="type-body-xs text-[#928397]">
+                지도를 크게 확인하거나 길찾기를 시작하려면 우측 버튼을 사용해주세요
               </p>
               <div className="flex flex-wrap gap-2">
                 <MiniActionButton label="네이버 지도" href={NAVER_MAP_URL} />
@@ -164,10 +164,10 @@ export default function LocationStaticPage() {
             title="방문 안내"
             subtitle="visit guide"
           >
-            <ul className="type-body space-y-3 text-black/88">
+            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
               <BulletItem>
-                지도 앱에서 <strong className="font-semibold text-[#8b6db5]">{SITE_NAME}</strong>
-                또는 <strong className="font-semibold text-[#8b6db5]">{CHURCH_ADDRESS}</strong>를 검색해 주세요.
+                지도 앱에서 <strong className="font-semibold text-[#bd6fe0]">{SITE_NAME}</strong>
+                또는 <strong className="font-semibold text-[#bd6fe0]">{CHURCH_ADDRESS}</strong>를 검색해 주세요.
               </BulletItem>
               <BulletItem>
                 주일 예배나 모임에 처음 방문하시는 경우, 도착 전 교회로 연락하시면 안내를 받으실 수 있습니다.
@@ -183,7 +183,7 @@ export default function LocationStaticPage() {
             subtitle="subway"
             description="Public Transit Transfer Guide"
           >
-            <ul className="type-body space-y-3 text-black/88">
+            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
               <BulletItem>
                 지하철 이용 시 원당역 권역에서 버스 또는 택시로 환승해 오시는 경로를 권장합니다.
               </BulletItem>
@@ -203,31 +203,31 @@ export default function LocationStaticPage() {
               ))}
             </div>
 
-            <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-cedar/15 border-t-site-ink bg-white md:block">
+            <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-[#5d3d8a]/15 border-t-[#33103f] bg-white md:block">
               <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                 <thead>
-                  <tr className="border-b border-cedar/15 bg-[#FAF7FF]">
-                    <th className="type-label w-[24%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-site-ink/72 lg:px-6 lg:py-5">
+                  <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
+                    <th className="type-label-md font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       구분
                     </th>
-                    <th className="type-label w-[36%] border-r border-cedar/15 px-4 py-4 text-center font-semibold tracking-[0.08em] text-site-ink/72 lg:px-6 lg:py-5">
+                    <th className="type-label-md font-suit w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       노선
                     </th>
-                    <th className="type-label px-4 py-4 text-center font-semibold tracking-[0.08em] text-site-ink/72 lg:px-6 lg:py-5">
+                    <th className="type-label-md font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       안내
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {busRoutes.map((item) => (
-                    <tr key={item.type} className="border-b border-cedar/15 last:border-b-0">
-                      <td className="type-body border-r border-cedar/15 px-4 py-5 text-center font-medium text-site-ink/80 lg:px-6 lg:py-6">
+                    <tr key={item.type} className="border-b border-[#8b6db5]/12 last:border-b-0">
+                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                         {item.type}
                       </td>
-                      <td className="type-body border-r border-cedar/15 px-4 py-5 text-center font-bold text-site-ink lg:px-6 lg:py-6">
+                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
                         {item.routes}
                       </td>
-                      <td className="type-body px-4 py-5 text-center font-medium text-site-ink/80 lg:px-6 lg:py-6">
+                      <td className="type-body-md px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                         {item.stop}
                       </td>
                     </tr>
@@ -235,7 +235,7 @@ export default function LocationStaticPage() {
                 </tbody>
               </table>
             </div>
-            <p className="type-body-small mt-4 text-site-ink/55">
+            <p className="type-body-xs mt-4 text-[#928397]">
               버스 노선은 운행 상황에 따라 변경될 수 있으므로 출발 전 실시간 길찾기를 확인해 주세요.
             </p>
           </InfoSection>
@@ -245,17 +245,17 @@ export default function LocationStaticPage() {
               title="교회정보"
               subtitle="church info"
             >
-              <ul className="type-body space-y-3 text-black/88">
+              <ul className="type-body-md space-y-3 text-[#4A3B5E]">
                 <BulletItem>주소 : {CHURCH_ADDRESS}</BulletItem>
                 <BulletItem>
                   TEL :{" "}
-                  <a href={`tel:${churchPhoneHref}`} className="transition hover:text-cedar">
+                  <a href={`tel:${churchPhoneHref}`} className="transition hover:text-[#510a75]">
                     {CHURCH_PHONE}
                   </a>
                 </BulletItem>
                 <BulletItem>
                   EMAIL :{" "}
-                  <a href={`mailto:${CHURCH_EMAIL}`} className="transition hover:text-cedar">
+                  <a href={`mailto:${CHURCH_EMAIL}`} className="transition hover:text-[#510a75]">
                     {CHURCH_EMAIL}
                   </a>
                 </BulletItem>

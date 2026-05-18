@@ -134,14 +134,14 @@ export default function PublicBoardDetailActions({
         <button
           type="button"
           onClick={handleShare}
-          className="type-body inline-flex h-[54px] items-center justify-center gap-2.5 rounded-[4px] border border-[rgba(93,61,138,0.15)] bg-white px-[18px] font-semibold leading-none text-[#250030] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 font-semibold text-[#33103f] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
         >
           {shareLabel === "링크 복사됨" ? <CopyIcon /> : <ShareIcon />}
           {shareLabel}
         </button>
         <Link
           href={boardPath}
-          className="type-body inline-flex h-[54px] items-center justify-center gap-2.5 rounded-[4px] border border-[rgba(93,61,138,0.15)] bg-[#2a123c] px-[18px] font-semibold leading-none text-white transition hover:border-[#4a2a68] hover:bg-[#4a2a68] sm:self-auto"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#33103f] bg-[#33103f] px-4 font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] sm:self-auto"
         >
           <ListIcon />
           목록으로
@@ -155,9 +155,9 @@ export default function PublicBoardDetailActions({
             className="group flex items-start gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
           >
             <DirectionBadge direction="left" />
-            <div className="min-w-0 flex-1 space-y-3">
-              <p className="type-body-small font-semibold leading-none text-[#250030]">이전글</p>
-              <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e] transition group-hover:text-[#2a123c]">{previousPost.title}</p>
+            <div className="min-w-0 flex-1">
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전글</p>
+              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousPost.title}</p>
             </div>
           </Link>
         ) : (
@@ -165,9 +165,9 @@ export default function PublicBoardDetailActions({
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#4a3b5e]/60">
               <ChevronIcon direction="left" />
             </span>
-            <div className="min-w-0 flex-1 space-y-3">
-              <p className="type-body-small font-semibold leading-none text-[#250030]">이전글</p>
-              <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e]">이전 게시글이 없습니다.</p>
+            <div className="min-w-0 flex-1">
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전글</p>
+              <p className="type-body-xs mt-1 text-site-muted">이전 게시글이 없습니다.</p>
             </div>
           </div>
         )}
@@ -177,17 +177,17 @@ export default function PublicBoardDetailActions({
             href={getBoardPostHref(boardPath, nextPost.id)}
             className="group flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
           >
-            <div className="min-w-0 flex-1 space-y-3 text-right">
-              <p className="type-body-small font-semibold leading-none text-[#250030]">다음글</p>
-              <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e] transition group-hover:text-[#2a123c]">{nextPost.title}</p>
+            <div className="min-w-0 flex-1 text-right">
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음글</p>
+              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextPost.title}</p>
             </div>
             <DirectionBadge direction="right" />
           </Link>
         ) : (
-          <div className="flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6">
-            <div className="min-w-0 flex-1 space-y-3 text-right">
-              <p className="type-body-small font-semibold leading-none text-[#250030]">다음글</p>
-              <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e]">다음 게시글이 없습니다.</p>
+          <div className="flex items-center gap-4 rounded-[22px] border border-dashed border-cedar/14 bg-white/70 px-4 py-4">
+            <div className="min-w-0 flex-1 text-right">
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음글</p>
+              <p className="type-body-xs mt-1 text-site-muted">다음 게시글이 없습니다.</p>
             </div>
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#4a3b5e]/60">
               <ChevronIcon direction="right" />

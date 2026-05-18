@@ -39,8 +39,8 @@ const MISSION_GALLERIES: MissionGallery[] = [
 function MissionTimelineItem({ item }: { item: MissionYear }) {
   const isGold = item.tone === "gold";
   const isRed = item.tone === "red";
-  const yearColor = isRed ? "text-[#b73838]" : isGold ? "text-[#c9a96e]" : "text-[#1e1035]";
-  const captionColor = isRed ? "text-[#b73838]" : isGold ? "text-[#b08c49]" : "text-[#7a6890]";
+  const yearColor = isRed ? "text-[#b73838]" : isGold ? "text-[#c9a96e]" : "text-[#33103f]";
+  const captionColor = isRed ? "text-[#b73838]" : isGold ? "text-[#c9a96e]" : "text-[#33103f]";
 
   return (
     <article className="flex w-full flex-col gap-4">
@@ -82,13 +82,13 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
 function MissionCallout() {
   return (
     <section className="mt-[100px] w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-6 py-10 uppercase md:px-[60px] md:py-[72px]">
-      <p className="mb-4 font-serif text-sm leading-none tracking-[0.14em] text-[#c9a96e]">The Mission Continues</p>
-      <h3 className="font-hahmlet text-[26px] font-semibold leading-[1.5] tracking-[0.01em] text-white md:text-[32px]">
+      <p className="mb-4 font-cormorant-infant text-sm leading-none tracking-[0.14em] text-[#c9a96e]">The Mission Continues</p>
+      <h3 className="font-hahmlet text-[22px] font-semibold leading-8 tracking-[0.01em] text-white">
         변함없는 20년의 선교,
         <br />
         시온장로교회는 오늘도 달려갑니다.
       </h3>
-      <p className="mt-6 font-hahmlet text-base font-medium leading-[1.8] tracking-[0.01em] text-white/70 md:text-lg">
+      <p className="mt-6 font-suit text-[18px] font-medium leading-[1.8] tracking-[0.01em] text-white/80">
         &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot; - 사도행전 1:8
       </p>
     </section>

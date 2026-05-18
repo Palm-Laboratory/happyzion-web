@@ -87,8 +87,8 @@ export default function ErrorPage({
         <p className="mt-5 font-hahmlet text-[clamp(3.5rem,14vw,8rem)] font-semibold leading-none text-forest/15">
           {content.status}
         </p>
-        <h1 className="type-section-title mt-5 text-ink">{content.title}</h1>
-        <p className="type-body mt-4 max-w-xl text-ink/72">{content.description}</p>
+        <h1 className="type-heading-md mt-5 text-ink">{content.title}</h1>
+        <p className="type-body-md mt-4 max-w-xl text-ink/72">{content.description}</p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           {content.primaryHref && content.primaryLabel ? (
             <Link

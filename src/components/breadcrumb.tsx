@@ -61,7 +61,7 @@ export default function Breadcrumb({
   return (
     <div className="flex w-full flex-col bg-[#f8fafd]">
       <nav className="section-shell border-b border-[#33103F]/10 py-3" aria-label="Breadcrumb">
-        <ol className="type-body-small flex items-center justify-center gap-1.5">
+        <ol className="type-body-xs flex items-center justify-center gap-1.5">
           <li>
             <Link href="/" className="font-medium text-[#33103F]/70 transition hover:text-[#33103F]">
               홈
@@ -128,7 +128,7 @@ export default function Breadcrumb({
               return (
                 <li key={item.key}>
                   {isActive ? (
-                    <span className="type-body-small block whitespace-nowrap border-b-[2.5px] border-[#33103F] px-3 py-3.5 font-bold text-[#33103F] md:px-4">
+                    <span className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-[#33103F] px-3 py-3.5 font-bold text-[#33103F] md:px-4">
                       {item.label}
                     </span>
                   ) : (
@@ -137,7 +137,7 @@ export default function Breadcrumb({
                       prefetch={false}
                       target={openItemInNewTab ? "_blank" : undefined}
                       rel={openItemInNewTab ? "noopener noreferrer" : undefined}
-                      className="type-body-small block whitespace-nowrap border-b-[2.5px] border-transparent px-3 py-3.5 font-medium text-[#33103F]/70 transition-colors hover:border-[#33103F]/30 hover:text-[#33103F] md:px-4"
+                      className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-transparent px-3 py-3.5 font-medium text-[#33103F]/70 transition-colors hover:border-[#33103F]/30 hover:text-[#33103F] md:px-4"
                     >
                       {item.label}
                     </Link>

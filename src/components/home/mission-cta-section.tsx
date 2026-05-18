@@ -75,13 +75,13 @@ export default function MissionCtaSection() {
         }}
       >
         <div className="uppercase">
-          <p className="type-section-title pt-8 text-[#f0e8ff]">
+          <p className="type-heading-md pt-8 text-white">
             선교는 지금도 계속되고 있습니다
           </p>
-          <p className="type-section-title text-[#f0e8ff]">
+          <p className="type-heading-md text-white">
             이 사명에 함께하세요
           </p>
-          <p className="type-section-subtitle pt-3 text-[#bfaed9]">Be Part of the Mission</p>
+          <p className="type-subtitle-sm pt-3 text-[#E2CAF5]">Be Part of the Mission</p>
         </div>
       </div>
     </section>
