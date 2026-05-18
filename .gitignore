@@ -3,6 +3,8 @@ node_modules
 .DS_Store
 .DB_Stroe
 .env.local
+.env.prod
+.env.production
 dist
 out
 coverage
