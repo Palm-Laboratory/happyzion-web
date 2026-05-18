@@ -335,6 +335,7 @@ export default function VideoSyncClient({
           <div>
             <h2 className="text-[14px] font-bold text-[#132033]">재생목록 동기화 현황</h2>
             <p className="mt-1 text-[12px] text-[#6d7f95]">재생목록별로 소속 메뉴와 노출 방식을 조정한 뒤 행 단위로 저장합니다.</p>
+            <p className="mt-1 text-[12px] text-[#8fa3bb]">신규 재생목록은 기본 롱폼으로 저장됩니다. 쇼츠 재생목록은 형식을 쇼츠로 변경 후 저장하고 다시 싱크하세요.</p>
           </div>
           <span className="text-[12px] font-semibold text-[#6d7f95]">숨김 {hiddenCount}개</span>
         </div>
