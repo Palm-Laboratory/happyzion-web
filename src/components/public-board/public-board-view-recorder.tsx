@@ -6,6 +6,7 @@ type PublicBoardViewRecorderProps = {
   boardKey: string;
   menuId: string;
   postId: string;
+  onRecorded?: () => void;
 };
 
 const VIEW_RECORDING_DEDUP_TTL_MS = 30_000;
@@ -42,6 +43,7 @@ export default function PublicBoardViewRecorder({
   boardKey,
   menuId,
   postId,
+  onRecorded,
 }: PublicBoardViewRecorderProps) {
   useEffect(() => {
     if (!boardKey || !menuId || !postId) {
@@ -58,10 +60,16 @@ export default function PublicBoardViewRecorder({
     void fetch(url, {
       method: "POST",
       keepalive: true,
-    }).catch(() => {
-      // View recording should never interrupt reading the post.
-    });
-  }, [boardKey, menuId, postId]);
+    })
+      .then((response) => {
+        if (response.ok) {
+          onRecorded?.();
+        }
+      })
+      .catch(() => {
+        // View recording should never interrupt reading the post.
+      });
+  }, [boardKey, menuId, onRecorded, postId]);
 
   return null;
 }

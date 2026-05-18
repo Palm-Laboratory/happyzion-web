@@ -5,7 +5,7 @@ import SectionHeading from "@/components/section-heading";
 import PublicBoardDetailActions from "@/components/public-board/public-board-detail-actions";
 import PublicBoardAttachmentsDropdown from "@/components/public-board/public-board-attachments-dropdown";
 import PublicBoardListControls from "@/components/public-board/public-board-list-controls";
-import PublicBoardViewRecorder from "@/components/public-board/public-board-view-recorder";
+import PublicBoardViewCount from "@/components/public-board/public-board-view-count";
 import {
   type PublicBoardPostDetail,
   type PublicBoardPostListResponse,
@@ -131,9 +131,25 @@ function getBoardPathHref(boardPath: string, postId: string) {
   return boardPath.replace(/\/+$/, "") + "/posts/" + postId;
 }
 
-function getBoardListPageHref(boardPath: string, page: number) {
+function getBoardListPageHref(boardPath: string, page: number, options?: { pageSize?: number; searchTitle?: string }) {
   const normalizedPath = boardPath.replace(/\/+$/, "");
-  return page <= 1 ? normalizedPath : `${normalizedPath}?page=${page}`;
+  const params = new URLSearchParams();
+  const normalizedTitle = options?.searchTitle?.trim() ?? "";
+
+  if (page > 1) {
+    params.set("page", String(page));
+  }
+
+  if (options?.pageSize && options.pageSize !== DEFAULT_BOARD_PAGE_SIZE) {
+    params.set("size", String(options.pageSize));
+  }
+
+  if (normalizedTitle) {
+    params.set("title", normalizedTitle);
+  }
+
+  const query = params.toString();
+  return query ? `${normalizedPath}?${query}` : normalizedPath;
 }
 
 function getBoardPostNumber(currentPage: number, pageSize: number, totalItems: number, index: number) {
@@ -459,7 +475,7 @@ function renderBoardPostSummary(
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group block px-3 py-4 md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px] md:items-center md:py-5"
+        className="group block px-3 py-4 md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px_100px] md:items-center md:py-5"
       >
         <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-3 gap-y-1 md:hidden">
           <span
@@ -506,6 +522,9 @@ function renderBoardPostSummary(
         <time dateTime={post.createdAt} className="hidden type-body-small px-5 text-left leading-none text-[#4a3b5e] md:block">
           {formatListDate(post.createdAt)}
         </time>
+        <span className="hidden type-body-small px-5 text-left leading-none text-[#4a3b5e] md:block">
+          {post.viewCount.toLocaleString("ko-KR")}
+        </span>
       </Link>
     </li>
   );
@@ -522,12 +541,14 @@ function buildPaginationPages(currentPage: number, totalPages: number) {
   return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
 }
 
+const DEFAULT_BOARD_PAGE_SIZE = 20;
+
 export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
   if (props.mode === "list") {
     const paginationPages = buildPaginationPages(props.currentPage, props.totalPages);
 
     return (
-      <main className="bg-white pb-20">
+      <main className="min-h-[680px] bg-white pb-20">
         <section className="section-shell section-shell--narrow pt-10 md:pt-16">
           <header>
             <SectionHeading label="Board" title={props.boardLabel} className="max-w-none" />
@@ -536,14 +557,15 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           {props.posts.length > 0 ? (
             <>
               <div className="border-b border-[rgba(93,61,138,0.16)]">
-                <div className="hidden md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px]">
+                <div className="hidden md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px_100px]">
                   <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">No</span>
                   <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">제목</span>
                   <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">작성자</span>
-                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">등록일</span>
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">작성일</span>
+                  <span className="type-label px-5 py-5 font-suit text-base font-semibold leading-none tracking-[0.08em] text-[#250030] normal-case">조회수</span>
                 </div>
               </div>
-              <ul>
+              <ul className="min-h-[320px]">
                 {props.posts.map((post, index) =>
                   renderBoardPostSummary(
                     props.boardPath,
@@ -552,10 +574,13 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                   ),
                 )}
               </ul>
-              {props.totalPages > 1 ? (
+              {props.totalPages >= 1 ? (
                 <nav aria-label={`${props.boardLabel} 페이지 이동`} className="mt-[84px] flex items-center justify-center gap-5 md:gap-9">
                   <Link
-                    href={getBoardListPageHref(props.boardPath, props.currentPage - 1)}
+                    href={getBoardListPageHref(props.boardPath, props.currentPage - 1, {
+                      pageSize: props.pageSize,
+                      searchTitle: props.searchTitle,
+                    })}
                     aria-disabled={props.currentPage <= 1}
                     className={`type-body-small inline-flex items-center justify-center leading-none tracking-[0.08em] transition ${props.currentPage <= 1
                         ? "pointer-events-none text-[#4a3b5e]/40"
@@ -570,7 +595,10 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                       return (
                         <Link
                           key={page}
-                          href={getBoardListPageHref(props.boardPath, page)}
+                          href={getBoardListPageHref(props.boardPath, page, {
+                            pageSize: props.pageSize,
+                            searchTitle: props.searchTitle,
+                          })}
                           aria-current={isCurrent ? "page" : undefined}
                           className={`type-body-small inline-flex h-12 w-12 items-center justify-center rounded-[4px] leading-none tracking-[0.08em] transition ${isCurrent
                               ? "bg-[#2a123c] font-semibold text-white"
@@ -583,7 +611,10 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                     })}
                   </div>
                   <Link
-                    href={getBoardListPageHref(props.boardPath, props.currentPage + 1)}
+                    href={getBoardListPageHref(props.boardPath, props.currentPage + 1, {
+                      pageSize: props.pageSize,
+                      searchTitle: props.searchTitle,
+                    })}
                     aria-disabled={props.currentPage >= props.totalPages}
                     className={`type-body-small inline-flex items-center justify-center leading-none tracking-[0.08em] transition ${props.currentPage >= props.totalPages
                         ? "pointer-events-none text-[#4a3b5e]/40"
@@ -608,7 +639,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
   const fileAttachments = props.post.assets.filter((asset) => asset.kind === "FILE_ATTACHMENT");
 
   return (
-    <main className="bg-white pb-20">
+    <main className="min-h-[680px] bg-white pb-20">
       <article className="section-shell section-shell--narrow pt-16 md:pt-[100px]">
         <header className="border-b border-[rgba(93,61,138,0.16)] pb-5">
           <h1 className="font-hahmlet text-4xl font-semibold leading-[52px] tracking-[0.01em] text-[#33103f]">
@@ -627,7 +658,12 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
               <span className="h-[15px] w-px bg-[rgba(93,61,138,0.24)]" aria-hidden="true" />
               <span className="inline-flex items-center gap-1.5">
                 조회수:
-                <span className="font-medium">{props.post.viewCount.toLocaleString("ko-KR")}</span>
+                <PublicBoardViewCount
+                  boardKey={props.boardKey}
+                  menuId={props.post.menuId}
+                  postId={props.post.id}
+                  initialViewCount={props.post.viewCount}
+                />
               </span>
             </p>
             {fileAttachments.length > 0 ? (
@@ -644,7 +680,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </div>
         </header>
 
-        <div className="type-quote prose mt-9 max-w-none text-black prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
+        <div className="type-quote prose mt-9 min-h-[320px] max-w-none text-black prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
           {renderTiptapDocument(props.post.contentJson)}
         </div>
         <div className="mt-10 border-b border-[rgba(93,61,138,0.16)]" />
@@ -653,7 +689,6 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           previousPost={props.post.previousPost}
           nextPost={props.post.nextPost}
         />
-        <PublicBoardViewRecorder boardKey={props.boardKey} menuId={props.post.menuId} postId={props.post.id} />
       </article>
     </main>
   );

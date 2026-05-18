@@ -156,7 +156,7 @@ export default function PublicBoardDetailActions({
           >
             <DirectionBadge direction="left" />
             <div className="min-w-0 flex-1 space-y-3">
-              <p className="type-quote font-semibold leading-none text-[#250030]">이전글</p>
+              <p className="type-body-small font-semibold leading-none text-[#250030]">이전글</p>
               <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e] transition group-hover:text-[#2a123c]">{previousPost.title}</p>
             </div>
           </Link>
@@ -166,7 +166,7 @@ export default function PublicBoardDetailActions({
               <ChevronIcon direction="left" />
             </span>
             <div className="min-w-0 flex-1 space-y-3">
-              <p className="type-quote font-semibold leading-none text-[#250030]">이전글</p>
+              <p className="type-body-small font-semibold leading-none text-[#250030]">이전글</p>
               <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e]">이전 게시글이 없습니다.</p>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function PublicBoardDetailActions({
             className="group flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
           >
             <div className="min-w-0 flex-1 space-y-3 text-right">
-              <p className="type-quote font-semibold leading-none text-[#250030]">다음글</p>
+              <p className="type-body-small font-semibold leading-none text-[#250030]">다음글</p>
               <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e] transition group-hover:text-[#2a123c]">{nextPost.title}</p>
             </div>
             <DirectionBadge direction="right" />
@@ -186,7 +186,7 @@ export default function PublicBoardDetailActions({
         ) : (
           <div className="flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6">
             <div className="min-w-0 flex-1 space-y-3 text-right">
-              <p className="type-quote font-semibold leading-none text-[#250030]">다음글</p>
+              <p className="type-body-small font-semibold leading-none text-[#250030]">다음글</p>
               <p className="type-quote line-clamp-1 leading-none text-[#4a3b5e]">다음 게시글이 없습니다.</p>
             </div>
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#4a3b5e]/60">

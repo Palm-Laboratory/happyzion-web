@@ -6,9 +6,14 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const recorderPath = path.join(here, "public-board-view-recorder.tsx");
+const viewCountPath = path.join(here, "public-board-view-count.tsx");
 
 async function readRecorder() {
   return readFile(recorderPath, "utf8");
+}
+
+async function readViewCount() {
+  return readFile(viewCountPath, "utf8");
 }
 
 test("public board view recorder deduplicates Strict Mode remounts in development", async () => {
@@ -39,9 +44,41 @@ test("public board view recorder deduplicates Strict Mode remounts in developmen
     /if\s*\(\s*!shouldRecordView\s*\(\s*boardKey\s*,\s*postId\s*,\s*menuId\s*\)\s*\)\s*{\s*return;\s*}/s,
     "Expected duplicate development effects to return before POSTing the view endpoint.",
   );
+  assert.match(
+    contents,
+    /onRecorded\?:\s*\(\)\s*=>\s*void/,
+    "Expected the recorder to expose a success callback for visible count updates.",
+  );
+  assert.match(
+    contents,
+    /if\s*\(\s*response\.ok\s*\)\s*{[\s\S]*onRecorded\?\.\(\)/,
+    "Expected the recorder to notify the caller after a successful view POST.",
+  );
   assert.doesNotMatch(
     contents,
     /useRef\s*</,
     "Expected not to use useRef because Strict Mode remount creates a fresh component instance.",
+  );
+});
+
+test("public board view count updates visible count after recorder success", async () => {
+  const contents = await readViewCount();
+
+  assert.match(contents, /"use client"/, "Expected visible view-count updates to run on the client.");
+  assert.match(contents, /useState\(initialViewCount\)/, "Expected the visible count to start from the server value.");
+  assert.match(
+    contents,
+    /useEffect\(\(\)\s*=>\s*{[\s\S]*setViewCount\(initialViewCount\)[\s\S]*},\s*\[initialViewCount,\s*postId\]\)/,
+    "Expected the visible count to resync when navigating between posts.",
+  );
+  assert.match(
+    contents,
+    /setViewCount\(\(current\)\s*=>\s*current\s*\+\s*1\)/,
+    "Expected successful view recording to increment the visible count locally.",
+  );
+  assert.match(
+    contents,
+    /<PublicBoardViewRecorder[\s\S]*onRecorded=\{handleRecorded\}/,
+    "Expected the view count component to wire the recorder success callback.",
   );
 });

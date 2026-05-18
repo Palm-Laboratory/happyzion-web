@@ -121,6 +121,9 @@ test("public board renderer follows the shared section header and narrow content
     /section-shell section-shell--narrow/,
     "Expected public board content to use the shared narrow content shell.",
   );
+  assert.match(contents, /min-h-\[680px\]/, "Expected board pages to keep a stable minimum page height.");
+  assert.match(contents, /<ul className="min-h-\[320px\]"/, "Expected short board lists to keep stable table height.");
+  assert.match(contents, /prose mt-9 min-h-\[320px\]/, "Expected short board details to keep stable content height.");
   assert.match(
     contents,
     /<SectionHeading\s+label="Board"\s+title=\{props\.boardLabel\}/,
@@ -128,8 +131,23 @@ test("public board renderer follows the shared section header and narrow content
   );
   assert.match(
     contents,
-    /md:grid-cols-\[100px_minmax\(0,1fr\)_140px_140px\]/,
-    "Expected public board list rows to use the Figma four-column board layout.",
+    /md:grid-cols-\[100px_minmax\(0,1fr\)_140px_140px_100px\]/,
+    "Expected public board list rows to include the final view-count column.",
   );
+  assert.match(contents, />작성일</, "Expected public board list headers to label the created date as 작성일.");
+  assert.match(contents, />조회수</, "Expected public board list headers to include 조회수.");
+  assert.match(
+    contents,
+    /props\.totalPages\s*>=\s*1/,
+    "Expected pagination to render whenever at least one page exists.",
+  );
+  assert.match(
+    contents,
+    /function\s+getBoardListPageHref\([^)]*options\?:\s*\{\s*pageSize\?:\s*number;\s*searchTitle\?:\s*string\s*\}/,
+    "Expected pagination URLs to accept current list filters.",
+  );
+  assert.match(contents, /params\.set\(\s*["']page["']/, "Expected pagination URLs to include the requested page.");
+  assert.match(contents, /params\.set\(\s*["']size["']/, "Expected pagination URLs to preserve non-default page size.");
+  assert.match(contents, /params\.set\(\s*["']title["']/, "Expected pagination URLs to preserve title search.");
   assert.match(contents, /<h2\b/, "Expected public board content headers to use section-level h2 headings.");
 });
