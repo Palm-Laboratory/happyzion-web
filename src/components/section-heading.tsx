@@ -16,10 +16,7 @@ function SectionHeadingEyebrow({ label }: { label: string }) {
   return (
     <div className="flex items-start gap-3">
       <span className="mt-[8px] h-px w-[30px] shrink-0 bg-[#8b6db5]" />
-      <p
-        className="text-sm uppercase leading-[1.125rem] tracking-[0.18em] text-[#8b6db5]"
-        style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-      >
+      <p className="type-label-lg text-[#8b6db5]">
         {label}
       </p>
     </div>
@@ -36,7 +33,7 @@ function SectionHeadingTitle({
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="font-hahmlet text-[30px] font-semibold uppercase leading-[1.25] tracking-[0.01em] text-[#250030] md:text-[40px] md:leading-[52px]">
+    <TitleTag className="type-heading-lg uppercase text-[#250030]">
       {title}
     </TitleTag>
   );
@@ -44,10 +41,7 @@ function SectionHeadingTitle({
 
 function SectionHeadingDescription({ description }: { description: ReactNode }) {
   return (
-    <p
-      className="mt-2 text-base italic leading-none tracking-[0.2em] text-[#8b6db5]"
-      style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-    >
+    <p className="type-subtitle-sm mt-2 italic text-[#8b6db5]">
       {description}
     </p>
   );

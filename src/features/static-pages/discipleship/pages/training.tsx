@@ -217,13 +217,13 @@ function PrincipleItem({
       </div>
 
       <div className="border-l border-[#8b6db5]/18 pl-4 md:pl-6">
-        <p className="font-cormorant-infant type-body-small tracking-[0.12em] text-[#8b6db5]">
+        <p className="font-cormorant-infant type-body-xs tracking-[0.12em] text-[#8b6db5]">
           {englishTitle.toUpperCase()}
         </p>
         <h3 className="font-hahmlet mt-2 text-[1.25rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-small mt-2 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+        <p className="type-body-xs mt-2 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
           {details.join(" · ")}
         </p>
       </div>
@@ -284,7 +284,7 @@ function Roadmap() {
                     {item.title}
                   </h3>
                   <p
-                    className={`type-body-small mt-3 leading-[1.6] tracking-[0.02em] ${
+                    className={`type-body-xs mt-3 leading-[1.6] tracking-[0.02em] ${
                       index === roadmapItems.length - 1 ? "text-white/80" : "text-[#4a3b5e]"
                     }`}
                   >
@@ -298,7 +298,7 @@ function Roadmap() {
       </div>
 
       <div className="mt-8 rounded-[8px] bg-[#f5f0f9] px-5 py-5 text-center">
-        <p className="type-body leading-[1.6] tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-md leading-[1.6] tracking-[0.02em] text-[#6F5576]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
           <span className="mx-3">·</span>
@@ -315,7 +315,7 @@ function CurriculumStageTabs() {
 
   return (
     <div className="w-full">
-      <p className="type-body mb-8 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+      <p className="type-body-md mb-8 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
         대상: {selectedStage.target}
         <span className="mx-3 text-[#4a3b5e]">·</span>
         목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
@@ -391,7 +391,7 @@ function CurriculumStageTabs() {
         <p className="font-hahmlet text-[1rem] font-semibold leading-none tracking-[0.02em] text-[#33103f]">
           수료 기준
         </p>
-        <p className="type-body-small mt-3 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
+        <p className="type-body-xs mt-3 leading-[1.7] tracking-[0.02em] text-[#4a3b5e]">
           {selectedStage.requirements.join(" · ")}
         </p>
       </div>
@@ -414,12 +414,12 @@ function ClassStructureCard({
         <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
           {minute}
         </span>
-        <span className="type-body pb-[2px] leading-none text-[#6F5576]">분</span>
+        <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-body-md mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-2 leading-none text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -472,7 +472,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
+        <p className="font-suit type-label-md mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -490,7 +490,7 @@ function ScheduleCard({
 }) {
   return (
     <article className="rounded-[8px] bg-[#f5f0f9] p-6 md:p-8">
-      <h3 className="type-card-title font-bold leading-none tracking-[0.02em] text-[#33103f]">
+      <h3 className="type-title-md font-bold leading-none tracking-[0.02em] text-[#33103f]">
         {title}
       </h3>
       <div className="mt-5">
@@ -499,8 +499,8 @@ function ScheduleCard({
             key={`${left}-${right}`}
             className="flex items-center justify-between gap-6 border-b border-[#8b6db5]/12 py-3"
           >
-            <span className="type-body-small tracking-[0.02em] text-[#6F5576]">{left}</span>
-            <span className="type-body-small font-semibold tracking-[0.02em] text-[#33103f]">
+            <span className="type-body-xs tracking-[0.02em] text-[#6F5576]">{left}</span>
+            <span className="type-body-xs font-semibold tracking-[0.02em] text-[#33103f]">
               {right}
             </span>
           </div>
@@ -591,7 +591,7 @@ export default function DiscipleshipTrainingStaticPage() {
 
             <ul className="mt-6 flex flex-col gap-2">
               {applicationNotes.map((note) => (
-                <li key={note} className="type-body flex items-start gap-1 tracking-[0.02em] text-white/80">
+                <li key={note} className="type-body-md flex items-start gap-1 tracking-[0.02em] text-white/80">
                   <span aria-hidden="true">·</span>
                   <span>{note}</span>
                 </li>

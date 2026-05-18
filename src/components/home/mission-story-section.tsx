@@ -81,16 +81,16 @@ function MissionStoryHeading() {
     <div className="flex w-full max-w-[900px] flex-col items-center text-center uppercase">
       <div className="flex flex-col items-center gap-6 md:gap-8">
         <div className="flex flex-col items-center gap-3">
-          <p className="type-label font-cormorant-infant text-[#FDF4FF]">OUR MISSION</p>
+          <p className="type-label-md font-cormorant-infant text-[#FDF4FF]">OUR MISSION</p>
           <div className="h-px w-16 bg-[#FDF4FF]" />
         </div>
         <div className="flex flex-col items-center gap-3">
-          <h2 className="type-section-title text-white">
+          <h2 className="type-heading-md text-white">
             우리는 복음으로
             <br />
             사람을 살리는 교회입니다.
           </h2>
-          <p className="type-section-subtitle text-[#E2CAF5]">LIFE THROUGH THE GOSPEL</p>
+          <p className="type-subtitle-sm text-[#E2CAF5]">LIFE THROUGH THE GOSPEL</p>
         </div>
       </div>
     </div>
@@ -159,7 +159,7 @@ function MissionStorySectionMobile() {
           </p>
           <div className="h-px w-9 bg-[rgba(255,250,240,0.65)]" />
           <p
-            className="type-label-accent text-[#FDF8FF]"
+            className="type-label-lg text-[#FDF8FF]"
             style={{
               fontFamily: "var(--font-cormorant-infant)",
               fontStyle: "italic",
@@ -200,7 +200,7 @@ function MissionStorySectionMobile() {
             </div>
 
             <div className="mt-10 w-full text-left">
-              <p className="type-body text-[#FDF8FF] lg:text-xl lg:leading-8">{activeStory.message}</p>
+              <p className="type-body-md text-[#FDF8FF] lg:text-xl lg:leading-8">{activeStory.message}</p>
             </div>
           </div>
         </div>
@@ -369,7 +369,7 @@ function MissionStorySectionDesktop() {
                 return (
                   <p
                     key={`desktop-story-message-${index + 1}`}
-                    className="type-body absolute inset-0 transition-opacity duration-500 ease-out lg:text-xl"
+                    className="type-body-md absolute inset-0 transition-opacity duration-500 ease-out lg:text-xl"
                     style={{
                       lineHeight: "36px",
                       opacity: visible ? 1 : 0,
@@ -419,7 +419,7 @@ function MissionStorySectionDesktop() {
                   {missionStories.map((story) => (
                     <div
                       key={`${story.id}-dial-country`}
-                      className="type-label-accent flex h-10 items-center text-[#FDF8FF]"
+                      className="type-label-lg flex h-10 items-center text-[#FDF8FF]"
                       style={{
                         fontFamily: "var(--font-cormorant-infant)",
                         fontStyle: "italic",

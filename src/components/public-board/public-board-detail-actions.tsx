@@ -131,14 +131,14 @@ export default function PublicBoardDetailActions({
         <button
           type="button"
           onClick={handleShare}
-          className="type-body-small inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 font-semibold text-[#33103f] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 font-semibold text-[#33103f] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
         >
           {shareLabel === "링크 복사됨" ? <CopyIcon /> : <ShareIcon />}
           {shareLabel}
         </button>
         <Link
           href={boardPath}
-          className="type-body-small inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#33103f] bg-[#33103f] px-4 font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] sm:self-auto"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#33103f] bg-[#33103f] px-4 font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] sm:self-auto"
         >
           <ListIcon />
           목록으로
@@ -153,8 +153,8 @@ export default function PublicBoardDetailActions({
           >
             <DirectionBadge direction="left" />
             <div className="min-w-0 flex-1">
-              <p className="type-label font-semibold tracking-[0.08em] text-site-muted">이전글</p>
-              <p className="type-body mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousPost.title}</p>
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전글</p>
+              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousPost.title}</p>
             </div>
           </Link>
         ) : (
@@ -163,8 +163,8 @@ export default function PublicBoardDetailActions({
               <ChevronIcon direction="left" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="type-label font-semibold tracking-[0.08em] text-site-muted">이전글</p>
-              <p className="type-body-small mt-1 text-site-muted">이전 게시글이 없습니다.</p>
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전글</p>
+              <p className="type-body-xs mt-1 text-site-muted">이전 게시글이 없습니다.</p>
             </div>
           </div>
         )}
@@ -175,16 +175,16 @@ export default function PublicBoardDetailActions({
             className="group flex items-center gap-4 rounded-[22px] border border-[#8b6db5]/15 bg-white px-4 py-4 transition hover:border-[#8b6db5] hover:bg-white hover:shadow-[0_10px_24px_rgba(51,16,63,0.08)]"
           >
             <div className="min-w-0 flex-1 text-right">
-              <p className="type-label font-semibold tracking-[0.08em] text-site-muted">다음글</p>
-              <p className="type-body mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextPost.title}</p>
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음글</p>
+              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextPost.title}</p>
             </div>
             <DirectionBadge direction="right" />
           </Link>
         ) : (
           <div className="flex items-center gap-4 rounded-[22px] border border-dashed border-cedar/14 bg-white/70 px-4 py-4">
             <div className="min-w-0 flex-1 text-right">
-              <p className="type-label font-semibold tracking-[0.08em] text-site-muted">다음글</p>
-              <p className="type-body-small mt-1 text-site-muted">다음 게시글이 없습니다.</p>
+              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음글</p>
+              <p className="type-body-xs mt-1 text-site-muted">다음 게시글이 없습니다.</p>
             </div>
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cedar/5 text-site-muted">
               <ChevronIcon direction="right" />

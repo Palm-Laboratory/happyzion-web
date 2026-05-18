@@ -217,55 +217,35 @@
 
 ### 전역 타입 스케일
 
-| 토큰 | 패밀리 | 크기 | 두께 | 줄 높이 | 자간 | 브레이크포인트 |
-| --- | --- | ---: | ---: | ---: | ---: | --- |
-| {type.heroTitle.sm} | {font.serifKo} | 44px | 600 | 1.5 | -0.03em | 기본 |
-| {type.heroTitle.md} | {font.serifKo} | 52px | 600 | 1.5 | -0.03em | >=768px |
-| {type.heroTitle.lg} | {font.serifKo} | 60px | 600 | 1.5 | -0.03em | >=1024px |
-| {type.pageTitle.sm} | {font.serifKo} | 40px | 400 | 1.14 | 0 | 기본 |
-| {type.pageTitle.md} | {font.serifKo} | 68px | 400 | 1.14 | 0 | >=768px |
-| {type.sectionTitle.sm} | {font.serifKo} | 32px | 600 | 1.5 | -0.03em | 기본 |
-| {type.sectionTitle.mid} | {font.serifKo} | 36px | 600 | 1.5 | -0.03em | >=670px |
-| {type.sectionTitle.md} | {font.serifKo} | 48px | 600 | 1.5 | -0.03em | >=768px |
-| {type.sectionTitle.lg} | {font.serifKo} | 56px | 600 | 1.5 | -0.03em | >=1024px |
-| {type.sectionSubtitle.sm} | {font.serifKo} | 18px | 500 | 1.35 | 0.02em | 기본 |
-| {type.sectionSubtitle.md} | {font.serifKo} | 24px | 500 | 1.35 | 0.02em | >=768px |
-| {type.cardTitle.sm} | {font.serifKo} | 20px | 600 | 1.3 | -0.01em | 기본 |
-| {type.cardTitle.md} | {font.serifKo} | 24px | 600 | 1.3 | -0.01em | >=768px |
-| {type.cardTitle.lg} | {font.serifKo} | 28px | 600 | 1.3 | -0.01em | >=1024px |
-| {type.body.sm} | {font.sans} | 16px | 400 | 1.8 | 0.01em | 기본 |
-| {type.body.md} | {font.sans} | 18px | 400 | 1.8 | 0.01em | >=768px |
-| {type.bodySmall} | {font.sans} | 15px | 400 | 1.76 | 0.01em | 기본 |
-| {type.label.sm} | {font.serifKo} | 12px | 200 | 1.2 | 0.18em | 기본 |
-| {type.label.md} | {font.serifKo} | 14px | 200 | 1.2 | 0.18em | >=768px |
-| {type.label.lg} | {font.serifKo} | 16px | 200 | 1.2 | 0.18em | >=1024px |
-| {type.nav.sm} | {font.sans} | 15.2px | 300 | 1.2 | 0.2em | 기본 |
-| {type.nav.md} | {font.sans} | 16px | 300 | 1.2 | 0.2em | >=768px |
-| {type.button.sm} | {font.sans} | 16px | 600 | 1.2 | 0 | 기본 |
-| {type.button.md} | {font.sans} | 17.6px | 600 | 1.2 | 0 | >=768px |
-| {type.caption} | {font.sans} | 14px | 400 | 1.45 | 0.01em | 기본 |
-| {type.scriptDisplay.sm} | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 기본 |
-| {type.scriptDisplay.md} | {font.corinthia} | 112px | 400 | 0.9 | 0.01em | >=768px |
-| {type.scriptAccent.sm} | {font.estonia} | 24px | 400 | 1 | 0.14em | 기본 |
-| {type.scriptAccent.md} | {font.estonia} | 32px | 400 | 1 | 0.14em | >=768px |
+스케일 기반 네이밍 (xl / lg / md / sm / xs). 헤딩 토큰은 반응형이며 나머지는 고정값입니다. CSS 클래스는 `.type-{토큰}` 형식 (예: `.type-heading-xl`). nav 활성 상태는 컴포넌트 레벨에서 `font-weight: 700` 오버라이드. 장식용 토큰(script-display, display-counter, script-accent)은 인라인 전용으로 스케일에 포함하지 않습니다.
 
-### 구현된 섹션 헤더 타입
-
-| 토큰 | 값 |
-| --- | --- |
-| {component.sectionHeading.label.size} | 14px |
-| {component.sectionHeading.label.lineHeight} | 18px |
-| {component.sectionHeading.label.tracking} | 0.18em |
-| {component.sectionHeading.label.color} | #8b6db5 |
-| {component.sectionHeading.title.size.mobile} | 30px |
-| {component.sectionHeading.title.size.desktop} | 40px |
-| {component.sectionHeading.title.lineHeight.mobile} | 1.25 |
-| {component.sectionHeading.title.lineHeight.desktop} | 52px |
-| {component.sectionHeading.title.weight} | 600 |
-| {component.sectionHeading.title.tracking} | 0.01em |
-| {component.sectionHeading.description.size} | 16px |
-| {component.sectionHeading.description.lineHeight} | 1 |
-| {component.sectionHeading.description.tracking} | 0.2em |
+| 토큰 | 역할 | 패밀리 | 크기 | 두께 | 줄 높이 | 자간 | 반응형 |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| {type.heading.xl} | 페이지 배너 타이틀 | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
+| {type.heading.md} | 섹션 헤딩 | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
+| {type.subtitle.sm} | 섹션 설명 | {font.sans} | 16px | 400 | 1.2 | 0.02em | — |
+| {type.title.xs} | 컴포넌트 소제목 | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
+| {type.title.sm} | 카드 제목 (소) | {font.serifKo} | 18px | 600 | 1.75 | 0.01em | — |
+| {type.title.md} | 카드 제목 (중) | {font.serifKo} | 20px | 600 | 1.75 | 0.01em | — |
+| {type.title.lg} | 카드 제목 (대) | {font.serifKo} | 22px | 600 | 1.85 | 0.01em | — |
+| {type.title.xl} | 카드 제목 (특대) | {font.serifKo} | 24px | 600 | 1.35 | 0.01em | — |
+| {type.body.md} | 본문 | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
+| {type.body.sm} | 본문 (소) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
+| {type.body.xs} | 본문 (극소) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.quote.md} | 인용 텍스트 | {font.sans} | 18px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | 인용 텍스트 (소) | {font.sans} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | 인물명 / 대형 레이블 | {font.sans} | 16px | 300 | 1.2 | 0.18em | — |
+| {type.label.lg} | 섹션 아이브로 | {font.sans} | 14px | 300 | 1.2 | 0.18em | — |
+| {type.label.md} | 카드 레이블 | {font.sans} | 12px | 300 | 1.2 | 0.18em | — |
+| {type.label.sm} | 마이크로 레이블 | {font.sans} | 10px | 300 | 1.2 | 0.18em | — |
+| {type.nav.md} | 내비게이션 / 브레드크럼 | {font.sans} | 16px | 500 | 1 | 0.01em | — |
+| {type.caption.lg} | 캡션 (대) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
+| {type.caption.md} | 캡션 | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.button.md} | 버튼 레이블 | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
+| {type.counter.md} | 통계 카운터 | {font.sans} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.scriptDisplay} | 장식용 | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
+| {type.displayCounter} | 장식용 | {font.corinthia} | 56px | 400 | 1 | 0.01em | — |
+| {type.scriptAccent} | 장식용 | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |
 
 ## 4. 레이아웃
 

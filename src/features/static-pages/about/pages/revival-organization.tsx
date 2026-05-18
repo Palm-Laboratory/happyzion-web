@@ -535,7 +535,7 @@ function MinistryTitle({ title }: { title: string }) {
 function VisionQuote() {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="font-hahmlet relative z-10 text-[20px] font-normal uppercase leading-[1.85rem] tracking-[1px] text-[#33103f] xl:whitespace-nowrap">
+      <p className="type-quote-md relative z-10 uppercase text-[#33103f] xl:whitespace-nowrap">
         &ldquo;복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회&rdquo;
       </p>
       <p
@@ -557,7 +557,7 @@ function VisionQuote() {
 function MinistryDetailQuote({ quote }: { quote: string }) {
   return (
     <div className="relative w-full overflow-hidden border-l-[3px] border-[#6d5898] bg-white/[0.04] px-8 py-9 md:px-12">
-      <p className="font-hahmlet relative z-10 text-[16px] font-normal uppercase leading-7 tracking-[1px] text-white">
+      <p className="type-body-sm font-hahmlet relative z-10 uppercase text-white">
         &quot;{quote}&quot;
       </p>
       <p
@@ -585,7 +585,7 @@ function MinistryTeamPanel({
     <article className="flex flex-col gap-6 bg-white/[0.04] p-7 md:p-9">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2 leading-6">
-          <h3 className="font-hahmlet text-sm font-light uppercase tracking-[2px] text-[#c9a96e]">
+          <h3 className="type-label-lg text-[#c9a96e]">
             {title}
           </h3>
           <p
@@ -595,7 +595,7 @@ function MinistryTeamPanel({
             {english}
           </p>
         </div>
-        <ul className="font-suit flex flex-col gap-3 text-sm leading-4 text-white/80">
+        <ul className="type-body-xs flex flex-col gap-3 text-white/80">
           {items.map((item) => (
             <li key={item} className="flex gap-2.5">
               <span className="text-white">·</span>
@@ -660,10 +660,10 @@ function MinistryTeamsSection() {
                     }`}
                   aria-pressed={active}
                 >
-                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#FDF8FF]">
+                  <span className="type-title-xs text-[#FDF8FF]">
                     {tab.title}
                   </span>
-                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-white/80">
+                  <span className="type-body-xs text-white/80">
                     {tab.subtitle}
                   </span>
                 </button>
@@ -685,7 +685,7 @@ function MinistryTeamsSection() {
 
               <div className="flex items-start justify-between gap-6 md:gap-8">
                 <div className="min-w-0 flex-1">
-                  <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-[1.85rem] tracking-[0.01em] text-white">
+                  <h2 className="type-title-xl uppercase text-white">
                     <MinistryTitle title={activeMinistry.title} />
                   </h2>
                 </div>
@@ -702,7 +702,7 @@ function MinistryTeamsSection() {
                   >
                     {activeMinistry.memberCount}
                   </p>
-                  <p className="font-suit text-xs leading-3 tracking-[2px]">팀 인원</p>
+                  <p className="type-label-md">팀 인원</p>
                 </div>
               </div>
 
@@ -725,7 +725,7 @@ function MinistryTeamsSection() {
                 >
                   members
                 </p>
-                <div className="font-suit flex flex-wrap gap-x-3 gap-y-2 text-[13px] uppercase leading-3 tracking-[1px] text-white/80">
+                <div className="type-body-xs flex flex-wrap gap-x-3 gap-y-2 uppercase text-white/80">
                   {activeMinistry.members.map((member, index) => (
                     <span
                       key={member}
@@ -758,7 +758,7 @@ function SmallGroupPanelHeader({ label, number, title }: { label: string; number
           {label}
         </p>
       </div>
-      <h2 className="font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#250030]">
+      <h2 className="type-title-xl uppercase text-[#250030]">
         {title}
       </h2>
     </div>
@@ -795,7 +795,7 @@ function SmallGroupPanelHeaderWithControls({
       </div>
 
       <div className="flex w-full items-start justify-between gap-8">
-        <h2 className="min-w-0 flex-1 font-hahmlet text-2xl font-semibold uppercase leading-6 tracking-[0.01em] text-[#250030]">
+        <h2 className="type-title-xl min-w-0 flex-1 uppercase text-[#250030]">
           {title}
         </h2>
         <div className="flex shrink-0 items-center gap-4 lg:hidden">
@@ -813,10 +813,10 @@ function RoadmapQuarterHeader({ quarter, summary }: { quarter: string; summary: 
   return (
     <div className="flex w-full items-center overflow-hidden rounded-t">
       <div className="flex h-10 shrink-0 items-center bg-[#341a44] pl-6 pr-4">
-        <p className="font-hahmlet text-xs leading-3 tracking-[1px] text-[#ffd17d]">{quarter}</p>
+        <p className="type-label-md text-[#ffd17d]">{quarter}</p>
       </div>
       <div className="flex h-10 min-w-0 flex-1 items-center bg-[#341a44] px-6 py-2.5">
-        <p className="font-suit truncate text-xs leading-3 tracking-[1px] text-[#ffd17d]">{summary}</p>
+        <p className="type-label-md truncate text-[#ffd17d]">{summary}</p>
       </div>
     </div>
   );
@@ -833,12 +833,12 @@ function RoadmapMonthCard({
 }) {
   return (
     <article className="flex min-h-[168px] flex-col gap-2 border-b border-r border-[#8b6db5]/25 bg-white/10 p-4">
-      <p className="font-suit text-xs uppercase leading-3 tracking-[2px] text-[#e3bfff]">{phase}</p>
+      <p className="type-label-md uppercase text-[#e3bfff]">{phase}</p>
       <div className="flex flex-1 flex-col gap-3.5">
-        <h3 className="font-hahmlet text-base font-semibold uppercase leading-6 tracking-[0.01em] text-[#fdf8ff]">
+        <h3 className="type-title-xs uppercase text-[#fdf8ff]">
           {month}
         </h3>
-        <ul className="font-suit flex flex-col gap-1 text-[13px] leading-[18px] text-[#fdf8ff]/80">
+        <ul className="type-body-xs flex flex-col gap-1 text-[#fdf8ff]/80">
           {items.map((item) => (
             <li key={item} className="flex gap-1.5">
               <span className="text-sm leading-[22px]">·</span>
@@ -865,12 +865,12 @@ function SmallGroupSectionBlock({
   return (
     <div className={`flex w-full flex-col gap-6 rounded bg-[#594263] px-5 py-8 md:px-10 md:py-10 ${className}`}>
       <div className="flex w-full items-center justify-center gap-3">
-        <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
+        <p className="type-label-lg shrink-0 text-[#ffd17d]">
           {label}
         </p>
         <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
         {meta ? (
-          <p className="font-suit shrink-0 text-sm leading-3 tracking-[0.01em] text-[#ffd17d]">
+          <p className="type-body-xs shrink-0 text-[#ffd17d]">
             {meta}
           </p>
         ) : null}
@@ -898,11 +898,11 @@ function SmallGroupCycleCard({
         >
           {number}
         </p>
-        <h3 className="font-hahmlet text-lg font-semibold leading-[18px] tracking-[0.01em] text-[#fdf8ff]">
+        <h3 className="type-title-sm text-[#fdf8ff]">
           {title}
         </h3>
       </div>
-      <ul className="font-suit flex flex-col gap-3 text-sm leading-[14px] text-[#FDF8FF]/80">
+      <ul className="type-body-xs flex flex-col gap-3 text-[#FDF8FF]/80">
         {items.map((item) => (
           <li key={item} className="flex gap-1.5">
             <span className="tracking-[2.8px]">·</span>
@@ -926,10 +926,10 @@ function PrincipleList({ items = smallGroupPrinciples }: { items?: typeof smallG
             {item.number}
           </p>
           <div className="flex min-w-0 flex-1 flex-col gap-3">
-            <h3 className="font-hahmlet text-base font-medium leading-4 tracking-[0.01em] text-[#fdf8ff]">
+            <h3 className="type-title-xs text-[#fdf8ff]">
               {item.title}
             </h3>
-            <p className="font-suit text-sm font-light leading-5 tracking-[0.01em] text-[#FDF8FF]/80">
+            <p className="type-body-xs text-[#FDF8FF]/80">
               {item.description}
             </p>
           </div>
@@ -1027,7 +1027,7 @@ function PersonnelBars() {
     <div className="flex w-full flex-col gap-3">
       {personnelBars.map((bar) => (
         <div key={bar.label} className="flex w-full flex-col gap-3">
-          <div className="font-suit flex items-center justify-between text-sm tracking-[0.01em] text-[#fdf8ff]">
+          <div className="type-body-xs flex items-center justify-between text-[#fdf8ff]">
             <span>{bar.label}</span>
             <span>{bar.count}</span>
           </div>
@@ -1146,7 +1146,7 @@ function AnnualRoadmapContent({
 
       <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-10">
         <div className="flex w-full items-center justify-center gap-3">
-          <p className="font-hahmlet shrink-0 text-sm leading-3 tracking-[2.8px] text-[#ffd17d]">
+          <p className="type-label-lg shrink-0 text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
           </p>
           <span className="h-px min-w-0 flex-1 bg-[#e3bfff]/45" />
@@ -1206,10 +1206,10 @@ function SmallGroupsMinistrySection() {
                     }`}
                   aria-pressed={active}
                 >
-                  <span className="font-hahmlet text-[15px] font-semibold leading-4 tracking-[0.01em] text-[#33103f]">
+                  <span className="type-title-xs text-[#33103f]">
                     {tab.title}
                   </span>
-                  <span className="font-suit text-xs leading-3 tracking-[0.01em] text-[#6F5576]">
+                  <span className="type-body-xs text-[#6F5576]">
                     {tab.subtitle}
                   </span>
                 </button>
@@ -1279,8 +1279,8 @@ function CoreValueCard({
           {number}
         </p>
         <div className="flex w-full flex-col items-start gap-[14px]">
-          <h2 className="font-hahmlet text-[20px] font-normal leading-5 text-white">{title}</h2>
-          <p className="font-suit text-sm leading-[22px] text-white/80">{description}</p>
+          <h2 className="type-title-md font-normal text-white">{title}</h2>
+          <p className="type-body-xs text-white/80">{description}</p>
         </div>
       </div>
     </article>
@@ -1290,7 +1290,7 @@ function CoreValueCard({
 function CoreValueAccordion() {
   return (
     <div className="flex w-full flex-col gap-5 md:hidden">
-      <h3 className="font-hahmlet text-xl font-semibold leading-6 tracking-[0.01em] text-[#33103f]">
+      <h3 className="type-title-lg text-[#33103f]">
         5대 핵심가치
       </h3>
       <div className="w-full border-y border-[#8b6db5]/12">
@@ -1305,10 +1305,10 @@ function CoreValueAccordion() {
             >
               {value.number}
             </p>
-            <h3 className="font-hahmlet text-base font-medium leading-6 tracking-[0.01em] text-[#33103f]">
+            <h3 className="type-title-xs text-[#33103f]">
               {value.title}
             </h3>
-            <p className="font-suit text-sm leading-6 tracking-[0.01em] text-[#4a3b5e]">
+            <p className="type-body-xs text-[#4a3b5e]">
               {value.description}
             </p>
           </article>
@@ -1332,13 +1332,11 @@ function VisionCoreValuesSection() {
         <div className="flex w-full flex-col items-start gap-20">
           <div className="flex w-full flex-col items-start gap-10">
             <VisionQuote />
-            <div className="font-suit w-full max-w-[900px] text-[18px] font-normal uppercase leading-[30px] tracking-[0.01em] text-[#4a3b5e]">
-              <p>
-                시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
-                <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로
-                삼습니다.
-              </p>
-            </div>
+            <p className="type-body-md w-full max-w-[900px] uppercase text-[#4a3b5e]">
+              시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
+              <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로
+              삼습니다.
+            </p>
           </div>
 
           <CoreValueAccordion />
@@ -1363,17 +1361,14 @@ function ClosingCallout() {
     <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-12 uppercase md:px-[60px] md:py-[72px]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_46%,rgba(153,63,186,0.12),rgba(153,63,186,0)_52%)]" />
       <div className="relative z-10 flex flex-col items-start gap-4">
-        <p
-          className="text-center text-sm leading-[14px] tracking-[0.1429em] text-[#c9a96e]"
-          style={{ fontFamily: "var(--font-cormorant-infant), serif" }}
-        >
+        <p className="type-label-lg text-[#c9a96e]">
           Isaiah 61:1
         </p>
-        <h2 className="font-hahmlet text-[22px] font-semibold leading-8 tracking-[0.01em] text-white">
+        <h2 className="type-title-lg uppercase text-white">
           &ldquo;여호와의 영이 내 위에 계시니<br className="max-[400px]:hidden" />
           {" "}이는 가난한 자에게 복음을 전하게 하시려고 내게 기름을 부으시고&rdquo;
         </h2>
-        <p className="font-suit text-[18px] font-medium leading-7 tracking-[0.01em] text-white/80">
+        <p className="type-caption-lg font-medium uppercase text-white/80">
           우리가 팀을 세우고 소그룹을 훈련하고 리더를 키우는 것은 단 하나, 복음으로 사람을
           살리기 위함입니다.
         </p>

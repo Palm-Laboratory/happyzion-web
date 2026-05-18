@@ -116,7 +116,7 @@ function OverviewStat({ title, label }: { title: string; label: string }) {
         <p className="font-hahmlet text-[22px] font-bold leading-none text-[#33103f]">
           {title}
         </p>
-        <p className="type-body leading-none text-[#6F5576]">{label}</p>
+        <p className="type-body-md leading-none text-[#6F5576]">{label}</p>
       </div>
     </article>
   );
@@ -127,10 +127,10 @@ function CurriculumTable() {
     <div className="overflow-hidden rounded-[8px] border border-[#8b6db5]/25 bg-white">
       <div className="grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)]">
         <div className="flex h-10 items-center bg-[#2a123c] px-4">
-          <p className="type-body-small tracking-[0.08em] text-white md:type-body">주차</p>
+          <p className="type-body-xs tracking-[0.08em] text-white md:type-body-md">주차</p>
         </div>
         <div className="flex h-10 items-center bg-[#2a123c] px-4 md:px-6">
-          <p className="type-body-small tracking-[0.08em] text-white md:type-body">주제 및 내용</p>
+          <p className="type-body-xs tracking-[0.08em] text-white md:type-body-md">주제 및 내용</p>
         </div>
       </div>
 
@@ -149,16 +149,16 @@ function CurriculumTable() {
               }`}
             >
               <span
-                className={`${cormorantGaramond.className} type-card-title font-bold leading-none tracking-[0.08em] text-[#e4b96b]`}
+                className={`${cormorantGaramond.className} type-title-sm font-bold leading-none tracking-[0.08em] text-[#e4b96b]`}
               >
                 {week.week}
               </span>
             </div>
             <div className={`px-[18px] py-[14px] md:px-6 ${!isLast ? "border-b border-[#8b6db5]/18" : ""}`}>
-              <p className="type-body-small font-bold leading-[1.3] tracking-[-0.01em] text-[#33103f] md:type-body">
+              <p className="type-body-xs font-bold leading-[1.3] tracking-[-0.01em] text-[#33103f] md:type-body-md">
                 {week.title}
               </p>
-              <p className="type-body-small mt-[6px] leading-[1.5] tracking-[0.02em] text-[#6F5576]">
+              <p className="type-body-xs mt-[6px] leading-[1.5] tracking-[0.02em] text-[#6F5576]">
                 {week.details.join(" · ")}
               </p>
             </div>
@@ -184,12 +184,12 @@ function ClassStructureCard({
         <span className="font-cormorant-infant text-[2rem] font-bold leading-none text-[#e4b96b]">
           {minute}
         </span>
-        <span className="type-body pb-[2px] leading-none text-[#6F5576]">분</span>
+        <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-body mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
+      <h3 className="type-body-md mb-1 font-bold leading-none tracking-[-0.01em] text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-small flex flex-col items-start gap-2 leading-none text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-2 leading-none text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -242,7 +242,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="font-suit type-label mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
+        <p className="font-suit type-label-md mt-4 leading-none tracking-[0.02em] text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -255,7 +255,7 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
   return (
     <ul className="flex flex-col gap-3">
       {items.map((item) => (
-        <li key={item} className={`type-body-small flex gap-2 ${dark ? "text-white/80" : "text-[#6F5576]"}`}>
+        <li key={item} className={`type-body-xs flex gap-2 ${dark ? "text-white/80" : "text-[#6F5576]"}`}>
           <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#e4b96b]" />
           <span>{item}</span>
         </li>
@@ -294,7 +294,7 @@ export default function DiscipleshipCareStaticPage() {
           ))}
         </div>
 
-        <p className="type-body mt-[18px] max-w-[727px] font-normal leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+        <p className="type-body-md mt-[18px] max-w-[727px] font-normal leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
           새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
           <br className="hidden md:block" />
           소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
@@ -327,7 +327,7 @@ export default function DiscipleshipCareStaticPage() {
 
         <div className="mt-6 grid gap-6 md:mt-8 md:grid-cols-2 md:gap-8">
           <article className="py-2 md:py-8">
-            <h3 className="type-body font-bold leading-none tracking-[0.02em] text-[#33103f]">
+            <h3 className="type-body-md font-bold leading-none tracking-[0.02em] text-[#33103f]">
               침례의 의미
             </h3>
             <div className="mt-4">
@@ -336,7 +336,7 @@ export default function DiscipleshipCareStaticPage() {
           </article>
 
           <article className="rounded-[8px] bg-[#2a123c] px-6 py-8">
-            <h3 className="type-body font-bold leading-none tracking-[0.08em] text-[#e4b96b]">
+            <h3 className="type-body-md font-bold leading-none tracking-[0.08em] text-[#e4b96b]">
               침례 일정
             </h3>
             <div className="mt-4">
@@ -363,7 +363,7 @@ export default function DiscipleshipCareStaticPage() {
 
             <ul className="mt-6 flex flex-col gap-2">
               {applicationNotes.map((note) => (
-                <li key={note} className="type-body flex items-start gap-1 text-white/80">
+                <li key={note} className="type-body-md flex items-start gap-1 text-white/80">
                   <span aria-hidden="true">·</span>
                   <span>{note}</span>
                 </li>

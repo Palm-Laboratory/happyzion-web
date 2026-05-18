@@ -211,7 +211,7 @@ function renderInlineText(text: string, key: string, marks: unknown[] = []): Rea
       case "underline":
         return <u key={markKey}>{content}</u>;
       case "code":
-        return <code key={markKey} className="type-body-small rounded bg-[#8b6db5]/8 px-1.5 py-0.5 font-mono text-[#33103f]">{content}</code>;
+        return <code key={markKey} className="type-body-xs rounded bg-[#8b6db5]/8 px-1.5 py-0.5 font-mono text-[#33103f]">{content}</code>;
       case "highlight":
         return <mark key={markKey} style={getHighlightStyle(candidate.attrs)} className="rounded px-1">{content}</mark>;
       case "subscript":
@@ -277,21 +277,21 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       const level = typeof levelValue === "number" && levelValue >= 1 && levelValue <= 6 ? levelValue : 2;
       const style = getTextAlignStyle(candidate.attrs);
       if (level === 1) {
-        return <h1 key={key} style={style} className="type-section-title font-bold text-[#33103f]">{children}</h1>;
+        return <h1 key={key} style={style} className="type-heading-md font-bold text-[#33103f]">{children}</h1>;
       }
       if (level === 3) {
-        return <h3 key={key} style={style} className="type-subsection-title font-bold text-[#33103f]">{children}</h3>;
+        return <h3 key={key} style={style} className="type-title-xl font-bold text-[#33103f]">{children}</h3>;
       }
       if (level === 4) {
-        return <h4 key={key} style={style} className="type-block-title font-bold text-[#33103f]">{children}</h4>;
+        return <h4 key={key} style={style} className="type-title-lg font-bold text-[#33103f]">{children}</h4>;
       }
       if (level === 5) {
-        return <h5 key={key} style={style} className="type-card-title font-bold text-[#33103f]">{children}</h5>;
+        return <h5 key={key} style={style} className="type-title-md font-bold text-[#33103f]">{children}</h5>;
       }
       if (level === 6) {
-        return <h6 key={key} style={style} className="type-body-strong font-bold text-[#33103f]">{children}</h6>;
+        return <h6 key={key} style={style} className="type-body-md font-bold text-[#33103f]">{children}</h6>;
       }
-      return <h2 key={key} style={style} className="type-section-title font-bold text-[#33103f]">{children}</h2>;
+      return <h2 key={key} style={style} className="type-heading-md font-bold text-[#33103f]">{children}</h2>;
     }
     case "bulletList":
       return <ul key={key} className="list-disc space-y-2 pl-6">{children}</ul>;
@@ -322,7 +322,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       );
     case "codeBlock":
       return (
-        <pre key={key} className="type-body-small overflow-x-auto rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6 px-5 py-4 text-[#33103f]">
+        <pre key={key} className="type-body-xs overflow-x-auto rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6 px-5 py-4 text-[#33103f]">
           <code className="font-mono whitespace-pre-wrap">{children}</code>
         </pre>
       );
@@ -426,7 +426,7 @@ function renderBoardPostSummary(
       >
         <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-3 gap-y-1 md:hidden">
           <span
-            className={`type-body-small row-span-2 flex items-start justify-start pt-0.5 font-medium ${
+            className={`type-body-xs row-span-2 flex items-start justify-start pt-0.5 font-medium ${
               post.isPinned
                 ? "text-white"
                 : numberClassName
@@ -441,7 +441,7 @@ function renderBoardPostSummary(
             )}
           </span>
           <span className="flex min-w-0 items-center gap-1.5">
-            <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
+            <span className="type-body-md min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
               {post.title}
             </span>
             {post.hasAttachments ? (
@@ -460,7 +460,7 @@ function renderBoardPostSummary(
               </span>
             ) : null}
           </span>
-          <span className="type-body-small flex min-w-0 items-center gap-1 whitespace-nowrap text-site-muted">
+          <span className="type-body-xs flex min-w-0 items-center gap-1 whitespace-nowrap text-site-muted">
             <span className="truncate">{post.authorName || "-"}</span>
             <span className="text-cedar/30">/</span>
             <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
@@ -468,11 +468,11 @@ function renderBoardPostSummary(
             <span>조회 {post.viewCount.toLocaleString("ko-KR")}</span>
           </span>
         </div>
-        <span className={`hidden type-body-small text-center font-medium md:block ${numberClassName}`}>
+        <span className={`hidden type-body-xs text-center font-medium md:block ${numberClassName}`}>
           {numberLabel}
         </span>
         <span className="hidden min-w-0 items-center gap-2 md:flex">
-          <span className="type-body min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
+          <span className="type-body-md min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
             {post.title}
           </span>
             {post.hasAttachments ? (
@@ -491,13 +491,13 @@ function renderBoardPostSummary(
             </span>
           ) : null}
         </span>
-        <span className="hidden type-body-small truncate text-center text-site-muted md:block">
+        <span className="hidden type-body-xs truncate text-center text-site-muted md:block">
           {post.authorName || "-"}
         </span>
-        <time dateTime={post.createdAt} className="hidden type-body-small text-center text-site-muted md:block">
+        <time dateTime={post.createdAt} className="hidden type-body-xs text-center text-site-muted md:block">
           {formatDate(post.createdAt)}
         </time>
-        <span className="hidden type-body-small text-center text-site-muted md:block">
+        <span className="hidden type-body-xs text-center text-site-muted md:block">
           {post.viewCount.toLocaleString("ko-KR")}
         </span>
       </Link>
@@ -531,11 +531,11 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             <>
               <div className="border-b border-[#33103f]">
                 <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">등록일</span>
-                  <span className="type-label text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
+                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
+                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
+                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
+                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">등록일</span>
+                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
                 </div>
               </div>
               <ul>
@@ -552,7 +552,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                   <Link
                     href={getBoardListPageHref(props.boardPath, props.currentPage - 1)}
                     aria-disabled={props.currentPage <= 1}
-                    className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
+                    className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
                         ? "pointer-events-none border-cedar/12 text-site-muted/60"
                         : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                       }`}
@@ -567,7 +567,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                           key={page}
                           href={getBoardListPageHref(props.boardPath, page)}
                           aria-current={isCurrent ? "page" : undefined}
-                          className={`type-body-small inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
+                          className={`type-body-xs inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
                               ? "border-[#33103f] bg-[#33103f] text-white"
                               : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                             }`}
@@ -580,7 +580,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                   <Link
                     href={getBoardListPageHref(props.boardPath, props.currentPage + 1)}
                     aria-disabled={props.currentPage >= props.totalPages}
-                    className={`type-body-small inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
+                    className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
                         ? "pointer-events-none border-cedar/12 text-site-muted/60"
                         : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
                       }`}
@@ -592,7 +592,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             </>
           ) : (
             <div className="mt-8 rounded-[4px] border border-dashed border-cedar/18 px-6 py-14 text-center">
-              <p className="type-body-small text-site-muted">등록된 게시글이 없습니다.</p>
+              <p className="type-body-xs text-site-muted">등록된 게시글이 없습니다.</p>
             </div>
           )}
         </section>
@@ -606,14 +606,14 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
     <main className="bg-white pb-20">
       <article className="section-shell section-shell--narrow pt-10 md:pt-16">
         <header className="border-b border-cedar/12 pb-8">
-          <Link href={props.boardPath} className="type-body-small font-semibold text-cedar underline-offset-4 hover:underline">
+          <Link href={props.boardPath} className="type-body-xs font-semibold text-cedar underline-offset-4 hover:underline">
             {props.boardLabel}
           </Link>
           <div className="mt-5">
             <SectionHeading label="Board" title={props.post.title} titleAs="h1" className="max-w-none" />
           </div>
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <p className="type-body-small text-site-muted">
+            <p className="type-body-xs text-site-muted">
               {props.post.authorName || "-"} {" | "} 등록일:{" "}
               <time dateTime={props.post.createdAt}>{formatDate(props.post.createdAt)}</time>
               {" | "} 조회수: {props.post.viewCount.toLocaleString("ko-KR")}
@@ -632,7 +632,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </div>
         </header>
 
-        <div className="type-body prose mt-10 max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
+        <div className="type-body-md prose mt-10 max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
           {renderTiptapDocument(props.post.contentJson)}
         </div>
         <div className="mt-10 border-b border-cedar/12" />

@@ -96,13 +96,13 @@ export default async function HomePage() {
             >
               <div className="flex flex-col items-center gap-6 md:gap-8">
                 <div className="flex flex-col items-center gap-3 lg:gap-[calc(0.9rem*var(--welcome-scale))]">
-                  <p className="type-label font-cormorant-infant text-[#5b3b63]">
+                  <p className="type-label-md font-cormorant-infant text-[#5b3b63]">
                     welcome
                   </p>
                   <div className="h-px w-[60px] bg-[#5b3b63]" />
                 </div>
 
-                <h2 className="type-section-title max-w-[1000px] text-[#250030]">
+                <h2 className="type-heading-md max-w-[1000px] text-[#250030]">
                   행복이 가득한
                   <br className="min-[471px]:hidden" />
                   <span className="min-[471px]:inline hidden"> 시온장로교회에</span>
@@ -124,7 +124,7 @@ export default async function HomePage() {
                   className="flex flex-col items-center gap-7 text-center uppercase md:gap-8 lg:gap-[calc(2.25rem*var(--welcome-scale))]"
                 >
                   <p
-                    className="type-quote max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4A3B5E] md:max-w-[min(76vw,46rem)]"
+                    className="type-quote-md max-w-[min(80vw,42rem)] font-hahmlet uppercase text-[#4A3B5E] md:max-w-[min(76vw,46rem)]"
                   >
                     “오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와
                     땅 끝까지 이르러 내 증인이 되리라 하시니라”
@@ -228,7 +228,7 @@ export default async function HomePage() {
                         </div>
                       </div>
                     </div>
-                    <p className="type-button text-[#4A3B5E]">
+                    <p className="type-button-md text-[#4A3B5E]">
                       {item.label}
                     </p>
                   </Link>
@@ -253,7 +253,7 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p className="type-label font-cormorant-infant text-[#5b3b63]">
+                      <p className="type-label-md font-cormorant-infant text-[#5b3b63]">
                         our vision
                       </p>
                       <div className="h-px w-[60px] bg-[#5b3b63]" />
@@ -265,7 +265,7 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <h2 className="type-section-title text-[#250030]">
+                      <h2 className="type-heading-md text-[#250030]">
                         <span className="min-[1061px]:inline max-[1060px]:hidden">
                           성령 안에 하나된 교회
                         </span>
@@ -285,7 +285,7 @@ export default async function HomePage() {
                           하나된 교회
                         </span>
                       </h2>
-                      <p className="type-section-subtitle text-[#896B91]">
+                      <p className="type-subtitle-sm text-[#896B91]">
                         ONE CHURCH · ONE SPIRIT
                       </p>
                     </div>
@@ -313,14 +313,14 @@ export default async function HomePage() {
                           }}
                         >
                           <p
-                            className="type-card-label text-[rgba(105,19,147,0.4)]"
+                            className="type-label-md text-[rgba(105,19,147,0.4)]"
                           >
                             {card.eyebrow}
                           </p>
-                          <h3 className="type-card-title text-[#250030]">
+                          <h3 className="type-title-md text-[#250030]">
                             {card.title}
                           </h3>
-                          <p className="type-card-body normal-case text-[#4A3B5E]">
+                          <p className="type-body-sm normal-case text-[#4A3B5E]">
                             {card.body}
                           </p>
                         </div>

@@ -28,8 +28,8 @@ const busRoutes = [
 function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
   return (
     <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-card-title font-bold text-black">{type}</h3>
-      <dl className="type-body-small mt-4 space-y-3">
+      <h3 className="type-title-md font-bold text-black">{type}</h3>
+      <dl className="type-body-xs mt-4 space-y-3">
         <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
           <dt className="shrink-0 font-semibold text-black/70">노선</dt>
           <dd className="text-right font-bold text-black/88">{routes}</dd>
@@ -72,7 +72,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-small inline-flex items-center gap-2 rounded border border-[#8b6db5]/18 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
+      className="type-body-xs inline-flex items-center gap-2 rounded border border-[#8b6db5]/18 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -146,7 +146,7 @@ export default function LocationStaticPage() {
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#8b6db5]/12 bg-[#fcf8ff] px-4 py-4 md:px-6">
-              <p className="type-body-small text-[#928397]">
+              <p className="type-body-xs text-[#928397]">
                 지도를 크게 확인하거나 길찾기를 시작하려면 우측 버튼을 사용해주세요
               </p>
               <div className="flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export default function LocationStaticPage() {
             title="방문 안내"
             subtitle="visit guide"
           >
-            <ul className="type-body space-y-3 text-[#4A3B5E]">
+            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
               <BulletItem>
                 지도 앱에서 <strong className="font-semibold text-[#bd6fe0]">{SITE_NAME}</strong>
                 또는 <strong className="font-semibold text-[#bd6fe0]">{CHURCH_ADDRESS}</strong>를 검색해 주세요.
@@ -183,7 +183,7 @@ export default function LocationStaticPage() {
             subtitle="subway"
             description="Public Transit Transfer Guide"
           >
-            <ul className="type-body space-y-3 text-[#4A3B5E]">
+            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
               <BulletItem>
                 지하철 이용 시 원당역 권역에서 버스 또는 택시로 환승해 오시는 경로를 권장합니다.
               </BulletItem>
@@ -207,13 +207,13 @@ export default function LocationStaticPage() {
               <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                 <thead>
                   <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-                    <th className="type-label font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-label-md font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       구분
                     </th>
-                    <th className="type-label font-suit w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-label-md font-suit w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       노선
                     </th>
-                    <th className="type-label font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+                    <th className="type-label-md font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
                       안내
                     </th>
                   </tr>
@@ -221,13 +221,13 @@ export default function LocationStaticPage() {
                 <tbody>
                   {busRoutes.map((item) => (
                     <tr key={item.type} className="border-b border-[#8b6db5]/12 last:border-b-0">
-                      <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                         {item.type}
                       </td>
-                      <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
+                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
                         {item.routes}
                       </td>
-                      <td className="type-body px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+                      <td className="type-body-md px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                         {item.stop}
                       </td>
                     </tr>
@@ -235,7 +235,7 @@ export default function LocationStaticPage() {
                 </tbody>
               </table>
             </div>
-            <p className="type-body-small mt-4 text-[#928397]">
+            <p className="type-body-xs mt-4 text-[#928397]">
               버스 노선은 운행 상황에 따라 변경될 수 있으므로 출발 전 실시간 길찾기를 확인해 주세요.
             </p>
           </InfoSection>
@@ -245,7 +245,7 @@ export default function LocationStaticPage() {
               title="교회정보"
               subtitle="church info"
             >
-              <ul className="type-body space-y-3 text-[#4A3B5E]">
+              <ul className="type-body-md space-y-3 text-[#4A3B5E]">
                 <BulletItem>주소 : {CHURCH_ADDRESS}</BulletItem>
                 <BulletItem>
                   TEL :{" "}

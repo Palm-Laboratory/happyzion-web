@@ -154,10 +154,10 @@ function TimelineStep({
         </span>
       </div>
       <div className={`rounded-[8px] px-4 py-4 md:px-6 md:py-[18px] ${surfaceClassName}`}>
-        <h3 className="type-body font-bold leading-none tracking-[0.02em] text-[#33103f]">
+        <h3 className="type-body-md font-bold leading-none tracking-[0.02em] text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-small mt-2 leading-[1.5] tracking-[0.02em] text-[#6F5576]">
+        <p className="type-body-xs mt-2 leading-[1.5] tracking-[0.02em] text-[#6F5576]">
           {details.join(" · ")}
         </p>
       </div>
@@ -175,7 +175,7 @@ function FaqList() {
               <span className="shrink-0 text-[14px] font-medium leading-[1.34] text-[#e4b96b]">
                 Q.
               </span>
-              <h3 className="type-card-body font-semibold tracking-[-0.01em] text-[#33103f]">
+              <h3 className="type-body-sm font-semibold tracking-[-0.01em] text-[#33103f]">
                 {item.question}
               </h3>
             </div>
@@ -193,7 +193,7 @@ function FaqList() {
               <span className="shrink-0 text-[14px] font-medium leading-[1.7] text-[#e4b96b]">
                 A.
               </span>
-              <p className="type-body-small leading-[1.7] tracking-[0.02em] text-[#6F5576] md:type-body">
+              <p className="type-body-xs leading-[1.7] tracking-[0.02em] text-[#6F5576] md:type-body-md">
                 {item.answer}
               </p>
             </div>
@@ -209,17 +209,17 @@ function ContactSection() {
     <section className="mt-20 md:mt-[68px]" aria-labelledby="newcomer-contact-title">
       <div className="rounded-[8px] bg-[#2a123c] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
         <div>
-          <p className="font-cormorant-infant type-label font-semibold uppercase tracking-[0.18em] text-[#e4b96b]">
+          <p className="font-cormorant-infant type-label-md font-semibold text-[#e4b96b]">
             Contact
           </p>
           <h2
             id="newcomer-contact-title"
-            className="type-section-subtitle mt-5 font-bold leading-none tracking-[0.02em] text-white"
+            className="type-title-xl mt-5 font-bold leading-none tracking-[0.02em] text-white"
           >
             문의
           </h2>
 
-          <div className="type-body mt-6 space-y-2 leading-[1.5] tracking-[0.02em]">
+          <div className="type-body-md mt-6 space-y-2 leading-[1.5] tracking-[0.02em]">
             <p>
               <span className="font-bold text-[#e4b96b]">담당</span>
               <span className="ml-2 text-white">새가족 안내팀</span>
@@ -259,7 +259,7 @@ export default function DiscipleshipGuideStaticPage() {
 
         <div className="mt-6 w-full space-y-2">
           {newcomerIntroParagraphs.map((paragraph) => (
-            <p key={paragraph} className="type-body leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+            <p key={paragraph} className="type-body-md leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
               {paragraph}
             </p>
           ))}
@@ -274,7 +274,7 @@ export default function DiscipleshipGuideStaticPage() {
           className="max-w-none"
         />
 
-        <p className="type-body mt-5 max-w-[787px] leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
+        <p className="type-body-md mt-5 max-w-[787px] leading-[1.7] tracking-[0.02em] text-[#4A3B5E]">
           우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
           향해 나아가는 교회입니다.
         </p>

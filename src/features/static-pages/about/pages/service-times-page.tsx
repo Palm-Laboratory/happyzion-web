@@ -55,8 +55,8 @@ const serviceTimes: ServiceTime[] = [
 function MobileServiceCard({ title, schedule, location, audience }: ServiceTime) {
   return (
     <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-card-title font-bold text-black">{title}</h3>
-      <dl className="type-body-small mt-4 space-y-3">
+      <h3 className="type-title-md font-bold text-black">{title}</h3>
+      <dl className="type-body-xs mt-4 space-y-3">
         <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
           <dt className="shrink-0 font-semibold text-black/70">시간</dt>
           <dd className="text-right font-medium text-black/88">{schedule}</dd>
@@ -80,16 +80,16 @@ function ServiceTimesTable() {
       <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
         <thead>
           <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-            <th className="type-label font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-label-md font-suit w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               구분
             </th>
-            <th className="type-label font-suit w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-label-md font-suit w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               요일 / 시간
             </th>
-            <th className="type-label font-suit w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-label-md font-suit w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               장소
             </th>
-            <th className="type-label font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-label-md font-suit px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
               대상
             </th>
           </tr>
@@ -97,16 +97,16 @@ function ServiceTimesTable() {
         <tbody>
           {serviceTimes.map((service) => (
             <tr key={service.title} className="border-b border-[#8b6db5]/12 last:border-b-0">
-              <td className="type-body-strong border-r border-[#8b6db5]/12 px-4 py-5 text-center text-[18px] font-bold text-[#33103f] lg:px-6 lg:py-6">
+              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
                 {service.title}
               </td>
-              <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.schedule}
               </td>
-              <td className="type-body border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.location}
               </td>
-              <td className="type-body px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
                 {service.audience}
               </td>
             </tr>

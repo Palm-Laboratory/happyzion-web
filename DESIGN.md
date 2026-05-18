@@ -217,55 +217,35 @@ Not named tokens — always expressed inline as context-specific opacity values.
 
 ### Global Type Scale
 
-| Token | Family | Size | Weight | Line Height | Letter Spacing | Breakpoint |
-| --- | --- | ---: | ---: | ---: | ---: | --- |
-| {type.heroTitle.sm} | {font.serifKo} | 44px | 600 | 1.5 | -0.03em | base |
-| {type.heroTitle.md} | {font.serifKo} | 52px | 600 | 1.5 | -0.03em | >=768px |
-| {type.heroTitle.lg} | {font.serifKo} | 60px | 600 | 1.5 | -0.03em | >=1024px |
-| {type.pageTitle.sm} | {font.serifKo} | 40px | 400 | 1.14 | 0 | base |
-| {type.pageTitle.md} | {font.serifKo} | 68px | 400 | 1.14 | 0 | >=768px |
-| {type.sectionTitle.sm} | {font.serifKo} | 32px | 600 | 1.5 | -0.03em | base |
-| {type.sectionTitle.mid} | {font.serifKo} | 36px | 600 | 1.5 | -0.03em | >=670px |
-| {type.sectionTitle.md} | {font.serifKo} | 48px | 600 | 1.5 | -0.03em | >=768px |
-| {type.sectionTitle.lg} | {font.serifKo} | 56px | 600 | 1.5 | -0.03em | >=1024px |
-| {type.sectionSubtitle.sm} | {font.serifKo} | 18px | 500 | 1.35 | 0.02em | base |
-| {type.sectionSubtitle.md} | {font.serifKo} | 24px | 500 | 1.35 | 0.02em | >=768px |
-| {type.cardTitle.sm} | {font.serifKo} | 20px | 600 | 1.3 | -0.01em | base |
-| {type.cardTitle.md} | {font.serifKo} | 24px | 600 | 1.3 | -0.01em | >=768px |
-| {type.cardTitle.lg} | {font.serifKo} | 28px | 600 | 1.3 | -0.01em | >=1024px |
-| {type.body.sm} | {font.sans} | 16px | 400 | 1.8 | 0.01em | base |
-| {type.body.md} | {font.sans} | 18px | 400 | 1.8 | 0.01em | >=768px |
-| {type.bodySmall} | {font.sans} | 15px | 400 | 1.76 | 0.01em | base |
-| {type.label.sm} | {font.serifKo} | 12px | 200 | 1.2 | 0.18em | base |
-| {type.label.md} | {font.serifKo} | 14px | 200 | 1.2 | 0.18em | >=768px |
-| {type.label.lg} | {font.serifKo} | 16px | 200 | 1.2 | 0.18em | >=1024px |
-| {type.nav.sm} | {font.sans} | 15.2px | 300 | 1.2 | 0.2em | base |
-| {type.nav.md} | {font.sans} | 16px | 300 | 1.2 | 0.2em | >=768px |
-| {type.button.sm} | {font.sans} | 16px | 600 | 1.2 | 0 | base |
-| {type.button.md} | {font.sans} | 17.6px | 600 | 1.2 | 0 | >=768px |
-| {type.caption} | {font.sans} | 14px | 400 | 1.45 | 0.01em | base |
-| {type.scriptDisplay.sm} | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | base |
-| {type.scriptDisplay.md} | {font.corinthia} | 112px | 400 | 0.9 | 0.01em | >=768px |
-| {type.scriptAccent.sm} | {font.estonia} | 24px | 400 | 1 | 0.14em | base |
-| {type.scriptAccent.md} | {font.estonia} | 32px | 400 | 1 | 0.14em | >=768px |
+Scale-based naming (xl / lg / md / sm / xs). Heading tokens are responsive; all others are fixed. CSS classes follow the pattern `.type-{token}` (e.g. `.type-heading-xl`). Nav active state uses a `font-weight: 700` component-level override. Decorative tokens (script-display, display-counter, script-accent) are inline-only and not part of the scale.
 
-### Implemented Section Header Type
-
-| Token | Value |
-| --- | --- |
-| {component.sectionHeading.label.size} | 14px |
-| {component.sectionHeading.label.lineHeight} | 18px |
-| {component.sectionHeading.label.tracking} | 0.18em |
-| {component.sectionHeading.label.color} | #8b6db5 |
-| {component.sectionHeading.title.size.mobile} | 30px |
-| {component.sectionHeading.title.size.desktop} | 40px |
-| {component.sectionHeading.title.lineHeight.mobile} | 1.25 |
-| {component.sectionHeading.title.lineHeight.desktop} | 52px |
-| {component.sectionHeading.title.weight} | 600 |
-| {component.sectionHeading.title.tracking} | 0.01em |
-| {component.sectionHeading.description.size} | 16px |
-| {component.sectionHeading.description.lineHeight} | 1 |
-| {component.sectionHeading.description.tracking} | 0.2em |
+| Token | Role | Family | Size | Weight | Line Height | Letter Spacing | Responsive |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| {type.heading.xl} | page banner title | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
+| {type.heading.md} | section heading | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
+| {type.subtitle.sm} | section description | {font.sans} | 16px | 400 | 1.2 | 0.02em | — |
+| {type.title.xs} | component sub-heading | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
+| {type.title.sm} | card title (small) | {font.serifKo} | 18px | 600 | 1.75 | 0.01em | — |
+| {type.title.md} | card title (medium) | {font.serifKo} | 20px | 600 | 1.75 | 0.01em | — |
+| {type.title.lg} | card title (large) | {font.serifKo} | 22px | 600 | 1.85 | 0.01em | — |
+| {type.title.xl} | card title (x-large) | {font.serifKo} | 24px | 600 | 1.35 | 0.01em | — |
+| {type.body.md} | body text | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
+| {type.body.sm} | body text (small) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
+| {type.body.xs} | body text (x-small) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.quote.md} | quote text | {font.sans} | 18px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | quote text (small) | {font.sans} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | person name / large label | {font.sans} | 16px | 300 | 1.2 | 0.18em | — |
+| {type.label.lg} | section eyebrow | {font.sans} | 14px | 300 | 1.2 | 0.18em | — |
+| {type.label.md} | card label | {font.sans} | 12px | 300 | 1.2 | 0.18em | — |
+| {type.label.sm} | micro label | {font.sans} | 10px | 300 | 1.2 | 0.18em | — |
+| {type.nav.md} | nav / breadcrumb | {font.sans} | 16px | 500 | 1 | 0.01em | — |
+| {type.caption.lg} | caption (large) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
+| {type.caption.md} | caption | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.button.md} | button label | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
+| {type.counter.md} | stat counter | {font.sans} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.scriptDisplay} | decorative | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
+| {type.displayCounter} | decorative | {font.corinthia} | 56px | 400 | 1 | 0.01em | — |
+| {type.scriptAccent} | decorative | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |
 
 ## 4. Layout
 
