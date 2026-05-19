@@ -12,9 +12,7 @@ type VideoDraft = {
   hidden: boolean;
   scriptureReference: string;
   scriptureBody: string;
-  messageBody: string;
   summary: string;
-  thumbnailOverrideUrl: string;
 };
 
 function pad(value: number) {
@@ -52,9 +50,7 @@ function createDraft(detail: AdminVideoDetail): VideoDraft {
     hidden: detail.hidden,
     scriptureReference: detail.scriptureReference ?? "",
     scriptureBody: detail.scriptureBody ?? "",
-    messageBody: detail.messageBody ?? "",
     summary: detail.summary ?? "",
-    thumbnailOverrideUrl: detail.thumbnailOverrideUrl ?? "",
   };
 }
 
@@ -68,9 +64,7 @@ function toUpdatePayload(draft: VideoDraft): UpdateAdminVideoMetaRequest {
     hidden: draft.hidden,
     scriptureReference: draft.scriptureReference.trim() || null,
     scriptureBody: draft.scriptureBody.trim() || null,
-    messageBody: draft.messageBody.trim() || null,
     summary: draft.summary.trim() || null,
-    thumbnailOverrideUrl: draft.thumbnailOverrideUrl.trim() || null,
   };
 }
 
@@ -196,21 +190,21 @@ export default function VideoEditClient({ initialDetail }: { initialDetail: Admi
           </div>
 
           <label className="space-y-1.5">
-            <span className="text-[12px] font-semibold text-[#334155]">본문 레퍼런스</span>
-            <input
-              value={draft.scriptureReference}
-              onChange={(e) => set("scriptureReference", e.target.value)}
-              placeholder="예: 요한복음 3:16-21"
-              className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
-            />
-          </label>
-
-          <label className="space-y-1.5">
             <span className="text-[12px] font-semibold text-[#334155]">요약</span>
             <textarea
               value={draft.summary}
               onChange={(e) => set("summary", e.target.value)}
               rows={4}
+              className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
+            />
+          </label>
+
+          <label className="space-y-1.5">
+            <span className="text-[12px] font-semibold text-[#334155]">본문 구절</span>
+            <input
+              value={draft.scriptureReference}
+              onChange={(e) => set("scriptureReference", e.target.value)}
+              placeholder="예: 요한복음 3:16-21"
               className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
             />
           </label>
@@ -223,26 +217,6 @@ export default function VideoEditClient({ initialDetail }: { initialDetail: Admi
               rows={6}
               className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
             />
-          </label>
-
-          <label className="space-y-1.5">
-            <span className="text-[12px] font-semibold text-[#334155]">상세 내용</span>
-            <textarea
-              value={draft.messageBody}
-              onChange={(e) => set("messageBody", e.target.value)}
-              rows={8}
-              className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
-            />
-          </label>
-
-          <label className="space-y-1.5">
-            <span className="text-[12px] font-semibold text-[#334155]">썸네일 Override URL</span>
-            <input
-              value={draft.thumbnailOverrideUrl}
-              onChange={(e) => set("thumbnailOverrideUrl", e.target.value)}
-              className="w-full rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] focus:border-[#3f74c7] focus:outline-none"
-            />
-            <p className="text-[11px] text-[#8fa3bb]">비우면 유튜브 원본 썸네일을 사용합니다.</p>
           </label>
 
           <label className="flex items-center gap-2.5 rounded-xl border border-[#eef2f7] bg-[#f8fafc] px-4 py-3">

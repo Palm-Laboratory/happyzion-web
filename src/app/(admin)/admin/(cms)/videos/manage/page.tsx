@@ -10,16 +10,12 @@ async function resolveInitialState(): Promise<{
   initialPlaylistMenuId: number | null;
   initialItems: AdminVideoSummary[];
 }> {
-  const { playlists } = await getAdminYouTubePlaylists();
-  const firstPlaylist = playlists[0] ?? null;
+  const [{ playlists }, { items }] = await Promise.all([
+    getAdminYouTubePlaylists(),
+    getAdminVideos({}),
+  ]);
 
-  if (!firstPlaylist) {
-    return { playlists, initialPlaylistMenuId: null, initialItems: [] };
-  }
-
-  const { items } = await getAdminVideos({ menuId: firstPlaylist.menuId });
-
-  return { playlists, initialPlaylistMenuId: firstPlaylist.menuId, initialItems: items };
+  return { playlists, initialPlaylistMenuId: null, initialItems: items };
 }
 
 export default async function AdminVideoManagePage() {

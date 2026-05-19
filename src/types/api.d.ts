@@ -496,9 +496,7 @@ export interface components {
             hidden: boolean;
             scriptureReference?: string | null;
             scriptureBody?: string | null;
-            messageBody?: string | null;
             summary?: string | null;
-            thumbnailOverrideUrl?: string | null;
         };
         AdminVideoDetailResponse: {
             videoId: string;
@@ -514,9 +512,7 @@ export interface components {
             hidden: boolean;
             scriptureReference?: string | null;
             scriptureBody?: string | null;
-            messageBody?: string | null;
             summary?: string | null;
-            thumbnailOverrideUrl?: string | null;
             /** @enum {string} */
             contentForm: "LONGFORM" | "SHORTFORM";
             publicHref?: string | null;
@@ -775,7 +771,6 @@ export interface components {
             thumbnailUrl?: string | null;
             scriptureReference?: string | null;
             scriptureBody?: string | null;
-            messageBody?: string | null;
             summary?: string | null;
             description?: string | null;
             /** @enum {string} */

@@ -133,7 +133,9 @@ export default function VideoListClient({
 
   // ── 데이터 캐시 ─────────────────────────────────────────────────────────────
   const [itemsByMenuId, setItemsByMenuId] = useState<Partial<Record<number, AdminVideoSummary[]>>>(
-    initialPlaylistMenuId != null ? { [initialPlaylistMenuId]: initialItems } : {},
+    initialPlaylistMenuId != null
+      ? { [initialPlaylistMenuId]: initialItems }
+      : { [ALL_KEY]: initialItems },
   );
   const [listLoading, setListLoading] = useState(false);
   const [, setFetchError] = useState<string | null>(null);
