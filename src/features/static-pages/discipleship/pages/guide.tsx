@@ -206,7 +206,7 @@ function FaqList() {
 
 function ContactSection() {
   return (
-    <section className="mt-20 md:mt-[68px]" aria-labelledby="newcomer-contact-title">
+    <section className="mt-20 md:mt-20" aria-labelledby="newcomer-contact-title">
       <div className="rounded-[8px] bg-[#2a123c] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
         <div className="flex flex-col gap-4">
           <div>
@@ -247,7 +247,7 @@ function ContactSection() {
 
 export default function DiscipleshipGuideStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16 md:pb-24">
+    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
       <section aria-labelledby="newcomer-intro-title">
         <SectionHeading
           id="newcomer-intro-title"
@@ -268,7 +268,7 @@ export default function DiscipleshipGuideStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="newcomer-vision-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-vision-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-vision-title"
           label="church vision"
@@ -286,7 +286,7 @@ export default function DiscipleshipGuideStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="newcomer-getting-started-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-getting-started-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-getting-started-title"
           label="getting started"
@@ -307,7 +307,7 @@ export default function DiscipleshipGuideStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="newcomer-faq-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-faq-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-faq-title"
           label="faq"

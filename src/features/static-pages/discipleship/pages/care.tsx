@@ -201,7 +201,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="newcomer-care-structure-title" className="mt-20 md:mt-[68px]">
+    <section aria-labelledby="newcomer-care-structure-title" className="mt-20 md:mt-20">
       <SectionHeading
         id="newcomer-care-structure-title"
         label="class structure"
@@ -267,7 +267,7 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
 
 export default function DiscipleshipCareStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16 md:pb-24">
+    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
       <section aria-labelledby="newcomer-care-intro-title">
         <SectionHeading
           id="newcomer-care-intro-title"
@@ -281,7 +281,7 @@ export default function DiscipleshipCareStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="newcomer-care-overview-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-care-overview-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-care-overview-title"
           label="overview"
@@ -302,7 +302,7 @@ export default function DiscipleshipCareStaticPage() {
         </p>
       </section>
 
-      <section aria-labelledby="newcomer-care-curriculum-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-care-curriculum-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-care-curriculum-title"
           label="curriculum"
@@ -318,7 +318,7 @@ export default function DiscipleshipCareStaticPage() {
       <ClassStructureSection />
 
       {/*
-      <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-care-baptism-title"
           label="baptism"
@@ -351,7 +351,7 @@ export default function DiscipleshipCareStaticPage() {
       {/*
       <section
         id="apply"
-        className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
+        className="mt-20 scroll-mt-32 md:mt-20 md:scroll-mt-36"
         aria-labelledby="newcomer-care-apply-title"
       >
         <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">

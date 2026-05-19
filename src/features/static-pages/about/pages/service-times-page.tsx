@@ -119,7 +119,7 @@ function ServiceTimesTable() {
 
 export default function ServiceTimesStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16">
+    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px]">
       <section>
         <SectionHeading
           label="service times"

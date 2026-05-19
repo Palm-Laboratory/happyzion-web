@@ -86,7 +86,7 @@ function CoreValueAccordion() {
 
 export default function VisionCoreValuesSection() {
   return (
-    <section className="bg-white pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
+    <section className="bg-white pb-[100px] pt-20 md:pb-[200px] md:pt-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Vision & Core Values"

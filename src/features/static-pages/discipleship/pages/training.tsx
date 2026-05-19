@@ -429,7 +429,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="disciples-class-structure-title" className="mt-20 md:mt-[68px]">
+    <section aria-labelledby="disciples-class-structure-title" className="mt-20 md:mt-20">
       <SectionHeading
         id="disciples-class-structure-title"
         label="class structure"
@@ -511,7 +511,7 @@ function ScheduleCard({
 
 export default function DiscipleshipTrainingStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16 md:pb-24">
+    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
       <section aria-labelledby="disciples-intro-title">
         <SectionHeading
           id="disciples-intro-title"
@@ -526,7 +526,7 @@ export default function DiscipleshipTrainingStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="disciples-principles-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="disciples-principles-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="disciples-principles-title"
           label="philosophy"
@@ -541,11 +541,11 @@ export default function DiscipleshipTrainingStaticPage() {
         </div>
       </section>
 
-      <section aria-labelledby="disciples-roadmap-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="disciples-roadmap-title" className="mt-20 md:mt-20">
         <Roadmap />
       </section>
 
-      <section aria-labelledby="disciples-curriculum-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="disciples-curriculum-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="disciples-curriculum-title"
           label="curriculum"
@@ -560,7 +560,7 @@ export default function DiscipleshipTrainingStaticPage() {
 
       <ClassStructureSection />
 
-      <section aria-labelledby="disciples-schedule-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="disciples-schedule-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="disciples-schedule-title"
           label="schedule"
@@ -578,7 +578,7 @@ export default function DiscipleshipTrainingStaticPage() {
       <section
         id="apply"
         aria-labelledby="disciples-apply-title"
-        className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
+        className="mt-20 scroll-mt-32 md:mt-20 md:scroll-mt-36"
       >
         <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
           <div className="md:max-w-[320px] lg:max-w-[360px]">

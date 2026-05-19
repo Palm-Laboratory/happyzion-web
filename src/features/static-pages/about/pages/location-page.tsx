@@ -116,7 +116,7 @@ export default function LocationStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
       <section id="map" className="relative overflow-hidden scroll-mt-28">
-        <div className="section-shell section-shell--narrow relative py-12 md:py-16">
+        <div className="section-shell section-shell--narrow relative py-12 md:py-[60px]">
           <LocationPageHeader />
 
           <div className="mt-10 overflow-hidden border border-[#8b6db5]/18 bg-white">
@@ -158,8 +158,8 @@ export default function LocationStaticPage() {
         </div>
       </section>
 
-      <section className="section-shell section-shell--narrow py-12 md:py-16">
-        <div className="space-y-16 md:space-y-24">
+      <section className="section-shell section-shell--narrow py-12 md:py-[60px]">
+        <div className="space-y-[60px] md:space-y-[100px]">
           <InfoSection
             title="방문 안내"
             subtitle="visit guide"

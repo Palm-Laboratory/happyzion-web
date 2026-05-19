@@ -375,7 +375,7 @@ function AnnualRoadmapContent({ activeIndex = 0, count = 1, onPrevious, onNext }
         <SmallGroupPanelHeader label="Annual Roadmap" number="04" title="연간 부흥 로드맵" />
       )}
 
-      <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-14 pt-8 md:px-10 md:pb-20 md:pt-10">
+      <div className="flex w-full flex-col gap-6 rounded bg-[#594263] px-5 pb-[60px] pt-8 md:px-10 md:pb-20 md:pt-10">
         <div className="flex w-full items-center justify-center gap-3">
           <p className="type-label-lg font-suit font-semibold shrink-0 text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
@@ -411,7 +411,7 @@ export default function SmallGroupsMinistrySection() {
   const nextSmallGroupTab = () => moveSmallGroupTab(1);
 
   return (
-    <section className="bg-[#fefbff] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
+    <section className="bg-[#fefbff] pb-[100px] pt-20 md:pb-[200px] md:pt-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Small Groups, Leaders, and Ministry"

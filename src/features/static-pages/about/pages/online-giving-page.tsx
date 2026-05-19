@@ -101,7 +101,7 @@ const givingAccount = normalizeGivingAccount(
 
 export default function OnlineGivingStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16">
+    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px]">
       <section className="mb-4 md:mb-8">
         <SectionHeading
           label="online offering guide"

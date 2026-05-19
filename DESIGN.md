@@ -261,31 +261,35 @@ Scale-based naming (xl / lg / md / sm / xs). Heading tokens are responsive; all 
 
 ### Spacing Tokens
 
-| Token | Value | Usage |
+Tokens are grouped into three tiers by scope. Values outside this set are one-offs and applied inline.
+
+**Component** — internal spacing within UI elements
+
+| Step | Value | Role |
 | --- | ---: | --- |
-| {spacing.0} | 0px | dense mosaic/grid seams |
-| {spacing.0_5} | 2px | image/grid gutters |
-| {spacing.1} | 4px | micro gaps |
-| {spacing.1_5} | 6px | compact indicators |
-| {spacing.2} | 8px | label/title micro spacing |
-| {spacing.3} | 12px | small gaps, dividers |
-| {spacing.4} | 16px | default mobile horizontal rhythm |
-| {spacing.5} | 20px | mobile section/card padding |
-| {spacing.6} | 24px | card padding, row gap |
-| {spacing.7} | 28px | quote/card internal padding |
-| {spacing.8} | 32px | desktop shell padding |
-| {spacing.10} | 40px | section/card gap |
-| {spacing.12} | 48px | section header to content |
-| {spacing.14} | 56px | mission grid gap |
-| {spacing.15} | 60px | primary section internal gap |
-| {spacing.16} | 64px | medium section vertical gap |
-| {spacing.20} | 80px | large section group gap |
-| {spacing.24} | 96px | home mission mobile gap |
-| {spacing.25} | 100px | desktop section top/gap |
-| {spacing.32} | 128px | pastor section vertical padding |
-| {spacing.36} | 144px | large hero section padding |
-| {spacing.45} | 180px | desktop CTA vertical padding |
-| {spacing.50} | 200px | major desktop bottom padding |
+| xs | 8px | icon↔text gap, label micro spacing |
+| sm | 12px | chip/badge gap, small dividers |
+| md | 16px | default mobile horizontal padding |
+| lg | 20px | card inner padding |
+| xl | 24px | card section gap, column gap |
+| 2xl | 32px | desktop shell horizontal padding |
+| 3xl | 36px | card vertical padding (stacked/tall cards) |
+
+**Layout** — spacing between components
+
+| Step | Value | Role |
+| --- | ---: | --- |
+| sm | 40px | card-to-card gap |
+| md | 48px | section heading → content gap |
+| lg | 60px | primary section internal gap |
+| xl | 80px | large section group gap |
+
+**Section** — page-level vertical rhythm
+
+| Step | Value | Role |
+| --- | ---: | --- |
+| sm | 100px | desktop section vertical padding |
+| lg | 200px | major desktop bottom padding |
 
 ### Container Tokens
 
@@ -322,7 +326,8 @@ Layout principles:
 - Prefer vertical stacking on mobile, then two-column layouts from tablet upward.
 - Keep mobile cards readable with 20px horizontal padding and 20px vertical padding.
 - Use 60px as the primary gap between section heading and major content on about pages.
-- Use 200px bottom padding for major desktop about sections that need breathing room.
+- Use 100px for desktop section vertical padding; 200px for major bottom padding on about pages.
+- Values outside the three-tier token set (e.g. one-off component sizes) are applied inline and not tracked as tokens.
 
 ## 5. Elevation & Depth
 

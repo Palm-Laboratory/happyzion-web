@@ -80,7 +80,7 @@ export default function MinistryTeamsSection() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
+    <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] pb-[100px] pt-20 md:pb-[200px] md:pt-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
         <SectionHeading
           label="Ministry Teams"

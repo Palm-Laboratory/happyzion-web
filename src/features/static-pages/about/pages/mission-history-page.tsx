@@ -110,7 +110,7 @@ export default async function MissionHistoryStaticPage() {
 
         <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
 
-        <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
+        <div className="grid gap-[60px] md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
           <section id="mission-history-timeline-track">
             <div className="flex flex-col gap-[60px]">
               {missionHistory.map((item) => (

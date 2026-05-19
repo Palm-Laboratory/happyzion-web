@@ -127,7 +127,7 @@ function QuoteCard() {
 
 function IntroSection() {
   return (
-    <section id="greeting" className="section-shell section-shell--narrow py-14 md:py-20">
+    <section id="greeting" className="section-shell section-shell--narrow py-[60px] md:py-20">
       <div className="flex flex-col items-start gap-10 md:gap-12">
         <SectionHeading
           label="about the church"
@@ -191,11 +191,11 @@ function PastorSection() {
   );
 
   return (
-    <section className="bg-[#1e1035] py-16 text-white md:py-32">
+    <section className="bg-[#1e1035] py-[60px] text-white md:py-[100px]">
       <div className="section-shell section-shell--narrow flex flex-col gap-12">
         <div className="min-[1280px]:hidden">{heading}</div>
 
-        <div className="grid gap-12 min-[660px]:grid-cols-[minmax(0,1fr)_300px] min-[660px]:items-center min-[660px]:gap-8 lg:gap-16 min-[1280px]:grid-cols-[minmax(0,1fr)_360px] min-[1280px]:gap-20">
+        <div className="grid gap-12 min-[660px]:grid-cols-[minmax(0,1fr)_300px] min-[660px]:items-center min-[660px]:gap-8 lg:gap-[60px] min-[1280px]:grid-cols-[minmax(0,1fr)_360px] min-[1280px]:gap-20">
           <div className="flex flex-col gap-[60px]">
             <div className="hidden min-[1280px]:block">{heading}</div>
             <div className="type-body-md flex flex-col gap-8 text-white/80">
@@ -241,7 +241,7 @@ function PastorSection() {
 
 function ElderTeamSection() {
   return (
-    <section className="bg-[#3f2551] py-16 text-white md:py-[7rem]">
+    <section className="bg-[#3f2551] py-[60px] text-white md:py-[7rem]">
       <div className="section-shell section-shell--narrow min-[551px]:max-[880px]:grid min-[551px]:max-[880px]:grid-cols-[220px_minmax(0,1fr)] min-[551px]:max-[880px]:items-start min-[551px]:max-[880px]:gap-8">
         <div>
           <SectionHeading
@@ -356,7 +356,7 @@ function MinistryProgramCard({
 
 function MinistryProgramSection() {
   return (
-    <section className="bg-[#fcf8ff] py-16 md:pb-48 md:pt-32">
+    <section className="bg-[#fcf8ff] py-[60px] md:pb-48 md:pt-[100px]">
       <div className="section-shell section-shell--narrow">
         <SectionHeading
           label="ministry program"
