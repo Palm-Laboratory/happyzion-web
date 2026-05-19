@@ -126,7 +126,20 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
                 </tr>
               ) : (
                 data.items.map((member, idx) => (
-                  <tr key={member.id} className="border-b border-[#f0f4f8] last:border-0 transition hover:bg-[#fafcff]">
+                  <tr
+                    key={member.id}
+                    role="link"
+                    tabIndex={0}
+                    onClick={() => router.push(`/admin/members/${member.id}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        router.push(`/admin/members/${member.id}`);
+                      }
+                    }}
+                    aria-label={`${member.name} 교인 상세 보기`}
+                    className="cursor-pointer border-b border-[#f0f4f8] last:border-0 transition hover:bg-[#fafcff] focus:outline-none focus-visible:bg-[#eff5fd] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#3f74c7]"
+                  >
                     <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{query.page * query.size + idx + 1}</td>
                     <td className="px-5 py-4 text-[13px] font-semibold text-[#0f1c2e]">{maskName(member.name)}</td>
                     <td className="whitespace-nowrap px-5 py-4 text-[13px] text-[#374151]">{maskPhone(member.phone)}</td>
