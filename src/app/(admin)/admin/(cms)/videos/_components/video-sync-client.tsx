@@ -269,6 +269,11 @@ export default function VideoSyncClient({
       return;
     }
 
+    if (snapshot.parentId && (snapshot.itemCount ?? 0) === 0) {
+      toast.error("영상이 없는 재생목록은 메뉴에 지정할 수 없습니다.");
+      return;
+    }
+
     if (snapshot.parentId && snapshot.status === "DRAFT") {
       toast.error("공개 상태를 선택 후 저장해 주세요.");
       return;
@@ -341,19 +346,34 @@ export default function VideoSyncClient({
             <h2 className="text-[14px] font-bold text-[#132033]">재생목록 동기화 현황</h2>
             <p className="mt-1 text-[12px] text-[#6d7f95]">재생목록별로 소속 메뉴와 노출 방식을 조정한 뒤 행 단위로 저장합니다.</p>
             <p className="mt-1 text-[12px] text-[#8fa3bb]">신규 재생목록은 기본 롱폼으로 저장됩니다. 쇼츠 재생목록은 형식을 쇼츠로 변경 후 저장하고 다시 싱크하세요.</p>
-            <ul className="mt-2.5 flex flex-wrap gap-x-5 gap-y-1.5">
-              {[
-                { label: "분류 대기", color: "bg-amber-100 text-amber-700", desc: "공개/숨김이 설정되지 않은 상태" },
-                { label: "노출 중", color: "bg-emerald-100 text-emerald-700", desc: "공개 사이트에 노출 중" },
-                { label: "숨김", color: "bg-slate-100 text-slate-700", desc: "관리자가 의도적으로 숨긴 상태" },
-                { label: "보관", color: "bg-rose-100 text-rose-700", desc: "유튜브 재생목록 삭제로 자동 보관 · 보관된 재생목록 정보는 다음 동기화 때 삭제됩니다" },
-              ].map(({ label, color, desc }) => (
-                <li key={label} className="flex items-center gap-1.5">
-                  <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${color}`}>{label}</span>
-                  <span className="text-[11px] text-[#8fa3bb]">{desc}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-10 space-y-1.5">
+              <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
+                <li className="text-[11px] font-semibold text-[#55697f] self-center w-12">연동 상태</li>
+                {[
+                  { label: "정상", color: "bg-emerald-100 text-emerald-700", desc: "유튜브에서 정상 확인됨" },
+                  { label: "제거됨", color: "bg-rose-100 text-rose-700", desc: "유튜브에서 재생목록 삭제 감지됨" },
+                ].map(({ label, color, desc }) => (
+                  <li key={label} className="flex items-center gap-1.5">
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${color}`}>{label}</span>
+                    <span className="text-[11px] text-[#8fa3bb]">{desc}</span>
+                  </li>
+                ))}
+              </ul>
+              <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
+                <li className="text-[11px] font-semibold text-[#55697f] self-center w-12">운영 상태</li>
+                {[
+                  { label: "분류 대기", color: "bg-amber-100 text-amber-700", desc: "공개/숨김이 설정되지 않은 상태" },
+                  { label: "노출 중", color: "bg-emerald-100 text-emerald-700", desc: "공개 사이트에 노출 중" },
+                  { label: "숨김", color: "bg-slate-100 text-slate-700", desc: "관리자가 의도적으로 숨긴 상태" },
+                  { label: "보관", color: "bg-rose-100 text-rose-700", desc: "유튜브 재생목록 삭제로 자동 보관 · 보관 상태는 유튜브 동기화로만 해제되며, 보관된 재생목록 정보는 다음 동기화 때 삭제됩니다" },
+                ].map(({ label, color, desc }) => (
+                  <li key={label} className="flex items-center gap-1.5">
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${color}`}>{label}</span>
+                    <span className="text-[11px] text-[#8fa3bb]">{desc}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <span className="text-[12px] font-semibold text-[#6d7f95]">숨김 {hiddenCount}개</span>
         </div>
@@ -391,7 +411,12 @@ export default function VideoSyncClient({
                         value={playlist.parentId ?? ""}
                         onChange={(event) => {
                           const rawValue = event.target.value;
-                          markPlaylistDirty(playlist.id, reparentNode(menuItems, playlist.id, rawValue ? Number(rawValue) : null));
+                          const nextParentId = rawValue ? Number(rawValue) : null;
+                          let nextTree = reparentNode(menuItems, playlist.id, nextParentId);
+                          if (nextParentId === null) {
+                            nextTree = mapTree(nextTree, playlist.id, (node) => ({ ...node, status: "DRAFT" }));
+                          }
+                          markPlaylistDirty(playlist.id, nextTree);
                         }}
                         className="w-[148px] rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[12px] text-[#334155]"
                       >
@@ -444,12 +469,16 @@ export default function VideoSyncClient({
                         {playlist.status !== "PUBLISHED" && (
                           <button
                             type="button"
-                            onClick={() =>
+                            onClick={() => {
+                              if (playlist.syncStatus === "REMOVED") {
+                                toast.error("유튜브에서 제거된 재생목록은 공개할 수 없습니다.");
+                                return;
+                              }
                               updatePlaylistNode(playlist.id, (node) => ({
                                 ...node,
                                 status: node.parentId ? "PUBLISHED" : node.status,
-                              }))
-                            }
+                              }));
+                            }}
                             disabled={!playlist.parentId}
                             className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-700 disabled:opacity-50"
                           >

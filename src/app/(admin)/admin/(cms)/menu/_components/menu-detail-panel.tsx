@@ -155,6 +155,11 @@ export function MenuDetailPanel({
                     </option>
                   ))}
                 </select>
+                {selectedNode.status === "ARCHIVED" && (
+                  <p className="text-[11px] leading-5 text-[#8fa3bb]">
+                    보관 상태는 유튜브 동기화로만 해제됩니다.
+                  </p>
+                )}
                 {hiddenStatusAffectsDescendants && (
                   <p className="text-[11px] leading-5 text-[#9a5b00]">
                     이 루트 메뉴를 숨기면 하위 메뉴 {descendantIds.size}개도 함께 숨김
