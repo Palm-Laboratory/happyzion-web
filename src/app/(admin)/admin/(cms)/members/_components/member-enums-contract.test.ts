@@ -1,7 +1,6 @@
 import {
-  isEditableStatus, isBirthCalendar,
+  isEditableStatus,
 } from "@/app/(admin)/admin/(cms)/members/_components/member-enums";
 
 const _e: (v: string) => boolean = isEditableStatus;
-const _b: (v: string) => boolean = isBirthCalendar;
-void _e; void _b;
+void _e;

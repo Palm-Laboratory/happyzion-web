@@ -1,4 +1,4 @@
-import type { ChurchMemberStatus, ChurchMemberOffice, FaithStage, Sex, BirthCalendar } from "@/lib/admin-members-types";
+import type { ChurchMemberStatus, ChurchMemberOffice, FaithStage, Sex } from "@/lib/admin-members-types";
 import { CREATABLE_STATUSES, EDITABLE_STATUSES } from "@/lib/admin-members-types";
 
 export const STATUS_LABELS: Record<ChurchMemberStatus, string> = {
@@ -85,12 +85,3 @@ export function isEditableStatus(v: string): v is Exclude<ChurchMemberStatus, "R
   return (EDITABLE_STATUSES as string[]).includes(v);
 }
 
-const ALL_BIRTH_CALENDARS: BirthCalendar[] = ["SOLAR", "LUNAR"];
-export function isBirthCalendar(v: string): v is BirthCalendar {
-  return (ALL_BIRTH_CALENDARS as string[]).includes(v);
-}
-
-export const BIRTH_CALENDAR_LABELS: Record<BirthCalendar, string> = {
-  SOLAR: "양력",
-  LUNAR: "음력",
-};

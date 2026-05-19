@@ -6,10 +6,10 @@ void MemberDetailClient;
 type Props = Parameters<typeof MemberDetailClient>[0];
 
 const values: MemberFormValues = {
-  name: "", sex: "", birthDate: "", birthCalendar: "SOLAR", phone: "",
+  name: "", sex: "", birthDate: "", phone: "",
   email: "", address: "", addressDetail: "",
   status: "", office: "", registeredAt: "", officeAppointedAt: "",
-  faithStage: "", job: "", cellLabel: "", memo: "",
+  faithStage: "", job: "", memo: "",
   confessDate: "", learningDate: "", baptismDate: "",
   baptismPlace: "", baptismOfficiant: "", confirmationDate: "",
   previousChurch: "", transferredInAt: "",

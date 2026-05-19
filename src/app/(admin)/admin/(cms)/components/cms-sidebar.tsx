@@ -95,6 +95,18 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/members",
+        label: "교인 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M6.5 9.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M1.5 14c.8-2 2.8-3.3 5-3.3s4.2 1.3 5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M12 7.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM15.5 14c-.6-1.5-2-2.5-3.5-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/accounts",
         label: "관리자 계정",
         exact: false,

@@ -10,6 +10,7 @@ interface PiiMaskedInputProps {
   maskFn: (value: string) => string;
   inputMode?: "text" | "tel";
   placeholder?: string;
+  onValueChange?: () => void;
 }
 
 function inputCls(hasError: boolean) {
@@ -21,7 +22,7 @@ function inputCls(hasError: boolean) {
 }
 
 export default function PiiMaskedInput({
-  id, name, initialValue, hasError = false, maskFn, inputMode = "text", placeholder,
+  id, name, initialValue, hasError = false, maskFn, inputMode = "text", placeholder, onValueChange,
 }: PiiMaskedInputProps) {
   const [revealed, setRevealed] = useState(false);
   const [actualValue, setActualValue] = useState(initialValue);
@@ -40,7 +41,10 @@ export default function PiiMaskedInput({
         value={displayValue}
         readOnly={!revealed}
         onChange={(e) => {
-          if (revealed) setActualValue(e.target.value);
+          if (revealed) {
+            setActualValue(e.target.value);
+            onValueChange?.();
+          }
         }}
         className={inputCls(hasError)}
       />

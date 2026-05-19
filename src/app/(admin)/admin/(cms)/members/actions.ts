@@ -18,14 +18,13 @@ import type {
   FaithStage,
 } from "@/lib/admin-members-types";
 import {
-  isCreatableStatus, isEditableStatus, isOffice, isFaithStage, isSex, isBirthCalendar,
+  isCreatableStatus, isEditableStatus, isOffice, isFaithStage, isSex,
 } from "./_components/member-enums";
 
 export interface MemberFormValues {
   name: string;
   sex: string;
   birthDate: string;
-  birthCalendar: string;
   phone: string;
   email: string;
   address: string;
@@ -36,7 +35,6 @@ export interface MemberFormValues {
   officeAppointedAt: string;
   faithStage: string;
   job: string;
-  cellLabel: string;
   memo: string;
   confessDate: string;
   learningDate: string;
@@ -50,7 +48,7 @@ export interface MemberFormValues {
 
 export interface MemberFormState {
   errors?: Partial<Record<
-    | "name" | "sex" | "birthDate" | "birthCalendar" | "phone"
+    | "name" | "sex" | "birthDate" | "phone"
     | "address" | "status" | "office" | "registeredAt"
     | "officeAppointedAt" | "confessDate" | "learningDate"
     | "baptismDate" | "confirmationDate" | "transferredInAt",
@@ -61,6 +59,7 @@ export interface MemberFormState {
   message?: string;
   success?: boolean;
   messageKey?: number;
+  redirectTo?: string;
 }
 
 function buildMessageState(message: string, success = false, values?: MemberFormValues): MemberFormState {
@@ -84,7 +83,6 @@ function readFormValues(formData: FormData): MemberFormValues {
     name: String(formData.get("name") ?? "").trim(),
     sex: String(formData.get("sex") ?? "").trim(),
     birthDate: normalizeDateInput(formData.get("birthDate")),
-    birthCalendar: String(formData.get("birthCalendar") ?? "").trim(),
     phone: String(formData.get("phone") ?? "").trim(),
     email: String(formData.get("email") ?? "").trim(),
     address: String(formData.get("address") ?? "").trim(),
@@ -95,7 +93,6 @@ function readFormValues(formData: FormData): MemberFormValues {
     officeAppointedAt: normalizeDateInput(formData.get("officeAppointedAt")),
     faithStage: String(formData.get("faithStage") ?? "").trim(),
     job: String(formData.get("job") ?? "").trim(),
-    cellLabel: String(formData.get("cellLabel") ?? "").trim(),
     memo: String(formData.get("memo") ?? "").trim(),
     confessDate: normalizeDateInput(formData.get("confessDate")),
     learningDate: normalizeDateInput(formData.get("learningDate")),
@@ -126,10 +123,6 @@ function validateAndBuildPayload(
     errors.birthDate = "생년월일을 입력해 주세요.";
   } else if (!isDateInput(values.birthDate)) {
     errors.birthDate = "날짜 형식이 올바르지 않습니다.";
-  }
-
-  if (!values.birthCalendar || !isBirthCalendar(values.birthCalendar)) {
-    errors.birthCalendar = "양력 또는 음력을 선택해 주세요.";
   }
 
   if (!values.phone) {
@@ -180,7 +173,6 @@ function validateAndBuildPayload(
   const email = values.email || null;
   const addressDetail = values.addressDetail || null;
   const job = values.job || null;
-  const cellLabel = values.cellLabel || null;
   const officeAppointedAt = values.officeAppointedAt || null;
   const memo = values.memo || null;
 
@@ -217,7 +209,7 @@ function validateAndBuildPayload(
     name: values.name,
     sex: values.sex as Sex,
     birthDate: values.birthDate,
-    birthCalendar: values.birthCalendar as "SOLAR" | "LUNAR",
+    birthCalendar: "SOLAR",
     phone: values.phone,
     address: values.address,
     status: values.status as ChurchMemberStatus,
@@ -226,7 +218,7 @@ function validateAndBuildPayload(
     email,
     addressDetail,
     job,
-    cellLabel,
+    cellLabel: null,
     faithStage: faithStage as FaithStage | null,
     officeAppointedAt,
     memo,
@@ -292,8 +284,9 @@ export async function updateChurchMemberAction(
     values,
     formKey: Date.now(),
     success: true,
-    message: "수정되었습니다.",
+    message: "변경 됐습니다.",
     messageKey: Date.now(),
+    redirectTo: "/admin/members",
   };
 }
 

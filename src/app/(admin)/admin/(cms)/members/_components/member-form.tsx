@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import type { MemberFormState, MemberFormValues } from "../actions";
 import { useAdminToast } from "../../components/admin-toast-provider";
 import {
-  STATUS_LABELS, OFFICE_LABELS, FAITH_STAGE_LABELS, SEX_LABELS, BIRTH_CALENDAR_LABELS,
+  STATUS_LABELS, OFFICE_LABELS, FAITH_STAGE_LABELS, SEX_LABELS,
 } from "./member-enums";
 import {
   CREATABLE_STATUSES, EDITABLE_STATUSES,
@@ -42,17 +42,27 @@ function inputCls(hasError: boolean) {
     }`;
 }
 
+function formatDate(raw: string): string {
+  const d = raw.replace(/\D/g, "").slice(0, 8);
+  if (d.length <= 4) return d;
+  if (d.length <= 6) return `${d.slice(0, 4)}-${d.slice(4)}`;
+  return `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}`;
+}
+
 function DateTextInput({
   id,
   name,
   defaultValue = "",
   hasError = false,
+  onChange,
 }: {
   id: string;
   name: string;
   defaultValue?: string;
   hasError?: boolean;
+  onChange?: () => void;
 }) {
+  const [value, setValue] = useState(defaultValue);
   return (
     <input
       id={id}
@@ -61,8 +71,12 @@ function DateTextInput({
       inputMode="numeric"
       autoComplete="off"
       placeholder="YYYY-MM-DD"
-      defaultValue={defaultValue}
+      value={value}
       className={inputCls(hasError)}
+      onChange={(e) => {
+        setValue(formatDate(e.target.value));
+        onChange?.();
+      }}
     />
   );
 }
@@ -82,15 +96,44 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
   const router = useRouter();
   const values = state.values ?? initialValues;
 
+  const [dirtyFields, setDirtyFields] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    setDirtyFields(new Set());
+  }, [state]);
+
+  function fieldHasError(name: string): boolean {
+    if (dirtyFields.has(name)) return false;
+    return !!(state.errors as Record<string, string | undefined>)?.[name];
+  }
+  function fieldError(name: string): string | undefined {
+    if (dirtyFields.has(name)) return undefined;
+    return (state.errors as Record<string, string | undefined>)?.[name];
+  }
+  function markDirty(name: string) {
+    setDirtyFields(prev => {
+      if (prev.has(name)) return prev;
+      const next = new Set(prev);
+      next.add(name);
+      return next;
+    });
+  }
+
   useEffect(() => {
     if (!state.message) return;
     if (state.success) {
+      if (state.redirectTo) {
+        window.alert(state.message);
+        router.push(state.redirectTo);
+        router.refresh();
+        return;
+      }
       toast.success(state.message);
       router.refresh();
       return;
     }
     toast.error(state.message);
-  }, [state.message, state.messageKey, state.success, toast, router]);
+  }, [state.message, state.messageKey, state.redirectTo, state.success, toast, router]);
 
   return (
     <form key={state.formKey ?? "empty-member-form"} action={formAction} className="space-y-6">
@@ -108,9 +151,10 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 id="name"
                 name="name"
                 initialValue={values?.name ?? ""}
-                hasError={!!state.errors?.name}
+                hasError={fieldHasError("name")}
                 maskFn={maskName}
                 placeholder="홍길동"
+                onValueChange={() => markDirty("name")}
               />
             ) : (
               <input
@@ -119,10 +163,11 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 type="text"
                 placeholder="홍길동"
                 defaultValue={values?.name ?? ""}
-                className={inputCls(!!state.errors?.name)}
+                className={inputCls(fieldHasError("name"))}
+                onChange={() => markDirty("name")}
               />
             )}
-            <FieldError msg={state.errors?.name} />
+            <FieldError msg={fieldError("name")} />
           </div>
           {/* 성별 radio */}
           <div>
@@ -136,12 +181,13 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                     value={value}
                     defaultChecked={values?.sex === value}
                     className="accent-[#3f74c7]"
+                    onChange={() => markDirty("sex")}
                   />
                   <span className="text-[13px] font-semibold text-[#132033]">{label}</span>
                 </label>
               ))}
             </div>
-            <FieldError msg={state.errors?.sex} />
+            <FieldError msg={fieldError("sex")} />
           </div>
           {/* 생년월일 */}
           <div>
@@ -150,28 +196,10 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               id="birthDate"
               name="birthDate"
               defaultValue={values?.birthDate ?? ""}
-              hasError={!!state.errors?.birthDate}
+              hasError={fieldHasError("birthDate")}
+              onChange={() => markDirty("birthDate")}
             />
-            <FieldError msg={state.errors?.birthDate} />
-          </div>
-          {/* 음양력 */}
-          <div>
-            <Label htmlFor="birthCalendar" required>음/양력</Label>
-            <div className="flex gap-3">
-              {(Object.entries(BIRTH_CALENDAR_LABELS) as [string, string][]).map(([value, label]) => (
-                <label key={value} className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-[#dde4ef] px-4 py-2.5 transition has-[:checked]:border-[#3f74c7] has-[:checked]:bg-[#edf4ff]">
-                  <input
-                    type="radio"
-                    name="birthCalendar"
-                    value={value}
-                    defaultChecked={(values?.birthCalendar ?? "SOLAR") === value}
-                    className="accent-[#3f74c7]"
-                  />
-                  <span className="text-[13px] font-semibold text-[#132033]">{label}</span>
-                </label>
-              ))}
-            </div>
-            <FieldError msg={state.errors?.birthCalendar} />
+            <FieldError msg={fieldError("birthDate")} />
           </div>
         </div>
       </section>
@@ -190,10 +218,11 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 id="phone"
                 name="phone"
                 initialValue={values?.phone ?? ""}
-                hasError={!!state.errors?.phone}
+                hasError={fieldHasError("phone")}
                 maskFn={maskPhone}
                 inputMode="tel"
                 placeholder="010-0000-0000"
+                onValueChange={() => markDirty("phone")}
               />
             ) : (
               <input
@@ -202,10 +231,11 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 type="tel"
                 placeholder="010-0000-0000"
                 defaultValue={values?.phone ?? ""}
-                className={inputCls(!!state.errors?.phone)}
+                className={inputCls(fieldHasError("phone"))}
+                onChange={() => markDirty("phone")}
               />
             )}
-            <FieldError msg={state.errors?.phone} />
+            <FieldError msg={fieldError("phone")} />
           </div>
           {/* 이메일 */}
           <div>
@@ -228,9 +258,10 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               type="text"
               placeholder="도로명 주소"
               defaultValue={values?.address ?? ""}
-              className={inputCls(!!state.errors?.address)}
+              className={inputCls(fieldHasError("address"))}
+              onChange={() => markDirty("address")}
             />
-            <FieldError msg={state.errors?.address} />
+            <FieldError msg={fieldError("address")} />
           </div>
           {/* 상세주소 */}
           <div className="sm:col-span-2">
@@ -260,7 +291,8 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               id="status"
               name="status"
               defaultValue={values?.status ?? ""}
-              className={inputCls(!!state.errors?.status)}
+              className={inputCls(fieldHasError("status"))}
+              onChange={() => markDirty("status")}
             >
               <option value="">선택하세요</option>
               {mode === "edit" && values?.status === "REMOVED" && (
@@ -270,7 +302,7 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 <option key={s} value={s}>{STATUS_LABELS[s]}</option>
               ))}
             </select>
-            <FieldError msg={state.errors?.status} />
+            <FieldError msg={fieldError("status")} />
           </div>
           {/* 직분 */}
           <div>
@@ -279,14 +311,15 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               id="office"
               name="office"
               defaultValue={values?.office ?? ""}
-              className={inputCls(!!state.errors?.office)}
+              className={inputCls(fieldHasError("office"))}
+              onChange={() => markDirty("office")}
             >
               <option value="">선택하세요</option>
               {(Object.entries(OFFICE_LABELS) as [ChurchMemberOffice, string][]).map(([value, label]) => (
                 <option key={value} value={value}>{label}</option>
               ))}
             </select>
-            <FieldError msg={state.errors?.office} />
+            <FieldError msg={fieldError("office")} />
           </div>
           {/* 등록일 */}
           <div>
@@ -295,9 +328,10 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               id="registeredAt"
               name="registeredAt"
               defaultValue={values?.registeredAt ?? ""}
-              hasError={!!state.errors?.registeredAt}
+              hasError={fieldHasError("registeredAt")}
+              onChange={() => markDirty("registeredAt")}
             />
-            <FieldError msg={state.errors?.registeredAt} />
+            <FieldError msg={fieldError("registeredAt")} />
           </div>
           {/* 직분 임명일 */}
           <div>
@@ -306,9 +340,10 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               id="officeAppointedAt"
               name="officeAppointedAt"
               defaultValue={values?.officeAppointedAt ?? ""}
-              hasError={!!state.errors?.officeAppointedAt}
+              hasError={fieldHasError("officeAppointedAt")}
+              onChange={() => markDirty("officeAppointedAt")}
             />
-            <FieldError msg={state.errors?.officeAppointedAt} />
+            <FieldError msg={fieldError("officeAppointedAt")} />
           </div>
           {/* 신앙 단계 */}
           <div>
@@ -334,18 +369,6 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               type="text"
               placeholder="직업 (선택)"
               defaultValue={values?.job ?? ""}
-              className={inputCls(false)}
-            />
-          </div>
-          {/* 셀/구역 */}
-          <div>
-            <Label htmlFor="cellLabel">셀/구역</Label>
-            <input
-              id="cellLabel"
-              name="cellLabel"
-              type="text"
-              placeholder="셀 또는 구역 라벨 (선택)"
-              defaultValue={values?.cellLabel ?? ""}
               className={inputCls(false)}
             />
           </div>
@@ -376,20 +399,20 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
             {/* 영접일 */}
             <div>
               <Label htmlFor="confessDate">영접일</Label>
-              <DateTextInput id="confessDate" name="confessDate" defaultValue={values?.confessDate ?? ""} hasError={!!state.errors?.confessDate} />
-              <FieldError msg={state.errors?.confessDate} />
+              <DateTextInput id="confessDate" name="confessDate" defaultValue={values?.confessDate ?? ""} hasError={fieldHasError("confessDate")} onChange={() => markDirty("confessDate")} />
+              <FieldError msg={fieldError("confessDate")} />
             </div>
             {/* 등록교육 수료일 */}
             <div>
               <Label htmlFor="learningDate">등록교육 수료일</Label>
-              <DateTextInput id="learningDate" name="learningDate" defaultValue={values?.learningDate ?? ""} hasError={!!state.errors?.learningDate} />
-              <FieldError msg={state.errors?.learningDate} />
+              <DateTextInput id="learningDate" name="learningDate" defaultValue={values?.learningDate ?? ""} hasError={fieldHasError("learningDate")} onChange={() => markDirty("learningDate")} />
+              <FieldError msg={fieldError("learningDate")} />
             </div>
             {/* 세례일 */}
             <div>
               <Label htmlFor="baptismDate">세례일</Label>
-              <DateTextInput id="baptismDate" name="baptismDate" defaultValue={values?.baptismDate ?? ""} hasError={!!state.errors?.baptismDate} />
-              <FieldError msg={state.errors?.baptismDate} />
+              <DateTextInput id="baptismDate" name="baptismDate" defaultValue={values?.baptismDate ?? ""} hasError={fieldHasError("baptismDate")} onChange={() => markDirty("baptismDate")} />
+              <FieldError msg={fieldError("baptismDate")} />
             </div>
             {/* 세례 장소 */}
             <div>
@@ -418,8 +441,8 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
             {/* 입교일 */}
             <div>
               <Label htmlFor="confirmationDate">입교일</Label>
-              <DateTextInput id="confirmationDate" name="confirmationDate" defaultValue={values?.confirmationDate ?? ""} hasError={!!state.errors?.confirmationDate} />
-              <FieldError msg={state.errors?.confirmationDate} />
+              <DateTextInput id="confirmationDate" name="confirmationDate" defaultValue={values?.confirmationDate ?? ""} hasError={fieldHasError("confirmationDate")} onChange={() => markDirty("confirmationDate")} />
+              <FieldError msg={fieldError("confirmationDate")} />
             </div>
             {/* 전 교회 */}
             <div>
@@ -436,8 +459,8 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
             {/* 이명 접수일 */}
             <div>
               <Label htmlFor="transferredInAt">이명 접수일</Label>
-              <DateTextInput id="transferredInAt" name="transferredInAt" defaultValue={values?.transferredInAt ?? ""} hasError={!!state.errors?.transferredInAt} />
-              <FieldError msg={state.errors?.transferredInAt} />
+              <DateTextInput id="transferredInAt" name="transferredInAt" defaultValue={values?.transferredInAt ?? ""} hasError={fieldHasError("transferredInAt")} onChange={() => markDirty("transferredInAt")} />
+              <FieldError msg={fieldError("transferredInAt")} />
             </div>
           </div>
         </details>
