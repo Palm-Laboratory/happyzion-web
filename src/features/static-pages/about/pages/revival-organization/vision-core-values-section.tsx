@@ -84,8 +84,8 @@ function CoreValueAccordion() {
 
 export default function VisionCoreValuesSection() {
   return (
-    <section className="bg-white pb-section-lg pt-section-md md:pb-section-xl md:pt-section-lg">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-layout-xl">
+    <section className="bg-white py-section-sm md:py-section-md lg:py-section-lg">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-layout-lg lg:gap-layout-xl">
         <SectionHeading
           label="Vision & Core Values"
           title="교회 비전 · 5대 핵심가치"
@@ -93,7 +93,7 @@ export default function VisionCoreValuesSection() {
           titleAs="h1"
         />
 
-        <div className="flex w-full flex-col items-start gap-layout-xxl">
+        <div className="flex w-full flex-col items-start gap-layout-xl lg:gap-layout-xxl">
           <div className="flex w-full flex-col items-start gap-layout-md">
             <VisionQuote />
             <div className="type-body-md w-full max-w-[900px] text-[#4a3b5e]">

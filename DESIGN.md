@@ -299,10 +299,12 @@ spacing:
     xl:   60px
     xxl:  80px
   section:                # Tailwind: p{y|b}-section-{step}
-    sm: 60px
-    md: 80px
-    lg: 100px
-    xl: 200px
+    sm:  60px   # mobile
+    md:  80px   # tablet
+    lg:  100px  # desktop
+    xl:  120px  # final section bottom — mobile
+    xxl: 160px  # final section bottom — tablet
+    3xl: 200px  # final section bottom — desktop
 
 rounded:
   none: 0px
@@ -617,10 +619,12 @@ Tailwind class pattern: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout-{s
 
 | Step | Value | Role |
 | --- | ---: | --- |
-| sm | 60px | mobile section vertical padding |
-| md | 80px | tablet section vertical padding |
-| lg | 100px | desktop section vertical padding |
-| xl | 200px | long page final section bottom padding |
+| sm  | 60px  | mobile section vertical padding |
+| md  | 80px  | tablet section vertical padding |
+| lg  | 100px | desktop section vertical padding |
+| xl  | 120px | final section bottom — mobile (`pb-section-xl`) |
+| xxl | 160px | final section bottom — tablet (`md:pb-section-xxl`) |
+| 3xl | 200px | final section bottom — desktop (`lg:pb-section-3xl`) |
 
 ### Container
 
@@ -650,9 +654,11 @@ Tailwind class pattern: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout-{s
 
 ### Whitespace Philosophy
 
-Full-width sections with constrained `section-shell` inner content carry the rhythm. About-page section pairs run 100px vertical padding on desktop — tight enough to keep the page scanning quickly, generous enough to separate doctrinal blocks. The major bottom padding of 200px applies only to the final section of long multi-section pages, giving visual breathing room before the footer.
+Full-width sections with constrained `section-shell` inner content carry the rhythm. About-page sections run 100px vertical padding on desktop — tight enough to keep the page scanning quickly, generous enough to separate doctrinal blocks.
 
-Mobile sections compress to 80px typical vertical padding. Cards stay readable with 20px horizontal and 20px vertical inner padding.
+The final section bottom padding scales responsively: 120px on mobile (`pb-section-xl`) / 160px on tablet (`md:pb-section-xxl`) / 200px on desktop (`lg:pb-section-3xl`). This gives proportional visual breathing room before the footer at every breakpoint.
+
+Mobile sections compress to 60px typical vertical padding. Cards stay readable with `pad-*` tokens managing horizontal and vertical inner padding.
 
 ## Elevation
 
@@ -766,7 +772,7 @@ Touch targets are enforced at 44px minimum for all mobile controls (`{component.
 | Service times | stacked cards | table with horizontal overflow |
 | Bus routes | stacked route cards | table with horizontal overflow |
 | Revival org | swipeable tab panels | side tab rail + content panel |
-| Section padding | 80px typical | 100px top / 200px bottom |
+| Section padding | 60px typical / 120px final bottom | 80–100px top / 160–200px final bottom |
 | Shell padding | 16px | 32px |
 
 Mobile rules:

@@ -27,14 +27,14 @@ const busRoutes = [
 
 function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
   return (
-    <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
+    <article className="flex flex-col gap-comp-base rounded-[8px] border border-[#8b6db5]/18 bg-white px-pad-sm py-pad-sm shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
       <h3 className="type-title-md font-bold text-black">{type}</h3>
-      <dl className="type-body-xs mt-4 space-y-3">
-        <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
+      <dl className="type-body-xs flex flex-col gap-comp-md">
+        <div className="flex items-start justify-between gap-comp-base border-b border-[#8b6db5]/12 pb-comp-md">
           <dt className="shrink-0 font-semibold text-black/70">노선</dt>
           <dd className="text-right font-bold text-black/88">{routes}</dd>
         </div>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-comp-base">
           <dt className="shrink-0 font-semibold text-black/70">안내</dt>
           <dd className="text-right font-medium text-black/88">{stop}</dd>
         </div>
@@ -72,7 +72,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-xs inline-flex items-center gap-2 rounded border border-[#8b6db5]/18 bg-white px-4 py-2 font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
+      className="type-body-xs inline-flex items-center gap-comp-sm rounded border border-[#8b6db5]/18 bg-white px-pad-xs py-pad-3xs font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -105,9 +105,9 @@ function InfoSection({
   children: React.ReactNode;
 }) {
   return (
-    <section>
+    <section className="flex flex-col gap-layout-md">
       <SectionHeading label={subtitle} title={title} description={description} />
-      <div className="mt-5">{children}</div>
+      {children}
     </section>
   );
 }
@@ -115,11 +115,12 @@ function InfoSection({
 export default function LocationStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
-      <section id="map" className="relative overflow-hidden scroll-mt-28">
-        <div className="section-shell section-shell--narrow relative py-12 md:py-[60px]">
-          <LocationPageHeader />
+      <section id="map" className="scroll-mt-28">
+        <div className="section-shell section-shell--narrow flex flex-col gap-layout-xxl pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+          <div className="flex flex-col gap-layout-md">
+            <LocationPageHeader />
 
-          <div className="mt-10 overflow-hidden border border-[#8b6db5]/18 bg-white">
+            <div className="overflow-hidden border border-[#8b6db5]/18 bg-white">
             <div className="relative aspect-[16/11] w-full overflow-hidden md:aspect-[16/8] lg:aspect-[16/7]">
               <NaverDynamicMap
                 clientId={NAVER_MAP_PUBLIC_CLIENT_ID}
@@ -128,43 +129,40 @@ export default function LocationStaticPage() {
                 title={SITE_NAME}
               />
 
-              <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
-                <div className="rounded border border-white/70 bg-white/88 px-3 py-2 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
+              <div className="absolute inset-x-0 bottom-0 p-pad-xxs md:p-pad-xs">
+                <div className="rounded border border-white/70 bg-white/88 px-pad-xxs py-pad-3xs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
                   <p className="type-body-xs text-center font-medium text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
-                <div className="hidden max-w-[20rem] rounded border border-white/70 bg-white/88 px-4 py-3 text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:block">
+                <div className="hidden max-w-[20rem] flex-col gap-comp-xxs rounded border border-white/70 bg-white/88 px-pad-xs py-pad-xxs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:flex">
                   <h2 className="type-title-xs font-suit font-bold text-[#33103f]">
                     {SITE_NAME}
                   </h2>
-                  <p className="type-body-xs mt-1 font-medium text-[#33103f]/72">
+                  <p className="type-body-xs font-medium text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#8b6db5]/12 bg-[#fcf8ff] px-4 py-4 md:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-comp-md border-t border-[#8b6db5]/12 bg-[#fcf8ff] px-pad-xs py-pad-xs md:px-pad-md">
               <p className="type-body-xs text-[#928397]">
                 지도를 크게 확인하거나 길찾기를 시작하려면 우측 버튼을 사용해주세요
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-comp-sm">
                 <MiniActionButton label="네이버 지도" href={NAVER_MAP_URL} />
                 <MiniActionButton label="카카오맵" href={KAKAO_MAP_URL} />
               </div>
             </div>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="section-shell section-shell--narrow py-12 md:py-[60px]">
-        <div className="space-y-[60px] md:space-y-[100px]">
           <InfoSection
             title="방문 안내"
             subtitle="visit guide"
           >
-            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
+            <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
               <BulletItem>
                 지도 앱에서 <strong className="font-semibold text-[#bd6fe0]">{SITE_NAME}</strong>
                 또는 <strong className="font-semibold text-[#bd6fe0]">{CHURCH_ADDRESS}</strong>를 검색해 주세요.
@@ -183,7 +181,7 @@ export default function LocationStaticPage() {
             subtitle="subway"
             description="Public Transit Transfer Guide"
           >
-            <ul className="type-body-md space-y-3 text-[#4A3B5E]">
+            <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
               <BulletItem>
                 지하철 이용 시 원당역 권역에서 버스 또는 택시로 환승해 오시는 경로를 권장합니다.
               </BulletItem>
@@ -197,47 +195,49 @@ export default function LocationStaticPage() {
             title="버스 이용"
             subtitle="bus"
           >
-            <div className="space-y-4 md:hidden">
-              {busRoutes.map((item) => (
-                <MobileBusRouteCard key={item.type} {...item} />
-              ))}
-            </div>
+            <div className="flex flex-col gap-comp-base">
+              <div className="flex flex-col gap-comp-base md:hidden">
+                {busRoutes.map((item) => (
+                  <MobileBusRouteCard key={item.type} {...item} />
+                ))}
+              </div>
 
-            <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-[#5d3d8a]/15 border-t-[#33103f] bg-white md:block">
-              <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
-                <thead>
-                  <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-                    <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
-                      구분
-                    </th>
-                    <th className="type-title-xs font-suit font-bold w-[36%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
-                      노선
-                    </th>
-                    <th className="type-title-xs font-suit font-bold px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
-                      안내
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {busRoutes.map((item) => (
-                    <tr key={item.type} className="border-b border-[#8b6db5]/12 last:border-b-0">
-                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
-                        {item.type}
-                      </td>
-                      <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
-                        {item.routes}
-                      </td>
-                      <td className="type-body-md px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
-                        {item.stop}
-                      </td>
+              <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-[#5d3d8a]/15 border-t-[#33103f] bg-white md:block">
+                <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
+                  <thead>
+                    <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
+                      <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                        구분
+                      </th>
+                      <th className="type-title-xs font-suit font-bold w-[36%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                        노선
+                      </th>
+                      <th className="type-title-xs font-suit font-bold px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                        안내
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {busRoutes.map((item) => (
+                      <tr key={item.type} className="border-b border-[#8b6db5]/12 last:border-b-0">
+                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+                          {item.type}
+                        </td>
+                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-xs py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
+                          {item.routes}
+                        </td>
+                        <td className="type-body-md px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+                          {item.stop}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="type-body-xs text-[#928397]">
+                버스 노선은 운행 상황에 따라 변경될 수 있으므로 출발 전 실시간 길찾기를 확인해 주세요.
+              </p>
             </div>
-            <p className="type-body-xs mt-4 text-[#928397]">
-              버스 노선은 운행 상황에 따라 변경될 수 있으므로 출발 전 실시간 길찾기를 확인해 주세요.
-            </p>
           </InfoSection>
 
           <div id="contact-info" className="scroll-mt-28">
@@ -245,7 +245,7 @@ export default function LocationStaticPage() {
               title="교회정보"
               subtitle="church info"
             >
-              <ul className="type-body-md space-y-3 text-[#4A3B5E]">
+              <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
                 <BulletItem>주소 : {CHURCH_ADDRESS}</BulletItem>
                 <BulletItem>
                   TEL :{" "}
@@ -265,5 +265,7 @@ export default function LocationStaticPage() {
         </div>
       </section>
     </main>
+
+
   );
 }

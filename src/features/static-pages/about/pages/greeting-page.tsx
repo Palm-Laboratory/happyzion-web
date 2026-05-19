@@ -385,7 +385,7 @@ function MinistryProgramCard({
 
 function MinistryProgramSection() {
   return (
-    <section className="bg-[#fcf8ff] py-section-sm md:py-section-md lg:py-section-lg">
+    <section className="bg-[#fcf8ff] pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
       <div className="section-shell section-shell--narrow flex flex-col gap-layout-lg">
         <SectionHeading
           label="ministry program"

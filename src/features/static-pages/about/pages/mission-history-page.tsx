@@ -103,8 +103,8 @@ export default async function MissionHistoryStaticPage() {
   const missionHistory = await getPublicMissionHistory().catch(() => []);
 
   return (
-    <main className="section-shell section-shell--narrow bg-white py-section-sm md:py-section-md lg:py-section-lg">
-      <div className="flex flex-col gap-layout-xl pb-section-lg">
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <div className="flex flex-col gap-layout-lg pb-section-lg lg:gap-layout-xl">
         <SectionHeading
           label="Mission History"
           title="시온장로교회 선교 이력"
@@ -114,7 +114,7 @@ export default async function MissionHistoryStaticPage() {
 
         <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
 
-        <div className="grid gap-layout-xl md:grid-cols-[minmax(0,1fr)_300px] md:gap-layout-md lg:grid-cols-[minmax(0,560px)_400px] lg:gap-layout-xl">
+        <div className="mt-layout-md grid gap-layout-xl md:mt-0 md:grid-cols-[minmax(0,1fr)_300px] md:gap-layout-md lg:grid-cols-[minmax(0,560px)_400px] lg:gap-layout-xl">
           <section id="mission-history-timeline-track">
             <div className="flex flex-col gap-layout-xl">
               {missionHistory.map((item) => (

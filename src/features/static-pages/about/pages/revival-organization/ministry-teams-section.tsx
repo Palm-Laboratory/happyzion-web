@@ -84,8 +84,8 @@ export default function MinistryTeamsSection() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] pb-section-lg pt-section-md md:pb-section-xl md:pt-section-lg">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-layout-xl">
+    <section className="bg-gradient-to-b from-[#1e1035] to-[#2f2047] py-section-sm md:py-section-md lg:py-section-lg">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-layout-lg lg:gap-layout-xl">
         <SectionHeading
           label="Ministry Teams"
           title="7대 사역팀 체계"

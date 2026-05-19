@@ -256,7 +256,7 @@ function ClosingCallout() {
 export default function ChurchStoryStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-section-sm pb-section-xl pt-section-lg md:gap-section-md lg:gap-section-lg">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-section-sm pb-section-xl pt-section-sm md:gap-section-md md:pb-section-xxl md:pt-section-md lg:gap-section-lg lg:pb-section-3xl lg:pt-section-lg">
         <BeginningSection />
         <div className="h-px w-full bg-[#5d3d8a/15]" />
         <TimelineSection />

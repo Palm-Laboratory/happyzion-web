@@ -127,8 +127,8 @@ function ServiceTimesTable() {
 
 export default function ServiceTimesStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white py-section-sm md:py-section-md lg:py-section-lg">
-      <section className="flex flex-col gap-layout-lg">
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <section className="flex flex-col gap-layout-lg lg:gap-layout-xl">
         <SectionHeading
           label="service times"
           title="예배 시간 안내"

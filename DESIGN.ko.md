@@ -299,10 +299,12 @@ spacing:
     xl:   60px
     xxl:  80px
   section:                # Tailwind: p{y|b}-section-{step}
-    sm: 60px    # mobile
-    md: 80px    # tablet
-    lg: 100px   # desktop
-    xl: 200px   # 페이지 하단 여백
+    sm:  60px   # mobile
+    md:  80px   # tablet
+    lg:  100px  # desktop
+    xl:  120px  # 페이지 마지막 섹션 하단 — 모바일
+    xxl: 160px  # 페이지 마지막 섹션 하단 — 태블릿
+    3xl: 200px  # 페이지 마지막 섹션 하단 — 데스크탑
 
 rounded:
   none: 0px
@@ -618,10 +620,12 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 
 | 단계 | 값 | 역할 |
 | --- | ---: | --- |
-| sm | 60px | 모바일 섹션 상하 패딩 |
-| md | 80px | 태블릿 섹션 상하 패딩 |
-| lg | 100px | 데스크탑 섹션 상하 패딩 |
-| xl | 200px | 긴 페이지 마지막 섹션 하단 여백 |
+| sm  | 60px  | 모바일 섹션 상하 패딩 |
+| md  | 80px  | 태블릿 섹션 상하 패딩 |
+| lg  | 100px | 데스크탑 섹션 상하 패딩 |
+| xl  | 120px | 마지막 섹션 하단 여백 — 모바일 (`pb-section-xl`) |
+| xxl | 160px | 마지막 섹션 하단 여백 — 태블릿 (`md:pb-section-xxl`) |
+| 3xl | 200px | 마지막 섹션 하단 여백 — 데스크탑 (`lg:pb-section-3xl`) |
 
 ### 컨테이너
 
@@ -651,7 +655,9 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 
 ### 여백 철학
 
-전체 너비 섹션과 제한된 `section-shell` 내부 콘텐츠가 리듬을 만듭니다. About 페이지 섹션은 데스크탑에서 100px 상하 패딩(`section-lg`)을 기준으로 — 스캔하기에 충분히 촘촘하고 교리적 블록을 구분하기에 충분히 넉넉합니다. 200px 하단 패딩(`section-xl`)은 긴 다중 섹션 페이지의 마지막 섹션에만 적용하여 푸터 전 시각적 여유를 줍니다.
+전체 너비 섹션과 제한된 `section-shell` 내부 콘텐츠가 리듬을 만듭니다. About 페이지 섹션은 데스크탑에서 100px 상하 패딩(`section-lg`)을 기준으로 — 스캔하기에 충분히 촘촘하고 교리적 블록을 구분하기에 충분히 넉넉합니다.
+
+긴 다중 섹션 페이지의 마지막 섹션 하단 여백은 반응형으로 적용합니다: 모바일 120px(`pb-section-xl`) / 태블릿 160px(`md:pb-section-xxl`) / 데스크탑 200px(`lg:pb-section-3xl`). 이를 통해 해상도별 푸터 전 시각적 여유를 적절히 확보합니다.
 
 모바일 섹션은 상하 60px 기본 패딩(`section-sm`)으로 압축됩니다. 카드는 `pad-*` 토큰으로 수평·수직 내부 패딩을 관리하며 가독성을 유지합니다.
 
@@ -767,7 +773,7 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 | 예배 안내 | 스택 카드 | 가로 스크롤 테이블 |
 | 버스 노선 | 스택 노선 카드 | 가로 스크롤 테이블 |
 | 부흥 조직도 | 스와이프 탭 패널 | 사이드 탭 레일 + 콘텐츠 패널 |
-| 섹션 패딩 | 상하 80px 기본 | 상단 100px / 하단 200px |
+| 섹션 패딩 | 상하 60px 기본 / 마지막 하단 120px | 상단 80–100px / 마지막 하단 160–200px |
 | 셸 패딩 | 16px | 32px |
 
 모바일 원칙:
