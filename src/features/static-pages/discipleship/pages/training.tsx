@@ -429,7 +429,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="disciples-class-structure-title" className="mt-20 md:mt-20">
+    <section aria-labelledby="disciples-class-structure-title" className="flex flex-col gap-8">
       <SectionHeading
         id="disciples-class-structure-title"
         label="class structure"
@@ -437,7 +437,7 @@ function ClassStructureSection() {
         className="max-w-none"
       />
 
-      <div className="mt-8">
+      <div>
         <div className="flex h-[9px] w-full overflow-hidden rounded-full">
           {classStructure.map((item, index) => {
             const edgeClassName =
@@ -512,67 +512,64 @@ function ScheduleCard({
 export default function DiscipleshipTrainingStaticPage() {
   return (
     <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
-      <section aria-labelledby="disciples-intro-title">
-        <SectionHeading
-          id="disciples-intro-title"
-          label="discipleship"
-          title="제자훈련"
-          description="Discipleship Training"
-          titleAs="h1"
-        />
+      <div className="flex flex-col gap-20">
+        <section aria-labelledby="disciples-intro-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="disciples-intro-title"
+            label="discipleship"
+            title="제자훈련"
+            description="Discipleship Training"
+            titleAs="h1"
+          />
 
-        <div className="mt-8">
           <QuoteCard />
-        </div>
-      </section>
+        </section>
 
-      <section aria-labelledby="disciples-principles-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="disciples-principles-title"
-          label="philosophy"
-          title="제자훈련의 3대 원리"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-principles-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="disciples-principles-title"
+            label="philosophy"
+            title="제자훈련의 3대 원리"
+            className="max-w-none"
+          />
 
-        <div className="mt-8">
-          {discipleshipPrinciples.map((principle) => (
-            <PrincipleItem key={principle.number} {...principle} />
-          ))}
-        </div>
-      </section>
+          <div>
+            {discipleshipPrinciples.map((principle) => (
+              <PrincipleItem key={principle.number} {...principle} />
+            ))}
+          </div>
+        </section>
 
-      <section aria-labelledby="disciples-roadmap-title" className="mt-20 md:mt-20">
-        <Roadmap />
-      </section>
+        <section aria-labelledby="disciples-roadmap-title">
+          <Roadmap />
+        </section>
 
-      <section aria-labelledby="disciples-curriculum-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="disciples-curriculum-title"
-          label="curriculum"
-          title="단계별 교육 과정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-curriculum-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="disciples-curriculum-title"
+            label="curriculum"
+            title="단계별 교육 과정"
+            className="max-w-none"
+          />
 
-        <div className="mt-6">
           <CurriculumStageTabs />
-        </div>
-      </section>
+        </section>
 
-      <ClassStructureSection />
+        <ClassStructureSection />
 
-      <section aria-labelledby="disciples-schedule-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="disciples-schedule-title"
-          label="schedule"
-          title="훈련 일정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-schedule-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="disciples-schedule-title"
+            label="schedule"
+            title="훈련 일정"
+            className="max-w-none"
+          />
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <ScheduleCard title="연간 일정" items={annualSchedule} />
-          <ScheduleCard title="주간 일정" items={weeklySchedule} />
-        </div>
-      </section>
+          <div className="grid gap-6 md:grid-cols-2">
+            <ScheduleCard title="연간 일정" items={annualSchedule} />
+            <ScheduleCard title="주간 일정" items={weeklySchedule} />
+          </div>
+        </section>
 
       {/*
       <section
@@ -603,6 +600,7 @@ export default function DiscipleshipTrainingStaticPage() {
         </div>
       </section>
       */}
+      </div>
     </main>
   );
 }

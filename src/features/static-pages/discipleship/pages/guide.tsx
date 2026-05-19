@@ -72,7 +72,7 @@ const newcomerFaqItems = [
 
 function ScriptureQuoteCard() {
   return (
-    <aside className="relative mt-8 w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
       <p className="type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
         이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
@@ -206,7 +206,7 @@ function FaqList() {
 
 function ContactSection() {
   return (
-    <section className="mt-20 md:mt-20" aria-labelledby="newcomer-contact-title">
+    <section aria-labelledby="newcomer-contact-title">
       <div className="rounded-[8px] bg-[#2a123c] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
         <div className="flex flex-col gap-4">
           <div>
@@ -248,78 +248,78 @@ function ContactSection() {
 export default function DiscipleshipGuideStaticPage() {
   return (
     <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
-      <section aria-labelledby="newcomer-intro-title">
-        <SectionHeading
-          id="newcomer-intro-title"
-          label="newcomer"
-          title="새가족 안내"
-          description="Newcomer Guide"
-          titleAs="h1"
-        />
+      <div className="flex flex-col gap-20">
+        <section aria-labelledby="newcomer-intro-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-intro-title"
+            label="newcomer"
+            title="새가족 안내"
+            description="Newcomer Guide"
+            titleAs="h1"
+          />
 
-        <ScriptureQuoteCard />
+          <ScriptureQuoteCard />
 
-        <div className="mt-6 w-full">
-          {newcomerIntroParagraphs.map((paragraph) => (
-            <p key={paragraph} className="type-body-md text-[#4A3B5E]">
-              {paragraph}
+          <div className="w-full">
+            {newcomerIntroParagraphs.map((paragraph) => (
+              <p key={paragraph} className="type-body-md text-[#4A3B5E]">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </section>
+
+        <section aria-labelledby="newcomer-vision-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-vision-title"
+            label="church vision"
+            title="행복이 가득한 시온교회는?"
+            className="max-w-none"
+          />
+
+          <div className="flex flex-col gap-10">
+            <p className="type-body-md max-w-[787px] text-[#4A3B5E]">
+              우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
+              향해 나아가는 교회입니다.
             </p>
-          ))}
-        </div>
-      </section>
 
-      <section aria-labelledby="newcomer-vision-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="newcomer-vision-title"
-          label="church vision"
-          title="행복이 가득한 시온교회는?"
-          className="max-w-none"
-        />
+            <CoreValueList />
+          </div>
+        </section>
 
-        <p className="type-body-md mt-5 max-w-[787px] text-[#4A3B5E]">
-          우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
-          향해 나아가는 교회입니다.
-        </p>
+        <section aria-labelledby="newcomer-getting-started-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-getting-started-title"
+            label="getting started"
+            title="새가족을 위한 안내"
+            className="max-w-none"
+          />
 
-        <div className="mt-10">
-          <CoreValueList />
-        </div>
-      </section>
+          <div className="space-y-4 md:space-y-4">
+            {gettingStartedSteps.map((step, index) => (
+              <TimelineStep
+                key={step.number}
+                {...step}
+                surfaceClassName={index % 2 === 1 ? "bg-white" : "bg-[#f5f0f9]"}
+                isFirst={index === 0}
+                isLast={index === gettingStartedSteps.length - 1}
+              />
+            ))}
+          </div>
+        </section>
 
-      <section aria-labelledby="newcomer-getting-started-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="newcomer-getting-started-title"
-          label="getting started"
-          title="새가족을 위한 안내"
-          className="max-w-none"
-        />
-
-        <div className="mt-8 space-y-4 md:space-y-4">
-          {gettingStartedSteps.map((step, index) => (
-            <TimelineStep
-              key={step.number}
-              {...step}
-              surfaceClassName={index % 2 === 1 ? "bg-white" : "bg-[#f5f0f9]"}
-              isFirst={index === 0}
-              isLast={index === gettingStartedSteps.length - 1}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section aria-labelledby="newcomer-faq-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="newcomer-faq-title"
-          label="faq"
-          title="자주 묻는 질문"
-          className="max-w-none"
-        />
-        <div className="mt-8">
+        <section aria-labelledby="newcomer-faq-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-faq-title"
+            label="faq"
+            title="자주 묻는 질문"
+            className="max-w-none"
+          />
           <FaqList />
-        </div>
-      </section>
+        </section>
 
-      <ContactSection />
+        <ContactSection />
+      </div>
     </main>
   );
 }

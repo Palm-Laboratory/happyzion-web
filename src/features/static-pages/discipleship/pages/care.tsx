@@ -201,7 +201,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="newcomer-care-structure-title" className="mt-20 md:mt-20">
+    <section aria-labelledby="newcomer-care-structure-title" className="flex flex-col gap-8">
       <SectionHeading
         id="newcomer-care-structure-title"
         label="class structure"
@@ -209,7 +209,7 @@ function ClassStructureSection() {
         className="max-w-none"
       />
 
-      <div className="mt-8">
+      <div>
         <div className="flex h-[9px] w-full overflow-hidden rounded-full">
           {classStructure.map((item, index) => {
             const edgeClassName =
@@ -268,54 +268,53 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
 export default function DiscipleshipCareStaticPage() {
   return (
     <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
-      <section aria-labelledby="newcomer-care-intro-title">
-        <SectionHeading
-          id="newcomer-care-intro-title"
-          label="5 weeks"
-          title="새가족 양육"
-          description="Newcomer Care"
-          titleAs="h1"
-        />
-        <div className="mt-8">
+      <div className="flex flex-col gap-20">
+        <section aria-labelledby="newcomer-care-intro-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-care-intro-title"
+            label="5 weeks"
+            title="새가족 양육"
+            description="Newcomer Care"
+            titleAs="h1"
+          />
           <QuoteCard />
-        </div>
-      </section>
+        </section>
 
-      <section aria-labelledby="newcomer-care-overview-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="newcomer-care-overview-title"
-          label="overview"
-          title="과정 개요"
-          className="max-w-none"
-        />
+        <section aria-labelledby="newcomer-care-overview-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-care-overview-title"
+            label="overview"
+            title="과정 개요"
+            className="max-w-none"
+          />
 
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
-          {overviewStats.map((stat) => (
-            <OverviewStat key={stat.label} {...stat} />
-          ))}
-        </div>
+          <div className="flex flex-col gap-5">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
+              {overviewStats.map((stat) => (
+                <OverviewStat key={stat.label} {...stat} />
+              ))}
+            </div>
 
-        <p className="type-body-md mt-[18px] max-w-[727px] text-[#4A3B5E]">
-          새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
-          <br className="hidden md:block" />
-          소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
-        </p>
-      </section>
+            <p className="type-body-md max-w-[727px] text-[#4A3B5E]">
+              새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
+              <br className="hidden md:block" />
+              소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
+            </p>
+          </div>
+        </section>
 
-      <section aria-labelledby="newcomer-care-curriculum-title" className="mt-20 md:mt-20">
-        <SectionHeading
-          id="newcomer-care-curriculum-title"
-          label="curriculum"
-          title="5주 교육 일정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="newcomer-care-curriculum-title" className="flex flex-col gap-8">
+          <SectionHeading
+            id="newcomer-care-curriculum-title"
+            label="curriculum"
+            title="5주 교육 일정"
+            className="max-w-none"
+          />
 
-        <div className="mt-8">
           <CurriculumTable />
-        </div>
-      </section>
+        </section>
 
-      <ClassStructureSection />
+        <ClassStructureSection />
 
       {/*
       <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-20">
@@ -377,6 +376,7 @@ export default function DiscipleshipCareStaticPage() {
         </div>
       </section>
       */}
+      </div>
     </main>
   );
 }

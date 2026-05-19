@@ -52,22 +52,27 @@ const serviceTimes: ServiceTime[] = [
   },
 ];
 
-function MobileServiceCard({ title, schedule, location, audience }: ServiceTime) {
+function MobileServiceCard({
+  title,
+  schedule,
+  location,
+  audience,
+}: ServiceTime) {
   return (
-    <article className="rounded-[8px] border border-[#8b6db5]/18 bg-white px-5 py-5 shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-title-md font-bold text-black">{title}</h3>
-      <dl className="type-body-xs mt-4 space-y-3">
-        <div className="flex items-start justify-between gap-4 border-b border-[#8b6db5]/12 pb-3">
+    <article className="border-[#8b6db5]/18 flex flex-col gap-comp-base rounded-[8px] border bg-white px-pad-sm py-pad-sm shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
+      <h3 className="type-title-md font-medium text-black">{title}</h3>
+      <dl className="type-body-xs flex flex-col gap-comp-md">
+        <div className="border-[#8b6db5]/12 flex items-start justify-between gap-comp-base border-b pb-comp-md">
           <dt className="shrink-0 font-semibold text-black/70">시간</dt>
-          <dd className="text-right font-medium text-black/88">{schedule}</dd>
+          <dd className="text-black/88 text-right font-medium">{schedule}</dd>
         </div>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-comp-base">
           <dt className="shrink-0 font-semibold text-black/70">장소</dt>
-          <dd className="text-right font-medium text-black/88">{location}</dd>
+          <dd className="text-black/88 text-right font-medium">{location}</dd>
         </div>
-        <div className="flex items-start justify-between gap-4 border-t border-[#8b6db5]/12 pt-3">
+        <div className="border-[#8b6db5]/12 flex items-start justify-between gap-comp-base border-t pt-comp-md">
           <dt className="shrink-0 font-semibold text-black/70">대상</dt>
-          <dd className="text-right font-medium text-black/88">{audience}</dd>
+          <dd className="text-black/88 text-right font-medium">{audience}</dd>
         </div>
       </dl>
     </article>
@@ -79,34 +84,37 @@ function ServiceTimesTable() {
     <div className="hidden overflow-x-auto border-x border-b border-t-[3px] border-[#5d3d8a]/15 border-t-[#33103f] bg-white md:block">
       <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
         <thead>
-          <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-            <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+          <tr className="border-[#8b6db5]/12 border-b bg-[#FAF7FF]">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[24%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
               구분
             </th>
-            <th className="type-title-xs font-suit font-bold w-[30%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[30%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
               요일 / 시간
             </th>
-            <th className="type-title-xs font-suit font-bold w-[23%] border-r border-[#8b6db5]/12 px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[23%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
               장소
             </th>
-            <th className="type-title-xs font-suit font-bold px-4 py-4 text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-6 lg:py-5">
+            <th className="type-title-xs font-suit px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
               대상
             </th>
           </tr>
         </thead>
         <tbody>
           {serviceTimes.map((service) => (
-            <tr key={service.title} className="border-b border-[#8b6db5]/12 last:border-b-0">
-              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-bold text-[#33103f] lg:px-6 lg:py-6">
+            <tr
+              key={service.title}
+              className="border-[#8b6db5]/12 border-b last:border-b-0"
+            >
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
                 {service.title}
               </td>
-              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.schedule}
               </td>
-              <td className="type-body-md border-r border-[#8b6db5]/12 px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.location}
               </td>
-              <td className="type-body-md px-4 py-5 text-center font-medium text-[#4A3B5E] lg:px-6 lg:py-6">
+              <td className="type-body-md px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.audience}
               </td>
             </tr>
@@ -119,8 +127,8 @@ function ServiceTimesTable() {
 
 export default function ServiceTimesStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px]">
-      <section>
+    <main className="section-shell section-shell--narrow bg-white py-section-sm md:py-section-md lg:py-section-lg">
+      <section className="flex flex-col gap-layout-lg">
         <SectionHeading
           label="service times"
           title="예배 시간 안내"
@@ -128,8 +136,8 @@ export default function ServiceTimesStaticPage() {
           titleAs="h1"
         />
 
-        <div className="mt-10 md:mt-12">
-          <div className="space-y-4 md:hidden">
+        <div>
+          <div className="flex flex-col gap-layout-sm md:hidden">
             {serviceTimes.map((service) => (
               <MobileServiceCard key={service.title} {...service} />
             ))}

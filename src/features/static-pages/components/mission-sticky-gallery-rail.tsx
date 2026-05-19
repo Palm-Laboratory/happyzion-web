@@ -47,11 +47,11 @@ function MissionGalleryCard({
         isActive ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
-      <div className="flex h-10 items-center justify-between bg-[#1e1035] px-5 py-3">
+      <div className="flex h-10 items-center justify-between bg-[#1e1035] px-pad-sm py-pad-xxs">
         <figcaption className="type-label-lg font-black text-[#c9a96e]">
           {gallery.countries.join(" · ")}
         </figcaption>
-        <div className="flex items-center gap-2" aria-hidden="true">
+        <div className="flex items-center gap-comp-sm" aria-hidden="true">
           {Array.from({ length: galleryCount }).map((_, index) => (
             <span
               className={`h-1.5 w-1.5 rounded-full transition-colors duration-500 ${
@@ -62,7 +62,7 @@ function MissionGalleryCard({
           ))}
         </div>
       </div>
-      <div className="grid h-[calc(100%_-_40px)] grid-cols-2 grid-rows-[minmax(0,2.5fr)_minmax(0,1fr)] gap-0.5">
+      <div className="grid h-[calc(100%_-_40px)] grid-cols-2 grid-rows-[minmax(0,2.5fr)_minmax(0,1fr)] gap-layout-xs">
         <div className="relative col-span-2 min-h-0 w-full">
           <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 400px, 300px" />
         </div>
