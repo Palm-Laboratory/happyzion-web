@@ -27,7 +27,11 @@ export default function MemberDetailClient({
         initialValues={initialValues}
         action={updateChurchMemberAction.bind(null, memberId)}
       />
-      <AuditLogList memberId={memberId} initialPage={initialAuditPage} />
+      <AuditLogList
+        key={`${initialAuditPage.items.length}-${initialAuditPage.items[0]?.id ?? 0}`}
+        memberId={memberId}
+        initialPage={initialAuditPage}
+      />
       {!isRemoved && (
         <DeleteMemberButton memberId={memberId} memberName={memberName} />
       )}
