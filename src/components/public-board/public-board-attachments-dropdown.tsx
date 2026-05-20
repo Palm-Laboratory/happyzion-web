@@ -118,7 +118,7 @@ export default function PublicBoardAttachmentsDropdown({
           <span>첨부파일 다운로드</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[320px] p-2">
+      <DropdownMenuContent align="end" className="min-w-[320px] rounded-2xl bg-white p-2 shadow-lg">
         <DropdownMenuLabel className="px-3 pt-3 pb-2">첨부 파일</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
