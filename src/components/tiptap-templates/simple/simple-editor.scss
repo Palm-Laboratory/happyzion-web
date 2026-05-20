@@ -43,8 +43,10 @@ body {
 
 .simple-editor-wrapper[data-contained="true"] {
   width: 100%;
+  height: auto;
   min-height: 520px;
-  overflow: visible;
+  max-height: 640px;
+  overflow-y: auto;
   border: 1px solid var(--tt-gray-light-a-200);
   border-radius: 0.75rem;
 }

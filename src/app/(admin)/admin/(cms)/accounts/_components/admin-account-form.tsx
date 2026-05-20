@@ -40,6 +40,7 @@ interface AdminAccountFormProps {
   mode: "new" | "edit";
   item?: AdminAccount;
   isSelf?: boolean;
+  isSuperAdmin?: boolean;
   createAction: (prev: AdminAccountFormState, formData: FormData) => Promise<AdminAccountFormState>;
   updateAction?: (prev: AdminAccountFormState, formData: FormData) => Promise<AdminAccountFormState>;
   deleteAction?: () => Promise<void>;
@@ -49,6 +50,7 @@ export default function AdminAccountForm({
   mode,
   item,
   isSelf = false,
+  isSuperAdmin = false,
   createAction,
   updateAction,
   deleteAction,
@@ -99,7 +101,7 @@ export default function AdminAccountForm({
               <Label htmlFor="username" required={mode === "new"}>아이디</Label>
               {mode === "edit" ? (
                 <>
-                  {isSelf ? (
+                  {(isSelf || isSuperAdmin) ? (
                     <>
                       <input
                         id="username"
@@ -109,7 +111,7 @@ export default function AdminAccountForm({
                         defaultValue={item?.username ?? ""}
                         className={`${inputCls(!!state.errors?.username)} font-mono`}
                       />
-                      <p className="mt-1.5 text-[11px] text-[#8fa3bb]">본인 계정은 아이디를 변경할 수 있습니다.</p>
+                      <p className="mt-1.5 text-[11px] text-[#8fa3bb]">아이디를 변경할 수 있습니다.</p>
                     </>
                   ) : (
                     <>

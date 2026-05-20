@@ -201,15 +201,18 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
             />
             <FieldError msg={fieldError("birthDate")} />
           </div>
-        </div>
-      </section>
-
-      {/* ── Section 2: 연락·주소 ── */}
-      <section className="overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
-        <div className="border-b border-[#f0f4f8] px-6 py-4">
-          <h2 className="text-[14px] font-bold text-[#0f1c2e]">연락·주소</h2>
-        </div>
-        <div className="grid gap-5 px-6 py-5 sm:grid-cols-2">
+          {/* 직업 */}
+          <div>
+            <Label htmlFor="job">직업</Label>
+            <input
+              id="job"
+              name="job"
+              type="text"
+              placeholder="직업 (선택)"
+              defaultValue={values?.job ?? ""}
+              className={inputCls(false)}
+            />
+          </div>
           {/* 휴대전화 */}
           <div>
             <Label htmlFor="phone" required>휴대전화</Label>
@@ -278,7 +281,7 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
         </div>
       </section>
 
-      {/* ── Section 3: 교회 정보 ── */}
+      {/* ── Section 2: 교회 정보 ── */}
       <section className="overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
         <div className="border-b border-[#f0f4f8] px-6 py-4">
           <h2 className="text-[14px] font-bold text-[#0f1c2e]">교회 정보</h2>
@@ -360,18 +363,6 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
               ))}
             </select>
           </div>
-          {/* 직업 */}
-          <div>
-            <Label htmlFor="job">직업</Label>
-            <input
-              id="job"
-              name="job"
-              type="text"
-              placeholder="직업 (선택)"
-              defaultValue={values?.job ?? ""}
-              className={inputCls(false)}
-            />
-          </div>
           {/* 메모 */}
           <div className="sm:col-span-2">
             <Label htmlFor="memo">메모</Label>
@@ -396,35 +387,11 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
             <span className="text-[11px] text-[#8fa3bb] hidden group-open:block">접기</span>
           </summary>
           <div className="grid gap-5 px-6 py-5 sm:grid-cols-2">
-            {/* 영접일 */}
-            <div>
-              <Label htmlFor="confessDate">영접일</Label>
-              <DateTextInput id="confessDate" name="confessDate" defaultValue={values?.confessDate ?? ""} hasError={fieldHasError("confessDate")} onChange={() => markDirty("confessDate")} />
-              <FieldError msg={fieldError("confessDate")} />
-            </div>
-            {/* 등록교육 수료일 */}
-            <div>
-              <Label htmlFor="learningDate">등록교육 수료일</Label>
-              <DateTextInput id="learningDate" name="learningDate" defaultValue={values?.learningDate ?? ""} hasError={fieldHasError("learningDate")} onChange={() => markDirty("learningDate")} />
-              <FieldError msg={fieldError("learningDate")} />
-            </div>
             {/* 세례일 */}
             <div>
               <Label htmlFor="baptismDate">세례일</Label>
               <DateTextInput id="baptismDate" name="baptismDate" defaultValue={values?.baptismDate ?? ""} hasError={fieldHasError("baptismDate")} onChange={() => markDirty("baptismDate")} />
               <FieldError msg={fieldError("baptismDate")} />
-            </div>
-            {/* 세례 장소 */}
-            <div>
-              <Label htmlFor="baptismPlace">세례 장소</Label>
-              <input
-                id="baptismPlace"
-                name="baptismPlace"
-                type="text"
-                placeholder="세례 장소"
-                defaultValue={values?.baptismPlace ?? ""}
-                className={inputCls(false)}
-              />
             </div>
             {/* 세례 집례자 */}
             <div>
@@ -437,12 +404,6 @@ export default function MemberForm({ action, initialValues, mode = "create" }: M
                 defaultValue={values?.baptismOfficiant ?? ""}
                 className={inputCls(false)}
               />
-            </div>
-            {/* 입교일 */}
-            <div>
-              <Label htmlFor="confirmationDate">입교일</Label>
-              <DateTextInput id="confirmationDate" name="confirmationDate" defaultValue={values?.confirmationDate ?? ""} hasError={fieldHasError("confirmationDate")} onChange={() => markDirty("confirmationDate")} />
-              <FieldError msg={fieldError("confirmationDate")} />
             </div>
             {/* 전 교회 */}
             <div>

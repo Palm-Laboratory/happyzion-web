@@ -105,6 +105,7 @@ export default async function AdminAccountDetailPage({ params }: AdminAccountDet
         mode="edit"
         item={account}
         isSelf={isSelf}
+        isSuperAdmin={session.user.accountRole === "SUPER_ADMIN"}
         createAction={createAdminAccountAction}
         updateAction={boundUpdateAction}
         deleteAction={isSelf ? undefined : boundDeleteAction}
