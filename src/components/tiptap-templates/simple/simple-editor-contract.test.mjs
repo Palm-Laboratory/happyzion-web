@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const editorPath = path.join(here, "simple-editor.tsx");
+const editorStylePath = path.join(here, "simple-editor.scss");
+const buttonPath = path.join(here, "..", "..", "tiptap-ui-primitive", "button", "button.tsx");
 const rendererPath = path.join(here, "..", "..", "public-board", "public-board-renderer.tsx");
 
 async function readEditor() {
@@ -31,6 +33,27 @@ function assertRendererSupportsNode(contents, node) {
     `Expected public board renderer to support the ${node} node.`,
   );
 }
+
+test("SimpleEditor loads the Tiptap design variables used for selection and toolbar state", async () => {
+  const contents = await readFile(editorStylePath, "utf8");
+
+  assert.match(
+    contents,
+    /@use\s+["']\.\.\/\.\.\/\.\.\/styles\/variables["']/,
+    "Expected SimpleEditor styles to import the Tiptap CSS variables.",
+  );
+});
+
+test("Tiptap toolbar buttons preserve the editor text selection on mouse click", async () => {
+  const contents = await readFile(buttonPath, "utf8");
+
+  assert.match(contents, /onMouseDown/, "Expected Tiptap buttons to handle mouse down.");
+  assert.match(
+    contents,
+    /event\.preventDefault\(\)/,
+    "Expected Tiptap buttons to prevent focus loss before toolbar commands run.",
+  );
+});
 
 test("SimpleEditor registers link and underline extensions for the visible toolbar controls", async () => {
   const contents = await readEditor();

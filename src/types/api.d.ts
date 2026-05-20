@@ -148,6 +148,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/sms/send": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["send"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/sms/send-bulk": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["sendBulk"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/site/main-video": {
         parameters: {
             query?: never;
@@ -396,6 +428,38 @@ export interface paths {
             cookie?: never;
         };
         get: operations["getVideos"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/sms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["listLogs"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/admin/sms/{smsLogId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getDetail"];
         put?: never;
         post?: never;
         delete?: never;
@@ -678,13 +742,59 @@ export interface components {
         };
         UploadTokenIssueRequest: {
             /** @enum {string} */
-            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO" | "MEMBER_PHOTO";
             /** Format: int64 */
             maxByteSize: number;
             allowedMimeTypes: string[];
         };
         UploadTokenIssueResponse: {
             rawToken: string;
+        };
+        RawRecipientDto: {
+            phone: string;
+            name?: string | null;
+        };
+        SmsSendRequest: {
+            body: string;
+            /** @enum {string} */
+            msgType: "SMS" | "LMS";
+            title?: string | null;
+            sender?: string | null;
+            testMode?: boolean | null;
+            /** Format: date */
+            scheduledDate?: string | null;
+            scheduledTime?: string | null;
+            churchMemberIds: number[];
+            rawRecipients: components["schemas"]["RawRecipientDto"][];
+            hasAnyRecipient: boolean;
+        };
+        SmsSendResponse: {
+            /** Format: int64 */
+            smsLogId: number;
+            aligoMsgId?: string | null;
+            /** Format: int32 */
+            successCnt: number;
+            /** Format: int32 */
+            errorCnt: number;
+        };
+        BulkRowDto: {
+            /** Format: int64 */
+            churchMemberId?: number | null;
+            phone?: string | null;
+            name?: string | null;
+            message: string;
+            hasIdentifier: boolean;
+        };
+        SmsBulkSendRequest: {
+            /** @enum {string} */
+            msgType: "SMS" | "LMS";
+            rows: components["schemas"]["BulkRowDto"][];
+            title?: string | null;
+            sender?: string | null;
+            testMode?: boolean | null;
+            /** Format: date */
+            scheduledDate?: string | null;
+            scheduledTime?: string | null;
         };
         MainVideoSettingResponse: {
             videoUrl: string;
@@ -909,7 +1019,7 @@ export interface components {
             /** Format: int64 */
             id?: number | null;
             /** @enum {string} */
-            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO" | "MEMBER_PHOTO";
             originalFilename: string;
             storedPath: string;
             publicUrl: string;
@@ -986,6 +1096,50 @@ export interface components {
             thumbnailUrl?: string | null;
             scriptureReference?: string | null;
         };
+        SmsLogPageResponse: {
+            items: components["schemas"]["SmsLogSummaryResponse"][];
+            hasNext: boolean;
+        };
+        SmsLogSummaryResponse: {
+            /** Format: int64 */
+            id: number;
+            aligoMsgId?: string | null;
+            /** @enum {string} */
+            msgType: "SMS" | "LMS";
+            sender: string;
+            title?: string | null;
+            /** Format: int32 */
+            totalCount: number;
+            /** Format: int32 */
+            successCount: number;
+            /** Format: int32 */
+            errorCount: number;
+            testMode: boolean;
+            /** Format: int64 */
+            requestedBy: number;
+            /** Format: date-time */
+            requestedAt: string;
+            /** Format: int32 */
+            aligoResultCode?: number | null;
+            aligoMessage?: string | null;
+        };
+        SmsLogDetailResponse: {
+            log: components["schemas"]["SmsLogSummaryResponse"];
+            recipients: components["schemas"]["SmsLogRecipientDetailResponse"][];
+            hasNextRecipient: boolean;
+        };
+        SmsLogRecipientDetailResponse: {
+            /** Format: int64 */
+            id: number;
+            phoneMasked: string;
+            name?: string | null;
+            message: string;
+            /** @enum {string} */
+            status: "PENDING" | "SENT" | "FAILED" | "UNKNOWN";
+            aligoSendState?: string | null;
+            /** Format: int64 */
+            churchMemberId?: number | null;
+        };
         MissionAdminListYearsResponse: {
             years: components["schemas"]["MissionAdminYearSummaryResponse"][];
         };
@@ -1045,7 +1199,7 @@ export interface components {
             /** Format: int64 */
             id?: number | null;
             /** @enum {string} */
-            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+            kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO" | "MEMBER_PHOTO";
             originalFilename: string;
             storedPath: string;
             mimeType?: string | null;
@@ -1419,7 +1573,7 @@ export interface operations {
     upload: {
         parameters: {
             query: {
-                kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO";
+                kind: "INLINE_IMAGE" | "FILE_ATTACHMENT" | "MAIN_VIDEO" | "MEMBER_PHOTO";
             };
             header: {
                 "X-Upload-Token": string;
@@ -1467,6 +1621,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["UploadTokenIssueResponse"];
+                };
+            };
+        };
+    };
+    send: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SmsSendRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmsSendResponse"];
+                };
+            };
+        };
+    };
+    sendBulk: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SmsBulkSendRequest"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmsSendResponse"];
                 };
             };
         };
@@ -1927,6 +2129,54 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["AdminVideoListResponse"];
+                };
+            };
+        };
+    };
+    listLogs: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmsLogPageResponse"];
+                };
+            };
+        };
+    };
+    getDetail: {
+        parameters: {
+            query?: {
+                page?: number;
+                pageSize?: number;
+            };
+            header?: never;
+            path: {
+                smsLogId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["SmsLogDetailResponse"];
                 };
             };
         };
