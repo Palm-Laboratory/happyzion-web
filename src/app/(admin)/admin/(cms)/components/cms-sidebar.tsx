@@ -46,6 +46,19 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/mission-history",
+        label: "선교 이력 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M8.5 2.75c0 0-2.5 2-2.5 5.75s2.5 5.75 2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M8.5 2.75c0 0 2.5 2 2.5 5.75s-2.5 5.75-2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M2.75 8.5h11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/videos",
         label: "영상 관리",
         exact: false,
@@ -82,18 +95,22 @@ const NAV_GROUPS = [
         ),
       },
       {
-        href: "/admin/mission-history",
-        label: "선교 이력 관리",
+        href: "/admin/accounts",
+        label: "관리자 계정",
         exact: false,
+        requireSuperAdmin: true,
         icon: (
           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M8.5 2.75c0 0-2.5 2-2.5 5.75s2.5 5.75 2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M8.5 2.75c0 0 2.5 2 2.5 5.75s-2.5 5.75-2.5 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M2.75 8.5h11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M8.5 9.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M3 14.3c.9-2 3.1-3.3 5.5-3.3s4.6 1.3 5.5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         ),
       },
+    ],
+  },
+  {
+    label: "교회 관리",
+    items: [
       {
         href: "/admin/members",
         label: "교인 관리",
@@ -103,18 +120,6 @@ const NAV_GROUPS = [
             <path d="M6.5 9.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" strokeWidth="1.5" />
             <path d="M1.5 14c.8-2 2.8-3.3 5-3.3s4.2 1.3 5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             <path d="M12 7.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM15.5 14c-.6-1.5-2-2.5-3.5-2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-      },
-      {
-        href: "/admin/accounts",
-        label: "관리자 계정",
-        exact: false,
-        requireSuperAdmin: true,
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M8.5 9.2a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2Z" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M3 14.3c.9-2 3.1-3.3 5.5-3.3s4.6 1.3 5.5 3.3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
         ),
       },
@@ -216,11 +221,12 @@ export default function CmsSidebar({ canManageAccounts }: CmsSidebarProps) {
                       </Link>
 
                       {item.children ? (
-                        <ul className="space-y-0.5 pl-6">
+                        <ul className="ml-[22px] space-y-0.5 border-l border-white/[0.2] pl-3">
                           {item.children.map((child) => {
                             const childActive = isMatching(child);
                             return (
-                              <li key={child.href}>
+                              <li key={child.href} className="relative">
+                                <span className="absolute -left-3 top-[18px] h-px w-3 bg-white/20" />
                                 <Link
                                   href={child.href}
                                   className={`flex items-center rounded-lg px-3 py-2 text-[12px] font-medium transition-colors duration-100 ${childActive
