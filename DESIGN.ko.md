@@ -46,7 +46,7 @@ colors:
   dark-label: "#FDF4FF"
   dark-body: "#FFFFFF"
   dark-body-alt: "#FDF8FF"
-  dark-body-muted: "rgba(255,255,255,0.8)"
+  dark-body-muted: "#ffffff/80"
   dark-accent: "#E3BFFF"
 
   # 포인트 컬러
@@ -60,26 +60,28 @@ colors:
   icon-circle: "#DCCEE4"
 
   # 보더 (주요 사용)
-  border-soft: "rgba(61,26,70,0.12)"
-  border-purple-12: "rgba(139,109,181,0.12)"
-  border-purple-18: "rgba(139,109,181,0.18)"
-  border-purple-25: "rgba(139,109,181,0.25)"
-  border-dark-purple-15: "rgba(93,61,138,0.15)"
-  border-accent-15: "rgba(227,191,255,0.15)"
-  border-accent-50: "rgba(227,191,255,0.5)"
+  border-soft: "#3d1a46/12"
+  border-purple-12: "#8b6db5/12"
+  border-purple-18: "#8b6db5/18"
+  border-purple-25: "#8b6db5/25"
+  border-dark-purple-5: "#5d3d8a/5"
+  border-dark-purple-15: "#5d3d8a/15"
+  border-dark-purple-25: "#5d3d8a/25"
+  border-accent-15: "#e3bfff/15"
+  border-accent-50: "#e3bfff/50"
   border-quote-light: "#510a75"
   border-quote-dark: "#6d5898"
 
   # 포커스
   focus-light: "#3d1a46"
-  focus-dark: "rgba(255,255,255,0.5)"
-  focus-gold: "rgba(201,169,110,0.7)"
+  focus-dark: "#ffffff/50"
+  focus-gold: "#c9a96e/70"
 
   # 푸터
   footer-social: "#2c1838"
   footer-social-hover: "#3a2148"
-  footer-text: "rgba(255,255,255,0.5)"
-  footer-text-muted: "rgba(255,255,255,0.3)"
+  footer-text: "#ffffff/50"
+  footer-text-muted: "#ffffff/30"
 
 typography:
   heading-xl:
@@ -199,6 +201,19 @@ typography:
     fontWeight: 500
     lineHeight: 1.8
     letterSpacing: 0.01em
+  quote-xs:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 1.75
+    letterSpacing: 0.01em
+  label-xl:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 16px
+    fontWeight: 300
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+    textTransform: uppercase
   label-lg:
     fontFamily: "Cormorant Infant, serif"
     fontSize: 14px
@@ -220,6 +235,25 @@ typography:
     lineHeight: 1.2
     letterSpacing: 0.08em
     textTransform: uppercase
+  nav-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: 0.01em
+    note: "활성 상태는 컴포넌트 레벨에서 font-weight: 700 오버라이드"
+  button-lg:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 18px
+    fontWeight: 600
+    lineHeight: 1.75
+    letterSpacing: 0.01em
+  button-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.75
+    letterSpacing: 0.01em
   caption-lg:
     fontFamily: "SUIT, sans-serif"
     fontSize: 18px
@@ -546,9 +580,14 @@ CSS 클래스는 `.type-{토큰}` 형식을 따릅니다(예: `.type-title-lg`).
 | {type.quote.lg} | 인용 텍스트 (대) | {font.serifKo} | 20px | 500 | 1.8 | 0.01em | — |
 | {type.quote.md} | 인용 텍스트 | {font.serifKo} | 18px | 500 | 1.8 | 0.01em | — |
 | {type.quote.sm} | 인용 텍스트 (소) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | 인용 텍스트 (극소) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | 레이블 (대) | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | uppercase |
 | {type.label.lg} | 섹션 아이브로 | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
 | {type.label.md} | 카드 레이블 | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
 | {type.label.sm} | 마이크로 레이블 | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
+| {type.nav.md} | 네비게이션 링크 | {font.sans} | 16px | 500 | 1 | 0.01em | 활성: weight 700 |
+| {type.button.lg} | 버튼 (대) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
+| {type.button.md} | 버튼 | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
 | {type.caption.lg} | 캡션 (대) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
 | {type.caption.md} | 캡션 | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
 | {type.counter.sm} | 카운터 숫자 (소) | {font.cormorant} | 20px | 400 | 0.75 | 0.04em | — |

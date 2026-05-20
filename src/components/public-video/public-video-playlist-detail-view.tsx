@@ -53,7 +53,7 @@ function DetailAccordion({
   content: string;
 }) {
   return (
-    <details className="group rounded-[16px] bg-[#f8fafd] px-[30px] open:pb-7">
+    <details className="group rounded-[16px] bg-[#fcf8ff] px-[30px] open:pb-7">
       <summary className="flex h-[60px] cursor-pointer list-none items-center justify-between text-[#33103f]">
         <span className="font-semibold">{title}</span>
         <ChevronIcon className="h-4 w-4 transition group-open:rotate-180" />
@@ -114,7 +114,7 @@ export default function PublicVideoPlaylistDetailView({
             </div>
           </div>
 
-          <aside className="rounded-[16px] border border-[#33103f]/10 bg-[#f8fafd] p-[18px]">
+          <aside className="rounded-[16px] border border-[#33103f]/10 bg-[#fcf8ff] p-[18px]">
             <div className="flex items-center justify-between">
               <div className="space-y-[10px] text-[#33103f]">
                 <p className="text-[12px] font-normal uppercase tracking-[0.18em]">Related Videos</p>

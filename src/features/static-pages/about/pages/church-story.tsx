@@ -173,7 +173,7 @@ function TimelineContent({
   return (
     <article
       className={`flex min-w-0 flex-1 flex-col items-start gap-comp-lg pb-pad-4xl pl-pad-md pt-pad-md md:pl-pad-xxl ${
-        isLast ? "" : "border-b border-[#5d3d8a/15]"
+        isLast ? "" : "border-b border-[#5d3d8a]/15"
       }`}
     >
       <div className="flex flex-col gap-comp-sm">
@@ -260,7 +260,7 @@ export default function ChurchStoryStaticPage() {
     <main className="w-full overflow-x-hidden bg-white">
       <div className="section-shell section-shell--narrow flex flex-col items-start gap-section-sm pb-section-xl pt-section-sm md:gap-section-md md:pb-section-xxl md:pt-section-md lg:gap-section-lg lg:pb-section-3xl lg:pt-section-lg">
         <BeginningSection />
-        <div className="h-px w-full bg-[#5d3d8a/15]" />
+        <div className="h-px w-full bg-[#5d3d8a]/15" />
         <TimelineSection />
         <ClosingCallout />
       </div>

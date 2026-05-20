@@ -59,7 +59,7 @@ export default function Breadcrumb({
   };
 
   return (
-    <div className="flex w-full flex-col bg-[#f8fafd]">
+    <div className="flex w-full flex-col bg-[#f7f6f8]">
       <nav className="section-shell border-b border-[#33103F]/10 py-3" aria-label="Breadcrumb">
         <ol className="type-body-xs flex items-center justify-center gap-1.5">
           <li>

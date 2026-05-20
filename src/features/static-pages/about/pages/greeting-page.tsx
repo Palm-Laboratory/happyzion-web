@@ -101,7 +101,10 @@ function VisionList() {
           <h3 className="type-title-sm leading-none tracking-[0.01em] text-white">
             {item.title}
           </h3>
-          <p className="type-display-counter pointer-events-none absolute -top-3.5 left-4 text-[64px] leading-none tracking-[0.01em] text-[#4d1367]/10">
+          <p
+            className="pointer-events-none absolute -top-3.5 left-4 text-[64px] leading-none tracking-[0.01em] text-[#4d1367]/10"
+            style={{ fontFamily: "var(--font-corinthia), cursive" }}
+          >
             {item.number}
           </p>
         </article>
@@ -268,7 +271,7 @@ function ElderTeamSection() {
               key={`${person.label}-${person.name}`}
               className="flex min-w-0 items-center gap-layout-base rounded border border-white/10 bg-[#56385E] px-pad-sm py-pad-md"
             >
-              <div className="h-[88px] w-[72px] shrink-0 bg-[#d2c5db]" />
+              <div className="h-[88px] w-[72px] shrink-0 bg-[#f2ebf6]" />
               <div className="flex min-w-0 flex-col gap-comp-md">
                 <p
                   className="type-label-md leading-none text-[#c9a96e]"
