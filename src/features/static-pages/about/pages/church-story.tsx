@@ -186,7 +186,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
       {item.quote ? (
         <blockquote className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
           <p className="type-quote-md relative z-10 text-[#33103f]">
-            "{item.quote}"
+            &ldquo;{item.quote}&rdquo;
           </p>
           <span
             className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
