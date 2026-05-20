@@ -268,6 +268,7 @@ typography:
 spacing:
   component:
     gap:                  # Tailwind: gap-comp-{step}
+      3xs:  2px
       xxs:  4px
       xs:   6px
       sm:   8px
@@ -576,6 +577,7 @@ Tailwind class pattern: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout-{s
 
 | Step | Value | Role |
 | --- | ---: | --- |
+| 3xs | 2px | dense list minimum gap |
 | xxs | 4px | icon↔text micro gap |
 | xs | 6px | bullet dot↔text gap |
 | sm | 8px | label/chip gap, title↔description |

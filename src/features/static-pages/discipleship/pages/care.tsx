@@ -90,7 +90,7 @@ const applicationNotes = [
 function QuoteCard() {
   return (
     <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은
         지혜로운 사람 같으리니&quot;
       </p>
@@ -111,11 +111,11 @@ function QuoteCard() {
 function OverviewStat({ title, label }: { title: string; label: string }) {
   return (
     <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#f5f0f9] px-pad-xxs py-pad-sm text-center">
-      <div className="flex flex-col items-center gap-comp-md tracking-[0.04em]">
-        <p className="type-title-lg font-bold text-[#33103f]">
+      <div className="flex flex-col items-center gap-comp-sm md:gap-comp-md tracking-[0.04em]">
+        <p className="type-title-md md:type-title-lg font-bold text-[#33103f]">
           {title}
         </p>
-        <p className="type-body-md leading-none text-[#6F5576]">{label}</p>
+        <p className="type-body-sm md:type-body-md leading-none text-[#6F5576]">{label}</p>
       </div>
     </article>
   );
@@ -295,7 +295,7 @@ export default function DiscipleshipCareStaticPage() {
               ))}
             </div>
 
-            <p className="type-body-md max-w-[727px] text-[#4A3B5E]">
+            <p className="type-body-sm md:type-body-md max-w-[727px] text-[#4A3B5E]">
               새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
               <br className="hidden md:block" />
               소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.

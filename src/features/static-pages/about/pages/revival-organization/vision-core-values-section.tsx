@@ -4,8 +4,8 @@ import { coreValues } from "./revival-data";
 
 function VisionQuote() {
   return (
-    <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-lg py-pad-xxl md:px-pad-4xl md:py-pad-4xl">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+    <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-lg py-pad-base md:py-pad-xl md:px-pad-4xl">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         {
           "\u201c복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회\u201d"
         }
@@ -65,16 +65,18 @@ function CoreValueAccordion() {
         {coreValues.map((value) => (
           <article
             key={value.number}
-            className="border-[#8b6db5]/12 grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-comp-base border-b py-pad-sm last:border-b-0"
+            className="border-[#8b6db5]/12 flex items-start gap-comp-xl border-b py-pad-sm last:border-b-0"
           >
-            <p
-              className="text-[24px] italic leading-none text-[#c9a96e]"
-              style={{ fontFamily: "var(--font-cormorant), serif" }}
-            >
-              {value.number}
-            </p>
-            <h3 className="type-title-xs text-[#33103f]">{value.title}</h3>
-            <p className="type-body-xs text-[#4a3b5e]">{value.description}</p>
+            <div className="flex shrink-0 items-start gap-comp-base">
+              <p
+                className="w-[28px] shrink-0 text-[24px] italic leading-none text-[#c9a96e]"
+                style={{ fontFamily: "var(--font-cormorant), serif" }}
+              >
+                {value.number}
+              </p>
+              <h3 className="w-[96px] shrink-0 type-title-xs font-medium text-[#33103f]">{value.title}</h3>
+            </div>
+            <p className="min-w-0 flex-1 type-body-xs text-[#4a3b5e]">{value.description}</p>
           </article>
         ))}
       </div>
@@ -96,7 +98,7 @@ export default function VisionCoreValuesSection() {
         <div className="flex w-full flex-col items-start gap-layout-xl lg:gap-layout-xxl">
           <div className="flex w-full flex-col items-start gap-layout-md">
             <VisionQuote />
-            <div className="type-body-md w-full max-w-[900px] text-[#4a3b5e]">
+            <div className="type-body-sm md:type-body-md w-full max-w-[900px] text-[#4a3b5e]">
               <p>
                 시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와
                 열방을 섬기는

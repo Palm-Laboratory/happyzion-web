@@ -537,7 +537,7 @@ export default function SmallGroupsMinistrySection() {
             })}
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-layout-lg bg-[#f4f0f9] px-pad-sm py-pad-4xl md:px-pad-xxl md:py-pad-4xl lg:border-l lg:border-[#5d3d8a]/15">
+          <div className="flex min-w-0 flex-1 flex-col gap-layout-lg bg-[#f4f0f9] p-pad-lg md:px-pad-xxl md:py-pad-4xl lg:border-l lg:border-[#5d3d8a]/15">
             {selectedTabIndex === 0 ? (
               <SmallGroupPrinciplesContent
                 activeIndex={selectedTabIndex}

@@ -109,7 +109,7 @@ export default function OnlineGivingStaticPage() {
           description="Online Giving Information"
           titleAs="h1"
         />
-        <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
+        <ul className="type-body-sm md:type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
           <BulletItem>
             온라인 입금 시 정확한 본인 확인을 위해 아래 방법으로 입금자명을 기재해
             주세요.
@@ -125,23 +125,23 @@ export default function OnlineGivingStaticPage() {
 
           <div className="flex flex-col gap-comp-xl">
             <div className="flex flex-wrap items-center gap-comp-md">
-              <span className="type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-pad-md py-pad-3xs font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-pad-base">
+              <span className="type-title-lg md:type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-pad-md py-pad-3xs font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-pad-base">
                 이름
               </span>
-              <span className="type-title-xl font-light leading-none text-[#8b6db5]">
+              <span className="type-title-lg md:type-title-xl font-light leading-none text-[#8b6db5]">
                 +
               </span>
-              <span className="type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-pad-md py-pad-3xs font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-pad-base">
+              <span className="type-title-lg md:type-title-xl inline-flex min-h-11 items-center rounded-[6px] bg-[#2a123c] px-pad-md py-pad-3xs font-bold tracking-[-0.03em] text-white shadow-[0_12px_24px_rgba(51,16,63,0.14)] md:min-h-[54px] md:px-pad-base">
                 헌금종류 앞 두 글자
               </span>
             </div>
 
             <div className="flex flex-col gap-comp-md md:gap-comp-base border-t border-[#8b6db5]/18 pt-pad-base md:pt-pad-xl">
-              <p className="type-body-md font-medium text-[#4A3B5E]">
+              <p className="type-body-sm md:type-body-md font-medium text-[#4A3B5E]">
                 {senderNameExamples.description}
               </p>
 
-              <div className="flex flex-col gap-comp-xs md:gap-comp-md">
+              <div className="flex flex-col gap-comp-3xs md:gap-comp-md">
                 {senderNameExamples.items.map((item) => (
                   <div key={item.label} className="flex items-start gap-comp-base">
                     <svg
@@ -156,7 +156,7 @@ export default function OnlineGivingStaticPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="m13 6 6 6-6 6" />
                     </svg>
-                    <p className="type-body-md leading-[1.7]">
+                    <p className="type-body-sm md:type-body-md leading-[1.7]">
                       <span className="font-medium text-[#33103f]">{item.label}</span>{" "}
                       <strong className="font-medium text-[#bd6fe0]">{item.value}</strong>
                     </p>
@@ -169,10 +169,10 @@ export default function OnlineGivingStaticPage() {
       </section>
 
       <section>
-        <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
+        <ul className="type-body-sm md:type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
           <BulletItem>
             <span>헌금 종류 예시입니다.</span>
-            <ul className="flex flex-col gap-comp-xs md:gap-comp-sm pt-comp-md text-[#4A3B5E]">
+            <ul className="flex flex-col gap-comp-3xs md:gap-comp-sm pt-comp-md text-[#4A3B5E]">
               {offeringTypeExamples.map((item) => (
                 <li key={item.korean} className="flex items-start gap-comp-base">
                   <span className="mt-[0.72rem] block h-1.5 w-1.5 shrink-0 rounded-full bg-[#8b6db5]" />

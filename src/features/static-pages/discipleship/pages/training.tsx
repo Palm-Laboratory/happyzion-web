@@ -176,7 +176,7 @@ const applicationNotes = ["모든 교재 무료 제공", "이전 수료 과정 �
 function QuoteCard() {
   return (
     <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이
         또 다른 사람들을 가르칠 수 있으리라&quot;
       </p>
@@ -276,7 +276,7 @@ function Roadmap() {
                   }`}
                 >
                   <h3
-                    className={`type-title-xl ${
+                    className={`type-title-md md:type-title-lg ${
                       index === roadmapItems.length - 1 ? "text-white" : "text-[#33103f]"
                     }`}
                   >
@@ -297,7 +297,7 @@ function Roadmap() {
       </div>
 
       <div className="mt-4 md:mt-8 rounded-[8px] bg-[#f5f0f9] px-pad-sm py-pad-sm text-center">
-        <p className="type-body-md text-[#6F5576]">
+        <p className="type-body-sm md:type-body-md text-[#6F5576]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
           <span className="mx-3">·</span>
@@ -315,7 +315,7 @@ function CurriculumStageTabs() {
   return (
     <div className="flex flex-col gap-layout-md w-full">
       <div className="flex flex-col gap-layout-sm">
-        <p className="type-body-md text-[#4a3b5e]">
+        <p className="type-body-sm md:type-body-md text-[#4a3b5e]">
           대상: {selectedStage.target}
           <span className="mx-3 text-[#4a3b5e]">·</span>
           목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>

@@ -132,7 +132,7 @@ export default function MinistryTeamsSection() {
             })}
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-layout-lg bg-[#190b2a] p-pad-md md:p-pad-4xl">
+          <div className="flex min-w-0 flex-1 flex-col gap-layout-lg bg-[#190b2a] p-pad-lg md:p-pad-4xl">
             <div className="flex w-full min-w-0 flex-col gap-comp-sm">
               <div className="flex w-full items-start gap-comp-sm text-[#c9a96e]">
                 <span className="type-label-lg shrink-0 -translate-y-[0.5px]">

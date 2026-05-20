@@ -73,7 +73,7 @@ const newcomerFaqItems = [
 function ScriptureQuoteCard() {
   return (
     <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
         이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
       </p>
@@ -250,7 +250,7 @@ export default function DiscipleshipGuideStaticPage() {
 
           <div className="flex flex-col gap-comp-base w-full">
             {newcomerIntroParagraphs.map((paragraph) => (
-              <p key={paragraph} className="type-body-md text-[#4A3B5E]">
+              <p key={paragraph} className="type-body-sm md:type-body-md text-[#4A3B5E]">
                 {paragraph}
               </p>
             ))}
@@ -266,7 +266,7 @@ export default function DiscipleshipGuideStaticPage() {
           />
 
           <div className="flex flex-col gap-layout-md">
-            <p className="type-body-md max-w-[787px] text-[#4A3B5E]">
+            <p className="type-body-sm md:type-body-md max-w-[787px] text-[#4A3B5E]">
               우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
               향해 나아가는 교회입니다.
             </p>

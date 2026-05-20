@@ -81,17 +81,17 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
 
 function MissionCallout() {
   return (
-    <section className="w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-pad-md py-pad-4xl sm:px-pad-xl lg:px-pad-4xl">
+    <section className="w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
       <div className="flex flex-col gap-comp-xl">
         <div className="flex flex-col gap-comp-base">
           <p className="type-label-lg text-[#c9a96e]">The Mission Continues</p>
-          <h3 className="type-title-lg text-white">
+          <h3 className="type-title-md md:type-title-lg text-white">
             변함없는 20년의 선교,
             <br />
             시온장로교회는 오늘도 달려갑니다.
           </h3>
         </div>
-        <p className="type-caption-lg font-medium text-white/80">
+        <p className="type-body-sm md:type-body-md font-medium text-white/80">
           &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot; - 사도행전 1:8
         </p>
       </div>

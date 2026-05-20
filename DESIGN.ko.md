@@ -268,6 +268,7 @@ typography:
 spacing:
   component:
     gap:                  # Tailwind: gap-comp-{step}
+      3xs:  2px
       xxs:  4px
       xs:   6px
       sm:   8px
@@ -576,6 +577,7 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 
 | 단계 | 값 | 역할 |
 | --- | ---: | --- |
+| 3xs | 2px | 밀집 목록 최소 간격 |
 | xxs | 4px | 아이콘↔텍스트 마이크로 간격 |
 | xs | 6px | 불릿 점↔텍스트 간격 |
 | sm | 8px | 레이블·칩 간격, 타이틀↔설명 |

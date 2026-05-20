@@ -113,7 +113,7 @@ function VisionList() {
 function QuoteCard() {
   return (
     <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-lg py-pad-md">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         우리는 예수그리스도의 복음 때문에 교회가 세워졌고, 교회는 사람 살리는
         사역을 위해 최선을 다해 선교의 사명을 감당하고 있습니다.
       </p>
@@ -145,7 +145,7 @@ function IntroSection() {
 
         <div className="flex w-full flex-col gap-layout-lg">
           <div className="grid w-full min-[660px]:grid-cols-[minmax(0,1fr)_max-content] min-[660px]:items-start min-[660px]:gap-layout-base md:grid-cols-[minmax(0,1fr)_325px] md:gap-layout-md lg:gap-layout-xxl">
-            <div className="type-body-md flex min-w-0 max-w-[610px] flex-col gap-comp-xl text-[#4A3B5E] lg:gap-comp-3xl">
+            <div className="type-body-sm md:type-body-md flex min-w-0 max-w-[610px] flex-col gap-comp-xl text-[#4A3B5E] lg:gap-comp-3xl">
               <p>
                 행복이 가득한 시온교회는 사람 살리는 일에 최선을 다하는
                 교회입니다. 우리가 믿는 복음이 진짜복음이라면 우리는 복음의
@@ -206,7 +206,7 @@ function PastorSection() {
         <div className="grid gap-layout-lg min-[660px]:grid-cols-[minmax(0,1fr)_300px] min-[660px]:items-start min-[660px]:gap-layout-md lg:gap-layout-xl min-[1280px]:grid-cols-[minmax(0,1fr)_360px] min-[1280px]:gap-layout-xxl">
           <div className="flex flex-col gap-layout-xl">
             <div className="hidden min-[1280px]:block">{heading}</div>
-            <div className="type-body-md flex flex-col gap-comp-xl text-white/80">
+            <div className="type-body-sm md:type-body-md flex flex-col gap-comp-xl text-white/80">
               <p>
                 하나님은 프로그램이 아니라 사람을 찾으십니다. 화려한 무대가
                 아니라, 무릎 꿇은 한 사람의 기도를 찾으십니다. 저희 시온교회는

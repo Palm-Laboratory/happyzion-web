@@ -48,6 +48,7 @@ const config: Config = {
       },
       spacing: {
         // ── Component gap ──────────────────────────
+        "comp-3xs":  "2px",
         "comp-xxs":  "4px",
         "comp-xs":   "6px",
         "comp-sm":   "8px",

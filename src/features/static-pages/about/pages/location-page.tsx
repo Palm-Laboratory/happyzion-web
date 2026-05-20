@@ -28,7 +28,7 @@ const busRoutes = [
 function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
   return (
     <article className="flex flex-col gap-comp-base rounded-[8px] border border-[#8b6db5]/18 bg-white px-pad-sm py-pad-sm shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-title-md font-bold text-black">{type}</h3>
+      <h3 className="type-title-md font-medium text-black">{type}</h3>
       <dl className="type-body-xs flex flex-col gap-comp-md">
         <div className="flex items-start justify-between gap-comp-base border-b border-[#8b6db5]/12 pb-comp-md">
           <dt className="shrink-0 font-semibold text-black/70">노선</dt>
@@ -130,8 +130,11 @@ export default function LocationStaticPage() {
               />
 
               <div className="absolute inset-x-0 bottom-0 p-pad-xxs md:p-pad-xs">
-                <div className="rounded border border-white/70 bg-white/88 px-pad-xxs py-pad-3xs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
-                  <p className="type-body-xs text-center font-medium text-[#33103f]/72">
+                <div className="flex flex-col gap-comp-xxs rounded border border-white/70 bg-white/88 px-pad-xxs py-pad-3xs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
+                  <h2 className="type-title-xs font-suit font-bold text-[#33103f]">
+                    {SITE_NAME}
+                  </h2>
+                  <p className="type-body-xs font-medium text-[#33103f]/72">
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
@@ -162,7 +165,7 @@ export default function LocationStaticPage() {
             title="방문 안내"
             subtitle="visit guide"
           >
-            <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
+            <ul className="type-body-sm md:type-body-md flex flex-col gap-comp-sm md:gap-comp-md text-[#4A3B5E]">
               <BulletItem>
                 지도 앱에서 <strong className="font-semibold text-[#bd6fe0]">{SITE_NAME}</strong>
                 또는 <strong className="font-semibold text-[#bd6fe0]">{CHURCH_ADDRESS}</strong>를 검색해 주세요.
@@ -181,7 +184,7 @@ export default function LocationStaticPage() {
             subtitle="subway"
             description="Public Transit Transfer Guide"
           >
-            <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
+            <ul className="type-body-sm md:type-body-md flex flex-col gap-comp-sm md:gap-comp-md text-[#4A3B5E]">
               <BulletItem>
                 지하철 이용 시 원당역 권역에서 버스 또는 택시로 환승해 오시는 경로를 권장합니다.
               </BulletItem>
@@ -245,7 +248,7 @@ export default function LocationStaticPage() {
               title="교회정보"
               subtitle="church info"
             >
-              <ul className="type-body-md flex flex-col gap-comp-md text-[#4A3B5E]">
+              <ul className="type-body-sm md:type-body-md flex flex-col gap-comp-sm md:gap-comp-md text-[#4A3B5E]">
                 <BulletItem>주소 : {CHURCH_ADDRESS}</BulletItem>
                 <BulletItem>
                   TEL :{" "}
