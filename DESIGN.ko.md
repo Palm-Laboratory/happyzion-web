@@ -1280,6 +1280,13 @@ components:
 | {colors.gold.bright} | #FFD17D | 밝은 골드 — 장식 숫자, 분기 헤더 |
 | {colors.red} | #B73838 | 레드 — 특수 기간 마커(예: COVID) |
 
+### 아이콘
+
+| 토큰 | 값 | 사용처 |
+| --- | --- | --- |
+| {colors.icon} | #6B4A75 | 아이콘 색상 |
+| {colors.icon.circle} | #DCCEE4 | 아이콘 원형 / 뱃지 배경 |
+
 ### 보더
 
 퍼플 계열 보더가 시스템을 지배합니다. 세 가지 기본 색조의 다양한 불투명도로 모든 보더 요구를 충족합니다.
@@ -1367,9 +1374,9 @@ CSS 클래스는 `.type-{토큰}` 형식을 따릅니다(예: `.type-title-lg`).
 | {type.quote.sm} | 인용 텍스트 (소) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
 | {type.quote.xs} | 인용 텍스트 (극소) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
 | {type.label.xl} | 레이블 (대) | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | uppercase |
-| {type.label.lg} | 섹션 아이브로 | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
-| {type.label.md} | 카드 레이블 | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
-| {type.label.sm} | 마이크로 레이블 | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
+| {type.label.lg} | 섹션 아이브로 | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.md} | 카드 레이블 | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.sm} | 마이크로 레이블 | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | uppercase |
 | {type.nav.md} | 네비게이션 링크 | {font.sans} | 16px | 500 | 1 | 0.01em | 활성: weight 700 |
 | {type.button.lg} | 버튼 (대) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
 | {type.button.md} | 버튼 | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
@@ -1552,7 +1559,7 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 
 **`button-map`** — 4px 라운드 외부 링크 버튼(오시는 길 페이지). 보더 기반, 잉크 텍스트.
 
-모든 모바일 컨트롤의 터치 타깃은 최소 44px(`{component.button.touchTarget.min}`)입니다. 슬라이더 컨트롤(선교 갤러리)은 48px 원형 버튼, 부흥 조직도 모바일 컨트롤은 32px 정사각형 버튼을 사용합니다.
+모든 모바일 컨트롤의 터치 타깃은 최소 44px(`{component.button.touchTarget.min}`)입니다. 슬라이더 컨트롤(선교 갤러리)은 60px 원형 버튼, 부흥 조직도 모바일 컨트롤은 32px 정사각형 버튼을 사용합니다.
 
 ### 카드
 
@@ -1564,13 +1571,13 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 
 ### 테이블
 
-**`table-desktop`** — 예배 안내, 버스 노선, 오시는 길 정보에 사용됩니다. 3px 상단 액센트 보더(`{colors.ink.heading2}`), 헤더 행(`{colors.surface.tableHeader}`), 셀 패딩 20×24px. 최소 너비 적용(예배 테이블 860px, 버스 테이블 680–760px) 및 가로 스크롤 래퍼.
+**`table-desktop`** — 예배 안내, 버스 노선, 오시는 길 정보에 사용됩니다. 3px 상단 액센트 보더(`{colors.ink.heading2}`), 헤더 행(`{colors.surface.tableHeader}`). 헤더 셀 패딩: 16px(모바일) / 20px(데스크탑), 바디 셀 패딩: 20px(모바일) / 24px(데스크탑). 최소 너비 적용(예배 테이블 860px, 버스 테이블 680–760px) 및 가로 스크롤 래퍼.
 
 **`table-mobile`** — 768px 미만에서 테이블이 스택 카드 레이아웃으로 전환됩니다. 각 행이 `{component.card.standard}`이 되며 16×20px 내부 패딩과 `{shadow.card.soft}` 적용.
 
 ### 선교 갤러리
 
-**`mission-gallery-mobile`** — 32svh 높이의 전체 너비 이미지 슬라이더, 64px 캡션 바. 트랜지션: transform 460ms ease-out. 768px 미만에서만 표시됩니다.
+**`mission-gallery-mobile`** — 32svh 높이의 전체 너비 이미지 슬라이더, 40px 캡션 바. 트랜지션: transform 460ms ease-out. 768px 미만에서만 표시됩니다.
 
 **`mission-gallery-rail`** — 768px 이상에서 보이는 스티키 오른쪽 컬럼 이미지 레이아웃. 레일 너비: 태블릿 300px / 데스크탑 400px. 상단 120px에서 스티키 고정, 전체 높이 880px. 메인 이미지: 태블릿 420px / 데스크탑 600px; 세부 이미지 2장: 태블릿 160px / 데스크탑 240px.
 

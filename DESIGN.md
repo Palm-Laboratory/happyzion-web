@@ -1280,6 +1280,13 @@ Gold and red accent colors used across both light and dark sections.
 | {colors.gold.bright} | #FFD17D | bright gold — decorative numerals, quarter headers |
 | {colors.red} | #B73838 | red — special period markers (e.g. COVID) |
 
+### Icon
+
+| Token | Value | Usage |
+| --- | --- | --- |
+| {colors.icon} | #6B4A75 | icon fill color |
+| {colors.icon.circle} | #DCCEE4 | icon circle / badge background |
+
 ### Borders
 
 Purple borders dominate the system. Three base hues at varying opacity cover all border needs.
@@ -1367,9 +1374,9 @@ CSS classes follow the pattern `.type-{token}` (e.g. `.type-title-lg`). Heading 
 | {type.quote.sm} | quote text (small) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
 | {type.quote.xs} | quote text (x-small) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
 | {type.label.xl} | label (large) | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | uppercase |
-| {type.label.lg} | section eyebrow | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
-| {type.label.md} | card label | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
-| {type.label.sm} | micro label | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
+| {type.label.lg} | section eyebrow | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.md} | card label | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.sm} | micro label | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | uppercase |
 | {type.nav.md} | navigation link | {font.sans} | 16px | 500 | 1 | 0.01em | active: weight 700 |
 | {type.button.lg} | button (large) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
 | {type.button.md} | button | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
@@ -1551,7 +1558,7 @@ Desktop nav items use `{type.nav.md}` with 0.2em tracking and 16×18px padding. 
 
 **`button-map`** — 4px radius external link buttons on the location page. Border-based with ink text.
 
-Touch targets are enforced at 44px minimum for all mobile controls (`{component.button.touchTarget.min}`). Slider controls (mission gallery) use 48px circular buttons. Revival organization mobile controls use 32px square buttons.
+Touch targets are enforced at 44px minimum for all mobile controls (`{component.button.touchTarget.min}`). Slider controls (mission gallery) use 60px circular buttons. Revival organization mobile controls use 32px square buttons.
 
 ### Cards
 
@@ -1563,13 +1570,13 @@ Touch targets are enforced at 44px minimum for all mobile controls (`{component.
 
 ### Tables
 
-**`table-desktop`** — Used for service times, bus routes, and location info. 3px top accent border in `{colors.ink.heading2}`, header row in `{colors.surface.tableHeader}`, cell padding 20×24px. Min-width enforced (860px for service table, 680–760px for bus table) with horizontal scroll wrapper.
+**`table-desktop`** — Used for service times, bus routes, and location info. 3px top accent border in `{colors.ink.heading2}`, header row in `{colors.surface.tableHeader}`. Header cell padding: 16px (mobile) / 20px (desktop); body cell padding: 20px (mobile) / 24px (desktop). Min-width enforced (860px for service table, 680–760px for bus table) with horizontal scroll wrapper.
 
 **`table-mobile`** — Tables collapse to stacked card layout below 768px. Each row becomes a `{component.card.standard}` with 16×20px inner padding and `{shadow.card.soft}`.
 
 ### Mission Gallery
 
-**`mission-gallery-mobile`** — Full-width image slider at 32svh height with a 64px caption bar. Transition: transform 460ms ease-out. Shown only below 768px.
+**`mission-gallery-mobile`** — Full-width image slider at 32svh height with a 40px caption bar. Transition: transform 460ms ease-out. Shown only below 768px.
 
 **`mission-gallery-rail`** — A sticky right-column image layout shown from 768px upward. Rail is 300px wide at tablet / 400px at desktop, positioned sticky at 120px from top, total height 880px. Main image is 420px (tablet) / 600px (desktop); two detail images are 160px (tablet) / 240px (desktop).
 
