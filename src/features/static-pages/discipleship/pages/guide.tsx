@@ -72,12 +72,12 @@ const newcomerFaqItems = [
 
 function ScriptureQuoteCard() {
   return (
-    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
+    <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
       <p className="type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의
         이름으로 세례를 베풀고 내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라&quot;
       </p>
-      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
+      <p className="type-quote-xs relative z-10 text-[#510a75]">
         마태복음 28:19-20
       </p>
       <span
@@ -93,7 +93,7 @@ function ScriptureQuoteCard() {
 
 function CoreValueList() {
   return (
-    <div className="flex w-full flex-col gap-5">
+    <div className="flex w-full flex-col gap-comp-lg">
       <h3 className="type-title-md text-[#33103f]">
         5대 핵심가치
       </h3>
@@ -101,17 +101,17 @@ function CoreValueList() {
         {coreValues.map((value) => (
           <article
             key={value.number}
-            className="grid grid-cols-[38px_72px_minmax(0,1fr)] items-start gap-4 border-b border-[#8b6db5]/12 py-5 last:border-b-0"
+            className="grid grid-cols-[38px_72px_minmax(0,1fr)] items-start gap-comp-base border-b border-[#8b6db5]/12 py-pad-sm last:border-b-0"
           >
             <p
-              className="type-counter-md text-[#e4b96b]"
+              className="type-counter-md -translate-y-[2px] text-[#e4b96b]"
             >
               {value.number}
             </p>
             <h3 className="type-title-sm font-medium leading-none text-[#33103f]">
               {value.title}
             </h3>
-            <div className="type-body-xs font-suit flex flex-col gap-1 text-[#6F5576]">
+            <div className="type-body-sm font-suit flex flex-col gap-comp-sm leading-none text-[#6F5576]">
               {value.description.map((line, i) => (
                 <p key={i}>· {line}</p>
               ))}
@@ -128,36 +128,24 @@ function TimelineStep({
   title,
   details,
   surfaceClassName,
-  isFirst,
-  isLast,
 }: {
   number: string;
   title: string;
   details: readonly string[];
   surfaceClassName: string;
-  isFirst: boolean;
-  isLast: boolean;
 }) {
   return (
-    <article className="relative pl-16">
-      {!isFirst ? (
-        <div className="absolute bottom-1/2 left-[28.5px] top-[-16px] w-px bg-[#8b6db5]/18" />
-      ) : null}
-      {!isLast ? (
-        <div className="absolute bottom-[-16px] left-[28.5px] top-1/2 w-px bg-[#8b6db5]/18" />
-      ) : null}
-      <div className="absolute left-2 top-1/2 flex h-[42px] w-[42px] -translate-y-1/2 items-center justify-center rounded-full border-[1.5px] border-[#e4b96b] bg-[#2a123c]">
-        <span
-          className="type-counter-sm -translate-y-[2px] font-black text-[#e4b96b]"
-        >
+    <article className="flex items-center gap-comp-base">
+      <div className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-full border-[1.5px] border-[#e4b96b] bg-[#2a123c]">
+        <span className="type-counter-sm -translate-y-[2px] font-black text-[#e4b96b]">
           {number}
         </span>
       </div>
-      <div className={`rounded-[8px] px-4 py-4 md:px-6 md:py-[18px] ${surfaceClassName}`}>
+      <div className={`flex min-w-0 flex-1 flex-col gap-comp-sm rounded-[8px] px-pad-xs py-pad-xs md:px-pad-md ${surfaceClassName}`}>
         <h3 className="type-title-xs text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-xs mt-2 text-[#6F5576]">
+        <p className="type-body-xs text-[#6F5576]">
           {details.join(" · ")}
         </p>
       </div>
@@ -170,12 +158,12 @@ function FaqList() {
     <div className="border-t border-[#8b6db5]/18">
       {newcomerFaqItems.map((item) => (
         <details key={item.question} className="group border-b border-[#8b6db5]/18 bg-white">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left marker:hidden md:min-h-[5.1rem] md:py-5 [&::-webkit-details-marker]:hidden">
-            <div className="flex items-center gap-2 md:gap-3">
+          <summary className="flex cursor-pointer list-none items-center justify-between py-pad-xs text-left marker:hidden md:min-h-[5.1rem] md:py-pad-sm [&::-webkit-details-marker]:hidden">
+            <div className="flex items-center gap-comp-sm md:gap-comp-md">
               <span className="shrink-0 type-body-xs font-semibold leading-[2.0] text-[#e4b96b]">
                 Q.
               </span>
-              <h3 className="type-title-sm font-suit font-medium text-[#33103f]">
+              <h3 className="type-title-xs md:type-title-sm font-suit font-medium md:font-suit md:font-medium text-[#33103f]">
                 {item.question}
               </h3>
             </div>
@@ -188,8 +176,8 @@ function FaqList() {
             </span>
           </summary>
 
-          <div className="pb-5 pr-10 md:pb-6">
-            <div className="flex items-start gap-2 md:gap-3">
+          <div className="pb-pad-sm pr-pad-xxl md:pb-pad-md">
+            <div className="flex items-start gap-comp-sm md:gap-comp-md">
               <span className="shrink-0 type-body-xs font-semibold leading-[2.0] text-[#e4b96b]">
                 A.
               </span>
@@ -207,21 +195,21 @@ function FaqList() {
 function ContactSection() {
   return (
     <section aria-labelledby="newcomer-contact-title">
-      <div className="rounded-[8px] bg-[#2a123c] px-6 py-8 md:flex md:items-end md:justify-between md:px-9 md:py-9">
-        <div className="flex flex-col gap-4">
-          <div>
+      <div className="rounded-[8px] bg-[#2a123c] px-pad-md py-pad-lg md:flex md:items-end md:justify-between md:px-pad-base md:py-pad-xl">
+        <div className="flex flex-col gap-comp-base">
+          <div className="flex flex-col gap-comp-xxs">
             <p className="type-label-md font-semibold text-[#e4b96b]">
               Contact
             </p>
             <h2
               id="newcomer-contact-title"
-              className="type-title-xl mt-1 font-bold text-white"
+              className="type-title-xl font-bold text-white"
             >
               문의
             </h2>
           </div>
 
-          <div className="type-body-md flex flex-col gap-1">
+          <div className="type-body-sm md:type-body-md flex flex-col gap-comp-xxs">
             <p>
               <span className="font-bold text-[#e4b96b]">담당</span>
               <span className="ml-2 text-white">새가족 안내팀</span>
@@ -247,9 +235,9 @@ function ContactSection() {
 
 export default function DiscipleshipGuideStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-[60px] md:pb-[100px]">
-      <div className="flex flex-col gap-20">
-        <section aria-labelledby="newcomer-intro-title" className="flex flex-col gap-8">
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <div className="flex flex-col gap-layout-xxl">
+        <section aria-labelledby="newcomer-intro-title" className="flex flex-col gap-layout-md">
           <SectionHeading
             id="newcomer-intro-title"
             label="newcomer"
@@ -260,7 +248,7 @@ export default function DiscipleshipGuideStaticPage() {
 
           <ScriptureQuoteCard />
 
-          <div className="w-full">
+          <div className="flex flex-col gap-comp-base w-full">
             {newcomerIntroParagraphs.map((paragraph) => (
               <p key={paragraph} className="type-body-md text-[#4A3B5E]">
                 {paragraph}
@@ -269,7 +257,7 @@ export default function DiscipleshipGuideStaticPage() {
           </div>
         </section>
 
-        <section aria-labelledby="newcomer-vision-title" className="flex flex-col gap-8">
+        <section aria-labelledby="newcomer-vision-title" className="flex flex-col gap-layout-md">
           <SectionHeading
             id="newcomer-vision-title"
             label="church vision"
@@ -277,7 +265,7 @@ export default function DiscipleshipGuideStaticPage() {
             className="max-w-none"
           />
 
-          <div className="flex flex-col gap-10">
+          <div className="flex flex-col gap-layout-md">
             <p className="type-body-md max-w-[787px] text-[#4A3B5E]">
               우리는 복음으로 사람을 살리고, 성령의 임재 안에서 예배하며, 다음세대와 열방을
               향해 나아가는 교회입니다.
@@ -287,7 +275,7 @@ export default function DiscipleshipGuideStaticPage() {
           </div>
         </section>
 
-        <section aria-labelledby="newcomer-getting-started-title" className="flex flex-col gap-8">
+        <section aria-labelledby="newcomer-getting-started-title" className="flex flex-col gap-layout-md">
           <SectionHeading
             id="newcomer-getting-started-title"
             label="getting started"
@@ -295,20 +283,18 @@ export default function DiscipleshipGuideStaticPage() {
             className="max-w-none"
           />
 
-          <div className="space-y-4 md:space-y-4">
+          <div className="flex flex-col gap-comp-base">
             {gettingStartedSteps.map((step, index) => (
               <TimelineStep
                 key={step.number}
                 {...step}
                 surfaceClassName={index % 2 === 1 ? "bg-white" : "bg-[#f5f0f9]"}
-                isFirst={index === 0}
-                isLast={index === gettingStartedSteps.length - 1}
               />
             ))}
           </div>
         </section>
 
-        <section aria-labelledby="newcomer-faq-title" className="flex flex-col gap-8">
+        <section aria-labelledby="newcomer-faq-title" className="flex flex-col gap-layout-md">
           <SectionHeading
             id="newcomer-faq-title"
             label="faq"
