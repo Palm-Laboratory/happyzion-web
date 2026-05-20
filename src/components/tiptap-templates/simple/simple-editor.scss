@@ -1,3 +1,4 @@
+@use "../../../styles/variables";
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 body {
@@ -42,9 +43,8 @@ body {
 
 .simple-editor-wrapper[data-contained="true"] {
   width: 100%;
-  height: min(720px, 72vh);
   min-height: 520px;
-  overflow: auto;
+  overflow: visible;
   border: 1px solid var(--tt-gray-light-a-200);
   border-radius: 0.75rem;
 }
@@ -60,6 +60,8 @@ body {
 }
 
 .simple-editor-wrapper[data-contained="true"] .simple-editor-content {
+  height: auto;
+  min-height: 520px;
   max-width: 100%;
 }
 

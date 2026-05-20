@@ -53,6 +53,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       shortcutKeys,
       variant,
       size,
+      onMouseDown,
       ...props
     },
     ref
@@ -61,6 +62,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       () => parseShortcutKeys({ shortcutKeys }),
       [shortcutKeys]
     )
+    const handleMouseDown = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onMouseDown?.(event)
+      if (!event.defaultPrevented && event.button === 0) {
+        event.preventDefault()
+      }
+    }
 
     if (!tooltip || !showTooltip) {
       return (
@@ -70,6 +77,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
           data-style={variant}
           data-size={size}
+          onMouseDown={handleMouseDown}
           {...props}
         >
           {children}
@@ -85,6 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           ref={ref}
           data-style={variant}
           data-size={size}
+          onMouseDown={handleMouseDown}
           {...props}
         >
           {children}
