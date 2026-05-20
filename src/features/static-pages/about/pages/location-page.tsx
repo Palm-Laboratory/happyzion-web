@@ -72,7 +72,7 @@ function MiniActionButton({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="type-body-xs inline-flex items-center gap-comp-sm rounded border border-[#8b6db5]/18 bg-white px-pad-xs py-pad-3xs font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
+      className="type-body-xs inline-flex items-center gap-comp-sm rounded-[4px] border border-[#8b6db5]/18 bg-white px-pad-xs py-pad-3xs font-semibold text-[#33103f] shadow-[0_10px_24px_rgba(51,16,63,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b6db5]/45 hover:text-[#8b6db5]"
     >
       <span>{label}</span>
       <ExternalArrowIcon />
@@ -130,7 +130,7 @@ export default function LocationStaticPage() {
               />
 
               <div className="absolute inset-x-0 bottom-0 p-pad-xxs md:p-pad-xs">
-                <div className="flex flex-col gap-comp-xxs rounded border border-white/70 bg-white/88 px-pad-xxs py-pad-3xs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
+                <div className="flex flex-col gap-comp-xxs rounded-[4px] border border-white/70 bg-white/88 px-pad-xxs py-pad-3xs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:hidden">
                   <h2 className="type-title-xs font-suit font-bold text-[#33103f]">
                     {SITE_NAME}
                   </h2>
@@ -138,7 +138,7 @@ export default function LocationStaticPage() {
                     {CHURCH_ADDRESS}
                   </p>
                 </div>
-                <div className="hidden max-w-[20rem] flex-col gap-comp-xxs rounded border border-white/70 bg-white/88 px-pad-xs py-pad-xxs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:flex">
+                <div className="hidden max-w-[20rem] flex-col gap-comp-xxs rounded-[4px] border border-white/70 bg-white/88 px-pad-xs py-pad-xxs text-[#33103f] shadow-[0_12px_28px_rgba(51,16,63,0.14)] backdrop-blur-md md:flex">
                   <h2 className="type-title-xs font-suit font-bold text-[#33103f]">
                     {SITE_NAME}
                   </h2>
@@ -209,13 +209,13 @@ export default function LocationStaticPage() {
                 <table className="w-full min-w-[680px] table-fixed border-collapse text-left lg:min-w-[760px]">
                   <thead>
                     <tr className="border-b border-[#8b6db5]/12 bg-[#FAF7FF]">
-                      <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                      <th className="type-title-xs font-suit font-bold w-[24%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
                         구분
                       </th>
-                      <th className="type-title-xs font-suit font-bold w-[36%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                      <th className="type-title-xs font-suit font-bold w-[36%] border-r border-[#8b6db5]/12 px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
                         노선
                       </th>
-                      <th className="type-title-xs font-suit font-bold px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+                      <th className="type-title-xs font-suit font-bold px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
                         안내
                       </th>
                     </tr>
@@ -223,13 +223,13 @@ export default function LocationStaticPage() {
                   <tbody>
                     {busRoutes.map((item) => (
                       <tr key={item.type} className="border-b border-[#8b6db5]/12 last:border-b-0">
-                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-sm py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                           {item.type}
                         </td>
-                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-xs py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
+                        <td className="type-body-md border-r border-[#8b6db5]/12 px-pad-sm py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
                           {item.routes}
                         </td>
-                        <td className="type-body-md px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+                        <td className="type-body-md px-pad-sm py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                           {item.stop}
                         </td>
                       </tr>

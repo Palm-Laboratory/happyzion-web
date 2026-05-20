@@ -379,23 +379,20 @@ components:
 
   button:
     touch-target-min: 44px
-    gallery-size: 48px
+    nav-btn-size: 60px
     revival-control-size: 32px
-
-  card:
-    mobile-padding: 20px
-    mobile-radius: 8px
-    quote-border-left: 3px
 
   table:
     top-border: 3px
-    cell-padding-mobile: "16px 20px"
-    cell-padding-desktop: "20px 24px"
+    cell-padding-header-mobile: "16px"     # px-pad-xs py-pad-xs
+    cell-padding-header-desktop: "20px"    # lg:px-pad-sm lg:py-pad-sm
+    cell-padding-body-mobile: "20px"       # px-pad-sm py-pad-sm
+    cell-padding-body-desktop: "24px"      # lg:px-pad-md lg:py-pad-md
     header-bg: "#FAF7FF"
 
   mission-gallery:
     mobile-height: 32svh
-    mobile-caption-bar: 64px
+    caption-bar: 40px
     rail-top: 120px
     rail-height-desktop: 880px
     rail-width-tablet: 300px

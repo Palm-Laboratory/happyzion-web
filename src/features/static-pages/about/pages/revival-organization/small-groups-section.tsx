@@ -99,7 +99,7 @@ function SmallGroupSectionBlock({
 }) {
   return (
     <div
-      className={`flex w-full flex-col gap-comp-xl rounded bg-[#594263] px-pad-sm py-pad-lg md:px-pad-xxl md:py-pad-xxl ${className}`}
+      className={`flex w-full flex-col gap-comp-xl rounded-[4px] bg-[#594263] px-pad-sm py-pad-lg md:px-pad-xxl md:py-pad-xxl ${className}`}
     >
       <div className="flex w-full items-center justify-center gap-comp-md">
         <p className="type-label-lg font-suit shrink-0 font-semibold text-[#ffd17d]">
@@ -125,7 +125,7 @@ function SmallGroupCycleCard({
   items: string[];
 }) {
   return (
-    <article className="flex flex-col gap-comp-lg rounded bg-white/10 p-pad-sm">
+    <article className="flex flex-col gap-comp-lg rounded-[4px] bg-white/10 p-pad-sm">
       <div className="flex flex-col gap-comp-sm">
         <p
           className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#e3bfff]"
@@ -179,7 +179,7 @@ function RoadmapQuarterHeader({
   summary: string;
 }) {
   return (
-    <div className="flex w-full items-center overflow-hidden rounded-t">
+    <div className="flex w-full items-center overflow-hidden rounded-t-[4px]">
       <div className="flex h-10 shrink-0 items-center bg-[#341a44] pl-pad-sm pr-pad-sm">
         <p className="type-label-md font-semibold text-[#ffd17d]">{quarter}</p>
       </div>
@@ -453,7 +453,7 @@ function AnnualRoadmapContent({
         />
       )}
 
-      <div className="flex w-full flex-col gap-layout-base rounded bg-[#594263] px-pad-sm pb-pad-4xl pt-pad-lg md:px-pad-xxl md:pb-layout-xxl md:pt-pad-xxl">
+      <div className="flex w-full flex-col gap-layout-base rounded-[4px] bg-[#594263] px-pad-sm pb-pad-4xl pt-pad-lg md:px-pad-xxl md:pb-layout-xxl md:pt-pad-xxl">
         <div className="flex w-full items-center justify-center gap-comp-md">
           <p className="type-label-lg font-suit shrink-0 font-semibold text-[#ffd17d]">
             12개월 사역 캘린더 · 2026
@@ -468,7 +468,7 @@ function AnnualRoadmapContent({
                 quarter={quarter.quarter}
                 summary={quarter.summary}
               />
-              <div className="grid overflow-hidden rounded-b md:grid-cols-3">
+              <div className="grid overflow-hidden rounded-b-[4px] md:grid-cols-3">
                 {quarter.months.map((month) => (
                   <RoadmapMonthCard key={month.month} {...month} />
                 ))}

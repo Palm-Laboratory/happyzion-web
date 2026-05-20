@@ -93,7 +93,7 @@ function VisionList() {
       {visionItems.map((item) => (
         <article
           key={item.number}
-          className="relative flex flex-col gap-comp-sm overflow-hidden rounded border border-white/5 bg-[#2a123c] px-pad-lg py-pad-sm shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+          className="relative flex flex-col gap-comp-sm overflow-hidden rounded-[4px] border border-white/5 bg-[#2a123c] px-pad-lg py-pad-sm shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
         >
           <p className="type-label-md whitespace-nowrap leading-none text-white/50">
             {item.english}
@@ -269,7 +269,7 @@ function ElderTeamSection() {
           {elderTeam.map((person) => (
             <article
               key={`${person.label}-${person.name}`}
-              className="flex min-w-0 items-center gap-layout-base rounded border border-white/10 bg-[#56385E] px-pad-sm py-pad-md"
+              className="flex min-w-0 items-center gap-layout-base rounded-[4px] border border-white/10 bg-[#56385E] px-pad-sm py-pad-md"
             >
               <div className="h-[88px] w-[72px] shrink-0 bg-[#f2ebf6]" />
               <div className="flex min-w-0 flex-col gap-comp-md">

@@ -81,7 +81,7 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
 
 function MissionCallout() {
   return (
-    <section className="w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
+    <section className="w-full overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
       <div className="flex flex-col gap-comp-xl">
         <div className="flex flex-col gap-comp-base">
           <p className="type-label-lg text-[#c9a96e]">The Mission Continues</p>

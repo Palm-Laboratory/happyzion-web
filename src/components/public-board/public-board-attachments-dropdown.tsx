@@ -128,7 +128,7 @@ export default function PublicBoardAttachmentsDropdown({
               void handleDownloadAll();
             }}
             disabled={isDownloadingAll}
-            className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[14px] px-4 py-3 data-[disabled]:cursor-progress data-[disabled]:opacity-70"
+            className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[12px] px-4 py-3 data-[disabled]:cursor-progress data-[disabled]:opacity-70"
           >
             <span className="inline-flex min-w-0 items-center gap-3">
               <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8b6db5]/10 text-[#8b6db5]">
@@ -157,7 +157,7 @@ export default function PublicBoardAttachmentsDropdown({
                 event.preventDefault();
                 triggerAttachmentDownload(boardPath, postId, attachment);
               }}
-              className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[14px] px-4 py-3"
+              className="my-1 flex cursor-pointer items-center justify-between gap-4 rounded-[12px] px-4 py-3"
             >
               <span className="inline-flex min-w-0 items-center gap-3">
               <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#33103f]/5 text-[#33103f]/70">

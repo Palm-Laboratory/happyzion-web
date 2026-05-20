@@ -59,7 +59,7 @@ const timelineItems: TimelineItem[] = [
 
 function FoundationCard() {
   return (
-    <aside className="relative h-auto w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl text-left text-white lg:h-[320px] lg:w-[450px]">
+    <aside className="relative h-auto w-full shrink-0 overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl text-left text-white lg:h-[320px] lg:w-[450px]">
       <div className="flex flex-col gap-comp-base">
         <p className="type-label-lg text-[#c9a96e]">Church Foundation</p>
         <h3 className="type-title-md md:type-title-lg whitespace-pre-line text-white">
@@ -235,7 +235,7 @@ function TimelineSection() {
 
 function ClosingCallout() {
   return (
-    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
+    <section className="relative w-full overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_46%,rgba(153,63,186,0.12),rgba(153,63,186,0)_52%)]" />
       <div className="relative z-10 flex flex-col items-start gap-comp-base">
         <p className="type-label-lg text-[#c9a96e]">God&apos;s Faithfulness</p>

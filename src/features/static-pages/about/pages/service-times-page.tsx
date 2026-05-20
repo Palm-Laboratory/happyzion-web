@@ -85,16 +85,16 @@ function ServiceTimesTable() {
       <table className="w-full min-w-[860px] table-fixed border-collapse text-left">
         <thead>
           <tr className="border-[#8b6db5]/12 border-b bg-[#FAF7FF]">
-            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[24%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[24%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
               구분
             </th>
-            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[30%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[30%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
               요일 / 시간
             </th>
-            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[23%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+            <th className="type-title-xs font-suit border-[#8b6db5]/12 w-[23%] border-r px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
               장소
             </th>
-            <th className="type-title-xs font-suit px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-md lg:py-pad-sm">
+            <th className="type-title-xs font-suit px-pad-xs py-pad-xs text-center font-semibold tracking-[0.08em] text-[#33103f] lg:px-pad-sm lg:py-pad-sm">
               대상
             </th>
           </tr>
@@ -105,16 +105,16 @@ function ServiceTimesTable() {
               key={service.title}
               className="border-[#8b6db5]/12 border-b last:border-b-0"
             >
-              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-sm py-pad-sm text-center font-bold text-[#33103f] lg:px-pad-md lg:py-pad-md">
                 {service.title}
               </td>
-              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-sm py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.schedule}
               </td>
-              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+              <td className="type-body-md border-[#8b6db5]/12 border-r px-pad-sm py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.location}
               </td>
-              <td className="type-body-md px-pad-xs py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
+              <td className="type-body-md px-pad-sm py-pad-sm text-center font-medium text-[#4A3B5E] lg:px-pad-md lg:py-pad-md">
                 {service.audience}
               </td>
             </tr>
