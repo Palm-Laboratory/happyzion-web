@@ -37,5 +37,5 @@ export type BoardPostListItem = AdminBoardPostSummary & {
   boardMenuLabel: string;
 };
 
-export const BOARD_POSTS_PAGE_SIZE = 100;
+export const BOARD_POSTS_PAGE_SIZE = 20;
 export const DISPLAY_PAGE_SIZE = 20;

@@ -75,7 +75,10 @@ function normalizeDateInput(value: FormDataEntryValue | null) {
 }
 
 function isDateInput(value: string) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [y, m, d] = value.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.getFullYear() === y && date.getMonth() === m - 1 && date.getDate() === d;
 }
 
 function readFormValues(formData: FormData): MemberFormValues {
@@ -127,10 +130,13 @@ function validateAndBuildPayload(
 
   if (!values.phone) {
     errors.phone = "연락처를 입력해 주세요.";
-  } else if (/[^0-9-]/.test(values.phone)) {
-    errors.phone = "연락처는 숫자와 - 만 입력 가능합니다.";
-  } else if (values.phone.replace(/\D/g, "").length < 9) {
-    errors.phone = "연락처는 숫자 9자리 이상으로 입력해 주세요.";
+  } else {
+    const digits = values.phone.replace(/\D/g, "");
+    if (!/^01[016789]/.test(digits)) {
+      errors.phone = "올바른 휴대전화 번호를 입력해 주세요. (예: 010-1234-5678)";
+    } else if (digits.length < 10 || digits.length > 11) {
+      errors.phone = "휴대전화 번호는 10~11자리여야 합니다.";
+    }
   }
 
   if (!values.address) {

@@ -38,6 +38,7 @@ export interface ChurchMemberSummary {
 export interface ChurchMemberPageResponse {
   items: ChurchMemberSummary[];
   hasNext: boolean;
+  total: number;
 }
 
 export interface ChurchMemberFaithInput {

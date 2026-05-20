@@ -21,6 +21,8 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
   const [searchInput, setSearchInput] = useState("");
   const [roleInput, setRoleInput] = useState<AdminAccountRole | "ALL">("ALL");
   const [activeInput, setActiveInput] = useState<"ALL" | "ACTIVE" | "INACTIVE">("ALL");
+  const [displayPage, setDisplayPage] = useState(0);
+  const [displayPageSize, setDisplayPageSize] = useState(20);
 
   const [applied, setApplied] = useState<{
     search: string;
@@ -46,8 +48,28 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
     });
   }, [accounts, applied]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredAccounts.length / displayPageSize));
+  const safePage = Math.min(displayPage, totalPages - 1);
+  const pagedAccounts = useMemo(() => {
+    const from = safePage * displayPageSize;
+    return filteredAccounts.slice(from, from + displayPageSize);
+  }, [filteredAccounts, safePage, displayPageSize]);
+
+  const getPageNumbers = (): number[] => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i);
+    if (safePage <= 3) return [0, 1, 2, 3, 4, -1, totalPages - 1];
+    if (safePage >= totalPages - 4) return [0, -1, totalPages - 5, totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1];
+    return [0, -1, safePage - 1, safePage, safePage + 1, -2, totalPages - 1];
+  };
+
   const handleSearch = () => {
     setApplied({ search: searchInput.trim(), role: roleInput, active: activeInput });
+    setDisplayPage(0);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setDisplayPageSize(size);
+    setDisplayPage(0);
   };
 
   const hasActiveFilters =
@@ -142,15 +164,15 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
           <span className="text-[13px] text-[#5d6f86]">
             전체 <span className="font-semibold text-[#132033]">{filteredAccounts.length}</span>건
           </span>
-          <Link
-            href="/admin/accounts/new"
-            className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#4a82d7]"
+          <select
+            value={displayPageSize}
+            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+            className="h-8 rounded-lg border border-[#d5deea] bg-white px-2 text-[12px] font-semibold text-[#334155] focus:border-[#3f74c7] focus:outline-none"
           >
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-              <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-            계정 추가
-          </Link>
+            {[10, 20, 50].map((n) => (
+              <option key={n} value={n}>{n}개</option>
+            ))}
+          </select>
         </div>
 
         <div className="overflow-x-auto">
@@ -168,14 +190,14 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
               </tr>
             </thead>
             <tbody>
-              {filteredAccounts.length === 0 ? (
+              {pagedAccounts.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-5 py-12 text-center text-[13px] text-[#6d7f95]">
                     조건에 맞는 계정이 없습니다.
                   </td>
                 </tr>
               ) : (
-                filteredAccounts.map((account, idx) => {
+                pagedAccounts.map((account, idx) => {
                   const roleMeta = ROLE_META[account.role] ?? {
                     label: account.role,
                     cls: "bg-gray-100 text-gray-600",
@@ -188,7 +210,7 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
                       key={account.id}
                       className="border-b border-[#f0f4f8] last:border-0 transition hover:bg-[#fafcff]"
                     >
-                      <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{idx + 1}</td>
+                      <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{safePage * displayPageSize + idx + 1}</td>
                       <td className="px-5 py-4">
                         <span
                           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
@@ -235,6 +257,64 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* ── 페이지네이션 ── */}
+        <div className="grid grid-cols-3 items-center border-t border-[#edf2f7] px-5 py-4">
+          <div />
+          <div className="flex items-center justify-center gap-1">
+            <button
+              type="button"
+              onClick={() => setDisplayPage((p) => Math.max(0, p - 1))}
+              disabled={safePage === 0}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="이전 페이지"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 2.5l-3 3 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            {getPageNumbers().map((index, i) =>
+              index < 0 ? (
+                <span key={`ellipsis-${i}`} className="flex h-8 w-8 items-center justify-center text-[12px] text-[#8fa3bb]">…</span>
+              ) : (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setDisplayPage(index)}
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg text-[12px] font-semibold transition ${
+                    index === safePage
+                      ? "bg-[#3f74c7] text-white"
+                      : "border border-[#e2e8f0] bg-white text-[#334155] hover:bg-[#f0f6ff]"
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              )
+            )}
+            <button
+              type="button"
+              onClick={() => setDisplayPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={safePage === totalPages - 1}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="다음 페이지"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-end">
+            <Link
+              href="/admin/accounts/new"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#4a82d7]"
+            >
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+              계정 추가
+            </Link>
+          </div>
         </div>
       </section>
     </div>

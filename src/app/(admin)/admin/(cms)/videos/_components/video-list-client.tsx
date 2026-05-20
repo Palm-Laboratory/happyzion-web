@@ -84,11 +84,10 @@ function PaginationBar({
             key={page}
             type="button"
             onClick={() => onPageChange(page)}
-            className={`flex h-8 w-8 items-center justify-center rounded-lg text-[12px] font-semibold transition ${
-              page === currentPage
-                ? "bg-[#3f74c7] text-white"
-                : "border border-[#e2e8f0] bg-white text-[#334155] hover:bg-[#f0f6ff]"
-            }`}
+            className={`flex h-8 w-8 items-center justify-center rounded-lg text-[12px] font-semibold transition ${page === currentPage
+              ? "bg-[#3f74c7] text-white"
+              : "border border-[#e2e8f0] bg-white text-[#334155] hover:bg-[#f0f6ff]"
+              }`}
           >
             {page}
           </button>
@@ -306,7 +305,6 @@ export default function VideoListClient({
         {/* 목록 헤더 */}
         <div className="flex items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-[14px] font-bold text-[#132033]">영상 목록</h2>
             {listLoading ? (
               <span className="text-[12px] text-[#8fa3bb]">불러오는 중...</span>
             ) : (

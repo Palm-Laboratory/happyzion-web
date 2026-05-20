@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import type { ChurchMemberPageResponse, ChurchMemberListQuery } from "@/lib/admin-members-types";
@@ -21,11 +22,26 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
   const [includeInactiveInput, setIncludeInactiveInput] = useState(query.includeInactive ?? false);
   const router = useRouter();
 
+  function buildParams(overrides: Record<string, string | undefined>) {
+    const params = new URLSearchParams();
+    if (query.name) params.set("name", query.name);
+    if (query.phone) params.set("phone", query.phone);
+    if (query.includeInactive) params.set("includeInactive", "true");
+    if (query.size !== 20) params.set("size", String(query.size));
+    params.set("page", "0");
+    for (const [k, v] of Object.entries(overrides)) {
+      if (v === undefined) params.delete(k);
+      else params.set(k, v);
+    }
+    return params;
+  }
+
   function handleSearch() {
     const params = new URLSearchParams();
     if (nameInput.trim()) params.set("name", nameInput.trim());
     if (phoneInput.trim()) params.set("phone", phoneInput.trim());
     if (includeInactiveInput) params.set("includeInactive", "true");
+    if (query.size !== 20) params.set("size", String(query.size));
     params.set("page", "0");
     router.push(`/admin/members?${params}`);
   }
@@ -38,12 +54,11 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
   }
 
   function goToPage(page: number) {
-    const params = new URLSearchParams();
-    if (query.name) params.set("name", query.name);
-    if (query.phone) params.set("phone", query.phone);
-    if (query.includeInactive) params.set("includeInactive", "true");
-    params.set("page", String(page));
-    router.push(`/admin/members?${params}`);
+    router.push(`/admin/members?${buildParams({ page: String(page) })}`);
+  }
+
+  function handleSizeChange(size: number) {
+    router.push(`/admin/members?${buildParams({ size: size !== 20 ? String(size) : undefined, page: "0" })}`);
   }
 
   return (
@@ -106,6 +121,20 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
 
       {/* Table section */}
       <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-[#edf2f7] px-5 py-4">
+          <span className="text-[13px] text-[#5d6f86]">
+            {query.page * query.size + 1}번부터 표시 중
+          </span>
+          <select
+            value={query.size}
+            onChange={(e) => handleSizeChange(Number(e.target.value))}
+            className="h-8 rounded-lg border border-[#d5deea] bg-white px-2 text-[12px] font-semibold text-[#334155] focus:border-[#3f74c7] focus:outline-none"
+          >
+            {[10, 20, 50].map((n) => (
+              <option key={n} value={n}>{n}개</option>
+            ))}
+          </select>
+        </div>
         <div className="overflow-x-auto">
           <table className="min-w-full border-collapse text-left">
             <thead>
@@ -157,24 +186,49 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-between border-t border-[#edf2f7] px-5 py-3">
-          <button
-            type="button"
-            onClick={() => goToPage(query.page - 1)}
-            disabled={query.page === 0}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#dde4ef] px-3 text-[13px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            이전
-          </button>
-          <span className="text-[13px] text-[#5d6f86]">{query.page + 1} 페이지</span>
-          <button
-            type="button"
-            onClick={() => goToPage(query.page + 1)}
-            disabled={!data.hasNext}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#dde4ef] px-3 text-[13px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            다음
-          </button>
+        <div className="grid grid-cols-3 items-center border-t border-[#edf2f7] px-5 py-4">
+          <div />
+          <div className="flex items-center justify-center gap-1">
+            <button
+              type="button"
+              onClick={() => goToPage(query.page - 1)}
+              disabled={query.page === 0}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="이전 페이지"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M7.5 2.5l-3 3 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3f74c7] text-[12px] font-semibold text-white"
+            >
+              {query.page + 1}
+            </button>
+            <button
+              type="button"
+              onClick={() => goToPage(query.page + 1)}
+              disabled={!data.hasNext}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="다음 페이지"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex justify-end">
+            <Link
+              href="/admin/members/new"
+              className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#4a82d7]"
+            >
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+              교인 등록
+            </Link>
+          </div>
         </div>
       </section>
     </div>

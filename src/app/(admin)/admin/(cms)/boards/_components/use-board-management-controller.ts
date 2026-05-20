@@ -22,7 +22,6 @@ import {
 } from "./board-management-api";
 import { validateBoardPostSavePayload } from "./board-management-schema";
 import {
-  DISPLAY_PAGE_SIZE,
   type AttachmentAsset,
   type BoardManagementClientProps,
   type BoardPostListItem,
@@ -95,6 +94,7 @@ export function useBoardManagementController({
   const [appliedTitle, setAppliedTitle] = useState("");
   const [listReloadTick, setListReloadTick] = useState(0);
   const [displayPage, setDisplayPage] = useState(0);
+  const [displayPageSize, setDisplayPageSize] = useState(20);
 
   const canEditPost = useCallback(
     (post: { authorId: string }) => currentUserRole === "SUPER_ADMIN" || post.authorId === currentUserId,
@@ -110,10 +110,10 @@ export function useBoardManagementController({
   );
   const filteredPosts = posts;
   const attachmentAssetIds = attachmentAssets.map((asset) => asset.id);
-  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / DISPLAY_PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / displayPageSize));
   const safeDisplayPage = Math.min(displayPage, totalPages - 1);
-  const pageStartIndex = safeDisplayPage * DISPLAY_PAGE_SIZE;
-  const pageEndIndex = pageStartIndex + DISPLAY_PAGE_SIZE;
+  const pageStartIndex = safeDisplayPage * displayPageSize;
+  const pageEndIndex = pageStartIndex + displayPageSize;
   const boardMenusSignature = boardMenus.map((boardMenu) => `${boardMenu.id}:${boardMenu.boardKey ?? ""}`).join("|");
 
   const savePayload = useMemo<BoardPostSavePayload>(() => {
@@ -485,6 +485,8 @@ export function useBoardManagementController({
     setBoardMenuFilter,
     setTitleQuery,
     setDisplayPage,
+    displayPageSize,
+    setDisplayPageSize: (size: number) => { setDisplayPageSize(size); setDisplayPage(0); },
     setDraft,
     setAttachmentAssets,
     handleBoardSearch,

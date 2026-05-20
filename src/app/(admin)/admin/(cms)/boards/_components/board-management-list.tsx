@@ -51,21 +51,18 @@ export function BoardManagementList({ controller }: { controller: BoardManagemen
 
       <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-[#edf2f7] px-5 py-4">
-          <div className="flex items-center gap-3">
-            <span className="text-[13px] text-[#5d6f86]">
-              전체 <span className="font-semibold text-[#132033]">{controller.filteredPosts.length}</span>건
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={controller.openNewPost}
-              disabled={controller.boardMenus.length === 0}
-              className="h-9 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white transition hover:bg-[#4a82d7] disabled:opacity-60"
-            >
-              새 게시글 등록
-            </button>
-          </div>
+          <span className="text-[13px] text-[#5d6f86]">
+            전체 <span className="font-semibold text-[#132033]">{controller.filteredPosts.length}</span>건
+          </span>
+          <select
+            value={controller.displayPageSize}
+            onChange={(e) => controller.setDisplayPageSize(Number(e.target.value))}
+            className="h-8 rounded-lg border border-[#d5deea] bg-white px-2 text-[12px] font-semibold text-[#334155] focus:border-[#3f74c7] focus:outline-none"
+          >
+            {[10, 20, 50].map((n) => (
+              <option key={n} value={n}>{n}개</option>
+            ))}
+          </select>
         </div>
 
         <div className="overflow-x-auto">
@@ -151,63 +148,83 @@ export function BoardManagementList({ controller }: { controller: BoardManagemen
           </table>
         </div>
 
-        {controller.totalPages > 1 && <BoardPagination controller={controller} />}
+        <BoardPagination controller={controller} />
       </section>
     </div>
   );
 }
 
 function BoardPagination({ controller }: { controller: BoardManagementController }) {
+  const current = controller.safeDisplayPage;
+  const total = controller.totalPages;
+
+  const getPageNumbers = (): number[] => {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i);
+    if (current <= 3) return [0, 1, 2, 3, 4, -1, total - 1];
+    if (current >= total - 4) return [0, -1, total - 5, total - 4, total - 3, total - 2, total - 1];
+    return [0, -1, current - 1, current, current + 1, -2, total - 1];
+  };
+
   return (
-    <div className="flex items-center justify-center gap-1 border-t border-[#edf2f7] px-5 py-3">
-      <button
-        type="button"
-        onClick={() => controller.setDisplayPage(0)}
-        disabled={controller.safeDisplayPage === 0}
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-[12px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:opacity-30"
-      >
-        «
-      </button>
-      <button
-        type="button"
-        onClick={() => controller.setDisplayPage((page) => Math.max(0, page - 1))}
-        disabled={controller.safeDisplayPage === 0}
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-[12px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:opacity-30"
-      >
-        ‹
-      </button>
-      {Array.from({ length: controller.totalPages }, (_, index) => index)
-        .filter((index) => Math.abs(index - controller.safeDisplayPage) <= 2)
-        .map((index) => (
-          <button
-            key={index}
-            type="button"
-            onClick={() => controller.setDisplayPage(index)}
-            className={`flex h-8 w-8 items-center justify-center rounded-lg text-[12px] font-medium transition ${
-              index === controller.safeDisplayPage
-                ? "bg-[#3f74c7] text-white"
-                : "text-[#5d6f86] hover:bg-[#f1f5f9]"
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
-      <button
-        type="button"
-        onClick={() => controller.setDisplayPage((page) => Math.min(controller.totalPages - 1, page + 1))}
-        disabled={controller.safeDisplayPage === controller.totalPages - 1}
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-[12px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:opacity-30"
-      >
-        ›
-      </button>
-      <button
-        type="button"
-        onClick={() => controller.setDisplayPage(controller.totalPages - 1)}
-        disabled={controller.safeDisplayPage === controller.totalPages - 1}
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-[12px] text-[#5d6f86] transition hover:bg-[#f1f5f9] disabled:opacity-30"
-      >
-        »
-      </button>
+    <div className="grid grid-cols-3 items-center border-t border-[#edf2f7] px-5 py-4">
+      <div />
+      <div className="flex items-center justify-center gap-1">
+        <button
+          type="button"
+          onClick={() => controller.setDisplayPage((p) => Math.max(0, p - 1))}
+          disabled={current === 0}
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="이전 페이지"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M7.5 2.5l-3 3 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        {getPageNumbers().map((index, i) =>
+          index < 0 ? (
+            <span key={`ellipsis-${i}`} className="flex h-8 w-8 items-center justify-center text-[12px] text-[#8fa3bb]">…</span>
+          ) : (
+            <button
+              key={index}
+              type="button"
+              onClick={() => controller.setDisplayPage(index)}
+              className={`flex h-8 w-8 items-center justify-center rounded-lg text-[12px] font-semibold transition ${
+                index === current
+                  ? "bg-[#3f74c7] text-white"
+                  : "border border-[#e2e8f0] bg-white text-[#334155] hover:bg-[#f0f6ff]"
+              }`}
+            >
+              {index + 1}
+            </button>
+          )
+        )}
+
+        <button
+          type="button"
+          onClick={() => controller.setDisplayPage((p) => Math.min(total - 1, p + 1))}
+          disabled={current === total - 1}
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
+          aria-label="다음 페이지"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={controller.openNewPost}
+          disabled={controller.boardMenus.length === 0}
+          className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-[#3f74c7] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#4a82d7] disabled:opacity-60"
+        >
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+            <path d="M6.5 1v11M1 6.5h11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          새 게시글 등록
+        </button>
+      </div>
     </div>
   );
 }
