@@ -333,6 +333,25 @@ export function useBoardManagementController({
       return;
     }
 
+    const MAX_SIZE = 20 * 1024 * 1024;
+    const ALLOWED_EXTENSIONS = new Set([
+      "jpg", "jpeg", "png", "gif", "webp",
+      "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "hwp",
+      "zip", "rar", "7z",
+    ]);
+
+    for (const file of Array.from(files)) {
+      const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+      if (!ALLOWED_EXTENSIONS.has(ext)) {
+        setError(`허용되지 않는 파일 형식입니다: ${file.name}`);
+        return;
+      }
+      if (file.size > MAX_SIZE) {
+        setError(`파일 크기는 20MB를 초과할 수 없습니다: ${file.name}`);
+        return;
+      }
+    }
+
     setError(null);
     await uploadAttachmentMutation.mutateAsync(Array.from(files));
   }, [uploadAttachmentMutation]);

@@ -145,6 +145,7 @@ function AttachmentPanel({ controller }: { controller: BoardManagementController
           <input
             type="file"
             multiple
+            accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.hwp,.zip,.rar,.7z"
             className="sr-only"
             disabled={controller.saving || controller.uploadingAttachment}
             onChange={(event) => {
