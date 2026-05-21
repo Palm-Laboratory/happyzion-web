@@ -26,6 +26,7 @@ export default async function SmsDetailPage({
     <div className="space-y-6">
       <AdminBreadcrumb
         items={[
+          { label: "교회 관리" },
           { label: "SMS 관리" },
           { label: "전송 내역", href: "/admin/sms" },
           { label: "상세" },

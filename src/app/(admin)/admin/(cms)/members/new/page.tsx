@@ -14,7 +14,7 @@ export default async function NewMemberPage() {
     <div className="space-y-5">
       <AdminBreadcrumb
         items={[
-          { label: "운영" },
+          { label: "교회 관리" },
           { label: "교인 관리", href: "/admin/members" },
           { label: "교인 등록" },
         ]}

@@ -41,7 +41,7 @@ export default async function MembersPage({
 
   return (
     <div className="space-y-5">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "교인 관리" }]} />
+      <AdminBreadcrumb items={[{ label: "교회 관리" }, { label: "교인 관리" }]} />
       <h1 className="text-xl font-bold text-[#0f1c2e]">교인 관리</h1>
       <MemberListClient data={data} query={query} />
     </div>

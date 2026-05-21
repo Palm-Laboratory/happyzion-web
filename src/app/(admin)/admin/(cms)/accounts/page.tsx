@@ -18,7 +18,7 @@ export default async function AdminAccountsPage() {
 
   return (
     <div className="space-y-5">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "관리자 계정" }]} />
+      <AdminBreadcrumb items={[{ label: "사이트 관리" }, { label: "관리자 계정" }]} />
       <h1 className="text-xl font-bold text-[#0f1c2e]">관리자 계정</h1>
       <AccountListClient accounts={accounts} />
     </div>

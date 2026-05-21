@@ -15,7 +15,7 @@ export default async function SmsPage() {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb items={[{ label: "SMS 관리" }, { label: "전송 내역" }]} />
+      <AdminBreadcrumb items={[{ label: "교회 관리" }, { label: "SMS 관리" }, { label: "전송 내역" }]} />
 
       <div className="space-y-1">
         <h1 className="text-xl font-bold text-[#0f1c2e]">SMS 전송 내역</h1>

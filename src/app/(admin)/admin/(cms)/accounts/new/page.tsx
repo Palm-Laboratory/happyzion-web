@@ -13,7 +13,7 @@ export default async function NewAdminAccountPage() {
     <div className="space-y-5">
       {/* ── 경로(breadcrumb) ── */}
       <AdminBreadcrumb items={[
-        { label: "운영" },
+        { label: "사이트 관리" },
         { label: "관리자 계정", href: "/admin/accounts" },
         { label: "신규 등록" },
       ]} />

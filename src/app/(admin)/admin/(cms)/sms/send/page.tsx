@@ -14,6 +14,7 @@ export default async function SmsSendPage() {
     <div className="space-y-6">
       <AdminBreadcrumb
         items={[
+          { label: "교회 관리" },
           { label: "SMS 관리" },
           { label: "문자 보내기" },
         ]}

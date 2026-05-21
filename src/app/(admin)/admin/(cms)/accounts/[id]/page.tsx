@@ -55,7 +55,7 @@ export default async function AdminAccountDetailPage({ params }: AdminAccountDet
     <div className="space-y-5">
       {/* ── 경로(breadcrumb) ── */}
       <AdminBreadcrumb items={[
-        { label: "운영" },
+        { label: "사이트 관리" },
         { label: "관리자 계정", href: "/admin/accounts" },
         { label: account.displayName },
       ]} />

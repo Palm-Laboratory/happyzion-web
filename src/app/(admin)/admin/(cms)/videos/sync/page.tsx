@@ -15,7 +15,7 @@ export default async function AdminVideoSyncPage() {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "영상" }, { label: "영상 싱크" }]} />
+      <AdminBreadcrumb items={[{ label: "사이트 관리" }, { label: "영상 관리" }, { label: "영상 싱크" }]} />
 
       <div className="space-y-1">
         <h1 className="text-xl font-bold text-[#0f1c2e]">영상 싱크</h1>

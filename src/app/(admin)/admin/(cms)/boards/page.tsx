@@ -21,7 +21,7 @@ export default async function AdminBoardsPage() {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "게시판 관리" }]} />
+      <AdminBreadcrumb items={[{ label: "사이트 관리" }, { label: "게시판 관리" }]} />
 
       <h1 className="text-xl font-bold text-[#0f1c2e]">게시판 관리</h1>
 

@@ -30,7 +30,7 @@ export default async function AdminVideoManagePage() {
 
   return (
     <div className="space-y-6">
-      <AdminBreadcrumb items={[{ label: "운영" }, { label: "영상" }, { label: "영상 관리" }]} />
+      <AdminBreadcrumb items={[{ label: "사이트 관리" }, { label: "영상 관리" }, { label: "컨텐츠 관리" }]} />
 
       <div className="space-y-1">
         <h1 className="text-xl font-bold text-[#0f1c2e]">영상 관리</h1>
