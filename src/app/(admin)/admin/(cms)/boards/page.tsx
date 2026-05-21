@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 import { getAdminSession, isAdminSession } from "@/auth";
 import { getAdminBoards } from "@/lib/admin-board-api";
@@ -25,12 +26,15 @@ export default async function AdminBoardsPage() {
 
       <h1 className="text-xl font-bold text-[#0f1c2e]">게시판 관리</h1>
 
-      <BoardManagementClient
-        initialBoards={boards}
-        initialBoardMenus={boardMenus}
-        currentUserId={session.user.id}
-        currentUserRole={session.user.accountRole}
-      />
+      {/* useSearchParams 사용으로 Suspense 경계 필요 */}
+      <Suspense>
+        <BoardManagementClient
+          initialBoards={boards}
+          initialBoardMenus={boardMenus}
+          currentUserId={session.user.id}
+          currentUserRole={session.user.accountRole}
+        />
+      </Suspense>
     </div>
   );
 }

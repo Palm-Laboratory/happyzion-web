@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   collectAssetIdsFromTiptapDocument,
@@ -29,7 +30,6 @@ import {
   type ScreenMode,
 } from "./board-management-types";
 import {
-  createAttachmentAssetsFromIds,
   createDraftFromPost,
   createEmptyDraft,
   getAttachmentAssets,
@@ -49,7 +49,8 @@ export function useBoardManagementController({
 }: BoardManagementClientProps) {
   const toast = useAdminToast();
   const queryClient = useQueryClient();
-  const editorPushedRef = useRef(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const pendingNoticeRef = useRef<string | null>(null);
   const boardsBySlug = useMemo(
     () => new Map(initialBoards.map((board) => [board.slug, board])),
@@ -78,13 +79,20 @@ export function useBoardManagementController({
     [boardsBySlug, initialBoardMenus],
   );
   const initialMenuId = boardMenus[0]?.id ?? 0;
-  const [screenMode, setScreenMode] = useState<ScreenMode>("list");
-  const [selectedMenuId, setSelectedMenuId] = useState(initialMenuId);
+
+  // screenMode · selectedPostId 는 URL search params 에서 파생
+  // → 사이드바에서 /admin/boards 를 클릭하면 ?mode=editor 가 사라져 자동으로 list 로 전환
+  const screenMode: ScreenMode = searchParams.get("mode") === "editor" ? "editor" : "list";
+  const selectedPostId: string | null = searchParams.get("postId") ?? null;
+
+  const [selectedMenuId, setSelectedMenuId] = useState(() => {
+    const urlMenuId = Number(searchParams.get("menuId"));
+    return boardMenus.find((m) => m.id === urlMenuId)?.id ?? initialMenuId;
+  });
   const [posts, setPosts] = useState<BoardPostListItem[]>(() => {
     const firstMenu = boardMenus[0] ?? null;
     return firstMenu ? initialPosts.map((post) => toBoardPostListItem(post, firstMenu)) : [];
   });
-  const [selectedPostId, setSelectedPostId] = useState<string | null>(initialPost?.id ?? null);
   const [draft, setDraft] = useState<Draft>(initialPost ? createDraftFromPost(initialPost) : createEmptyDraft());
   const [attachmentAssets, setAttachmentAssets] = useState<AttachmentAsset[]>(initialPost ? getAttachmentAssets(initialPost) : []);
   const [error, setError] = useState<string | null>(null);
@@ -133,17 +141,6 @@ export function useBoardManagementController({
     };
   }, [attachmentAssetIds, draft, selectedMenuId]);
 
-  const setAttachmentAssetIds = useCallback((ids: string[]) => {
-    setAttachmentAssets((current) => {
-      if (ids.length === 0) {
-        return [];
-      }
-
-      const currentById = new Map(current.map((asset) => [asset.id, asset]));
-      return ids.map((id) => currentById.get(id) ?? createAttachmentAssetsFromIds([id])[0]);
-    });
-  }, []);
-
   const listQuery = useQuery({
     queryKey: ["admin-board-posts", boardMenusSignature, appliedBoardMenu, appliedTitle, listReloadTick],
     queryFn: () => fetchBoardPostsForMenus({ boardMenus, appliedBoardMenu, appliedTitle }),
@@ -175,18 +172,10 @@ export function useBoardManagementController({
         );
       });
       setListReloadTick((current) => current + 1);
-      setSelectedPostId(null);
-      setDraft(createEmptyDraft());
-      setAttachmentAssetIds([]);
-      setScreenMode("list");
       void queryClient.invalidateQueries({ queryKey: ["admin-board-posts"] });
       void queryClient.invalidateQueries({ queryKey: ["admin-board-post", variables.boardSlug] });
-      if (editorPushedRef.current) {
-        pendingNoticeRef.current = "게시글을 저장했습니다.";
-        window.history.back();
-      } else {
-        toast.success("게시글을 저장했습니다.");
-      }
+      pendingNoticeRef.current = "게시글을 저장했습니다.";
+      router.push("/admin/boards");
     },
     onError: (saveError) => {
       const message = getErrorMessage(saveError, "게시글을 저장하지 못했습니다.");
@@ -200,18 +189,10 @@ export function useBoardManagementController({
     onSuccess: (_, variables) => {
       setPosts((current) => current.filter((post) => post.id !== variables.postId));
       setListReloadTick((current) => current + 1);
-      setSelectedPostId(null);
-      setDraft(createEmptyDraft());
-      setAttachmentAssetIds([]);
       void queryClient.invalidateQueries({ queryKey: ["admin-board-posts"] });
       void queryClient.invalidateQueries({ queryKey: ["admin-board-post", variables.boardSlug] });
-      if (editorPushedRef.current) {
-        pendingNoticeRef.current = "게시글을 삭제했습니다.";
-        window.history.back();
-      } else {
-        setScreenMode("list");
-        toast.success("게시글을 삭제했습니다.");
-      }
+      pendingNoticeRef.current = "게시글을 삭제했습니다.";
+      router.push("/admin/boards");
     },
     onError: (deleteError) => {
       const message = getErrorMessage(deleteError, "게시글을 삭제하지 못했습니다.");
@@ -253,24 +234,32 @@ export function useBoardManagementController({
     },
   });
 
+  // editor → list 전환 시(뒤로 가기, 사이드바 클릭, 저장/삭제 후 이동 모두 포함)
+  // draft 초기화 및 pending 알림 표시
+  const prevScreenModeRef = useRef<ScreenMode>(screenMode);
   useEffect(() => {
-    const handlePopState = () => {
-      if (!editorPushedRef.current) return;
-      editorPushedRef.current = false;
-      const msg = pendingNoticeRef.current;
-      pendingNoticeRef.current = null;
-      setScreenMode("list");
-      setSelectedPostId(null);
+    const prev = prevScreenModeRef.current;
+    prevScreenModeRef.current = screenMode;
+    if (prev === "editor" && screenMode === "list") {
       setDraft(createEmptyDraft());
       setAttachmentAssets([]);
       setError(null);
-      if (msg) {
-        toast.success(msg);
-      }
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [toast]);
+      const msg = pendingNoticeRef.current;
+      pendingNoticeRef.current = null;
+      if (msg) toast.success(msg);
+    }
+  }, [screenMode, toast]);
+
+  // editor 진입 시 URL 의 menuId 를 selectedMenuId 에 동기화
+  const boardMenusRef = useRef(boardMenus);
+  boardMenusRef.current = boardMenus;
+  useEffect(() => {
+    if (screenMode !== "editor") return;
+    const urlMenuId = Number(searchParams.get("menuId"));
+    if (!urlMenuId) return;
+    const found = boardMenusRef.current.find((m) => m.id === urlMenuId);
+    if (found) setSelectedMenuId(found.id);
+  }, [screenMode, searchParams]);
 
   useEffect(() => {
     if (boardMenus.length === 0) {
@@ -361,25 +350,20 @@ export function useBoardManagementController({
       ? boardMenus[0]
       : boardMenus.find((boardMenu) => String(boardMenu.id) === boardMenuFilter) ?? boardMenus[0];
 
-    setSelectedMenuId(preferredMenu?.id ?? 0);
-    setSelectedPostId(null);
+    const menuId = preferredMenu?.id ?? 0;
+    setSelectedMenuId(menuId);
     setDraft(createEmptyDraft());
-    setAttachmentAssetIds([]);
-    setScreenMode("editor");
+    setAttachmentAssets([]);
     setError(null);
     toast.info("새 게시글 작성 모드입니다.");
-    window.history.pushState({ boardEditor: true }, "");
-    editorPushedRef.current = true;
-  }, [boardMenuFilter, boardMenus, setAttachmentAssetIds, toast]);
+    router.push(`/admin/boards?mode=editor${menuId ? `&menuId=${menuId}` : ""}`);
+  }, [boardMenuFilter, boardMenus, router, toast]);
 
   const openPost = useCallback((post: BoardPostListItem) => {
     setSelectedMenuId(post.boardMenuId);
-    setSelectedPostId(post.id);
-    setScreenMode("editor");
     setError(null);
-    window.history.pushState({ boardEditor: true }, "");
-    editorPushedRef.current = true;
-  }, []);
+    router.push(`/admin/boards?mode=editor&postId=${post.id}&menuId=${post.boardMenuId}`);
+  }, [router]);
 
   const handleSave = useCallback(() => {
     setError(null);
@@ -446,16 +430,8 @@ export function useBoardManagementController({
   }, []);
 
   const handleBackToList = useCallback(() => {
-    if (editorPushedRef.current) {
-      window.history.back();
-      return;
-    }
-
-    setScreenMode("list");
-    setSelectedPostId(null);
-    setDraft(createEmptyDraft());
-    setAttachmentAssets([]);
-  }, []);
+    router.push("/admin/boards");
+  }, [router]);
 
   const saving = saveMutation.isPending || deleteMutation.isPending;
   const loading = listQuery.isFetching || detailQuery.isFetching;
