@@ -221,7 +221,7 @@ export default function SiteHeader({ navigationItems = primaryNavigation }: Site
                       isMenuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
                     }`}
                   >
-                    <div className={`overflow-hidden rounded-lg border py-2 backdrop-blur-[20px] ${dropdownClass}`}>
+                    <div className={`overflow-hidden rounded-[8px] border py-2 backdrop-blur-[20px] ${dropdownClass}`}>
                       {item.children.map((child) => (
                         <Link
                           key={`${child.label}:${child.href}`}

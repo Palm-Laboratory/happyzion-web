@@ -4,9 +4,11 @@ import { coreValues } from "./revival-data";
 
 function VisionQuote() {
   return (
-    <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-8 py-10 md:px-[60px] md:py-12">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
-        {"\u201c복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회\u201d"}
+    <div className="relative w-full overflow-hidden border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-lg py-pad-base md:py-pad-xl md:px-pad-4xl">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
+        {
+          "\u201c복음으로 행하고, 말씀으로 성장하며, 사랑으로 세상을 변화시키는 교회\u201d"
+        }
       </p>
       <p
         className="pointer-events-none absolute left-[19px] top-[-11px] h-[160px] w-[46px] text-[120px] leading-[120px] text-[#4d1367]/10"
@@ -36,15 +38,17 @@ function CoreValueCard({
   className?: string;
 }) {
   return (
-    <article className={`flex flex-col items-start px-5 py-6 shadow-[0_6px_9px_rgba(0,0,0,0.15)] [background-image:linear-gradient(171.1deg,#473367_3.35%,#413553_89.92%)] sm:min-h-[170px] ${className}`}>
-      <div className="flex w-full flex-col items-start gap-3">
+    <article
+      className={`flex flex-col items-start px-pad-sm py-pad-md shadow-[0_6px_9px_rgba(0,0,0,0.15)] [background-image:linear-gradient(171.1deg,#473367_3.35%,#413553_89.92%)] sm:min-h-[170px] ${className}`}
+    >
+      <div className="flex w-full flex-col items-start gap-comp-md">
         <p
           className="w-full text-[32px] italic leading-8 text-[#c9a96e]"
           style={{ fontFamily: "var(--font-corinthia), cursive" }}
         >
           {number}
         </p>
-        <div className="flex w-full flex-col items-start gap-[14px]">
+        <div className="flex w-full flex-col items-start gap-comp-md">
           <h2 className="type-title-md font-normal text-white">{title}</h2>
           <p className="type-body-xs text-white/80">{description}</p>
         </div>
@@ -55,28 +59,24 @@ function CoreValueCard({
 
 function CoreValueAccordion() {
   return (
-    <div className="flex w-full flex-col gap-5 md:hidden">
-      <h3 className="type-title-lg text-[#33103f]">
-        5대 핵심가치
-      </h3>
-      <div className="w-full border-y border-[#8b6db5]/12">
+    <div className="flex w-full flex-col gap-comp-lg md:hidden">
+      <h3 className="type-title-lg text-[#33103f]">5대 핵심가치</h3>
+      <div className="border-[#8b6db5]/12 w-full border-y">
         {coreValues.map((value) => (
           <article
             key={value.number}
-            className="grid grid-cols-[38px_96px_minmax(0,1fr)] items-start gap-4 border-b border-[#8b6db5]/12 py-5 last:border-b-0"
+            className="border-[#8b6db5]/12 flex items-start gap-comp-xl border-b py-pad-sm last:border-b-0"
           >
-            <p
-              className="text-[24px] italic leading-none text-[#c9a96e]"
-              style={{ fontFamily: "var(--font-cormorant), serif" }}
-            >
-              {value.number}
-            </p>
-            <h3 className="type-title-xs text-[#33103f]">
-              {value.title}
-            </h3>
-            <p className="type-body-xs text-[#4a3b5e]">
-              {value.description}
-            </p>
+            <div className="flex shrink-0 items-start gap-comp-base">
+              <p
+                className="w-[28px] shrink-0 text-[24px] italic leading-none text-[#c9a96e]"
+                style={{ fontFamily: "var(--font-cormorant), serif" }}
+              >
+                {value.number}
+              </p>
+              <h3 className="w-[96px] shrink-0 type-title-xs font-medium text-[#33103f]">{value.title}</h3>
+            </div>
+            <p className="min-w-0 flex-1 type-body-xs text-[#4a3b5e]">{value.description}</p>
           </article>
         ))}
       </div>
@@ -86,8 +86,8 @@ function CoreValueAccordion() {
 
 export default function VisionCoreValuesSection() {
   return (
-    <section className="bg-white pb-24 pt-20 md:pb-[200px] md:pt-[100px]">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px]">
+    <section className="bg-white py-section-sm md:py-section-md lg:py-section-lg">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-layout-lg lg:gap-layout-xl">
         <SectionHeading
           label="Vision & Core Values"
           title="교회 비전 · 5대 핵심가치"
@@ -95,21 +95,22 @@ export default function VisionCoreValuesSection() {
           titleAs="h1"
         />
 
-        <div className="flex w-full flex-col items-start gap-20">
-          <div className="flex w-full flex-col items-start gap-10">
+        <div className="flex w-full flex-col items-start gap-layout-xl lg:gap-layout-xxl">
+          <div className="flex w-full flex-col items-start gap-layout-md">
             <VisionQuote />
-            <div className="type-body-md w-full max-w-[900px] text-[#4a3b5e]">
+            <div className="type-body-sm md:type-body-md w-full max-w-[900px] text-[#4a3b5e]">
               <p>
-                시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와 열방을 섬기는
-                <br className="hidden min-[581px]:block" /> 부흥하는 교회로 성장하기를 비전으로
-                삼습니다.
+                시온교회는 복음의 기쁨이 넘치는 공동체를 만들어 지역사회와
+                열방을 섬기는
+                <br className="hidden min-[581px]:block" /> 부흥하는 교회로
+                성장하기를 비전으로 삼습니다.
               </p>
             </div>
           </div>
 
           <CoreValueAccordion />
 
-          <div className="hidden w-full gap-0.5 md:grid md:grid-cols-6 lg:grid-cols-5">
+          <div className="hidden w-full gap-layout-xs md:grid md:grid-cols-6 lg:grid-cols-5">
             {coreValues.map((value, index) => (
               <CoreValueCard
                 key={value.number}

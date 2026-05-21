@@ -89,12 +89,12 @@ const applicationNotes = [
 
 function QuoteCard() {
   return (
-    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+    <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         &quot;그러므로 누구든지 나의 이 말을 듣고 행하는 자는 그 집을 반석 위에 지은
         지혜로운 사람 같으리니&quot;
       </p>
-      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
+      <p className="type-quote-xs relative z-10 text-[#510a75]">
         마태복음 7:24
       </p>
       <span
@@ -110,12 +110,12 @@ function QuoteCard() {
 
 function OverviewStat({ title, label }: { title: string; label: string }) {
   return (
-    <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#f5f0f9] px-4 py-5 text-center">
-      <div className="flex flex-col items-center gap-3 tracking-[0.04em]">
-        <p className="type-title-lg font-bold text-[#33103f]">
+    <article className="flex min-h-[96px] items-center justify-center rounded-[8px] bg-[#f5f0f9] px-pad-xxs py-pad-sm text-center">
+      <div className="flex flex-col items-center gap-comp-sm md:gap-comp-md tracking-[0.04em]">
+        <p className="type-title-md md:type-title-lg font-bold text-[#33103f]">
           {title}
         </p>
-        <p className="type-body-md leading-none text-[#6F5576]">{label}</p>
+        <p className="type-body-sm md:type-body-md leading-none text-[#6F5576]">{label}</p>
       </div>
     </article>
   );
@@ -125,10 +125,10 @@ function CurriculumTable() {
   return (
     <div className="overflow-hidden rounded-[8px] border border-[#8b6db5]/25 bg-white">
       <div className="grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)]">
-        <div className="flex h-10 items-center justify-center bg-[#2a123c] px-4">
+        <div className="flex h-10 items-center justify-center bg-[#2a123c] px-pad-xs">
           <p className="type-title-xxs font-suit font-bold text-white">주차</p>
         </div>
-        <div className="flex h-10 items-center bg-[#2a123c] px-4 md:px-6">
+        <div className="flex h-10 items-center bg-[#2a123c] px-pad-xs md:px-pad-md">
           <p className="type-title-xxs font-suit font-bold text-white">주제 및 내용</p>
         </div>
       </div>
@@ -143,7 +143,7 @@ function CurriculumTable() {
             className={`grid grid-cols-[64px_minmax(0,1fr)] md:grid-cols-[80px_minmax(0,1fr)] ${surfaceClassName}`}
           >
             <div
-              className={`flex items-start justify-center border-r border-[#8b6db5]/12 px-3 py-4 ${
+              className={`flex items-start justify-center border-r border-[#8b6db5]/12 px-pad-xxs py-pad-xs ${
                 !isLast ? "border-b border-[#8b6db5]/18" : ""
               }`}
             >
@@ -153,7 +153,7 @@ function CurriculumTable() {
                 {week.week}
               </span>
             </div>
-            <div className={`px-[18px] py-[14px] md:px-6 ${!isLast ? "border-b border-[#8b6db5]/18" : ""}`}>
+            <div className={`px-pad-xs py-pad-xs md:px-pad-md ${!isLast ? "border-b border-[#8b6db5]/18" : ""}`}>
               <div className="flex flex-col gap-2">
                 <p className="type-body-sm font-medium leading-[1.5] text-[#33103f] md:type-body-md md:font-medium md:leading-[1.5]">
                   {week.title}
@@ -180,17 +180,17 @@ function ClassStructureCard({
   details: readonly string[];
 }) {
   return (
-    <article className="relative flex flex-col items-start gap-3 text-left">
+    <article className="relative flex flex-col items-start gap-comp-md text-left">
       <div className="flex items-end gap-1">
         <span className="text-[2rem] font-bold leading-none text-[#e4b96b]" style={{ fontFamily: "var(--font-cormorant), serif" }}>
           {minute}
         </span>
         <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-title-xs font-medium mb-1 text-[#33103f]">
+      <h3 className="type-title-xs font-medium text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-xs flex flex-col items-start gap-1 text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-comp-xxs text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -201,7 +201,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="newcomer-care-structure-title" className="mt-20 md:mt-[68px]">
+    <section aria-labelledby="newcomer-care-structure-title" className="flex flex-col gap-layout-md">
       <SectionHeading
         id="newcomer-care-structure-title"
         label="class structure"
@@ -209,7 +209,7 @@ function ClassStructureSection() {
         className="max-w-none"
       />
 
-      <div className="mt-8">
+      <div className="flex flex-col gap-layout-base">
         <div className="flex h-[9px] w-full overflow-hidden rounded-full">
           {classStructure.map((item, index) => {
             const edgeClassName =
@@ -224,7 +224,7 @@ function ClassStructureSection() {
           })}
         </div>
 
-        <div className="mt-6 border-b border-[#8b6db5]/18 pb-6">
+        <div className="border-b border-[#8b6db5]/18 pb-pad-md">
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
             {classStructure.map((item) => (
               <ClassStructureCard key={item.title} {...item} />
@@ -243,7 +243,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="type-body-xs mt-4 text-[#6F5576]">
+        <p className="type-body-xs text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -254,9 +254,9 @@ function ClassStructureSection() {
 
 function BulletList({ items, dark = false }: { items: readonly string[]; dark?: boolean }) {
   return (
-    <ul className="flex flex-col gap-3">
+    <ul className="flex flex-col gap-comp-md">
       {items.map((item) => (
-        <li key={item} className={`type-body-xs flex gap-2 ${dark ? "text-white/80" : "text-[#6F5576]"}`}>
+        <li key={item} className={`type-body-xs flex gap-comp-sm ${dark ? "text-white/80" : "text-[#6F5576]"}`}>
           <span className="mt-[0.65em] h-1.5 w-1.5 shrink-0 rounded-full bg-[#e4b96b]" />
           <span>{item}</span>
         </li>
@@ -267,58 +267,57 @@ function BulletList({ items, dark = false }: { items: readonly string[]; dark?: 
 
 export default function DiscipleshipCareStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16 md:pb-24">
-      <section aria-labelledby="newcomer-care-intro-title">
-        <SectionHeading
-          id="newcomer-care-intro-title"
-          label="5 weeks"
-          title="새가족 양육"
-          description="Newcomer Care"
-          titleAs="h1"
-        />
-        <div className="mt-8">
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <div className="flex flex-col gap-layout-xxl">
+        <section aria-labelledby="newcomer-care-intro-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="newcomer-care-intro-title"
+            label="5 weeks"
+            title="새가족 양육"
+            description="Newcomer Care"
+            titleAs="h1"
+          />
           <QuoteCard />
-        </div>
-      </section>
+        </section>
 
-      <section aria-labelledby="newcomer-care-overview-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="newcomer-care-overview-title"
-          label="overview"
-          title="과정 개요"
-          className="max-w-none"
-        />
+        <section aria-labelledby="newcomer-care-overview-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="newcomer-care-overview-title"
+            label="overview"
+            title="과정 개요"
+            className="max-w-none"
+          />
 
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
-          {overviewStats.map((stat) => (
-            <OverviewStat key={stat.label} {...stat} />
-          ))}
-        </div>
+          <div className="flex flex-col gap-comp-lg">
+            <div className="grid grid-cols-2 gap-comp-base md:grid-cols-4 md:gap-comp-lg">
+              {overviewStats.map((stat) => (
+                <OverviewStat key={stat.label} {...stat} />
+              ))}
+            </div>
 
-        <p className="type-body-md mt-[18px] max-w-[727px] text-[#4A3B5E]">
-          새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
-          <br className="hidden md:block" />
-          소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
-        </p>
-      </section>
+            <p className="type-body-sm md:type-body-md max-w-[727px] text-[#4A3B5E]">
+              새롭게 신앙을 시작하시는 분들을 위한 5주 집중 양육 과정입니다.
+              <br className="hidden md:block" />
+              소그룹 또는 일대일로 진행되며, 예배와 공동체 안에 안정적으로 정착하는 것을 돕습니다.
+            </p>
+          </div>
+        </section>
 
-      <section aria-labelledby="newcomer-care-curriculum-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="newcomer-care-curriculum-title"
-          label="curriculum"
-          title="5주 교육 일정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="newcomer-care-curriculum-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="newcomer-care-curriculum-title"
+            label="curriculum"
+            title="5주 교육 일정"
+            className="max-w-none"
+          />
 
-        <div className="mt-8">
           <CurriculumTable />
-        </div>
-      </section>
+        </section>
 
-      <ClassStructureSection />
+        <ClassStructureSection />
 
       {/*
-      <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-[68px]">
+      <section aria-labelledby="newcomer-care-baptism-title" className="mt-20 md:mt-20">
         <SectionHeading
           id="newcomer-care-baptism-title"
           label="baptism"
@@ -351,7 +350,7 @@ export default function DiscipleshipCareStaticPage() {
       {/*
       <section
         id="apply"
-        className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
+        className="mt-20 scroll-mt-32 md:mt-20 md:scroll-mt-36"
         aria-labelledby="newcomer-care-apply-title"
       >
         <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
@@ -377,6 +376,7 @@ export default function DiscipleshipCareStaticPage() {
         </div>
       </section>
       */}
+      </div>
     </main>
   );
 }

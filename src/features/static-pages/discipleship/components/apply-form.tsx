@@ -1,7 +1,7 @@
 "use client";
 
 const inputClassName =
-  "apply-form-input type-body-xs h-9 w-full rounded-[5px] border border-white/10 bg-white/[0.06] px-5 text-white outline-none transition focus:border-[#e4b96b]/70";
+  "apply-form-input type-body-xs h-9 w-full rounded-[4px] border border-white/10 bg-white/[0.06] px-5 text-white outline-none transition focus:border-[#e4b96b]/70";
 
 export default function ApplyForm() {
   return (
@@ -44,7 +44,7 @@ export default function ApplyForm() {
       <button
         type="button"
         onClick={() => window.alert("준비중입니다")}
-        className="type-button-md mt-1 h-10 rounded-[5px] bg-[rgb(228_185_107)] px-5 font-bold text-[#33103f] transition hover:bg-[rgb(235_197_126)]"
+        className="type-button-md mt-1 h-10 rounded-[4px] bg-[rgb(228_185_107)] px-5 font-bold text-[#33103f] transition hover:bg-[rgb(235_197_126)]"
       >
         신청하기
       </button>

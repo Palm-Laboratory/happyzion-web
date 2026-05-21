@@ -123,7 +123,7 @@ export default function JoinMissionSection({ serviceTimesHref, newcomerHref, loc
               <Link
                 key={item.title}
                 href={item.href}
-                className="rounded-lg bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5 min-[1281px]:w-[var(--join-button-width)]"
+                className="rounded-[8px] bg-[#2a123c] p-5 shadow-[0_4px_24px_rgba(110,100,100,0.1)] transition hover:-translate-y-0.5 min-[1281px]:w-[var(--join-button-width)]"
               >
                 <p className="type-caption-md font-cormorant-infant uppercase tracking-[0.12em] text-[#FDF4FF]">
                   {item.label}
@@ -136,7 +136,7 @@ export default function JoinMissionSection({ serviceTimesHref, newcomerHref, loc
 
         <div className="hidden w-full max-w-[420px] self-stretch min-[768px]:absolute min-[768px]:right-0 min-[768px]:top-1/2 min-[768px]:z-0 min-[768px]:block min-[768px]:w-[421px] min-[768px]:max-w-none min-[768px]:-translate-y-1/2 min-[1281px]:relative min-[1281px]:right-auto min-[1281px]:top-auto min-[1281px]:z-auto min-[1281px]:w-full min-[1281px]:max-w-[420px] min-[1281px]:translate-y-0">
           <div
-            className="relative h-[420px] overflow-hidden rounded-xl bg-white transition-[transform,opacity] duration-500 ease-out min-[768px]:shadow-none min-[1281px]:shadow-[0_16px_24px_rgba(0,0,0,0.15)] md:h-[560px] lg:h-full lg:min-h-[632px]"
+            className="relative h-[420px] overflow-hidden rounded-[12px] bg-white transition-[transform,opacity] duration-500 ease-out min-[768px]:shadow-none min-[1281px]:shadow-[0_16px_24px_rgba(0,0,0,0.15)] md:h-[560px] lg:h-full lg:min-h-[632px]"
             style={{
               opacity: isImageVisible ? 1 : 0,
               transform: `translateY(${isImageVisible ? 0 : 56}px)`,

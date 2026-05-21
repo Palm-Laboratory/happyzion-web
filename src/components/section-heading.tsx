@@ -14,11 +14,9 @@ type SectionHeadingProps = {
 
 function SectionHeadingEyebrow({ label }: { label: string }) {
   return (
-    <div className="flex items-start gap-3">
+    <div className="flex items-start gap-comp-md">
       <span className="mt-[8px] h-px w-[30px] shrink-0 bg-[#8b6db5]" />
-      <p className="type-label-lg text-[#8b6db5]">
-        {label}
-      </p>
+      <p className="type-label-lg text-[#8b6db5]">{label}</p>
     </div>
   );
 }
@@ -33,17 +31,17 @@ function SectionHeadingTitle({
   const TitleTag = titleAs;
 
   return (
-    <TitleTag className="type-heading-md text-[#250030]">
-      {title}
-    </TitleTag>
+    <TitleTag className="type-heading-md text-[#250030]">{title}</TitleTag>
   );
 }
 
-function SectionHeadingDescription({ description }: { description: ReactNode }) {
+function SectionHeadingDescription({
+  description,
+}: {
+  description: ReactNode;
+}) {
   return (
-    <p className="type-subtitle-sm mt-2 italic text-[#8b6db5]">
-      {description}
-    </p>
+    <p className="type-subtitle-sm italic text-[#8b6db5]">{description}</p>
   );
 }
 
@@ -56,11 +54,16 @@ export default function SectionHeading({
   ...props
 }: SectionHeadingProps) {
   return (
-    <div className={`max-w-[468px] ${className ?? ""}`} {...props}>
+    <div
+      className={`flex max-w-[468px] flex-col gap-comp-lg ${className ?? ""}`}
+      {...props}
+    >
       <SectionHeadingEyebrow label={label} />
-      <div className="mt-5">
+      <div className="flex flex-col gap-comp-sm">
         <SectionHeadingTitle title={title} titleAs={titleAs} />
-        {description ? <SectionHeadingDescription description={description} /> : null}
+        {description ? (
+          <SectionHeadingDescription description={description} />
+        ) : null}
       </div>
     </div>
   );

@@ -344,12 +344,6 @@ html.lenis body {
     letter-spacing: 0.01em;
   }
 
-  .type-display-counter {
-    font-family: var(--font-corinthia), cursive;
-    font-size: 3.5rem;
-    line-height: 1;
-    letter-spacing: 0.01em;
-  }
 
   .type-script-accent {
     font-family: var(--font-estonia), cursive;

@@ -1,568 +1,1245 @@
-# Happy Zion Design System
+# 행복이 가득한 시온교회 디자인 시스템
 
-Scope: this document is based on the implemented main page and the completed static pages: greeting, church story, revival organization, service times, location, mission history, online giving, newcomer guide, newcomer care, and discipleship training.
+```yaml
+---
+version: "1.0"
+name: happyzion-design-system
+description: >
+  경건하고 에디토리얼한 교회 사이트 비주얼 언어. 조용한 아이보리 서피스,
+  깊은 플럼 필드, 골드 액센트 타이포그래피로 구성됩니다. 한국어 세리프 헤딩이
+  교리적 무게를 담당하고, 얇은 대문자 레이블과 넉넉한 수직 리듬이 레이아웃을
+  숨쉬게 합니다. 스크롤 중심 선교 스토리텔링, 탭형 사역 패널, 반응형
+  카드/테이블 전환을 지원합니다.
 
-## 1. Overview
+colors:
+  # 서피스 & 배경
+  background: "#ffffff"
+  surface-cream: "#fffcf8"
+  surface-soft-purple: "#fcf8ff"
+  surface-photo-frame: "#f2ebf6"
+  surface-blockquote: "#f5f0f9"
+  surface-table-header: "#FAF7FF"
+  surface-cta-dark: "#2a123c"
+  surface-footer: "#1f0f28"
+  surface-greeting-dark: "#1e1035"
+  surface-greeting-purple: "#3f2551"
+  surface-greeting-purple-card: "#56385E"
+  surface-revival-panel: "#190b2a"
+  surface-revival-card: "#594263"
+  surface-revival-sidebar: "#fcfaff"
+  surface-revival-tab-content: "#f4f0f9"
 
-Happy Zion uses an editorial church-site visual language: quiet ivory surfaces, deep plum fields, gold accent typography, serif Korean headings, and image-led mission storytelling. The core brand feeling is reverent, warm, structured, and ministry-focused.
+  # 라이트 배경 잉크
+  ink: "#250030"
+  ink-heading2: "#33103f"
+  ink-subtitle: "#896B91"
+  ink-body: "#4A3B5E"
+  ink-soft: "#6F5576"
+  ink-muted: "#928397"
+  ink-emphasis: "#BD6FE0"
+  ink-citation: "#510a75"
+  ink-purple: "#8b6db5"
 
-Primary characteristics:
+  # 다크 배경 잉크
+  dark-heading: "#FFFFFF"
+  dark-subtitle: "#E2CAF5"
+  dark-label: "#FDF4FF"
+  dark-body: "#FFFFFF"
+  dark-body-alt: "#FDF8FF"
+  dark-body-muted: "#ffffff/80"
+  dark-accent: "#E3BFFF"
 
-- {brand.tone} -- reverent / editorial / mission-oriented / warm
-- {brand.structure} -- full-width page bands with constrained inner shells
-- {brand.visualWeight} -- large Korean serif headings, thin uppercase labels, generous vertical rhythm
-- {brand.primaryInteraction} -- scroll-driven story sections, tabbed ministry panels, responsive card/table switching
-- {brand.imageUsage} -- real church/mission imagery, full-bleed video hero, sticky gallery rail on desktop, compact slider on mobile
+  # 포인트 컬러
+  gold: "#C9A96E"
+  gold-mid: "#E4B96B"
+  gold-bright: "#FFD17D"
+  red: "#B73838"
 
-## 2. Colors
+  # 아이콘
+  icon: "#6B4A75"
+  icon-circle: "#DCCEE4"
 
-Colors are organized by the three background zones of the main page: cream (bright sections), soft-purple (vision section), and dark (mission sections). CSS variables in `globals.css` are marked *.
+  # 보더 (주요 사용)
+  border-soft: "#3d1a46/12"
+  border-purple-12: "#8b6db5/12"
+  border-purple-18: "#8b6db5/18"
+  border-purple-25: "#8b6db5/25"
+  border-dark-purple-5: "#5d3d8a/5"
+  border-dark-purple-15: "#5d3d8a/15"
+  border-dark-purple-25: "#5d3d8a/25"
+  border-accent-15: "#e3bfff/15"
+  border-accent-50: "#e3bfff/50"
+  border-quote-light: "#510a75"
+  border-quote-dark: "#6d5898"
 
-### Surface & Background
+  # 포커스
+  focus-light: "#3d1a46"
+  focus-dark: "#ffffff/50"
+  focus-gold: "#c9a96e/70"
 
-| Token | Value | Usage |
+  # 푸터
+  footer-social: "#2c1838"
+  footer-social-hover: "#3a2148"
+  footer-text: "#ffffff/50"
+  footer-text-muted: "#ffffff/30"
+
+typography:
+  heading-xl:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 40px
+    fontWeight: 600
+    lineHeight: 1
+    letterSpacing: -0.02em
+    responsive: "46px ≥768px / 52px ≥1024px"
+  heading-lg:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 36px
+    fontWeight: 600
+    lineHeight: 1.3
+    letterSpacing: 0.01em
+    responsive: "42px ≥768px / 48px ≥1024px"
+  heading-md:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 28px
+    fontWeight: 600
+    lineHeight: 1.25
+    letterSpacing: -0.02em
+    responsive: "32px ≥768px / 36px ≥1024px"
+  subtitle-lg:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 24px
+    fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+  subtitle-md:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 20px
+    fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+  subtitle-sm:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+  title-xxs:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 14px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  title-xs:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  title-sm:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 18px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  title-md:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 20px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  title-lg:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 22px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  title-xl:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 24px
+    fontWeight: 600
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  body-lg:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 20px
+    fontWeight: 400
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  body-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 18px
+    fontWeight: 400
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  body-sm:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  body-xs:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  quote-lg:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 20px
+    fontWeight: 500
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  quote-md:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 18px
+    fontWeight: 500
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  quote-sm:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1.8
+    letterSpacing: 0.01em
+  quote-xs:
+    fontFamily: "Hahmlet, serif"
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 1.75
+    letterSpacing: 0.01em
+  label-xl:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 16px
+    fontWeight: 300
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+    textTransform: uppercase
+  label-lg:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 14px
+    fontWeight: 300
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+    textTransform: uppercase
+  label-md:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 12px
+    fontWeight: 300
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+    textTransform: uppercase
+  label-sm:
+    fontFamily: "Cormorant Infant, serif"
+    fontSize: 10px
+    fontWeight: 300
+    lineHeight: 1.2
+    letterSpacing: 0.08em
+    textTransform: uppercase
+  nav-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1
+    letterSpacing: 0.01em
+    note: "활성 상태는 컴포넌트 레벨에서 font-weight: 700 오버라이드"
+  button-lg:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 18px
+    fontWeight: 600
+    lineHeight: 1.75
+    letterSpacing: 0.01em
+  button-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.75
+    letterSpacing: 0.01em
+  caption-lg:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 18px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  caption-md:
+    fontFamily: "SUIT, sans-serif"
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: 0.01em
+  counter-sm:
+    fontFamily: "Cormorant, serif"
+    fontSize: 20px
+    fontWeight: 400
+    lineHeight: 0.75
+    letterSpacing: 0.04em
+  counter-md:
+    fontFamily: "Cormorant, serif"
+    fontSize: 24px
+    fontWeight: 400
+    lineHeight: 0.75
+    letterSpacing: 0.04em
+  counter-lg:
+    fontFamily: "Cormorant, serif"
+    fontSize: 28px
+    fontWeight: 400
+    lineHeight: 0.75
+    letterSpacing: 0.04em
+  script-display:
+    fontFamily: "Corinthia, cursive"
+    fontSize: 72px
+    fontWeight: 400
+    lineHeight: 0.9
+    letterSpacing: 0.01em
+    responsive: "112px ≥768px"
+  script-accent:
+    fontFamily: "Estonia, cursive"
+    fontSize: 24px
+    fontWeight: 400
+    lineHeight: 1
+    letterSpacing: 0.14em
+    responsive: "32px ≥768px"
+
+spacing:
+  component:
+    gap:                  # Tailwind: gap-comp-{step}
+      3xs:  2px
+      xxs:  4px
+      xs:   6px
+      sm:   8px
+      md:   12px
+      base: 16px
+      lg:   20px
+      xl:   24px
+      xxl:  28px
+      3xl:  32px
+      4xl:  36px
+    padding:              # Tailwind: p{x|y}-pad-{step}
+      3xs:  8px
+      xxs:  12px
+      xs:   16px
+      sm:   20px
+      md:   24px
+      base: 28px
+      lg:   32px
+      xl:   36px
+      xxl:  40px
+      3xl:  44px
+      4xl:  48px
+  layout:                 # Tailwind: gap-layout-{step}
+    xs:   2px
+    sm:   16px
+    base: 24px
+    md:   32px
+    lg:   48px
+    xl:   60px
+    xxl:  80px
+  section:                # Tailwind: p{y|b}-section-{step}
+    sm:  60px   # mobile
+    md:  80px   # tablet
+    lg:  100px  # desktop
+    xl:  120px  # 페이지 마지막 섹션 하단 — 모바일
+    xxl: 160px  # 페이지 마지막 섹션 하단 — 태블릿
+    3xl: 200px  # 페이지 마지막 섹션 하단 — 데스크탑
+
+rounded:
+  none: 0px
+  xs: 4px
+  sm: 6px
+  md: 8px
+  lg: 12px
+  xl: 16px
+  full: 9999px
+
+components:
+
+  # ─────────────────────────────────────────────
+  # 네비게이션
+  # ─────────────────────────────────────────────
+
+  site-nav-bar-home:
+    backgroundColor: "rgba(36,31,37,0.72)"
+    border: "rgba(255,255,255,0.1)"
+    height: 82px
+    padding: "16px 16px (mobile) / 16px 32px (tablet) / 16px 60px (desktop)"
+    backdropBlur: 20px
+    logo-icon-size: 50px
+    logo-image-size: 36px
+    logo-text-size: "14px (mobile) / 20px (desktop)"
+    logo-text-tracking: 0.3em
+
+  site-nav-bar-inner:
+    backgroundColor: "rgba(255,255,255,0.95)"
+    border: "{colors.border.darkPurple15}"
+    height: 82px
+    padding: "16px 16px (mobile) / 16px 32px (tablet) / 16px 60px (desktop)"
+    backdropBlur: 20px
+
+  site-nav-link-home:
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.nav-md}"
+    padding: "16px 18px"
+    tracking: 0.2em
+
+  site-nav-link-inner:
+    textColor: "{colors.ink}"
+    typography: "{typography.nav-md}"
+    padding: "16px 18px"
+    tracking: 0.2em
+
+  site-nav-dropdown-home:
+    backgroundColor: "rgba(36,31,37,0.92)"
+    border: "rgba(255,255,255,0.1)"
+    rounded: 8px
+    padding: "8px 0"
+    backdropBlur: 20px
+    shadow: "0 18px 45px rgba(0,0,0,0.24)"
+
+  site-nav-dropdown-inner:
+    backgroundColor: "{colors.background}"
+    border: "{colors.border.darkPurple15}"
+    rounded: 8px
+    padding: "8px 0"
+    backdropBlur: 20px
+    shadow: "0 18px 45px rgba(0,0,0,0.12)"
+
+  site-nav-dropdown-item-home:
+    textColor: "rgba(255,255,255,0.9)"
+    typography: "{typography.body-sm}"
+    padding: "12px 16px"
+
+  site-nav-dropdown-item-inner:
+    textColor: "rgba(37,0,48,0.8)"
+    typography: "{typography.body-sm}"
+    padding: "12px 16px"
+
+  mobile-nav-panel-home:
+    backgroundColor: "rgba(36,31,37,0.96)"
+    border: "rgba(255,255,255,0.1)"
+    backdropBlur: 20px
+
+  mobile-nav-panel-inner:
+    backgroundColor: "{colors.background}"
+    border: "{colors.border.darkPurple15}"
+    backdropBlur: 20px
+
+  mobile-nav-link:
+    typography: "{typography.button-lg}"
+    height: 56px
+    padding: "16px 8px"
+    border: "currentColor/10"
+
+  mobile-nav-child-link:
+    textColor: "rgba(37,0,48,0.6)"
+    typography: "{typography.body-sm}"
+    padding: "8px 8px"
+
+  mobile-nav-hamburger-btn:
+    height: 44px
+    width: 44px
+    border: "currentColor/20"
+
+  # ─────────────────────────────────────────────
+  # 공통 UI
+  # ─────────────────────────────────────────────
+
+  breadcrumb-bar:
+    backgroundColor: "#f7f6f8"
+    border: "rgba(51,16,63,0.1)"
+    padding: "12px 0"
+
+  breadcrumb-item-active:
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-xs}"
+
+  breadcrumb-item-inactive:
+    textColor: "rgba(51,16,63,0.7)"
+    typography: "{typography.body-xs}"
+
+  lnb-tab-active:
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-xs}"
+    borderBottom: "2.5px solid #33103f"
+    padding: "14px 12px"
+
+  lnb-tab-inactive:
+    textColor: "rgba(51,16,63,0.7)"
+    typography: "{typography.body-xs}"
+    borderBottom: "2.5px solid transparent"
+    padding: "14px 12px"
+
+  page-header:
+    backgroundColor: "linear-gradient(118deg, #2e1f46 27%, #4b3473 87%)"
+    height: "260px (mobile) / 360px (tablet) / 320px (desktop)"
+  page-header-eyebrow:
+    textColor: "{colors.gold}"
+    typography: "{typography.caption-md}"
+  page-header-title:
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.heading-xl}"
+
+  section-heading:
+    max-width: 468px
+    rule-width: 30px
+    rule-height: 1px
+  section-heading-eyebrow:
+    textColor: "{colors.ink.purple}"
+    typography: "{typography.label-lg}"
+  section-heading-title:
+    textColor: "{colors.ink}"
+    typography: "{typography.heading-md}"
+  section-heading-description:
+    textColor: "{colors.ink.purple}"
+    typography: "{typography.subtitle-sm}"
+
+  # ─────────────────────────────────────────────
+  # 버튼
+  # ─────────────────────────────────────────────
+
+  btn-primary:
+    backgroundColor: "{colors.ink.heading2}"
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.body-xs}"
+    rounded: 9999px
+    height: 44px
+    padding: "0 16px"
+    border: "{colors.ink.heading2}"
+
+  btn-secondary:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-xs}"
+    rounded: 9999px
+    height: 44px
+    padding: "0 16px"
+    border: "rgba(139,109,181,0.2)"
+
+  btn-cta-dark:
+    backgroundColor: "{colors.surface.ctaDark}"
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.button-lg}"
+    rounded: 8px
+    padding: "20px"
+    shadow: "0 4px 24px rgba(110,100,100,0.1)"
+
+  btn-load-more:
+    backgroundColor: "{colors.ink.heading2}"
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.body-sm}"
+    rounded: 9999px
+    padding: "12px 24px"
+  btn-load-more-disabled:
+    backgroundColor: "{colors.ink.muted}"
+
+  btn-copy-account:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.button-md}"
+    border: "{colors.border.purple25}"
+    padding: "8px 20px"
+    height: 44px
+
+  # ─────────────────────────────────────────────
+  # 입력
+  # ─────────────────────────────────────────────
+
+  input-search:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-xs}"
+    rounded: 9999px
+    height: 40px
+    padding: "0 16px"
+    border: "rgba(139,109,181,0.15)"
+
+  input-select:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink.body}"
+    typography: "{typography.body-xs}"
+    rounded: 8px
+    height: 44px
+    padding: "12px 36px 12px 16px"
+    border: "rgba(93,61,138,0.15)"
+
+  # ─────────────────────────────────────────────
+  # 카드
+  # ─────────────────────────────────────────────
+
+  card-vision:
+    backgroundColor: "{colors.surface.softPurple}"
+    border: "{colors.border.purple12}"
+    rounded: 4px
+    padding: "30px 24px"
+    shadow: "0 4px 12px rgba(52,22,67,0.15), 4px 8px 24px rgba(44,11,64,0.2)"
+
+  card-dark:
+    backgroundColor: "{colors.surface.ctaDark}"
+    textColor: "{colors.dark.heading}"
+    border: "rgba(255,255,255,0.05)"
+    rounded: 4px
+    padding: "pad-lg pad-sm"
+    shadow: "0 4px 12px rgba(0,0,0,0.1)"
+
+  card-blockquote:
+    backgroundColor: "{colors.surface.blockquote}"
+    borderLeft: "3px solid {colors.ink.citation}"
+    padding: "pad-md pad-lg"
+
+  card-mission-callout:
+    backgroundColor: "radial-gradient(circle at 25% 29%, #1f1035 0%, #2e1d46 100%)"
+    textColor: "{colors.dark.heading}"
+    rounded: 4px
+    padding: "pad-lg (mobile) / pad-xxl (tablet) / pad-4xl (desktop)"
+
+  card-service-time-mobile:
+    backgroundColor: "{colors.background}"
+    border: "{colors.border.purple18}"
+    rounded: 8px
+    padding: "pad-sm"
+    shadow: "0 8px 24px rgba(16,33,63,0.06)"
+
+  # ─────────────────────────────────────────────
+  # 게시판
+  # ─────────────────────────────────────────────
+
+  board-post-item-normal:
+    backgroundColor: "{colors.background}"
+    border: "rgba(93,61,138,0.1)"
+    padding: "16px 12px (mobile) / 20px (desktop)"
+  board-post-item-pinned:
+    backgroundColor: "rgba(139,109,181,0.05)"
+    border: "rgba(93,61,138,0.1)"
+
+  board-post-number-pinned:
+    backgroundColor: "{colors.ink.heading2}"
+    textColor: "{colors.dark.heading}"
+    rounded: 6px
+    padding: "4px 10px"
+    typography: "{typography.label-md}"
+
+  board-post-title:
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-md}"
+
+  board-post-meta:
+    textColor: "{colors.ink.muted}"
+    typography: "{typography.body-xs}"
+
+  board-empty-state:
+    border: "dashed {colors.border.purple18}"
+    rounded: 4px
+    padding: "56px 24px"
+    textColor: "{colors.ink.muted}"
+    typography: "{typography.body-xs}"
+
+  board-pagination-btn:
+    border: "rgba(139,109,181,0.15)"
+    textColor: "{colors.ink.heading2}"
+    typography: "{typography.body-xs}"
+    rounded: 9999px
+    padding: "10px 14px"
+
+  board-pagination-page-active:
+    backgroundColor: "{colors.ink.heading2}"
+    textColor: "{colors.dark.heading}"
+    border: "{colors.ink.heading2}"
+    height: 32px
+    width: 32px
+    rounded: 9999px
+    typography: "{typography.body-xs}"
+  board-pagination-page-inactive:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink.heading2}"
+    border: "rgba(139,109,181,0.15)"
+    height: 32px
+    width: 32px
+    rounded: 9999px
+    typography: "{typography.body-xs}"
+
+  board-detail-adjacent-post:
+    backgroundColor: "{colors.background}"
+    border: "dashed rgba(93,61,138,0.2)"
+    rounded: 16px
+    padding: "24px"
+
+  board-attachment-dropdown-item:
+    rounded: 12px
+    padding: "12px 16px"
+  board-attachment-icon-download:
+    backgroundColor: "rgba(139,109,181,0.1)"
+    textColor: "{colors.ink.purple}"
+    height: 36px
+    width: 36px
+    rounded: 9999px
+
+  # ─────────────────────────────────────────────
+  # 영상
+  # ─────────────────────────────────────────────
+
+  video-thumbnail-longform:
+    backgroundColor: "{colors.ink.heading2}"
+    height: 84px
+    width: 132px
+    rounded: 8px
+  video-thumbnail-longform-play-btn:
+    backgroundColor: "rgba(255,255,255,0.12)"
+    border: "rgba(255,255,255,0.2)"
+    height: 36px
+    width: 36px
+    rounded: 9999px
+
+  video-thumbnail-shortform:
+    backgroundColor: "{colors.ink.heading2}"
+    rounded: 8px
+
+  video-thumbnail-related:
+    backgroundColor: "{colors.ink.heading2}"
+    height: 78px
+    width: 120px
+    rounded: 8px
+
+  video-pagination-page-active:
+    backgroundColor: "{colors.ink.heading2}"
+    textColor: "{colors.dark.heading}"
+    height: 32px
+    width: 32px
+    rounded: 9999px
+  video-pagination-page-inactive:
+    border: "rgba(51,16,63,0.12)"
+    textColor: "{colors.ink.heading2}"
+    height: 32px
+    width: 32px
+    rounded: 9999px
+  video-pagination-prev-next:
+    border: "rgba(51,16,63,0.12)"
+    textColor: "{colors.ink.heading2}"
+    rounded: 9999px
+    padding: "10px 14px"
+
+  # ─────────────────────────────────────────────
+  # 탭
+  # ─────────────────────────────────────────────
+
+  tab-sidebar-light:
+    backgroundColor: "{colors.surface.revivalSidebar}"
+    width: 180px
+  tab-sidebar-item-light-active:
+    backgroundColor: "{colors.surface.revivalTabContent}"
+    textColor: "{colors.ink.heading2}"
+    borderLeft: "2px solid #340653"
+    borderBottom: "{colors.border.darkPurple15}"
+    padding: "pad-xxs pad-xs"
+    height: 66px
+  tab-sidebar-item-light-inactive:
+    backgroundColor: "rgba(255,255,255,0.6)"
+    textColor: "{colors.ink.heading2}"
+    borderLeft: "2px solid transparent"
+    borderBottom: "{colors.border.darkPurple15}"
+    padding: "pad-xxs pad-xs"
+    height: 66px
+
+  tab-sidebar-dark:
+    backgroundColor: "rgba(255,255,255,0.04)"
+    width: 180px
+  tab-sidebar-item-dark-active:
+    backgroundColor: "{colors.surface.revivalPanel}"
+    textColor: "{colors.dark.bodyAlt}"
+    borderLeft: "2px solid {colors.gold}"
+    borderBottom: "rgba(227,191,255,0.15)"
+    padding: "pad-xxs pad-xs"
+    height: 66px
+  tab-sidebar-item-dark-inactive:
+    backgroundColor: "rgba(255,255,255,0.08)"
+    textColor: "{colors.dark.bodyAlt}"
+    borderLeft: "2px solid transparent"
+    borderBottom: "rgba(227,191,255,0.15)"
+    padding: "pad-xxs pad-xs"
+    height: 66px
+
+  tab-curriculum-stage-active:
+    backgroundColor: "{colors.surface.ctaDark}"
+    textColor: "{colors.dark.heading}"
+  tab-curriculum-stage-inactive:
+    backgroundColor: "{colors.background}"
+    textColor: "{colors.ink.heading2}"
+  tab-curriculum-label-active:
+    textColor: "{colors.gold.mid}"
+    typography: "{typography.label-lg}"
+  tab-curriculum-label-inactive:
+    textColor: "{colors.ink.purple}"
+    typography: "{typography.label-lg}"
+
+  tab-progress-indicator-active:
+    backgroundColor: "{colors.ink.heading2}"
+    height: 2px
+  tab-progress-indicator-inactive:
+    backgroundColor: "rgba(139,109,181,0.25)"
+    height: 2px
+
+  # ─────────────────────────────────────────────
+  # 푸터
+  # ─────────────────────────────────────────────
+
+  footer:
+    backgroundColor: "{colors.surface.footer}"
+    padding: "40px 20px (mobile) / 40px (tablet) / 60px 80px (desktop)"
+  footer-site-name:
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.title-xl}"
+  footer-address:
+    textColor: "rgba(255,255,255,0.5)"
+    typography: "{typography.body-md}"
+  footer-nav-group-title:
+    textColor: "{colors.dark.heading}"
+    typography: "{typography.body-md}"
+  footer-nav-child-link:
+    textColor: "rgba(255,255,255,0.5)"
+    typography: "{typography.body-sm}"
+  footer-divider:
+    border: "rgba(255,255,255,0.2)"
+  footer-copyright:
+    textColor: "rgba(255,255,255,0.3)"
+    typography: "{typography.body-sm}"
+  footer-social-btn:
+    backgroundColor: "#2c1838"
+    textColor: "rgba(255,255,255,0.8)"
+    height: 40px
+    width: 40px
+    rounded: 9999px
+  footer-social-btn-hover:
+    backgroundColor: "#3a2148"
+    textColor: "{colors.dark.heading}"
+---
+```
+
+## 개요
+
+행복이 가득한 시온교회는 에디토리얼 교회 사이트 비주얼 언어를 사용합니다. 조용한 아이보리 서피스, 깊은 플럼 필드, 골드 액센트 타이포그래피, 한국어 세리프 헤딩, 이미지 중심의 선교 스토리텔링으로 구성됩니다. 핵심 브랜드 감성은 경건함, 따뜻함, 구조적 명확성, 사역 중심입니다.
+
+기본 캔버스는 **흰색** (`{colors.background}` — #ffffff)으로, about 페이지와 콘텐츠 영역에서 사용됩니다. 소프트 퍼플(`{colors.surface.softPurple}` — #fcf8ff)은 비전 패널과 정보 패널에, 짙은 다크 플럼 필드(`{colors.surface.dark}`)는 선교 스크롤 섹션에 사용됩니다. 단일 주요 액션 컬러는 없으며, **플럼**(`{colors.ink.citation}` — #510a75)을 인터랙티브 강조에, **골드**(`{colors.gold}` — #C9A96E)를 다크 배경 에디토리얼 액센트에 사용합니다.
+
+타이포그래피는 **Hahmlet**(한국어 세리프 — 교리적 무게, 헤딩, 인용문)과 **SUIT**(산세리프 — 본문, UI, 내비게이션)로 나뉩니다. 장식용 폰트 **Cormorant**와 **Corinthia**는 카운터 숫자와 스크립트 디스플레이에, **Estonia**와 **Cormorant Infant**는 서브타이틀과 레이블에 사용됩니다.
+
+형태 언어는 **낮은 라운드와 에디토리얼** 스타일입니다. 카드는 8px(`{rounded.md}`), 컨트롤은 6px(`{rounded.sm}`), 원형 형태는 로고·점·소셜 버튼에만 사용합니다(`{rounded.full}`). 둥근 필 형태의 CTA는 없습니다.
+
+**주요 특성:**
+- 다중 서피스 시스템: 화이트(about 페이지) · 소프트 퍼플(비전 패널) · 다크 플럼(선교 섹션)
+- 스크롤 기반 선교 스토리텔링 (홈 페이지)
+- 탭형 사역 패널 (부흥 조직도, 제자 양육)
+- 반응형 카드/테이블 전환 (예배 안내, 버스 노선)
+- 82px 고정 헤더 오프셋 (모든 섹션 scroll-mt 기준)
+
+## 색상
+
+### 서피스 & 배경
+
+시스템은 세 가지 서피스 레이어로 구성됩니다.
+
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.background} | #ffffff | default page background (about pages, cards, content areas) |
-| {colors.surface.cream} * | #fffcf8 | main page join section, join image fade overlay, error page background |
-| {colors.surface.softPurple} | #fcf8ff | soft-purple section/panel bg (home vision, greeting page, location map overlay, revival organization 3rd section) |
-| {colors.surface.photoFrame} | #f2ebf6 | vision photo frame bg (desktop & mobile), mission story image placeholder |
-| {colors.surface.dark} | linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%) | mission scroll sections background |
-| {colors.surface.footer} | #1f0f28 | footer background |
-| {colors.surface.darkHeader} | #241f25 at variable opacity | home page nav bar(var:0.72) / dropdown(var:0.92) / mobile menu panel(var:0.96) |
-| {colors.surface.blockquote} | #f5f0f9 | blockquote bg; discipleship lavender bg (card, tab hover, table row, training course odd row) |
-| {colors.surface.tableHeader} | #FAF7FF | table header row bg (service-times, location) |
-| {colors.surface.ctaDark} | #2a123c | CTA button/card bg (dark section, discipleship pages, online-giving, greeting vision card) |
-| {colors.surface.greetingDark} | #1e1035 | greeting page dark (pastor) section bg |
-| {colors.surface.greetingPurple} | #3f2551 | greeting page purple (church leaders) section bg |
-| {colors.surface.greetingPurpleCard} | #56385E | greeting page church leaders card bg |
-| {colors.surface.greetingMosaicMid} | #9A8CA7 | greeting page mosaic grid filler (mid tone) |
-| {colors.surface.greetingMosaicLight} | #D2C5DB | greeting page mosaic grid filler (light tone) |
-| {colors.surface.revivalGradient} | bg-gradient-to-b from-[#1e1035] to-[#2f2047] | revival organization 2nd section bg |
-| {colors.surface.revivalPanel} | #190b2a | revival org 2nd section tab content panel bg |
-| {colors.surface.revivalInfoPanel} | #1a1028 | revival org 2nd section members info panel bg |
-| {colors.surface.revivalRowHeader} | #341a44 | revival org 3rd section roadmap quarter header row bg |
-| {colors.surface.revivalCard} | #594263 | revival org 3rd section small group section block bg |
-| {colors.surface.revivalSidebar} | #fcfaff | revival org 3rd section sidebar aside bg |
-| {colors.surface.revivalTabContent} | #f4f0f9 | revival org 3rd section tab content bg (incl. active tab) |
+| {colors.background} | #ffffff | 기본 캔버스 — about 페이지 전체, 콘텐츠 섹션 |
+| {colors.surface.cream} | #fffcf8 | 따뜻한 크림 — 영상 상세 사이드바, 아코디언 배경 |
+| {colors.surface.softPurple} | #fcf8ff | 소프트 퍼플 — 비전 패널, 정보 패널, 비전 카드 |
+| {colors.surface.photoFrame} | #f2ebf6 | 포토 프레임 — 리더 인물 카드 이미지 영역 |
+| {colors.surface.blockquote} | #f5f0f9 | 인용문 배경 |
+| {colors.surface.tableHeader} | #FAF7FF | 테이블 헤더 행 |
+| {colors.surface.ctaDark} | #2a123c | CTA 버튼 · 제자 양육 다크 카드 |
+| {colors.surface.footer} | #1f0f28 | 푸터 배경 |
+| {colors.surface.greetingDark} | #1e1035 | 인사말 페이지 다크 섹션 |
+| {colors.surface.greetingPurple} | #3f2551 | 인사말 페이지 퍼플 섹션 |
+| {colors.surface.greetingPurpleCard} | #56385E | 인사말 리더 카드 배경 |
+| {colors.surface.revivalPanel} | #190b2a | 부흥 조직도 다크 패널 |
+| {colors.surface.revivalCard} | #594263 | 부흥 조직도 카드 배경 |
+| {colors.surface.revivalSidebar} | #fcfaff | 부흥 조직도 탭 사이드바 |
+| {colors.surface.revivalTabContent} | #f4f0f9 | 부흥 조직도 탭 콘텐츠 영역 |
 
-### Ink on Light
+### 라이트 배경 잉크
 
-Text colors used on light backgrounds (white, soft-purple `#fcf8ff`, cream `#fffcf8`).
+흰색·소프트 퍼플 배경 위에서 사용하는 텍스트 색상입니다.
 
-| Token | Value | Usage |
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.ink} | #250030 | high-emphasis headings |
-| {colors.ink.heading2} | #33103f | secondary headings, quote card text, tab titles, table top accent border (3px) |
-| {colors.ink.subtitle} | #896B91 | section subtitles |
-| {colors.ink.body} | #4A3B5E | body text |
-| {colors.ink.soft} | #6F5576 | soft body text |
-| {colors.ink.muted} | #928397 | weak secondary text |
-| {colors.ink.emphasis} | #BD6FE0 | inline purple emphasis (church name, address, etc.) |
-| {colors.ink.citation} | #510a75 | quote card left border + scripture citation text, link hover color |
-| {colors.ink.purple} | #8b6db5 | purple accent text — labels, metadata, roadmap badges, section heading labels |
+| {colors.ink} | #250030 | 최상위 헤딩 |
+| {colors.ink.heading2} | #33103f | H2 — 섹션 타이틀, 버튼 배경, 포커스 색상 |
+| {colors.ink.subtitle} | #896B91 | 섹션 서브타이틀 |
+| {colors.ink.body} | #4A3B5E | 본문 텍스트 |
+| {colors.ink.soft} | #6F5576 | 부드러운 본문 텍스트 |
+| {colors.ink.muted} | #928397 | 약한 2차 텍스트 |
+| {colors.ink.emphasis} | #BD6FE0 | 인라인 퍼플 강조(교회명, 주소) |
+| {colors.ink.citation} | #510a75 | 인용문 카드 왼쪽 보더 · 성경 출처 · 링크 호버 색상 |
+| {colors.ink.purple} | #8b6db5 | 퍼플 액센트 — 레이블, 메타데이터, 로드맵 뱃지, 섹션 헤딩 레이블 |
 
-### Ink on Dark
+### 다크 배경 잉크
 
-Text colors used on top of deep purple backgrounds (`{colors.surface.dark}`, `{colors.surface.greetingDark}`, `{colors.surface.greetingPurple}`, etc.).
+짙은 퍼플 배경(`{colors.surface.dark}`, `{colors.surface.greetingDark}` 등) 위에서 사용하는 텍스트 색상입니다.
 
-| Token | Value | Usage |
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.dark.heading} | #FFFFFF | headings |
-| {colors.dark.subtitle} | #E2CAF5 | subtitles |
-| {colors.dark.label} | #FDF4FF | section labels |
-| {colors.dark.body} | #FFFFFF | primary body text |
-| {colors.dark.bodyAlt} | #FDF8FF | soft body text variant |
-| {colors.dark.bodyMuted} | #ffffff at 80% | muted body / label text on dark bg (apply-form labels, revival supporting text, nav links) |
-| {colors.dark.accent} | #E3BFFF | purple point color (decorative accents, UI elements) |
+| {colors.dark.heading} | #FFFFFF | 헤딩 |
+| {colors.dark.subtitle} | #E2CAF5 | 서브타이틀 |
+| {colors.dark.label} | #FDF4FF | 섹션 레이블 |
+| {colors.dark.body} | #FFFFFF | 주요 본문 텍스트 |
+| {colors.dark.bodyAlt} | #FDF8FF | 부드러운 본문 텍스트 변형 |
+| {colors.dark.bodyMuted} | #ffffff at 80% | 다크 배경 보조 텍스트 |
+| {colors.dark.accent} | #E3BFFF | 퍼플 포인트 색상(장식 액센트, UI 요소) |
 
-### Cream Background
+### 포인트 컬러
 
-| Token | Value | Usage |
+라이트/다크 섹션 모두에서 사용되는 골드 및 레드 액센트 색상입니다.
+
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.cream.heading} | #000000 | heading on cream background |
-| {colors.cream.body} | #3C2348 | body text on cream background |
+| {colors.gold} | #C9A96E | 골드 — 메타데이터, 날짜, 마일스톤 레이블 |
+| {colors.gold.mid} | #E4B96B | 중간 골드 — 제자 양육 페이지 액센트 |
+| {colors.gold.bright} | #FFD17D | 밝은 골드 — 장식 숫자, 분기 헤더 |
+| {colors.red} | #B73838 | 레드 — 특수 기간 마커(예: COVID) |
 
-### Section Labels
+### 아이콘
 
-| Token | Value | Usage |
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.label.section23} | #5B3B63 | main page 2nd & 3rd section labels (soft-purple bg) |
-| {colors.label.section45} | #FDF4FF | main page 4th & 5th section labels (dark bg) |
-| {colors.label.join} | #3D1A46 | main page Join section label text + rule below label |
-| {colors.label.purple} | #8B6DB5 | purple label (sub-page common header) |
+| {colors.icon} | #6B4A75 | 아이콘 색상 |
+| {colors.icon.circle} | #DCCEE4 | 아이콘 원형 / 뱃지 배경 |
 
-### Accent / Display
+### 보더
 
-| Token | Value | Usage |
+퍼플 계열 보더가 시스템을 지배합니다. 세 가지 기본 색조의 다양한 불투명도로 모든 보더 요구를 충족합니다.
+
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.accent.visionLabel} | #691393 at 40% | main page vision card English eyebrow label |
-| {colors.accent.visionNumber} | #691393 at 8% | main page vision card number display |
-| {colors.accent.quoteDisplay} | #4d1367 at 10% | quote card decorative quotation mark |
+| {colors.border.soft} * | #3d1a46 at 12% | 전역 소프트 보더(CSS 변수) |
+| {colors.border.purple} /12 | #8b6db5 at 12% | 테이블 셀·행 구분선, 비전 카드 보더, 섹션 구분선(극연함) |
+| {colors.border.purple} /18 | #8b6db5 at 18% | 리스트 구분선, 일반 카드 테두리, 세로 커넥터 선 |
+| {colors.border.purple} /25 | #8b6db5 at 25% | 강조 카드·컨테이너 테두리 |
+| {colors.border.purple} /45 | #8b6db5 at 45% | 버튼 호버 보더(오시는 길 페이지) |
+| {colors.border.purple} /60 | #8b6db5 at 60% | 타임라인 날짜 칸 세로 구분선(교회 스토리) |
+| {colors.border.darkPurple} /5 | #5d3d8a at 5% | 극연한 행 구분선 |
+| {colors.border.darkPurple} /15 | #5d3d8a at 15% | 탭 컨테이너, 카드, 섹션 테두리, 라이트 헤더 보더 |
+| {colors.border.darkPurple} /25 | #5d3d8a at 25% | 버튼 보더 |
+| {colors.border.accent} /15 | #E3BFFF at 15% | 다크 섹션 탭 보더, 미니스트리 태그 뱃지 배경 |
+| {colors.border.accent} /50 | #E3BFFF at 50% | 미니스트리 태그 뱃지 보더, 테이블 행 구분선(revival) |
+| {colors.border.white} /10 | #ffffff at 10% | 다크 배경 카드·입력창·헤더 보더 |
+| {colors.border.white} /20 | #ffffff at 20% | 푸터 구분선, 모바일 햄버거 버튼 보더 |
+| {colors.border.quote.light} | #510a75 | 인용문 카드 왼쪽 보더 — 라이트 배경 |
+| {colors.border.quote.dark} | #6d5898 | 인용문 카드 왼쪽 보더 — 다크 배경(revival) |
 
-### Point Colors
+### 인디케이터 & 포커스
 
-Gold and red accent colors used across both light and dark sections.
-
-| Token | Value | Usage |
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.point.gold} | #C9A96E | gold — metadata, dates, milestone labels |
-| {colors.point.goldMid} | #E4B96B | mid gold — discipleship pages accent |
-| {colors.point.goldBright} | #FFD17D | bright gold — decorative numerals, quarter headers |
-| {colors.point.red} | #B73838 | red — special period markers (e.g. COVID) |
+| {colors.indicator.light} | #340653 | active 도트 — 라이트 섹션 슬라이드 인디케이터 |
+| {colors.indicator.light} /25 | #340653 at 25% | inactive 도트 — 라이트 섹션 |
+| {colors.indicator.dark} | #c9a96e | active 도트 — 다크 섹션 슬라이드 인디케이터 |
+| {colors.indicator.dark} /30 | #c9a96e at 30% | inactive 도트 — 다크 섹션 |
+| {colors.focus.light} | #3d1a46 | 라이트 배경 포커스 아웃라인 |
+| {colors.focus.dark} | #ffffff at 50% | 다크 배경 포커스 아웃라인 |
+| {colors.focus.gold} | #c9a96e at 70% | 다크 배경 포커스 아웃라인 — 골드 액센트 |
 
-### Icon
+### 푸터 & 타임라인
 
-| Token | Value | Usage |
+| 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.icon} | #6B4A75 | icon color |
-| {colors.icon.circle} | #DCCEE4 | decorative circle behind icon (main page 2nd section, bottom-left) |
+| {colors.footer.social} | #2c1838 | 소셜 버튼 기본 |
+| {colors.footer.socialHover} | #3a2148 | 소셜 버튼 호버 |
+| {colors.footer.text} | #ffffff at 50% | 주소, 자식 nav 링크 |
+| {colors.footer.textMuted} | #ffffff at 30% | TEL/EMAIL 레이블 접두사, 저작권 |
+| {colors.timeline.gold} | #e4b96b | 1번 세그먼트(환영 및 교제/찬양) |
+| {colors.timeline.dark} | #2a123c | 2번 세그먼트(주요 콘텐츠) |
+| {colors.timeline.purple} | #8b6db5 | 3번 세그먼트(소그룹 나눔) |
+| {colors.timeline.muted} | #d9d4df | 4번 세그먼트(마무리/기도) |
 
-### Border
+## 타이포그래피
 
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.border.soft} * | #3d1a46 at 12% | global soft border (CSS var) |
-| {colors.border.link} | #331440 at 10% | quick-link card border |
+### 폰트 패밀리
 
-<!-- #ffffff — white border (dark bg) -->
-| {colors.border.white} /5 | #ffffff at 5% | decorative circle border (page-header), dark tab border |
-| {colors.border.white} /10 | #ffffff at 10% | dark bg card / input / header border |
-| {colors.border.white} /20 | #ffffff at 20% | footer divider, home page header mobile hamburger button border |
-| {colors.border.white} /30 | #ffffff at 30% | glass card border (welcome section) |
-| {colors.border.white} /70 | #ffffff at 70% | map address panel border, slider nav button border |
-
-<!-- quote block left border (3px) -->
-| {colors.border.quoteLight} | #510a75 | quote card left border — light bg (lavender blockquote) |
-| {colors.border.quoteDark} | #6d5898 | quote card left border — dark bg (revival org 2nd section) |
-| {colors.border.quoteJoin} | #2a123c | quote block left border — home join section |
-
-<!-- #8b6db5 — light purple border -->
-| {colors.border.purple} /12 | #8b6db5 at 12% | table cell / row divider, vision card border, section divider, core value list divider (subtle) |
-| {colors.border.purple} /18 | #8b6db5 at 18% | list divider, general card border, vertical connector line (roadmap, FAQ timeline) |
-| {colors.border.purple} /25 | #8b6db5 at 25% | emphasized card / container border, roadmap month card border (revival) |
-| {colors.border.purple} /45 | #8b6db5 at 45% | button hover border (location page) |
-| {colors.border.purple} /60 | #8b6db5 at 60% | timeline date column vertical divider (church-story) |
-
-<!-- #5d3d8a — dark purple border -->
-| {colors.border.darkPurple} /5 | #5d3d8a at 5% | ultra-subtle row divider |
-| {colors.border.darkPurple} /15 | #5d3d8a at 15% | tab container, card, section border, table outer container border, light header border |
-| {colors.border.darkPurple} /25 | #5d3d8a at 25% | button border |
-
-<!-- #e3bfff — light accent border (dark bg) -->
-| {colors.border.accent} /15 | #E3BFFF at 15% | dark section tab border, ministry tag badge background (revival) |
-| {colors.border.accent} /50 | #E3BFFF at 50% | ministry tag badge border, table row divider (revival) |
-
-
-### Indicator Dot
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.indicator.light} | #340653 | active dot — light section slide indicator (revival) |
-| {colors.indicator.light} /25 | #340653 at 25% | inactive dot — light section slide indicator (revival) |
-| {colors.indicator.dark} | #c9a96e | active dot — dark section slide indicator (revival) |
-| {colors.indicator.dark} /30 | #c9a96e at 30% | inactive dot — dark section slide indicator (revival) |
-
-### Focus Outline
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.focus.light} | var(--color-plum) = #3d1a46 | focus outline on light bg (header, revival tab, error page buttons) |
-| {colors.focus.dark} | #ffffff at 50% | focus outline on dark bg (header dark mode, slider buttons) |
-| {colors.focus.gold} | #c9a96e at 70% | focus outline on dark bg — gold accent (revival dark tab button) |
-
-### Glass Overlay (welcome section)
-
-Not named tokens — always expressed inline as context-specific opacity values.
-
-| Element | Value |
-| --- | --- |
-| cloud image wash | #ffffff at 20% |
-| verse card background | #ffffff at 42% |
-| quick-link card background | #ffffff at 80% |
-| map address panel background | #ffffff at 88% |
-
-### Footer
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.footer.social} | #2c1838 | social button default |
-| {colors.footer.socialHover} | #3a2148 | social button hover |
-| {colors.footer.text} | #ffffff at 50% | address, child nav links |
-| {colors.footer.textMuted} | #ffffff at 30% | TEL/EMAIL label prefix, copyright text |
-
-### Timeline Bar
-
-4-segment ratio bar used in discipleship pages (training, care) to visualize class structure breakdown.
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {colors.timeline.gold} | #e4b96b | first segment (welcome & fellowship / worship) |
-| {colors.timeline.dark} | #2a123c | second segment (main content) |
-| {colors.timeline.purple} | #8b6db5 | third segment (small group) |
-| {colors.timeline.muted} | #d9d4df | fourth segment (closing / wrap-up) |
-
-## 3. Typography
-
-### Font Families
-
-| Token | Family | Source | Usage |
+| 토큰 | 패밀리 | 출처 | 사용처 |
 | --- | --- | --- | --- |
-| {font.sans} | SUIT, sans-serif | CDN import in `globals.css` | body, nav, paragraphs, UI |
-| {font.serifKo} | Hahmlet, serif | `next/font/google` | Korean headings, cards, quotes |
-| {font.cormorant} | Cormorant, serif | `next/font/google` | counter numerals, decorative numbers |
-| {font.cormorantGaramond} | Cormorant Garamond, serif | `next/font/google` | legacy — being replaced by {font.cormorant} |
-| {font.cormorantInfant} | Cormorant Infant, serif | `next/font/google` | section labels, subtitles, gallery captions |
-| {font.corinthia} | Corinthia, cursive | `next/font/google` | decorative counters |
-| {font.estonia} | Estonia, cursive | `next/font/google` | script subtitles |
+| {font.sans} | SUIT, sans-serif | `globals.css` CDN 임포트 | 본문, 내비게이션, 단락, UI |
+| {font.serifKo} | Hahmlet, serif | `next/font/google` | 한국어 헤딩, 카드, 인용문 |
+| {font.cormorant} | Cormorant, serif | `next/font/google` | 카운터 숫자 |
+| {font.cormorantInfant} | Cormorant Infant, serif | `next/font/google` | 섹션 레이블, 서브타이틀, 갤러리 캡션 |
+| {font.corinthia} | Corinthia, cursive | `next/font/google` | 장식용 스크립트 디스플레이 |
+| {font.estonia} | Estonia, cursive | `next/font/google` | 스크립트 서브타이틀 |
 
-### Global Type Scale
+### 타입 스케일
 
-Scale-based naming (xl / lg / md / sm / xs). Heading tokens are responsive; all others are fixed. CSS classes follow the pattern `.type-{token}` (e.g. `.type-heading-xl`). Nav active state uses a `font-weight: 700` component-level override. Decorative tokens (script-display, display-counter, script-accent) are inline-only and not part of the scale. Label tokens include `text-transform: uppercase` — do not add a separate `uppercase` class.
+CSS 클래스는 `.type-{토큰}` 형식을 따릅니다(예: `.type-title-lg`). 헤딩 토큰은 반응형이며 나머지는 고정값입니다. label 토큰은 `text-transform: uppercase`를 포함하므로 별도 `uppercase` 클래스를 추가하지 않습니다.
 
-| Token | Role | Family | Size | Weight | Line Height | Letter Spacing | Responsive |
+| 토큰 | 역할 | 패밀리 | 크기 | 두께 | 줄 높이 | 자간 | 반응형 |
 | --- | --- | --- | ---: | ---: | ---: | ---: | --- |
-| {type.heading.xl} | page banner title | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
-| {type.heading.lg} | section heading (large) | {font.serifKo} | 36px | 600 | 1.3 | 0.01em | 42px ≥768px / 48px ≥1024px |
-| {type.heading.md} | section heading | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
-| {type.subtitle.lg} | section description (large) | {font.cormorantInfant} | 24px | 400 | 1.2 | 0.08em | — |
-| {type.subtitle.md} | section description (medium) | {font.cormorantInfant} | 20px | 400 | 1.2 | 0.08em | — |
-| {type.subtitle.sm} | section description | {font.cormorantInfant} | 16px | 400 | 1.2 | 0.08em | — |
-| {type.title.xxs} | micro title / table header | {font.serifKo} | 14px | 600 | 1.5 | 0.01em | — |
-| {type.title.xs} | component sub-heading | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
-| {type.title.sm} | card title (small) | {font.serifKo} | 18px | 600 | 1.5 | 0.01em | — |
-| {type.title.md} | card title (medium) | {font.serifKo} | 20px | 600 | 1.5 | 0.01em | — |
-| {type.title.lg} | card title (large) | {font.serifKo} | 22px | 600 | 1.5 | 0.01em | — |
-| {type.title.xl} | card title (x-large) | {font.serifKo} | 24px | 600 | 1.5 | 0.01em | — |
-| {type.body.lg} | body text (large) | {font.sans} | 20px | 400 | 1.8 | 0.01em | — |
-| {type.body.md} | body text | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
-| {type.body.sm} | body text (small) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
-| {type.body.xs} | body text (x-small) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
-| {type.quote.lg} | quote text (large) | {font.serifKo} | 20px | 500 | 1.8 | 0.01em | — |
-| {type.quote.md} | quote text | {font.serifKo} | 18px | 500 | 1.8 | 0.01em | — |
-| {type.quote.sm} | quote text (small) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
-| {type.quote.xs} | quote text (x-small) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
-| {type.label.xl} | person name / large label | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | — |
-| {type.label.lg} | section eyebrow | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | — |
-| {type.label.md} | card label | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | — |
-| {type.label.sm} | micro label | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | — |
-| {type.nav.md} | nav / breadcrumb | {font.sans} | 16px | 500 | 1 | 0.01em | — |
-| {type.caption.lg} | caption (large) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
-| {type.caption.md} | caption | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
-| {type.button.lg} | button label (large) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
-| {type.button.md} | button label | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
-| {type.counter.sm} | counter numeral (small) | {font.cormorant} | 20px | 400 | 0.75 | 0.04em | — |
-| {type.counter.md} | counter numeral | {font.cormorant} | 24px | 400 | 0.75 | 0.04em | — |
-| {type.counter.lg} | counter numeral (large) | {font.cormorant} | 28px | 400 | 0.75 | 0.04em | — |
-| {type.scriptDisplay} | decorative | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
-| {type.displayCounter} | decorative | {font.corinthia} | 56px | 400 | 1 | 0.01em | — |
-| {type.scriptAccent} | decorative | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |
+| {type.heading.xl} | 페이지 배너 타이틀 | {font.serifKo} | 40px | 600 | 1 | -0.02em | 46px ≥768px / 52px ≥1024px |
+| {type.heading.lg} | 섹션 헤딩 (대) | {font.serifKo} | 36px | 600 | 1.3 | 0.01em | 42px ≥768px / 48px ≥1024px |
+| {type.heading.md} | 섹션 헤딩 | {font.serifKo} | 28px | 600 | 1.25 | -0.02em | 32px ≥768px / 36px ≥1024px |
+| {type.subtitle.lg} | 섹션 설명 (대) | {font.cormorantInfant} | 24px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.md} | 섹션 설명 | {font.cormorantInfant} | 20px | 400 | 1.2 | 0.08em | — |
+| {type.subtitle.sm} | 섹션 설명 (소) | {font.cormorantInfant} | 16px | 400 | 1.2 | 0.08em | — |
+| {type.title.xxs} | 마이크로 타이틀 / 테이블 헤더 | {font.serifKo} | 14px | 600 | 1.5 | 0.01em | — |
+| {type.title.xs} | 컴포넌트 소제목 | {font.serifKo} | 16px | 600 | 1.5 | 0.01em | — |
+| {type.title.sm} | 카드 제목 (소) | {font.serifKo} | 18px | 600 | 1.5 | 0.01em | — |
+| {type.title.md} | 카드 제목 (중) | {font.serifKo} | 20px | 600 | 1.5 | 0.01em | — |
+| {type.title.lg} | 카드 제목 (대) | {font.serifKo} | 22px | 600 | 1.5 | 0.01em | — |
+| {type.title.xl} | 카드 제목 (특대) | {font.serifKo} | 24px | 600 | 1.5 | 0.01em | — |
+| {type.body.lg} | 본문 (대) | {font.sans} | 20px | 400 | 1.8 | 0.01em | — |
+| {type.body.md} | 본문 | {font.sans} | 18px | 400 | 1.8 | 0.01em | — |
+| {type.body.sm} | 본문 (소) | {font.sans} | 16px | 400 | 1.8 | 0.01em | — |
+| {type.body.xs} | 본문 (극소) | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.quote.lg} | 인용 텍스트 (대) | {font.serifKo} | 20px | 500 | 1.8 | 0.01em | — |
+| {type.quote.md} | 인용 텍스트 | {font.serifKo} | 18px | 500 | 1.8 | 0.01em | — |
+| {type.quote.sm} | 인용 텍스트 (소) | {font.serifKo} | 16px | 500 | 1.8 | 0.01em | — |
+| {type.quote.xs} | 인용 텍스트 (극소) | {font.serifKo} | 14px | 500 | 1.75 | 0.01em | — |
+| {type.label.xl} | 레이블 (대) | {font.cormorantInfant} | 16px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.lg} | 섹션 아이브로 | {font.cormorantInfant} | 14px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.md} | 카드 레이블 | {font.cormorantInfant} | 12px | 300 | 1.2 | 0.08em | uppercase |
+| {type.label.sm} | 마이크로 레이블 | {font.cormorantInfant} | 10px | 300 | 1.2 | 0.08em | uppercase |
+| {type.nav.md} | 네비게이션 링크 | {font.sans} | 16px | 500 | 1 | 0.01em | 활성: weight 700 |
+| {type.button.lg} | 버튼 (대) | {font.sans} | 18px | 600 | 1.75 | 0.01em | — |
+| {type.button.md} | 버튼 | {font.sans} | 16px | 600 | 1.75 | 0.01em | — |
+| {type.caption.lg} | 캡션 (대) | {font.sans} | 18px | 400 | 1.5 | 0.01em | — |
+| {type.caption.md} | 캡션 | {font.sans} | 14px | 400 | 1.5 | 0.01em | — |
+| {type.counter.sm} | 카운터 숫자 (소) | {font.cormorant} | 20px | 400 | 0.75 | 0.04em | — |
+| {type.counter.md} | 카운터 숫자 | {font.cormorant} | 24px | 400 | 0.75 | 0.04em | — |
+| {type.counter.lg} | 카운터 숫자 (대) | {font.cormorant} | 28px | 400 | 0.75 | 0.04em | — |
+| {type.scriptDisplay} | 장식용 | {font.corinthia} | 72px | 400 | 0.9 | 0.01em | 112px ≥768px |
+| {type.scriptAccent} | 장식용 | {font.estonia} | 24px | 400 | 1 | 0.14em | 32px ≥768px |
 
-## 4. Layout
+### 원칙
 
-### Spacing Tokens
+시스템은 한국어 세리프 헤딩에 교리적·감성적 무게를 맡깁니다. Hahmlet이 전체 헤딩 스케일을 담당하며, 디스플레이 헤딩은 36–52px / 600 weight로 조용하고 경건하게 렌더링됩니다. SUIT 400으로 작성된 본문 텍스트는 긴 제자 양육 페이지에서도 편안한 가독성을 유지합니다.
 
-| Token | Value | Usage |
+시스템에서 타이포그래피적으로 가장 큰 순간은 메인 페이지 히어로의 **스크립트 디스플레이**(`{type.scriptDisplay}` — 72px/112px Corinthia)입니다. 그 외 모든 곳에서 스케일은 예측 가능하게 내려갑니다.
+
+label 토큰(`{type.label.*}`)은 CSS 정의에 `text-transform: uppercase`를 포함합니다. label 토큰 위에 두 번째 `uppercase` 클래스를 추가하지 않습니다.
+
+## 레이아웃
+
+### 간격
+
+토큰은 사용 범위에 따라 세 티어로 구분합니다. 이 목록에 없는 값은 일회성(one-off)으로 인라인 적용합니다.
+
+Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout-{step}` / `p{y|b}-section-{step}`
+
+**컴포넌트 갭 (`gap-comp-*`)** — UI 요소 내부 flex/grid 간격
+
+| 단계 | 값 | 역할 |
 | --- | ---: | --- |
-| {spacing.0} | 0px | dense mosaic/grid seams |
-| {spacing.0_5} | 2px | image/grid gutters |
-| {spacing.1} | 4px | micro gaps |
-| {spacing.1_5} | 6px | compact indicators |
-| {spacing.2} | 8px | label/title micro spacing |
-| {spacing.3} | 12px | small gaps, dividers |
-| {spacing.4} | 16px | default mobile horizontal rhythm |
-| {spacing.5} | 20px | mobile section/card padding |
-| {spacing.6} | 24px | card padding, row gap |
-| {spacing.7} | 28px | quote/card internal padding |
-| {spacing.8} | 32px | desktop shell padding |
-| {spacing.10} | 40px | section/card gap |
-| {spacing.12} | 48px | section header to content |
-| {spacing.14} | 56px | mission grid gap |
-| {spacing.15} | 60px | primary section internal gap |
-| {spacing.16} | 64px | medium section vertical gap |
-| {spacing.20} | 80px | large section group gap |
-| {spacing.24} | 96px | home mission mobile gap |
-| {spacing.25} | 100px | desktop section top/gap |
-| {spacing.32} | 128px | pastor section vertical padding |
-| {spacing.36} | 144px | large hero section padding |
-| {spacing.45} | 180px | desktop CTA vertical padding |
-| {spacing.50} | 200px | major desktop bottom padding |
+| 3xs | 2px | 밀집 목록 최소 간격 |
+| xxs | 4px | 아이콘↔텍스트 마이크로 간격 |
+| xs | 6px | 불릿 점↔텍스트 간격 |
+| sm | 8px | 레이블·칩 간격, 타이틀↔설명 |
 
-### Container Tokens
+| md | 12px | 아이브로 라인·텍스트 행 간격 |
+| base | 16px | 컴포넌트 기본 수직 간격 |
+| lg | 20px | 카드 내부 그룹 간격, 섹션헤딩 outer |
+| xl | 24px | 카드 섹션 구분 |
+| xxl | 28px | 카드 내부 넓은 간격 |
+| 3xl | 32px | 컴포넌트 내부 대형 간격 |
+| 4xl | 36px | 컴포넌트 내부 최대 간격 |
 
-| Token | Value | Usage |
+**컴포넌트 패딩 (`p{x|y}-pad-*`)** — UI 요소 내부 패딩
+
+| 단계 | 값 | 역할 |
 | --- | ---: | --- |
-| {layout.shell.max.base} | 1120px | default `section-shell` |
-| {layout.shell.max.narrow.base} | 920px | about pages default |
-| {layout.shell.max.wide.base} | 1280px | wider content layouts |
-| {layout.shell.padding.mobile} | 16px | `section-shell` base inline padding |
-| {layout.shell.padding.tablet} | 32px | `section-shell` >=768px |
-| {layout.shell.max.desktop} | 1200px | `section-shell` >=1280px |
-| {layout.shell.max.narrow.desktop} | 1040px | narrow shell >=1280px |
-| {layout.shell.max.wide.desktop} | 1360px | wide shell >=1280px |
-| {layout.shell.max.xl} | 1400px | shell >=1536px |
-| {layout.shell.max.wide.xl} | 1480px | wide shell >=1536px |
+| 3xs | 8px | 행 상하 패딩 (엔트리 로우) |
+| xxs | 12px | 탭 사이드바 버튼 세로 패딩, 테이블 셀 가로 패딩 |
+| xs | 16px | 탭 사이드바 버튼 가로 패딩 |
+| sm | 20px | 소형 카드 패딩 |
+| md | 24px | 기본 카드 패딩 |
+| base | 28px | 카드 기본 패딩 |
+| lg | 32px | 카드 패딩 (대) |
+| xl | 36px | 카드 패딩 (특대) |
+| xxl | 40px | 카드 패딩 (최대) |
+| 3xl | 44px | 카드 패딩 (3xl) |
+| 4xl | 48px | 카드 세로 패딩, 섹션 콜아웃 |
 
-### Grid Tokens
+**레이아웃 (`gap-layout-*`)** — 섹션 내 컨테이너 간 간격
 
-| Token | Value | Usage |
-| --- | --- | --- |
-| {grid.missionHistory.tablet} | minmax(0, 1fr) 300px | timeline + image rail >=768px |
-| {grid.missionHistory.desktop} | minmax(0, 560px) 400px | timeline + image rail >=1024px |
-| {grid.location.map.mobile} | aspect-ratio 16 / 11 | mobile map |
-| {grid.location.map.tablet} | aspect-ratio 16 / 8 | tablet map |
-| {grid.location.map.desktop} | aspect-ratio 16 / 7 | desktop map |
-| {grid.serviceTable.minWidth} | 860px | worship table scroll width |
-| {grid.busTable.minWidth.tablet} | 680px | bus table scroll width |
-| {grid.busTable.minWidth.desktop} | 760px | bus table scroll width |
-| {grid.revival.tabs.desktop} | 180px + 1fr | side tab + content panel |
-
-Layout principles:
-
-- Use full-width sections with constrained `section-shell` inner content.
-- Prefer vertical stacking on mobile, then two-column layouts from tablet upward.
-- Keep mobile cards readable with 20px horizontal padding and 20px vertical padding.
-- Use 60px as the primary gap between section heading and major content on about pages.
-- Use 200px bottom padding for major desktop about sections that need breathing room.
-
-## 5. Elevation & Depth
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {shadow.soft} | 0 14px 40px rgba(20, 6, 26, 0.12) | global surface card |
-| {shadow.header.light} | 0 4px 20px rgba(0, 0, 0, 0.05) | non-home sticky header |
-| {shadow.dropdown.dark} | 0 18px 45px rgba(0, 0, 0, 0.24) | home desktop dropdown |
-| {shadow.dropdown.light} | 0 18px 45px rgba(0, 0, 0, 0.12) | non-home dropdown |
-| {shadow.mobileMenu.dark} | 0 18px 45px rgba(0, 0, 0, 0.28) | home mobile menu |
-| {shadow.card.soft} | 0 8px 24px rgba(16, 33, 63, 0.06) | mobile table cards |
-| {shadow.card.purple} | 0 12px 24px rgba(51, 16, 63, 0.14) | giving chips/map overlay |
-| {shadow.mapOverlay} | 0 12px 28px rgba(51, 16, 63, 0.14) | map address panel |
-| {shadow.revivalCard} | 0 6px 9px rgba(0, 0, 0, 0.15) | revival value cards |
-| {blur.header} | 20px | sticky header/dropdown backdrop |
-| {blur.surfaceCard} | 8px | translucent global card |
-| {blur.mapOverlay} | 12px | map address panel |
-| {blur.welcomeCard} | 10px | home welcome glass panel |
-
-Depth rules:
-
-- Use blur only with translucent surfaces.
-- Use stronger shadows on overlays and menus, not on page sections.
-- Dark sections should express depth with gradients and opacity layers before heavy shadow.
-
-## 6. Shapes
-
-| Token | Value | Usage |
+| 단계 | 값 | 역할 |
 | --- | ---: | --- |
-| {radius.none} | 0px | table rows, editorial rails, square image grids |
-| {radius.xs} | 4px | map buttons, map address overlay, small controls |
-| {radius.sm} | 6px | giving chips, form controls |
-| {radius.md} | 8px | standard cards, section callouts |
-| {radius.lg} | 12px | home quick link icon cards |
-| {radius.xl} | 16px | large media cards |
-| {radius.full} | 9999px | logo frame, dots, social buttons |
+| xs | 2px | 구분선 마이크로 간격 |
+| sm | 16px | 소형 컨테이너 간격 |
+| base | 24px | 기본 컨테이너 간격 |
+| md | 32px | 컨테이너 간 중간 간격 |
+| lg | 48px | 섹션 헤딩 → 콘텐츠 갭 |
+| xl | 60px | 주요 섹션 내부 갭 |
+| xxl | 80px | 대형 섹션 그룹 갭 |
 
-Shape rules:
+**섹션 (`p{y|b}-section-*`)** — 페이지 레벨 수직 리듬
 
-- Cards should generally use {radius.md} or less.
-- Editorial dark panels can use {radius.none} or {radius.xs}.
-- Circular shapes are reserved for logos, dots, social buttons, and timeline markers.
-
-## 7. Components
-
-### Site Header
-
-| Token | Value |
-| --- | --- |
-| {component.header.position} | fixed top 0 |
-| {component.header.heightOffset} | 82px |
-| {component.header.padding.mobile} | 16px 16px |
-| {component.header.padding.tablet} | 16px 32px |
-| {component.header.padding.desktop} | 16px 60px |
-| {component.header.logoIcon} | 50px container / 36px image |
-| {component.header.logoText.size.mobile} | 14px |
-| {component.header.logoText.size.desktop} | 20px |
-| {component.header.logoText.tracking} | 0.3em |
-| {component.header.desktopNav.padding} | 16px 18px |
-| {component.header.desktopNav.tracking} | 0.2em |
-| {component.header.mobileButton.size} | 44px |
-| {component.header.mobileMenu.maxHeight} | calc(100svh - 82px) |
-
-### Page Header
-
-| Token | Value |
-| --- | --- |
-| {component.pageHeader.height.mobile} | 260px |
-| {component.pageHeader.height.tablet} | 360px |
-| {component.pageHeader.height.desktop} | 320px |
-| {component.pageHeader.subtitle.size} | 12px |
-| {component.pageHeader.subtitle.tracking} | 0.16em |
-| {component.pageHeader.title.size.mobile} | 40px |
-| {component.pageHeader.title.size.tablet} | 46px |
-| {component.pageHeader.title.size.desktop} | 52px |
-| {component.pageHeader.gradient} | linear-gradient(118deg, #2e1f46 27%, #4b3473 87%) |
-
-### Section Heading
-
-| Token | Value |
-| --- | --- |
-| {component.sectionHeading.maxWidth} | 468px |
-| {component.sectionHeading.rule.width} | 30px |
-| {component.sectionHeading.rule.height} | 1px |
-| {component.sectionHeading.rule.marginTop} | 8px |
-| {component.sectionHeading.eyebrow.gap} | 12px |
-| {component.sectionHeading.title.marginTop} | 20px |
-| {component.sectionHeading.description.marginTop} | 8px |
-
-### Buttons
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {component.button.touchTarget.min} | 44px | mobile menu, copy button |
-| {component.button.gallery.size} | 48px | mission mobile slider |
-| {component.button.revivalControl.size} | 32px | revival mobile content controls |
-| {component.button.map.radius} | 4px | map external buttons |
-| {component.button.copy.paddingX} | 20px | online giving copy button |
-| {component.button.copy.paddingY} | 8px | online giving copy button |
-
-Button rules:
-
-- Mobile touch targets must be at least 44px.
-- Navigation and slider buttons should avoid sticky hover backgrounds on touch devices.
-- Use border-based buttons for editorial controls; use filled plum buttons only for strong actions/chips.
-
-### Cards
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {component.card.mobile.padding} | 20px | service/bus mobile cards |
-| {component.card.mobile.radius} | 8px | service/bus mobile cards |
-| {component.card.mobile.border} | 1px solid #8b6db5 at 15% | service/bus mobile cards |
-| {component.card.quote.borderLeft} | 3px | quote callouts |
-| {component.card.quote.padding.mobile} | 24px 28px | quote callouts |
-| {component.card.dark.padding.mobile} | 32px 20px | revival dark cards |
-| {component.card.dark.padding.desktop} | 40px | revival dark cards |
-
-### Tables
-
-| Token | Value | Usage |
-| --- | --- | --- |
-| {component.table.topBorder} | 3px | service/bus desktop tables |
-| {component.table.cell.padding.mobile} | 16px 20px | mobile card rows |
-| {component.table.cell.padding.desktop} | 20px 24px | desktop table rows |
-| {component.table.header.bg} | #FAF7FF | desktop table header |
-| {component.table.border} | #8b6db5 at 12% | card/table separators |
-
-### Mission Gallery
-
-| Token | Value |
-| --- | --- |
-| {component.missionGallery.mobile.height} | 32svh |
-| {component.missionGallery.mobile.captionBarHeight} | 64px |
-| {component.missionGallery.mobile.transition} | transform 460ms ease-out |
-| {component.missionGallery.rail.top} | 120px |
-| {component.missionGallery.rail.height.desktop} | 880px |
-| {component.missionGallery.rail.mainImageHeight.tablet} | 420px |
-| {component.missionGallery.rail.mainImageHeight.desktop} | 600px |
-| {component.missionGallery.rail.detailImageHeight.tablet} | 160px |
-| {component.missionGallery.rail.detailImageHeight.desktop} | 240px |
-| {component.missionGallery.rail.width.tablet} | 300px |
-| {component.missionGallery.rail.width.desktop} | 400px |
-
-### Footer
-
-| Token | Value |
-| --- | --- |
-| {component.footer.bg} | #1f0f28 |
-| {component.footer.padding.mobile} | 40px 20px |
-| {component.footer.padding.tablet} | 40px |
-| {component.footer.padding.desktop} | 60px 80px |
-| {component.footer.title.size} | 28px |
-| {component.footer.title.lineHeight} | 1.25 |
-| {component.footer.social.size} | 40px |
-| {component.footer.social.bg} | #2c1838 |
-| {component.footer.social.hoverBg} | #3a2148 |
-
-## 8. Do's and Don'ts
-
-### Do
-
-- Use {colors.ink.deepPurple} for primary light-page copy.
-- Use {colors.accent.purple} for light-page labels, markers, links, and subtle UI accents.
-- Use {colors.accent.gold} for dark-section labels and editorial metadata.
-- Use {font.serifKo} for Korean headings and {font.sans} for body/UI.
-- Keep `section-shell` as the default page-width system.
-- Prefer `SectionHeading` for static-page section titles.
-- Use real imagery for mission/church storytelling.
-- Switch dense desktop tables into cards on mobile.
-- Keep mobile controls at or above {component.button.touchTarget.min}.
-
-### Don't
-
-- Do not introduce blue/navy accents into public church pages when purple tokens are already available.
-- Do not use rounded decorative cards inside larger cards.
-- Do not use gradient orbs as standalone decoration.
-- Do not scale font sizes directly with viewport width.
-- Do not let mobile hover/focus states remain visually stuck after tapping.
-- Do not hide real page content behind sticky mobile media.
-- Do not make landing-style marketing heroes for static information pages.
-- Do not use broad single-hue palettes without ivory/gold/text contrast.
-
-## 9. Responsive
-
-### Breakpoints
-
-| Token | Value | Usage |
+| 단계 | 값 | 역할 |
 | --- | ---: | --- |
-| {breakpoint.mobileMax} | 767px | mobile-only cards/sliders |
-| {breakpoint.tablet} | 768px | tablet layout, shell padding 32px |
-| {breakpoint.desktop} | 1024px | desktop typography and larger grids |
-| {breakpoint.largeDesktop} | 1280px | desktop shell expansion and home scroll scenes |
-| {breakpoint.wide} | 1300px | home desktop scroll interactions |
-| {breakpoint.xl} | 1536px | largest shell widths |
+| sm  | 60px  | 모바일 섹션 상하 패딩 |
+| md  | 80px  | 태블릿 섹션 상하 패딩 |
+| lg  | 100px | 데스크탑 섹션 상하 패딩 |
+| xl  | 120px | 마지막 섹션 하단 여백 — 모바일 (`pb-section-xl`) |
+| xxl | 160px | 마지막 섹션 하단 여백 — 태블릿 (`md:pb-section-xxl`) |
+| 3xl | 200px | 마지막 섹션 하단 여백 — 데스크탑 (`lg:pb-section-3xl`) |
 
-### Responsive Strategy
+### 컨테이너
 
-| Token | Value |
-| --- | --- |
-| {responsive.mobileNav} | hamburger menu below 1024px |
-| {responsive.desktopNav} | horizontal dropdown nav from 1024px |
-| {responsive.mobileShellPadding} | 16px |
-| {responsive.tabletShellPadding} | 32px |
-| {responsive.mobileCardPadding} | 20px |
-| {responsive.majorSectionPadding.mobile} | 80px top/bottom typical |
-| {responsive.majorSectionPadding.desktop} | 100px top / 200px bottom typical |
-| {responsive.touchTarget.min} | 44px |
-| {responsive.missionHistory.mobile} | heading -> mobile image slider -> timeline |
-| {responsive.missionHistory.tabletDesktop} | timeline left + sticky image rail right |
-| {responsive.serviceTimes.mobile} | stacked cards |
-| {responsive.serviceTimes.tabletDesktop} | table with horizontal overflow |
-| {responsive.locationBus.mobile} | stacked route cards |
-| {responsive.locationBus.tabletDesktop} | table with horizontal overflow |
+| 토큰 | 값 | 사용처 |
+| --- | ---: | --- |
+| {layout.shell.max.base} | 1120px | 기본 `section-shell` |
+| {layout.shell.max.narrow} | 920px | about 페이지 기본 |
+| {layout.shell.max.wide} | 1280px | 넓은 콘텐츠 레이아웃 |
+| {layout.shell.padding.mobile} | 16px | `section-shell` 기본 인라인 패딩 |
+| {layout.shell.padding.tablet} | 32px | `section-shell` ≥768px |
+| {layout.shell.max.desktop} | 1200px | `section-shell` ≥1280px |
+| {layout.shell.max.narrow.desktop} | 1040px | 좁은 셸 ≥1280px |
+| {layout.shell.max.wide.desktop} | 1360px | 넓은 셸 ≥1280px |
 
-Mobile rules:
+### 그리드
 
-- Use cards instead of tables below {breakpoint.tablet}.
-- Keep horizontal submenus scrollable and preserve active visibility.
-- Avoid fixed/sticky image rails below {breakpoint.tablet}.
-- Maintain page header/banner visibility on mobile static pages.
+| 토큰 | 값 | 사용처 |
+| --- | --- | --- |
+| {grid.missionHistory.tablet} | minmax(0, 1fr) 300px | 타임라인 + 이미지 레일 ≥768px |
+| {grid.missionHistory.desktop} | minmax(0, 560px) 400px | 타임라인 + 이미지 레일 ≥1024px |
+| {grid.location.map.mobile} | 16 / 11 | 지도 비율 — 모바일 |
+| {grid.location.map.tablet} | 16 / 8 | 지도 비율 — 태블릿 |
+| {grid.location.map.desktop} | 16 / 7 | 지도 비율 — 데스크탑 |
+| {grid.serviceTable.minWidth} | 860px | 예배 테이블 가로 스크롤 |
+| {grid.busTable.minWidth} | 680px–760px | 버스 테이블 가로 스크롤 |
+| {grid.revival.tabs.desktop} | 180px + 1fr | 사이드 탭 레일 + 콘텐츠 패널 |
 
-Tablet rules:
+### 여백 철학
 
-- Treat 768px-1023px as structural desktop for mission history image rail.
-- Keep nav collapsed until {breakpoint.desktop}.
-- Use shell padding 32px and avoid full-width text blocks longer than 680px.
+전체 너비 섹션과 제한된 `section-shell` 내부 콘텐츠가 리듬을 만듭니다. About 페이지 섹션은 데스크탑에서 100px 상하 패딩(`section-lg`)을 기준으로 — 스캔하기에 충분히 촘촘하고 교리적 블록을 구분하기에 충분히 넉넉합니다.
 
-Desktop rules:
+긴 다중 섹션 페이지의 마지막 섹션 하단 여백은 반응형으로 적용합니다: 모바일 120px(`pb-section-xl`) / 태블릿 160px(`md:pb-section-xxl`) / 데스크탑 200px(`lg:pb-section-3xl`). 이를 통해 해상도별 푸터 전 시각적 여유를 적절히 확보합니다.
 
-- Use sticky/scroll-driven visual systems only when there is sufficient viewport width.
-- Prefer two-column information architecture for content + visual rail.
+모바일 섹션은 상하 60px 기본 패딩(`section-sm`)으로 압축됩니다. 카드는 `pad-*` 토큰으로 수평·수직 내부 패딩을 관리하며 가독성을 유지합니다.
 
-## 10. Known Gaps
+## 엘리베이션
 
-- {gap.colorAudit} -- many color values remain as inline arbitrary values (e.g. `text-[#3d1a46]`) rather than CSS variables or Tailwind tokens. The DESIGN.md Section 2 defines the intended consolidated palette, but the code has not been migrated to use it yet.
-- {gap.tailwindTokens} -- `tailwind.config.ts` still defines stale green/blue tokens (`ink: #1f2b24`, `forest`, `sage`, `cedar: #2a4f8f`, `themeBlue`, `site-ink`) that do not reflect the actual purple/plum brand. These tokens are referenced in `site-header.tsx`, `error-page.tsx`, `public-board-renderer.tsx`, and several about-page files. They need to be replaced with plum-aligned values and the referencing files updated.
-- {gap.typographyUtilities} -- some classes such as `type-body-strong` are used but not defined in `globals.css`.
-- {gap.componentLibrary} -- buttons, cards, tables, and tabs are implemented per page instead of as a shared component API.
-- {gap.motionTokens} -- transition durations/easings are embedded inline; only common values such as 300ms, 460ms, and 500ms are observable.
-- {gap.adminEditorScope} -- admin/Tiptap editor typography exists but is not fully covered here; this document focuses on the public site.
-- {gap.accessibilityAudit} -- color contrast, keyboard focus, and screen reader behavior were not exhaustively audited.
-- {gap.assetRules} -- image crop positions and aspect-ratio rules are documented from current implementation but not formalized per asset category.
+| 토큰 | 값 | 사용처 |
+| --- | --- | --- |
+| {shadow.soft} | 0 14px 40px rgba(20, 6, 26, 0.12) | 전역 서피스 카드 |
+| {shadow.header.light} | 0 4px 20px rgba(0, 0, 0, 0.05) | 비홈 스티키 헤더 |
+| {shadow.dropdown.dark} | 0 18px 45px rgba(0, 0, 0, 0.24) | 홈 데스크탑 드롭다운 |
+| {shadow.dropdown.light} | 0 18px 45px rgba(0, 0, 0, 0.12) | 비홈 드롭다운 |
+| {shadow.card.soft} | 0 8px 24px rgba(16, 33, 63, 0.06) | 모바일 테이블 카드 |
+| {shadow.card.purple} | 0 12px 24px rgba(51, 16, 63, 0.14) | 헌금 칩, 지도 오버레이 |
+| {shadow.revivalCard} | 0 6px 9px rgba(0, 0, 0, 0.15) | 부흥 조직도 가치 카드 |
+| {blur.header} | 20px | 스티키 헤더 / 드롭다운 백드롭 |
+| {blur.surfaceCard} | 8px | 반투명 전역 카드 |
+| {blur.mapOverlay} | 12px | 지도 주소 패널 |
+| {blur.welcomeCard} | 10px | 홈 환영 글래스 패널 |
+
+시스템은 사실상 **두 가지 엘리베이션 티어**와 플랫으로 구성됩니다:
+- **플랫:** 에디토리얼 밴드, 본문 섹션, 푸터 — 대부분의 서피스.
+- **Raised:** 호버 시 카드, 드롭다운, 메뉴 — soft/purple 그림자 토큰 사용.
+- **오버레이:** 모달형 패널(지도 주소, 모바일 메뉴) — 블러 + 강한 그림자 + 스크림.
+
+깊이 원칙:
+- 블러는 반투명 서피스에서만 사용합니다.
+- 오버레이와 메뉴에 강한 그림자를 사용하고, 페이지 섹션에는 사용하지 않습니다.
+- 다크 섹션은 무거운 그림자 전에 그라디언트와 불투명도 레이어로 깊이를 표현합니다.
+
+## 형태
+
+| 토큰 | 값 | 사용처 |
+| --- | ---: | --- |
+| {radius.none} | 0px | 테이블 행, 에디토리얼 레일, 정사각 이미지 그리드 |
+| {radius.xs} | 4px | 지도 버튼, 지도 주소 오버레이, 소형 컨트롤 |
+| {radius.sm} | 6px | 헌금 칩, 폼 컨트롤 |
+| {radius.md} | 8px | 표준 카드, 섹션 콜아웃 |
+| {radius.lg} | 12px | 홈 빠른 링크 아이콘 카드 |
+| {radius.xl} | 16px | 대형 미디어 카드 |
+| {radius.full} | 9999px | 로고 프레임, 점, 소셜 버튼 |
+
+형태 원칙:
+- 카드는 `{radius.md}` 이하를 사용합니다 — 둥근 필 형태 없음.
+- 에디토리얼 다크 패널은 `{radius.none}` 또는 `{radius.xs}`를 선호합니다.
+- 원형 형태는 로고, 점, 소셜 버튼, 타임라인 마커에 한합니다.
+
+## 컴포넌트
+
+### 사이트 헤더
+
+**`site-header`** — 고정 상단 바. 메인 페이지에서는 투명한 다크 스크림(`{colors.surface.darkHeader}` at 0.72 opacity, 20px blur)으로 렌더링되고, 다른 모든 페이지에서는 소프트 화이트 서피스와 가벼운 그림자를 사용합니다. 높이 오프셋은 82px — 모든 앵커 섹션의 `scroll-mt`로 사용됩니다. 로고는 50px 원형 프레임 안에 36px 브랜드 이미지가 들어가고, 교회명은 20px / 0.3em tracking으로 표시됩니다.
+
+데스크탑 내비게이션 항목은 `{type.nav.md}`에 0.2em tracking, 16×18px 패딩을 사용합니다. 드롭다운은 호버 시 `{shadow.dropdown}`과 함께 나타납니다. 모바일에서는 최소 터치 타깃인 44px 햄버거 버튼으로 모든 것을 접습니다.
+
+### 페이지 헤더
+
+**`page-header`** — 모든 정적 서브 페이지의 비주얼 리드로 사용되는 그라디언트 배너입니다. 그라디언트: `{component.pageHeader.gradient}`. 높이: 260px 모바일 → 360px 태블릿 → 320px 데스크탑. 제목은 `{type.heading.xl}`(반응형 40→46→52px), 서브타이틀은 12px / 0.16em tracking 레이블을 사용합니다.
+
+### 섹션 헤딩
+
+**`section-heading`** — 모든 주요 페이지 섹션 상단에 사용하는 공통 헤딩 블록입니다. 구성: 대문자 아이브로 레이블(`{type.label.lg}`) + 30px×1px 구분선, 섹션 제목(`{type.heading.lg}` 또는 `{type.heading.md}`), 선택적 이탤릭 설명(`{type.subtitle.md}`). 최대 너비 468px로 제한해 헤딩 줄을 간결하게 유지합니다.
+
+### 버튼
+
+**`button-primary`** — 짙은 플럼 배경(`{colors.surface.ctaDark}`), 흰색 텍스트, 8px 라운드, `{type.button.md}`. 라이트 및 소프트 퍼플 섹션의 강한 CTA에 사용됩니다.
+
+**`button-map`** — 4px 라운드 외부 링크 버튼(오시는 길 페이지). 보더 기반, 잉크 텍스트.
+
+모든 모바일 컨트롤의 터치 타깃은 최소 44px(`{component.button.touchTarget.min}`)입니다. 슬라이더 컨트롤(선교 갤러리)은 60px 원형 버튼, 부흥 조직도 모바일 컨트롤은 32px 정사각형 버튼을 사용합니다.
+
+### 카드
+
+**`card-standard`** — 화이트 서피스, `{radius.md}`(8px), 1px `{colors.border.darkPurple}/15` 보더, 모바일 20px 내부 패딩. 예배 안내 및 버스 노선 콘텐츠의 모바일 카드로 사용됩니다.
+
+**`card-quote`** — 라벤더 서피스(`{colors.surface.blockquote}`), 3px 왼쪽 보더(`{colors.border.quote.light}`), 모바일 24×28px 패딩. 성경 인용문과 제자 양육 콜아웃 블록에 사용됩니다.
+
+**`card-dark`** — 짙은 플럼 서피스(`{colors.surface.ctaDark}`), 모바일 32×20px / 데스크탑 40px 패딩. 부흥 조직도 다크 섹션과 제자 양육 페이지에 사용됩니다.
+
+### 테이블
+
+**`table-desktop`** — 예배 안내, 버스 노선, 오시는 길 정보에 사용됩니다. 3px 상단 액센트 보더(`{colors.ink.heading2}`), 헤더 행(`{colors.surface.tableHeader}`). 헤더 셀 패딩: 16px(모바일) / 20px(데스크탑), 바디 셀 패딩: 20px(모바일) / 24px(데스크탑). 최소 너비 적용(예배 테이블 860px, 버스 테이블 680–760px) 및 가로 스크롤 래퍼.
+
+**`table-mobile`** — 768px 미만에서 테이블이 스택 카드 레이아웃으로 전환됩니다. 각 행이 `{component.card.standard}`이 되며 16×20px 내부 패딩과 `{shadow.card.soft}` 적용.
+
+### 선교 갤러리
+
+**`mission-gallery-mobile`** — 32svh 높이의 전체 너비 이미지 슬라이더, 40px 캡션 바. 트랜지션: transform 460ms ease-out. 768px 미만에서만 표시됩니다.
+
+**`mission-gallery-rail`** — 768px 이상에서 보이는 스티키 오른쪽 컬럼 이미지 레이아웃. 레일 너비: 태블릿 300px / 데스크탑 400px. 상단 120px에서 스티키 고정, 전체 높이 880px. 메인 이미지: 태블릿 420px / 데스크탑 600px; 세부 이미지 2장: 태블릿 160px / 데스크탑 240px.
+
+### 푸터
+
+**`footer`** — 짙은 플럼 서피스(`{colors.surface.footer}` — #1f0f28), 패딩 40×20px 모바일 / 40px 태블릿 / 60×80px 데스크탑. 교회명 28px / 1.25 줄 높이. 소셜 버튼은 40px 원형, `{colors.footer.social}`, `{radius.full}` 적용. 주소·링크는 `{colors.footer.text}`(흰색 50%), 저작권은 `{colors.footer.textMuted}`(흰색 30%).
+
+## 반응형
+
+### 브레이크포인트
+
+| 토큰 | 값 | 사용처 |
+| --- | ---: | --- |
+| {breakpoint.tablet} | 768px | 태블릿 레이아웃, 셸 패딩 32px |
+| {breakpoint.desktop} | 1024px | 데스크탑 타이포그래피, 더 큰 그리드 |
+| {breakpoint.largeDesktop} | 1280px | 셸 확장, 홈 스크롤 씬 |
+| {breakpoint.wide} | 1300px | 홈 데스크탑 스크롤 인터랙션 |
+| {breakpoint.xl} | 1536px | 가장 넓은 셸 너비 |
+
+### 반응형 전략
+
+| 패턴 | 모바일 | 태블릿 이상 |
+| --- | --- | --- |
+| 내비게이션 | 햄버거(1024px 미만) | 수평 드롭다운 내비게이션 |
+| 선교 역사 | 헤딩 → 모바일 슬라이더 → 타임라인 | 타임라인 좌측 + 스티키 이미지 레일 우측 |
+| 예배 안내 | 스택 카드 | 가로 스크롤 테이블 |
+| 버스 노선 | 스택 노선 카드 | 가로 스크롤 테이블 |
+| 부흥 조직도 | 스와이프 탭 패널 | 사이드 탭 레일 + 콘텐츠 패널 |
+| 섹션 패딩 | 상하 60px 기본 / 마지막 하단 120px | 상단 80–100px / 마지막 하단 160–200px |
+| 셸 패딩 | 16px | 32px |
+
+모바일 원칙:
+- `{breakpoint.tablet}` 미만에서는 테이블 대신 카드를 사용합니다.
+- 수평 서브메뉴는 스크롤 가능하게 하고 활성 탭 가시성을 유지합니다.
+- 터치 타깃은 44px 이상을 유지합니다.
+
+태블릿 원칙:
+- 768–1023px 구간은 선교 역사 이미지 레일에 대해 구조적 데스크탑으로 처리합니다.
+- `{breakpoint.desktop}`까지 내비게이션을 접힌 상태로 유지합니다.
+- 680px 이상의 전체 너비 텍스트 블록을 피합니다.
+
+데스크탑 원칙:
+- 스티키/스크롤 기반 시각 시스템은 충분한 뷰포트 너비가 있을 때만 사용합니다.
+- 콘텐츠 + 비주얼 레일의 2단 정보 구조를 선호합니다.
+
+## 알려진 미완성 사항
+
+- {gap.colorAudit} — 많은 색상 값이 CSS 변수나 Tailwind 토큰 대신 인라인 임의 값(예: `text-[#3d1a46]`)으로 남아 있습니다. 색상 섹션이 의도된 통합 팔레트를 정의하지만 코드 마이그레이션은 미완성입니다.
+- {gap.tailwindTokens} — `tailwind.config.ts`에 실제 브랜드를 반영하지 않는 구식 초록/파랑 토큰(`forest`, `sage`, `cedar`, `themeBlue`)이 남아 있습니다. 참조 파일: `site-header.tsx`, `error-page.tsx`, `public-board-renderer.tsx`.
+- {gap.componentLibrary} — 버튼, 카드, 테이블, 탭이 공유 컴포넌트 API 대신 페이지별로 구현되어 있습니다.
+- {gap.motionTokens} — 트랜지션 지속 시간·이징이 인라인에 내장되어 있으며, 300ms·460ms·500ms 공통 값만 관찰 가능합니다.
+- {gap.accessibilityAudit} — 색상 대비, 키보드 포커스, 스크린 리더 동작은 철저히 감사되지 않았습니다.
