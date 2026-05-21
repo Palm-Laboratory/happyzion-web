@@ -356,7 +356,6 @@ components:
   # 네비게이션
   # ─────────────────────────────────────────────
 
-  # 메인 페이지 — 상단 고정 헤더 (반투명 다크)
   site-nav-bar-home:
     backgroundColor: "rgba(36,31,37,0.72)"
     border: "rgba(255,255,255,0.1)"
@@ -368,7 +367,6 @@ components:
     logo-text-size: "14px (mobile) / 20px (desktop)"
     logo-text-tracking: 0.3em
 
-  # 내부 페이지 — 상단 고정 헤더 (화이트)
   site-nav-bar-inner:
     backgroundColor: "rgba(255,255,255,0.95)"
     border: "{colors.border.darkPurple15}"
@@ -376,25 +374,18 @@ components:
     padding: "16px 16px (mobile) / 16px 32px (tablet) / 16px 60px (desktop)"
     backdropBlur: 20px
 
-  # 데스크탑 — 메인 페이지 상단 메뉴 링크
   site-nav-link-home:
     textColor: "{colors.dark.heading}"
     typography: "{typography.nav-md}"
     padding: "16px 18px"
     tracking: 0.2em
-  site-nav-link-home-hover:
-    backgroundColor: "rgba(255,255,255,0.1)"
 
-  # 데스크탑 — 내부 페이지 상단 메뉴 링크
   site-nav-link-inner:
     textColor: "{colors.ink}"
     typography: "{typography.nav-md}"
     padding: "16px 18px"
     tracking: 0.2em
-  site-nav-link-inner-hover:
-    backgroundColor: "rgba(37,0,48,0.05)"
 
-  # 데스크탑 — 메인 페이지 드롭다운 패널
   site-nav-dropdown-home:
     backgroundColor: "rgba(36,31,37,0.92)"
     border: "rgba(255,255,255,0.1)"
@@ -403,7 +394,6 @@ components:
     backdropBlur: 20px
     shadow: "0 18px 45px rgba(0,0,0,0.24)"
 
-  # 데스크탑 — 내부 페이지 드롭다운 패널
   site-nav-dropdown-inner:
     backgroundColor: "{colors.background}"
     border: "{colors.border.darkPurple15}"
@@ -412,48 +402,37 @@ components:
     backdropBlur: 20px
     shadow: "0 18px 45px rgba(0,0,0,0.12)"
 
-  # 데스크탑 — 메인 페이지 드롭다운 항목
   site-nav-dropdown-item-home:
     textColor: "rgba(255,255,255,0.9)"
     typography: "{typography.body-sm}"
     padding: "12px 16px"
-  site-nav-dropdown-item-home-hover:
-    backgroundColor: "rgba(255,255,255,0.1)"
 
-  # 데스크탑 — 내부 페이지 드롭다운 항목
   site-nav-dropdown-item-inner:
     textColor: "rgba(37,0,48,0.8)"
     typography: "{typography.body-sm}"
     padding: "12px 16px"
-  site-nav-dropdown-item-inner-hover:
-    backgroundColor: "rgba(37,0,48,0.05)"
 
-  # 모바일 — 메인 페이지 전체화면 메뉴 패널
   mobile-nav-panel-home:
     backgroundColor: "rgba(36,31,37,0.96)"
     border: "rgba(255,255,255,0.1)"
     backdropBlur: 20px
 
-  # 모바일 — 내부 페이지 전체화면 메뉴 패널
   mobile-nav-panel-inner:
     backgroundColor: "{colors.background}"
     border: "{colors.border.darkPurple15}"
     backdropBlur: 20px
 
-  # 모바일 — 1depth 메뉴 링크
   mobile-nav-link:
     typography: "{typography.button-lg}"
     height: 56px
     padding: "16px 8px"
     border: "currentColor/10"
 
-  # 모바일 — 2depth 메뉴 링크
   mobile-nav-child-link:
     textColor: "rgba(37,0,48,0.6)"
     typography: "{typography.body-sm}"
     padding: "8px 8px"
 
-  # 모바일 — 햄버거 버튼
   mobile-nav-hamburger-btn:
     height: 44px
     width: 44px
@@ -463,7 +442,6 @@ components:
   # 공통 UI
   # ─────────────────────────────────────────────
 
-  # 모든 하위 페이지 — 브레드크럼 바
   breadcrumb-bar:
     backgroundColor: "#f7f6f8"
     border: "rgba(51,16,63,0.1)"
@@ -477,7 +455,6 @@ components:
     textColor: "rgba(51,16,63,0.7)"
     typography: "{typography.body-xs}"
 
-  # 교회소개·제자양육 하위 페이지 — 탭 네비게이션 바
   lnb-tab-active:
     textColor: "{colors.ink.heading2}"
     typography: "{typography.body-xs}"
@@ -489,22 +466,17 @@ components:
     typography: "{typography.body-xs}"
     borderBottom: "2.5px solid transparent"
     padding: "14px 12px"
-  lnb-tab-inactive-hover:
-    textColor: "{colors.ink.heading2}"
-    borderBottom: "2.5px solid rgba(51,16,63,0.3)"
 
-  # 모든 하위 페이지 — 페이지 최상단 헤더 배너
   page-header:
     backgroundColor: "linear-gradient(118deg, #2e1f46 27%, #4b3473 87%)"
     height: "260px (mobile) / 360px (tablet) / 320px (desktop)"
   page-header-eyebrow:
     textColor: "{colors.gold}"
-    typography: "{typography.caption-sm}"
+    typography: "{typography.caption-md}"
   page-header-title:
     textColor: "{colors.dark.heading}"
-    typography: "{typography.display-lg}"
+    typography: "{typography.heading-xl}"
 
-  # 각 섹션 상단 소제목 블록 (아이보리 페이지)
   section-heading:
     max-width: 468px
     rule-width: 30px
@@ -514,16 +486,15 @@ components:
     typography: "{typography.label-lg}"
   section-heading-title:
     textColor: "{colors.ink}"
-    typography: "type-heading-md"
+    typography: "{typography.heading-md}"
   section-heading-description:
     textColor: "{colors.ink.purple}"
-    typography: "type-subtitle-sm"
+    typography: "{typography.subtitle-sm}"
 
   # ─────────────────────────────────────────────
   # 버튼
   # ─────────────────────────────────────────────
 
-  # 게시판 상세 — 목록으로 버튼, 공유 버튼 (다크 채움)
   btn-primary:
     backgroundColor: "{colors.ink.heading2}"
     textColor: "{colors.dark.heading}"
@@ -532,11 +503,7 @@ components:
     height: 44px
     padding: "0 16px"
     border: "{colors.ink.heading2}"
-  btn-primary-hover:
-    backgroundColor: "{colors.ink.purple}"
-    border: "{colors.ink.purple}"
 
-  # 게시판 상세 — 공유 버튼 (라인 테두리)
   btn-secondary:
     backgroundColor: "{colors.background}"
     textColor: "{colors.ink.heading2}"
@@ -545,10 +512,7 @@ components:
     height: 44px
     padding: "0 16px"
     border: "rgba(139,109,181,0.2)"
-  btn-secondary-hover:
-    border: "{colors.ink.purple}"
 
-  # 홈 — Join 섹션 빠른이동 버튼 (다크 카드형)
   btn-cta-dark:
     backgroundColor: "{colors.surface.ctaDark}"
     textColor: "{colors.dark.heading}"
@@ -556,38 +520,7 @@ components:
     rounded: 8px
     padding: "20px"
     shadow: "0 4px 24px rgba(110,100,100,0.1)"
-  btn-cta-dark-hover:
-    transform: "translateY(-2px)"
 
-  # 지도 — 네이버지도/카카오맵 링크 버튼
-  btn-map-action:
-    backgroundColor: "{colors.background}"
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.body-xs}"
-    rounded: 4px
-    border: "{colors.border.purple18}"
-    padding: "4px 8px"
-    shadow: "0 10px 24px rgba(51,16,63,0.08)"
-  btn-map-action-hover:
-    textColor: "{colors.ink.purple}"
-    border: "rgba(139,109,181,0.45)"
-    transform: "translateY(-2px)"
-
-  # 홈 미션스토리 — 모바일 이전/다음 슬라이드 버튼
-  btn-slider-nav:
-    height: 60px
-    width: 60px
-    textColor: "{colors.dark.label}"
-    border: "rgba(255,255,255,0.7)"
-    rounded: 9999px
-
-  # 부흥조직도 — 모바일 탭 이전/다음 컨트롤
-  btn-revival-control:
-    height: 32px
-    width: 32px
-    rounded: 4px
-
-  # 영상·게시판 — 더보기 버튼
   btn-load-more:
     backgroundColor: "{colors.ink.heading2}"
     textColor: "{colors.dark.heading}"
@@ -597,7 +530,6 @@ components:
   btn-load-more-disabled:
     backgroundColor: "{colors.ink.muted}"
 
-  # 온라인헌금 — 계좌번호 복사 버튼
   btn-copy-account:
     backgroundColor: "{colors.background}"
     textColor: "{colors.ink.heading2}"
@@ -605,23 +537,11 @@ components:
     border: "{colors.border.purple25}"
     padding: "8px 20px"
     height: 44px
-  btn-copy-account-hover:
-    backgroundColor: "{colors.surface.ctaDark}"
-    textColor: "{colors.dark.heading}"
-
-  # 첨부파일 다운로드 트리거 링크
-  btn-attachment-trigger:
-    textColor: "{colors.ink.purple}"
-    typography: "{typography.body-xs}"
-    textDecoration: underline
-  btn-attachment-trigger-hover:
-    textColor: "{colors.ink.heading2}"
 
   # ─────────────────────────────────────────────
-  # 입력 / 폼
+  # 입력
   # ─────────────────────────────────────────────
 
-  # 게시판 — 검색 입력창
   input-search:
     backgroundColor: "{colors.background}"
     textColor: "{colors.ink.heading2}"
@@ -630,10 +550,7 @@ components:
     height: 40px
     padding: "0 16px"
     border: "rgba(139,109,181,0.15)"
-  input-search-focus:
-    border: "{colors.ink.purple}"
 
-  # 게시판 — 페이지 수 선택 드롭다운
   input-select:
     backgroundColor: "{colors.background}"
     textColor: "{colors.ink.body}"
@@ -642,120 +559,37 @@ components:
     height: 44px
     padding: "12px 36px 12px 16px"
     border: "rgba(93,61,138,0.15)"
-  input-select-hover:
-    border: "{colors.ink.purple}"
-
-  # 제자양육 — 신청 폼 입력 필드
-  input-apply-field:
-    backgroundColor: "rgba(255,255,255,0.06)"
-    textColor: "{colors.dark.heading}"
-    typography: "{typography.body-xs}"
-    rounded: 4px
-    height: 36px
-    padding: "0 20px"
-    border: "rgba(255,255,255,0.1)"
-  input-apply-field-focus:
-    border: "rgba(228,185,107,0.7)"
-
-  # 제자양육 — 신청 폼 컨테이너
-  form-apply:
-    backgroundColor: "rgba(255,255,255,0.04)"
-    rounded: 12px
-    padding: "28px 24px"
-
-  # 제자양육 — 신청 버튼
-  btn-apply-submit:
-    backgroundColor: "{colors.gold.mid}"
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.button-md}"
-    rounded: 4px
-    height: 40px
-    padding: "0 20px"
-  btn-apply-submit-hover:
-    backgroundColor: "{colors.gold.bright}"
 
   # ─────────────────────────────────────────────
   # 카드
   # ─────────────────────────────────────────────
 
-  # 홈 — 비전 섹션 비전 카드
   card-vision:
     backgroundColor: "{colors.surface.softPurple}"
     border: "{colors.border.purple12}"
     rounded: 4px
     padding: "30px 24px"
     shadow: "0 4px 12px rgba(52,22,67,0.15), 4px 8px 24px rgba(44,11,64,0.2)"
-  card-vision-eyebrow:
-    textColor: "rgba(105,19,147,0.4)"
-    typography: "{typography.label-md}"
-  card-vision-title:
-    textColor: "{colors.ink}"
-    typography: "{typography.title-md}"
-  card-vision-body:
-    textColor: "{colors.ink.body}"
-    typography: "{typography.body-sm}"
 
-  # 인사말 — 비전 목록 다크 카드
-  card-greeting-dark:
+  card-dark:
     backgroundColor: "{colors.surface.ctaDark}"
     textColor: "{colors.dark.heading}"
     border: "rgba(255,255,255,0.05)"
     rounded: 4px
     padding: "pad-lg pad-sm"
     shadow: "0 4px 12px rgba(0,0,0,0.1)"
-  card-greeting-dark-eyebrow:
-    textColor: "rgba(255,255,255,0.5)"
-    typography: "{typography.label-md}"
-  card-greeting-dark-title:
-    textColor: "{colors.dark.heading}"
-    typography: "{typography.title-sm}"
 
-  # 인사말 — 장로 인물 카드
-  card-leader-person:
-    backgroundColor: "{colors.surface.greetingPurpleCard}"
-    border: "rgba(255,255,255,0.1)"
-    rounded: 4px
-    padding: "pad-md pad-sm"
-  card-leader-person-photo:
-    backgroundColor: "{colors.surface.photoFrame}"
-    height: 88px
-    width: 72px
-  card-leader-person-eyebrow:
-    textColor: "{colors.gold}"
-    typography: "{typography.label-md}"
-  card-leader-person-name:
-    textColor: "{colors.dark.heading}"
-    typography: "{typography.title-sm}"
-  card-leader-person-role:
-    textColor: "rgba(255,255,255,0.8)"
-    typography: "{typography.caption-md}"
-
-  # 인용구 — 성경말씀·인용문 카드 (아이보리 배경 페이지)
   card-blockquote:
     backgroundColor: "{colors.surface.blockquote}"
     borderLeft: "3px solid {colors.ink.citation}"
     padding: "pad-md pad-lg"
-  card-blockquote-text:
-    textColor: "{colors.ink.heading2}"
-    typography: "type-quote-sm"
-  card-blockquote-citation:
-    textColor: "{colors.ink.citation}"
-    typography: "type-quote-xs"
 
-  # 교회역사·선교이력·부흥조직도 — 다크 callout 카드
   card-mission-callout:
     backgroundColor: "radial-gradient(circle at 25% 29%, #1f1035 0%, #2e1d46 100%)"
     textColor: "{colors.dark.heading}"
     rounded: 4px
     padding: "pad-lg (mobile) / pad-xxl (tablet) / pad-4xl (desktop)"
-  card-mission-callout-eyebrow:
-    textColor: "{colors.gold}"
-    typography: "{typography.label-lg}"
-  card-mission-callout-title:
-    textColor: "{colors.dark.heading}"
-    typography: "{typography.title-md}"
 
-  # 예배시간·오시는길 — 모바일 예배 정보 카드
   card-service-time-mobile:
     backgroundColor: "{colors.background}"
     border: "{colors.border.purple18}"
@@ -763,116 +597,10 @@ components:
     padding: "pad-sm"
     shadow: "0 8px 24px rgba(16,33,63,0.06)"
 
-  # 오시는길 — 지도 위 주소 말풍선 카드
-  card-map-tooltip:
-    backgroundColor: "rgba(255,255,255,0.88)"
-    border: "rgba(255,255,255,0.7)"
-    rounded: 4px
-    backdropBlur: 12px
-    shadow: "0 12px 28px rgba(51,16,63,0.14)"
-    padding: "pad-3xs pad-xxs (mobile) / pad-xxs pad-xs (desktop)"
-
-  # 홈 — Join 섹션 인용 카드
-  card-join-quote:
-    borderLeft: "3px solid {colors.ink.citation}"
-    padding: "pad-md pad-lg"
-  card-join-quote-text:
-    textColor: "{colors.ink.heading2}"
-    typography: "type-quote-sm"
-
-  # 홈 — 웰컴 섹션 성경구절 카드
-  card-welcome-verse:
-    backgroundColor: "rgba(255,255,255,0.42)"
-    border: "rgba(255,255,255,0.3)"
-    rounded: 8px
-    backdropBlur: 10px
-    shadow: "0 8px 24px rgba(97,60,116,0.2)"
-
-  # 홈 — 웰컴 섹션 빠른 링크 카드
-  card-welcome-quicklink:
-    backgroundColor: "rgba(255,255,255,0.8)"
-    border: "rgba(51,20,64,0.1)"
-    rounded: 12px
-    shadow: "0 8px 24px rgba(0,0,0,0.15)"
-    backdropBlur: 6px
-
-  # 부흥조직도 — 소그룹 사이클 카드
-  card-small-group-cycle:
-    backgroundColor: "rgba(255,255,255,0.1)"
-    rounded: 4px
-    padding: "pad-sm"
-  card-small-group-cycle-number:
-    textColor: "{colors.dark.accent}"
-    # Corinthia font, italic, 36px
-  card-small-group-cycle-title:
-    textColor: "{colors.dark.bodyAlt}"
-    typography: "{typography.title-sm}"
-
-  # 부흥조직도 — 사역팀 프로그램 카드 (라이트)
-  card-ministry-program:
-    backgroundColor: "{colors.background}"
-    border: "{colors.border.darkPurple15}"
-    padding: "pad-base"
-  card-ministry-program-eyebrow:
-    textColor: "{colors.ink.muted}"
-    typography: "{typography.label-md}"
-  card-ministry-program-title:
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.title-md}"
-  card-ministry-program-body:
-    textColor: "{colors.ink.soft}"
-    typography: "{typography.caption-md}"
-
-  # 부흥조직도 — 로드맵 분기 헤더
-  card-roadmap-quarter-header:
-    backgroundColor: "#341a44"
-    textColor: "{colors.gold.bright}"
-    height: 40px
-    padding: "0 pad-sm"
-    typography: "{typography.label-md}"
-
-  # 부흥조직도 — 로드맵 월별 카드
-  card-roadmap-month:
-    backgroundColor: "rgba(255,255,255,0.1)"
-    border: "rgba(141,118,157,0.6)"
-    padding: "pad-xs"
-  card-roadmap-month-phase:
-    textColor: "{colors.dark.accent}"
-    typography: "{typography.label-md}"
-  card-roadmap-month-title:
-    textColor: "{colors.dark.bodyAlt}"
-    typography: "{typography.title-xs}"
-
-  # 영상 상세 — 설교 내용 아코디언 카드
-  card-detail-accordion:
-    backgroundColor: "{colors.surface.cream}"
-    rounded: 16px
-    padding: "0 30px"
-  card-detail-accordion-summary:
-    textColor: "{colors.ink.heading2}"
-    height: 60px
-
-  # 영상 상세 — 관련 영상 사이드바 패널
-  card-related-video-aside:
-    backgroundColor: "{colors.surface.cream}"
-    border: "rgba(51,16,63,0.1)"
-    rounded: 16px
-    padding: "18px"
-
-  # 온라인헌금 — 계좌 배지 (은행명)
-  card-account-badge:
-    backgroundColor: "{colors.surface.blockquote}"
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.label-xl}"
-    rounded: 6px
-    height: "44px (mobile) / 54px (desktop)"
-    padding: "pad-3xs pad-md"
-
   # ─────────────────────────────────────────────
   # 게시판
   # ─────────────────────────────────────────────
 
-  # 게시판 목록 — 일반 게시글 행
   board-post-item-normal:
     backgroundColor: "{colors.background}"
     border: "rgba(93,61,138,0.1)"
@@ -881,10 +609,6 @@ components:
     backgroundColor: "rgba(139,109,181,0.05)"
     border: "rgba(93,61,138,0.1)"
 
-  # 게시판 목록 — 번호 셀
-  board-post-number-normal:
-    textColor: "{colors.ink.body}"
-    typography: "{typography.body-xs}"
   board-post-number-pinned:
     backgroundColor: "{colors.ink.heading2}"
     textColor: "{colors.dark.heading}"
@@ -892,19 +616,14 @@ components:
     padding: "4px 10px"
     typography: "{typography.label-md}"
 
-  # 게시판 목록 — 제목
   board-post-title:
     textColor: "{colors.ink.heading2}"
     typography: "{typography.body-md}"
-  board-post-title-hover:
-    textColor: "{colors.ink.purple}"
 
-  # 게시판 목록 — 메타 (날짜·조회수)
   board-post-meta:
     textColor: "{colors.ink.muted}"
     typography: "{typography.body-xs}"
 
-  # 게시판 목록 — 빈 목록 안내
   board-empty-state:
     border: "dashed {colors.border.purple18}"
     rounded: 4px
@@ -912,18 +631,13 @@ components:
     textColor: "{colors.ink.muted}"
     typography: "{typography.body-xs}"
 
-  # 게시판 — 페이지네이션 이전/다음 버튼
   board-pagination-btn:
     border: "rgba(139,109,181,0.15)"
     textColor: "{colors.ink.heading2}"
     typography: "{typography.body-xs}"
     rounded: 9999px
     padding: "10px 14px"
-  board-pagination-btn-disabled:
-    textColor: "rgba(146,131,151,0.6)"
-    border: "rgba(139,109,181,0.12)"
 
-  # 게시판 — 페이지번호 버튼
   board-pagination-page-active:
     backgroundColor: "{colors.ink.heading2}"
     textColor: "{colors.dark.heading}"
@@ -940,36 +654,13 @@ components:
     width: 32px
     rounded: 9999px
     typography: "{typography.body-xs}"
-  board-pagination-page-inactive-hover:
-    backgroundColor: "rgba(139,109,181,0.06)"
 
-  # 게시판 상세 — 이전글/다음글 카드
   board-detail-adjacent-post:
     backgroundColor: "{colors.background}"
     border: "dashed rgba(93,61,138,0.2)"
     rounded: 16px
     padding: "24px"
-  board-detail-adjacent-post-hover:
-    border: "{colors.ink.purple}"
-  board-detail-adjacent-post-disabled:
-    backgroundColor: "rgba(255,255,255,0.7)"
-    border: "dashed rgba(139,109,181,0.14)"
-  board-detail-adjacent-badge:
-    backgroundColor: "{colors.surface.softPurple}"
-    textColor: "{colors.surface.ctaDark}"
-    rounded: 8px
-    height: 48px
-    width: 48px
-  board-detail-adjacent-label:
-    textColor: "{colors.ink.muted}"
-    typography: "{typography.label-md}"
-  board-detail-adjacent-title:
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.body-md}"
-  board-detail-adjacent-title-hover:
-    textColor: "{colors.ink.purple}"
 
-  # 게시판 상세 — 첨부파일 드롭다운 항목
   board-attachment-dropdown-item:
     rounded: 12px
     padding: "12px 16px"
@@ -979,42 +670,11 @@ components:
     height: 36px
     width: 36px
     rounded: 9999px
-  board-attachment-icon-file:
-    backgroundColor: "rgba(51,16,63,0.05)"
-    textColor: "rgba(51,16,63,0.7)"
-    height: 36px
-    width: 36px
-    rounded: 9999px
-  board-attachment-count-badge:
-    backgroundColor: "rgba(139,109,181,0.08)"
-    textColor: "{colors.ink.muted}"
-    typography: "{typography.label-md}"
-    rounded: 9999px
-    padding: "4px 10px"
-
-  # 게시판 게시글 본문 — 인라인 코드
-  board-content-code-inline:
-    backgroundColor: "rgba(139,109,181,0.08)"
-    textColor: "{colors.ink.heading2}"
-    rounded: 4px
-    padding: "2px 6px"
-  # 게시판 게시글 본문 — 코드 블록
-  board-content-code-block:
-    backgroundColor: "rgba(139,109,181,0.06)"
-    border: "rgba(139,109,181,0.15)"
-    rounded: 8px
-    padding: "16px 20px"
-  # 게시판 게시글 본문 — 인용구
-  board-content-blockquote:
-    borderLeft: "4px solid rgba(139,109,181,0.35)"
-    textColor: "rgba(51,16,63,0.82)"
-    padding: "0 0 0 20px"
 
   # ─────────────────────────────────────────────
   # 영상
   # ─────────────────────────────────────────────
 
-  # 영상 목록/상세 — 롱폼 썸네일
   video-thumbnail-longform:
     backgroundColor: "{colors.ink.heading2}"
     height: 84px
@@ -1027,40 +687,16 @@ components:
     width: 36px
     rounded: 9999px
 
-  # 영상 목록 — 롱폼 영상 제목
-  video-thumbnail-longform-title:
-    textColor: "{colors.ink.heading2}"
-    # 20px font-bold tracking-[-0.03em]
-  video-thumbnail-longform-meta:
-    textColor: "rgba(51,16,63,0.6)"
-    typography: "{typography.caption-sm}"
-
-  # 영상 목록 — 숏폼 썸네일 카드
   video-thumbnail-shortform:
     backgroundColor: "{colors.ink.heading2}"
     rounded: 8px
-    # aspect-ratio: 2/3
-  video-thumbnail-shortform-title:
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.body-xs}"
-  video-thumbnail-shortform-meta:
-    textColor: "rgba(51,16,63,0.7)"
-    typography: "{typography.caption-sm}"
 
-  # 영상 상세 — 관련 영상 소형 썸네일
   video-thumbnail-related:
     backgroundColor: "{colors.ink.heading2}"
     height: 78px
     width: 120px
     rounded: 8px
-  video-thumbnail-related-title:
-    textColor: "{colors.ink.heading2}"
-    typography: "{typography.body-xs}"
-  video-thumbnail-related-meta:
-    textColor: "rgba(51,16,63,0.7)"
-    typography: "{typography.caption-sm}"
 
-  # 영상 — 페이지네이션 (게시판과 동일 패턴)
   video-pagination-page-active:
     backgroundColor: "{colors.ink.heading2}"
     textColor: "{colors.dark.heading}"
@@ -1073,21 +709,16 @@ components:
     height: 32px
     width: 32px
     rounded: 9999px
-  video-pagination-page-inactive-hover:
-    backgroundColor: "rgba(51,16,63,0.05)"
   video-pagination-prev-next:
     border: "rgba(51,16,63,0.12)"
     textColor: "{colors.ink.heading2}"
     rounded: 9999px
     padding: "10px 14px"
-  video-pagination-prev-next-disabled:
-    textColor: "rgba(51,16,63,0.35)"
 
   # ─────────────────────────────────────────────
   # 탭
   # ─────────────────────────────────────────────
 
-  # 부흥조직도 — 소그룹·사역팀 탭 사이드바 (라이트 버전)
   tab-sidebar-light:
     backgroundColor: "{colors.surface.revivalSidebar}"
     width: 180px
@@ -1105,13 +736,7 @@ components:
     borderBottom: "{colors.border.darkPurple15}"
     padding: "pad-xxs pad-xs"
     height: 66px
-  tab-sidebar-item-title:
-    typography: "{typography.title-xs}"
-  tab-sidebar-item-subtitle:
-    textColor: "{colors.ink.soft}"
-    typography: "{typography.body-xs}"
 
-  # 부흥조직도 — 사역팀 탭 사이드바 (다크 버전)
   tab-sidebar-dark:
     backgroundColor: "rgba(255,255,255,0.04)"
     width: 180px
@@ -1130,15 +755,12 @@ components:
     padding: "pad-xxs pad-xs"
     height: 66px
 
-  # 제자양육 — 커리큘럼 단계 탭
   tab-curriculum-stage-active:
     backgroundColor: "{colors.surface.ctaDark}"
     textColor: "{colors.dark.heading}"
   tab-curriculum-stage-inactive:
     backgroundColor: "{colors.background}"
     textColor: "{colors.ink.heading2}"
-  tab-curriculum-stage-inactive-hover:
-    backgroundColor: "{colors.surface.blockquote}"
   tab-curriculum-label-active:
     textColor: "{colors.gold.mid}"
     typography: "{typography.label-lg}"
@@ -1146,7 +768,6 @@ components:
     textColor: "{colors.ink.purple}"
     typography: "{typography.label-lg}"
 
-  # 제자양육 — 탭 하단 진행 표시바
   tab-progress-indicator-active:
     backgroundColor: "{colors.ink.heading2}"
     height: 2px
@@ -1158,7 +779,6 @@ components:
   # 푸터
   # ─────────────────────────────────────────────
 
-  # 모든 페이지 하단 — 푸터
   footer:
     backgroundColor: "{colors.surface.footer}"
     padding: "40px 20px (mobile) / 40px (tablet) / 60px 80px (desktop)"
@@ -1171,13 +791,9 @@ components:
   footer-nav-group-title:
     textColor: "{colors.dark.heading}"
     typography: "{typography.body-md}"
-  footer-nav-group-title-hover:
-    textColor: "rgba(255,255,255,0.8)"
   footer-nav-child-link:
     textColor: "rgba(255,255,255,0.5)"
     typography: "{typography.body-sm}"
-  footer-nav-child-link-hover:
-    textColor: "{colors.dark.heading}"
   footer-divider:
     border: "rgba(255,255,255,0.2)"
   footer-copyright:
@@ -1207,46 +823,43 @@ components:
 
 **주요 특성:**
 - 다중 서피스 시스템: 화이트(about 페이지) · 소프트 퍼플(비전 패널) · 다크 플럼(선교 섹션)
-- 이중 주요 폰트 패밀리: `{font.serifKo}` 한국어 헤딩 / `{font.sans}` 본문·UI
-- 골드(`{colors.gold}`)는 다크 섹션 에디토리얼 액센트 — 메타데이터, 마일스톤, 타임스탬프
-- 스크롤 중심 선교 스토리텔링, 탭형 사역 패널, 반응형 카드/테이블 전환
-- 실제 교회/선교 사진 — 풀 블리드 비디오 히어로, 데스크탑 스티키 갤러리 레일, 모바일 컴팩트 슬라이더
+- 스크롤 기반 선교 스토리텔링 (홈 페이지)
+- 탭형 사역 패널 (부흥 조직도, 제자 양육)
+- 반응형 카드/테이블 전환 (예배 안내, 버스 노선)
+- 82px 고정 헤더 오프셋 (모든 섹션 scroll-mt 기준)
 
 ## 색상
 
-색상은 세 가지 배경 구역으로 구성됩니다: 흰색/크림(밝은 섹션), 소프트 퍼플(비전 패널), 다크 플럼(선교 섹션). `globals.css`의 CSS 변수는 *로 표시합니다.
-
 ### 서피스 & 배경
+
+시스템은 세 가지 서피스 레이어로 구성됩니다.
 
 | 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.background} | #ffffff | 기본 페이지 배경 — about 페이지, 카드, 콘텐츠 영역 |
-| {colors.surface.cream} * | #fffcf8 | 메인 페이지 JOIN 섹션, JOIN 이미지 페이드 오버레이, 에러 페이지 배경 |
-| {colors.surface.softPurple} | #fcf8ff | 비전 패널, 지도 오버레이, 부흥 조직도 3번 섹션 |
-| {colors.surface.photoFrame} | #f2ebf6 | 비전 포토 프레임 배경, 선교 스토리 이미지 플레이스홀더 |
-| {colors.surface.dark} | linear-gradient(180deg, #12091f 0%, #1b1032 34%, #170d29 68%, #0d0716 100%) | 선교 스크롤 섹션 배경 |
+| {colors.background} | #ffffff | 기본 캔버스 — about 페이지 전체, 콘텐츠 섹션 |
+| {colors.surface.cream} | #fffcf8 | 따뜻한 크림 — 영상 상세 사이드바, 아코디언 배경 |
+| {colors.surface.softPurple} | #fcf8ff | 소프트 퍼플 — 비전 패널, 정보 패널, 비전 카드 |
+| {colors.surface.photoFrame} | #f2ebf6 | 포토 프레임 — 리더 인물 카드 이미지 영역 |
+| {colors.surface.blockquote} | #f5f0f9 | 인용문 배경 |
+| {colors.surface.tableHeader} | #FAF7FF | 테이블 헤더 행 |
+| {colors.surface.ctaDark} | #2a123c | CTA 버튼 · 제자 양육 다크 카드 |
 | {colors.surface.footer} | #1f0f28 | 푸터 배경 |
-| {colors.surface.darkHeader} | #241f25 at variable opacity | 메인 페이지 내비게이션(0.72) · 드롭다운(0.92) · 모바일 메뉴(0.96) |
-| {colors.surface.blockquote} | #f5f0f9 | 인용문 배경; 제자 양육 라벤더 배경(카드, 탭 호버, 테이블 행) |
-| {colors.surface.tableHeader} | #FAF7FF | 테이블 헤더 행 배경(예배 안내, 오시는 길) |
-| {colors.surface.ctaDark} | #2a123c | CTA 버튼/카드 배경 — 다크 섹션, 제자 양육, 온라인 헌금 |
-| {colors.surface.greetingDark} | #1e1035 | 인사말 페이지 다크(목사님) 섹션 |
-| {colors.surface.greetingPurple} | #3f2551 | 인사말 페이지 퍼플(교역자) 섹션 |
-| {colors.surface.greetingPurpleCard} | #56385E | 인사말 페이지 교역자 카드 |
-| {colors.surface.revivalGradient} | bg-gradient-to-b from-[#1e1035] to-[#2f2047] | 부흥 조직도 2번 섹션 |
-| {colors.surface.revivalPanel} | #190b2a | 부흥 조직도 2번 섹션 탭 콘텐츠 패널 |
-| {colors.surface.revivalCard} | #594263 | 부흥 조직도 3번 섹션 소그룹 블록 |
-| {colors.surface.revivalSidebar} | #fcfaff | 부흥 조직도 3번 섹션 사이드바 aside |
-| {colors.surface.revivalTabContent} | #f4f0f9 | 부흥 조직도 3번 섹션 탭 콘텐츠 배경 |
+| {colors.surface.greetingDark} | #1e1035 | 인사말 페이지 다크 섹션 |
+| {colors.surface.greetingPurple} | #3f2551 | 인사말 페이지 퍼플 섹션 |
+| {colors.surface.greetingPurpleCard} | #56385E | 인사말 리더 카드 배경 |
+| {colors.surface.revivalPanel} | #190b2a | 부흥 조직도 다크 패널 |
+| {colors.surface.revivalCard} | #594263 | 부흥 조직도 카드 배경 |
+| {colors.surface.revivalSidebar} | #fcfaff | 부흥 조직도 탭 사이드바 |
+| {colors.surface.revivalTabContent} | #f4f0f9 | 부흥 조직도 탭 콘텐츠 영역 |
 
 ### 라이트 배경 잉크
 
-흰색, 소프트 퍼플(`#fcf8ff`), 크림(`#fffcf8`) 배경 위에서 사용하는 텍스트 색상입니다.
+흰색·소프트 퍼플 배경 위에서 사용하는 텍스트 색상입니다.
 
 | 토큰 | 값 | 사용처 |
 | --- | --- | --- |
-| {colors.ink} | #250030 | 최우선 헤딩 |
-| {colors.ink.heading2} | #33103f | 2차 헤딩, 인용문 카드 본문, 탭 제목, 테이블 상단 액센트 보더(3px) |
+| {colors.ink} | #250030 | 최상위 헤딩 |
+| {colors.ink.heading2} | #33103f | H2 — 섹션 타이틀, 버튼 배경, 포커스 색상 |
 | {colors.ink.subtitle} | #896B91 | 섹션 서브타이틀 |
 | {colors.ink.body} | #4A3B5E | 본문 텍스트 |
 | {colors.ink.soft} | #6F5576 | 부드러운 본문 텍스트 |
@@ -1630,4 +1243,3 @@ Tailwind 클래스 패턴: `gap-comp-{step}` / `p{x|y}-pad-{step}` / `gap-layout
 - {gap.componentLibrary} — 버튼, 카드, 테이블, 탭이 공유 컴포넌트 API 대신 페이지별로 구현되어 있습니다.
 - {gap.motionTokens} — 트랜지션 지속 시간·이징이 인라인에 내장되어 있으며, 300ms·460ms·500ms 공통 값만 관찰 가능합니다.
 - {gap.accessibilityAudit} — 색상 대비, 키보드 포커스, 스크린 리더 동작은 철저히 감사되지 않았습니다.
-- {gap.adminEditorScope} — 관리자/Tiptap 에디터 타이포그래피는 이 문서에서 다루지 않습니다. 공개 사이트에 집중합니다.
