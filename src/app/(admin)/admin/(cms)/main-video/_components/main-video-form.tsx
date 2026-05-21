@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { uploadAdminMainVideoDirect } from "@/lib/admin-upload-client";
 import { useAdminToast } from "../../components/admin-toast-provider";
 
@@ -57,6 +57,7 @@ function formatRemaining(seconds: number): string {
 
 export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
   const { success, error: showError } = useAdminToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [savedVideoUrl, setSavedVideoUrl] = useState(initialVideoUrl);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -132,6 +133,7 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
 
       setSavedVideoUrl(payload.videoUrl);
       setSelectedFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       success("메인 영상을 교체했습니다.");
     } catch (error) {
       showError(error instanceof Error ? error.message : "메인 영상 업로드에 실패했습니다.");
@@ -163,6 +165,7 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
               영상 파일
             </label>
             <input
+              ref={fileInputRef}
               id="main-video-file"
               type="file"
               accept="video/mp4,video/webm,video/quicktime"
@@ -245,14 +248,6 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
                 ) : null}
               </div>
             </div>
-          ) : selectedFile ? (
-            <div className="rounded-lg border border-[#d7e3f4] bg-[#f8fbff] p-4">
-              <p className="text-[12px] font-bold text-[#334155]">선택된 파일</p>
-              <p className="mt-1 break-all text-[13px] text-[#132033]">{selectedFile.name}</p>
-              <p className="mt-1 text-[12px] text-[#6d7f95]">
-                {(selectedFile.size / 1024 / 1024).toFixed(1)}MB
-              </p>
-            </div>
           ) : null}
 
           <div className="rounded-lg border border-[#e7edf5] bg-[#f8fafc] p-4">
@@ -263,7 +258,10 @@ export default function MainVideoForm({ initialVideoUrl }: MainVideoFormProps) {
           <div className="flex justify-end gap-2">
             <button
               type="button"
-              onClick={() => setSelectedFile(null)}
+              onClick={() => {
+                setSelectedFile(null);
+                if (fileInputRef.current) fileInputRef.current.value = "";
+              }}
               disabled={!selectedFile || isUploading}
               className="rounded-lg border border-[#d6dfeb] px-4 py-2 text-[13px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
             >
