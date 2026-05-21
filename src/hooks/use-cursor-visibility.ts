@@ -14,6 +14,11 @@ export interface CursorVisibilityOptions {
    * Reference to the toolbar element that may obscure the cursor
    */
   overlayHeight?: number
+  /**
+   * Whether to enable cursor visibility tracking.
+   * Should only be enabled on mobile where the toolbar floats at the bottom.
+   */
+  enabled?: boolean
 }
 
 /**
@@ -27,15 +32,18 @@ export interface CursorVisibilityOptions {
 export function useCursorVisibility({
   editor,
   overlayHeight = 0,
+  enabled = false,
 }: CursorVisibilityOptions) {
   const { height: windowHeight } = useWindowSize()
   const rect = useBodyRect({
-    enabled: true,
+    enabled,
     throttleMs: 100,
-    useResizeObserver: true,
+    useResizeObserver: enabled,
   })
 
   useEffect(() => {
+    if (!enabled) return
+
     const ensureCursorVisibility = () => {
       if (!editor) return
 
@@ -65,7 +73,7 @@ export function useCursorVisibility({
     }
 
     ensureCursorVisibility()
-  }, [editor, overlayHeight, windowHeight, rect.height])
+  }, [enabled, editor, overlayHeight, windowHeight, rect.height])
 
   return rect
 }

@@ -319,6 +319,7 @@ export function SimpleEditor({
   const rect = useCursorVisibility({
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
+    enabled: isMobile && !contained,
   })
 
   useEffect(() => {

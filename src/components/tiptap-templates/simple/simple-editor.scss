@@ -44,7 +44,7 @@ body {
 .simple-editor-wrapper[data-contained="true"] {
   width: 100%;
   height: auto;
-  min-height: 520px;
+  min-height: 200px;
   max-height: 640px;
   overflow-y: auto;
   border: 1px solid var(--tt-gray-light-a-200);
@@ -63,12 +63,14 @@ body {
 
 .simple-editor-wrapper[data-contained="true"] .simple-editor-content {
   height: auto;
-  min-height: 520px;
+  min-height: auto;
   max-width: 100%;
 }
 
 .simple-editor-wrapper[data-contained="true"] .simple-editor-content .tiptap.ProseMirror.simple-editor {
-  padding: 2rem 2.5rem 10rem;
+  flex: none;
+  min-height: 160px;
+  padding: 2rem 2.5rem 3rem;
 }
 
 .simple-editor-content .tiptap.ProseMirror.simple-editor {

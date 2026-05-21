@@ -4,6 +4,7 @@ import { AdminApiError } from "@/lib/admin-api";
 import { getCurrentAdminAccount } from "@/lib/admin-accounts-api";
 import CmsSidebar from "./components/cms-sidebar";
 import CmsTopbar from "./components/cms-topbar";
+import { CmsScrollLock } from "./components/cms-scroll-lock";
 
 export default async function CmsLayout({
   children,
@@ -60,6 +61,7 @@ export default async function CmsLayout({
       </div>
 
       {/* 데스크톱 레이아웃 */}
+      <CmsScrollLock />
       <div className="hidden lg:flex h-screen overflow-hidden">
         <CmsSidebar canManageAccounts={topbarSession.user.accountRole === "SUPER_ADMIN"} />
         <div className="flex flex-1 flex-col overflow-hidden">
