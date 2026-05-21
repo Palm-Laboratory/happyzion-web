@@ -439,10 +439,9 @@ export function useBoardManagementController({
   }, []);
 
   const handleSelectedMenuChange = useCallback((menuId: number) => {
+    // 새 글 작성 중에만 호출되므로(기존 게시글 수정 시 드롭다운 disabled)
+    // 저장 대상 게시판만 변경하고 이미 입력한 내용은 유지한다
     setSelectedMenuId(menuId);
-    setSelectedPostId(null);
-    setDraft(createEmptyDraft());
-    setAttachmentAssets([]);
     setError(null);
   }, []);
 
