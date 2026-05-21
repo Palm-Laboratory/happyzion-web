@@ -48,16 +48,26 @@ export default function MenuManagementClient({
               <>
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#edf2f7] pb-4">
                   <h2 className="text-[14px] font-bold text-[#132033]">상세 편집</h2>
-                  <button
-                    type="button"
-                    onClick={tree.handleSave}
-                    disabled={tree.changedMenuCount === 0 || tree.saving}
-                    className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
-                  >
-                    {tree.saving
-                      ? "저장 중..."
-                      : `변경사항 저장${tree.changedMenuCount > 0 ? ` (${tree.changedMenuCount})` : ""}`}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={tree.handleCancelChanges}
+                      disabled={tree.changedMenuCount === 0 || tree.saving}
+                      className="rounded-lg border border-[#d6dfeb] px-4 py-2 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
+                    >
+                      변경사항 취소
+                    </button>
+                    <button
+                      type="button"
+                      onClick={tree.handleSave}
+                      disabled={tree.changedMenuCount === 0 || tree.saving}
+                      className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
+                    >
+                      {tree.saving
+                        ? "저장 중..."
+                        : `변경사항 저장${tree.changedMenuCount > 0 ? ` (${tree.changedMenuCount})` : ""}`}
+                    </button>
+                  </div>
                 </div>
                 <p className="text-[13px] text-[#6d7f95]">
                   왼쪽에서 편집할 메뉴를 선택해 주세요.
@@ -71,6 +81,7 @@ export default function MenuManagementClient({
                 saving={tree.saving}
                 descendantIds={tree.descendantIds}
                 hiddenStatusAffectsDescendants={tree.hiddenStatusAffectsDescendants}
+                isAncestorRootHidden={tree.isAncestorRootHidden}
                 confirmingSelectedDelete={tree.confirmingSelectedDelete}
                 selectedManualSlugMode={tree.selectedManualSlugMode}
                 selectedSlugPreview={tree.selectedSlugPreview}
@@ -81,6 +92,7 @@ export default function MenuManagementClient({
                 selectedOrderLabel={tree.selectedOrderLabel}
                 staticPages={staticPages}
                 onSave={tree.handleSave}
+                onCancelChanges={tree.handleCancelChanges}
                 onUpdateNode={tree.updateSelectedNode}
                 onMarkDirty={tree.markDirty}
                 onCancelDelete={() => tree.setDeleteConfirmId(null)}

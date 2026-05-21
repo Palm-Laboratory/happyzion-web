@@ -85,6 +85,14 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     : null;
   const hiddenStatusAffectsDescendants =
     Boolean(selectedNode) && selectedNode?.parentId === null && descendantIds.size > 0;
+  const isAncestorRootHidden = useMemo(() => {
+    if (!selectedNode || selectedNode.parentId === null) return false;
+    let current = menuById.get(selectedNode.parentId);
+    while (current && current.parentId !== null) {
+      current = menuById.get(current.parentId);
+    }
+    return current?.status === "HIDDEN";
+  }, [selectedNode, menuById]);
   const confirmingSelectedDelete = selectedNode ? deleteConfirmId === selectedNode.id : false;
   const selectedPublicRoute = selectedNode
     ? getPublicRouteSummary(selectedNode, menuById, staticPagePathByKey)
@@ -294,6 +302,12 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     saveMutation.mutate(toPayload(items));
   };
 
+  const handleCancelChanges = () => {
+    setItems(cloneTree(savedItems));
+    setSelectedId(null);
+    setDeleteConfirmId(null);
+  };
+
   return {
     items,
     itemsRef,
@@ -309,6 +323,7 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     selectedManualSlugMode,
     selectedSlugPreview,
     hiddenStatusAffectsDescendants,
+    isAncestorRootHidden,
     confirmingSelectedDelete,
     selectedPublicRoute,
     selectedPreviewPublicRoute,
@@ -333,6 +348,7 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     handleRequestDelete,
     handleConfirmDelete,
     handleSave,
+    handleCancelChanges,
     hideNodeTree,
     reparentNode,
     moveNodeWithinSiblings,

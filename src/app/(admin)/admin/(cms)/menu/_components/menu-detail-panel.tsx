@@ -23,6 +23,7 @@ type Props = {
   saving: boolean;
   descendantIds: Set<number>;
   hiddenStatusAffectsDescendants: boolean;
+  isAncestorRootHidden: boolean;
   confirmingSelectedDelete: boolean;
   selectedManualSlugMode: boolean;
   selectedSlugPreview: {
@@ -38,6 +39,7 @@ type Props = {
   selectedOrderLabel: string;
   staticPages: AdminStaticPage[];
   onSave: () => void;
+  onCancelChanges: () => void;
   onUpdateNode: (updater: (node: EditorNode) => EditorNode) => void;
   onMarkDirty: (items: EditorNode[]) => void;
   onCancelDelete: () => void;
@@ -54,6 +56,7 @@ export function MenuDetailPanel({
   saving,
   descendantIds,
   hiddenStatusAffectsDescendants,
+  isAncestorRootHidden,
   confirmingSelectedDelete,
   selectedManualSlugMode,
   selectedSlugPreview,
@@ -64,6 +67,7 @@ export function MenuDetailPanel({
   selectedOrderLabel,
   staticPages,
   onSave,
+  onCancelChanges,
   onUpdateNode,
   onMarkDirty,
   onCancelDelete,
@@ -78,16 +82,26 @@ export function MenuDetailPanel({
     <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
         <h2 className="text-[14px] font-bold text-[#132033]">상세 편집</h2>
-        <button
-          type="button"
-          onClick={onSave}
-          disabled={changedMenuCount === 0 || saving}
-          className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
-        >
-          {saving
-            ? "저장 중..."
-            : `변경사항 저장${changedMenuCount > 0 ? ` (${changedMenuCount})` : ""}`}
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={onCancelChanges}
+            disabled={changedMenuCount === 0 || saving}
+            className="rounded-lg border border-[#d6dfeb] px-4 py-2 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            변경사항 취소
+          </button>
+          <button
+            type="button"
+            onClick={onSave}
+            disabled={changedMenuCount === 0 || saving}
+            className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
+          >
+            {saving
+              ? "저장 중..."
+              : `변경사항 저장${changedMenuCount > 0 ? ` (${changedMenuCount})` : ""}`}
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4 px-5 py-5">
@@ -138,7 +152,7 @@ export function MenuDetailPanel({
                       status: nextStatus,
                     }));
                   }}
-                  disabled={selectedNode.status === "ARCHIVED"}
+                  disabled={selectedNode.status === "ARCHIVED" || isAncestorRootHidden}
                   className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] disabled:bg-[#f8fafc]"
                 >
                   {selectedNode.status === "DRAFT" && (
@@ -158,6 +172,11 @@ export function MenuDetailPanel({
                 {selectedNode.status === "ARCHIVED" && (
                   <p className="text-[11px] leading-5 text-[#8fa3bb]">
                     보관 상태는 유튜브 동기화로만 해제됩니다.
+                  </p>
+                )}
+                {isAncestorRootHidden && (
+                  <p className="text-[11px] leading-5 text-[#8fa3bb]">
+                    상위 루트 메뉴가 숨김 상태여서 변경할 수 없습니다.
                   </p>
                 )}
                 {hiddenStatusAffectsDescendants && (
