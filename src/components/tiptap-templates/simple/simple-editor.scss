@@ -47,6 +47,7 @@ body {
   min-height: 200px;
   max-height: 640px;
   overflow-y: auto;
+  overscroll-behavior: auto;
   border: 1px solid var(--tt-gray-light-a-200);
   border-radius: 0.75rem;
 }
