@@ -20,8 +20,11 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         canMoveYearDown={editor.canMoveYearDown}
         draggingYearId={editor.draggingYearId}
         dropYearIndicatorIndex={editor.dropYearIndicatorIndex}
+        hasReordered={editor.hasReordered}
+        isOrderSaving={editor.isOrderSaving}
         listRef={editor.listRef}
         onAddYear={editor.handleAddYear}
+        onSaveOrder={editor.handleSaveOrder}
         onSelectYear={editor.selectYear}
         onMoveYearUp={editor.handleMoveYearUp}
         onMoveYearDown={editor.handleMoveYearDown}

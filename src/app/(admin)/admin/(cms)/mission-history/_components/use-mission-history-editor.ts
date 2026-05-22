@@ -217,11 +217,6 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   });
 
   const handleSave = useCallback(() => {
-    if (hasReordered) {
-      const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
-      reorderMutation.mutate(yearIds);
-    }
-
     if (!draft || (!isDirty && !isNewYear)) return;
 
     const validation = validateMissionYearDraft(draft);
@@ -238,7 +233,13 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     } else {
       updateMutation.mutate(draft);
     }
-  }, [createMutation, draft, hasReordered, isDirty, isNewYear, items, newItemIds, reorderMutation, toast, updateMutation]);
+  }, [createMutation, draft, isDirty, isNewYear, toast, updateMutation]);
+
+  const handleSaveOrder = useCallback(() => {
+    if (!hasReordered) return;
+    const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
+    reorderMutation.mutate(yearIds);
+  }, [hasReordered, items, newItemIds, reorderMutation]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
     let nextValue = value;
@@ -452,7 +453,7 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   }, [selectedId]);
 
   const isSaving = createMutation.isPending || updateMutation.isPending;
-  const saveDisabled = (!isDirty && !isNewYear && !hasReordered) || isSaving || reorderMutation.isPending;
+  const saveDisabled = (!isDirty && !isNewYear) || isSaving;
 
   return {
     items,
@@ -495,8 +496,10 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     draggingYearId,
     dropYearIndicatorIndex,
     hasReordered,
+    isOrderSaving: reorderMutation.isPending,
     canMoveYearUp,
     canMoveYearDown,
+    handleSaveOrder,
     handleYearDragStart,
     handleYearDragOver,
     handleYearDrop,
