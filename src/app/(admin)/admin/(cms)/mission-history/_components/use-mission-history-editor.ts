@@ -77,10 +77,17 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   const [invalidEntryFields, setInvalidEntryFields] = useState<InvalidEntryFields>(new Map());
   const [draggingEntryId, setDraggingEntryId] = useState<string | null>(null);
   const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
+  const [draggingYearId, setDraggingYearId] = useState<string | null>(null);
+  const [dropYearIndicatorIndex, setDropYearIndicatorIndex] = useState<number | null>(null);
+  const [hasReordered, setHasReordered] = useState(false);
 
   const selected = items.find((item) => item.id === selectedId) ?? null;
   const isDirty = Boolean(draft && selected && JSON.stringify(draft) !== JSON.stringify(selected));
   const changeCount = countYearChanges(draft, selected);
+
+  const selectedIndex = selectedId ? items.findIndex((i) => i.id === selectedId) : -1;
+  const canMoveYearUp = selectedIndex > 0;
+  const canMoveYearDown = selectedIndex !== -1 && selectedIndex < items.length - 1;
 
   const clearAllErrors = useCallback(() => {
     setInvalidFields(new Set());
@@ -188,8 +195,34 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     }, 0);
   }, [clearAllErrors]);
 
+  const reorderMutation = useMutation({
+    mutationFn: async (yearIds: number[]) => {
+      const response = await fetch("/api/admin/mission-history/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ yearIds }),
+      });
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => ({}))) as { message?: string };
+        throw new Error(payload.message ?? "순서 저장에 실패했습니다.");
+      }
+    },
+    onSuccess: () => {
+      setHasReordered(false);
+      toast.success("순서가 저장되었습니다.");
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "순서 저장 중 오류가 발생했습니다.");
+    },
+  });
+
   const handleSave = useCallback(() => {
-    if (!draft) return;
+    if (hasReordered) {
+      const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
+      reorderMutation.mutate(yearIds);
+    }
+
+    if (!draft || (!isDirty && !isNewYear)) return;
 
     const validation = validateMissionYearDraft(draft);
     setInvalidFields(validation.invalidFields);
@@ -205,7 +238,7 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     } else {
       updateMutation.mutate(draft);
     }
-  }, [createMutation, draft, isNewYear, toast, updateMutation]);
+  }, [createMutation, draft, hasReordered, isDirty, isNewYear, items, newItemIds, reorderMutation, toast, updateMutation]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
     let nextValue = value;
@@ -350,8 +383,76 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     setDropIndicatorIndex(null);
   }, []);
 
+  const handleYearDragStart = useCallback((event: DragEvent<HTMLButtonElement>, yearId: string) => {
+    event.dataTransfer.effectAllowed = "move";
+    setDraggingYearId(yearId);
+    setDropYearIndicatorIndex(null);
+  }, []);
+
+  const handleYearDragOver = useCallback((event: DragEvent<HTMLButtonElement>, yearIndex: number) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    const rect = event.currentTarget.getBoundingClientRect();
+    setDropYearIndicatorIndex(yearIndex + (event.clientY > rect.top + rect.height / 2 ? 1 : 0));
+  }, []);
+
+  const handleYearDrop = useCallback(
+    (event: DragEvent<HTMLButtonElement>) => {
+      event.preventDefault();
+      if (draggingYearId === null || dropYearIndicatorIndex === null) {
+        setDraggingYearId(null);
+        setDropYearIndicatorIndex(null);
+        return;
+      }
+      setItems((prev) => {
+        const fromIndex = prev.findIndex((item) => item.id === draggingYearId);
+        if (fromIndex === -1) return prev;
+        const insertAt =
+          dropYearIndicatorIndex > fromIndex ? dropYearIndicatorIndex - 1 : dropYearIndicatorIndex;
+        if (insertAt === fromIndex) return prev;
+        const next = [...prev];
+        const [moved] = next.splice(fromIndex, 1);
+        next.splice(insertAt, 0, moved);
+        return next;
+      });
+      setHasReordered(true);
+      setDraggingYearId(null);
+      setDropYearIndicatorIndex(null);
+    },
+    [draggingYearId, dropYearIndicatorIndex],
+  );
+
+  const resetYearDrag = useCallback(() => {
+    setDraggingYearId(null);
+    setDropYearIndicatorIndex(null);
+  }, []);
+
+  const handleMoveYearUp = useCallback(() => {
+    if (!selectedId) return;
+    setItems((prev) => {
+      const index = prev.findIndex((i) => i.id === selectedId);
+      if (index <= 0) return prev;
+      const next = [...prev];
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      return next;
+    });
+    setHasReordered(true);
+  }, [selectedId]);
+
+  const handleMoveYearDown = useCallback(() => {
+    if (!selectedId) return;
+    setItems((prev) => {
+      const index = prev.findIndex((i) => i.id === selectedId);
+      if (index === -1 || index >= prev.length - 1) return prev;
+      const next = [...prev];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return next;
+    });
+    setHasReordered(true);
+  }, [selectedId]);
+
   const isSaving = createMutation.isPending || updateMutation.isPending;
-  const saveDisabled = (!isDirty && !isNewYear) || isSaving;
+  const saveDisabled = (!isDirty && !isNewYear && !hasReordered) || isSaving || reorderMutation.isPending;
 
   return {
     items,
@@ -391,5 +492,16 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     handleEntryDragOver,
     handleEntryDrop,
     resetEntryDrag,
+    draggingYearId,
+    dropYearIndicatorIndex,
+    hasReordered,
+    canMoveYearUp,
+    canMoveYearDown,
+    handleYearDragStart,
+    handleYearDragOver,
+    handleYearDrop,
+    resetYearDrag,
+    handleMoveYearUp,
+    handleMoveYearDown,
   };
 }

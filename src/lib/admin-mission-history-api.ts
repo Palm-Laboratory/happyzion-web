@@ -47,6 +47,14 @@ export async function updateMissionYear(yearId: number, payload: MissionYearPayl
   return response.json() as Promise<MissionYearDetail>;
 }
 
+export async function reorderMissionYears(yearIds: number[]): Promise<void> {
+  await adminApiFetch("/api/v1/admin/mission-history/reorder", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ yearIds }),
+  });
+}
+
 export async function deleteMissionYear(yearId: number): Promise<void> {
   await adminApiFetch(`/api/v1/admin/mission-history/${yearId}`, {
     method: "DELETE",
