@@ -1,10 +1,7 @@
 "use client";
 
 import type { AdminStaticPage, MenuStatus, MenuType } from "@/lib/admin-menu-api";
-import {
-  MANAGED_STATUS_OPTIONS,
-  STATUS_LABEL,
-} from "./menu-tree-constants";
+import { STATUS_LABEL } from "./menu-tree-constants";
 import { MenuDeleteSection } from "./menu-delete-section";
 import {
   type EditorNode,
@@ -77,6 +74,21 @@ export function MenuDetailPanel({
   onAddChild,
 }: Props) {
   const isStaticLockedMenu = selectedNode.type === "STATIC" || isStaticMenuGroup(selectedNode);
+  const isStatusSwitchOn = selectedNode.status === "PUBLISHED";
+  const isStatusSwitchDisabled = selectedNode.status === "ARCHIVED" || isAncestorRootHidden;
+  const statusSwitchLabel =
+    selectedNode.status === "ARCHIVED" || selectedNode.status === "DRAFT"
+      ? STATUS_LABEL[selectedNode.status]
+      : isStatusSwitchOn
+        ? STATUS_LABEL.PUBLISHED
+        : STATUS_LABEL.HIDDEN;
+
+  const updateManagedStatus = (nextStatus: Extract<MenuStatus, "PUBLISHED" | "HIDDEN">) => {
+    onUpdateNode((node) => ({
+      ...(node.parentId === null && nextStatus === "HIDDEN" ? hideNodeTree(node) : node),
+      status: nextStatus,
+    }));
+  };
 
   return (
     <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
@@ -126,7 +138,7 @@ export function MenuDetailPanel({
               />
             </label>
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_max-content]">
               <label className="space-y-1.5">
                 <span className="text-[12px] font-semibold text-[#334155]">타입</span>
                 <p className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[13px] text-[#475569]">
@@ -134,39 +146,31 @@ export function MenuDetailPanel({
                 </p>
               </label>
 
-              <label className="space-y-1.5">
-                <span className="text-[12px] font-semibold text-[#334155]">상태</span>
-                <select
-                  value={selectedNode.status === "DRAFT" ? "" : selectedNode.status}
-                  onChange={(event) => {
-                    const nextStatus = event.target.value as Extract<
-                      MenuStatus,
-                      "PUBLISHED" | "HIDDEN"
-                    >;
-                    onUpdateNode((node) => ({
-                      ...(node.parentId === null && nextStatus === "HIDDEN"
-                        ? hideNodeTree(node)
-                        : node),
-                      status: nextStatus,
-                    }));
-                  }}
-                  disabled={selectedNode.status === "ARCHIVED" || isAncestorRootHidden}
-                  className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] disabled:bg-[#f8fafc]"
-                >
-                  {selectedNode.status === "DRAFT" && (
-                    <option value="" disabled>
-                      {STATUS_LABEL.DRAFT}
-                    </option>
-                  )}
-                  {selectedNode.status === "ARCHIVED" && (
-                    <option value="ARCHIVED">{STATUS_LABEL.ARCHIVED}</option>
-                  )}
-                  {MANAGED_STATUS_OPTIONS.map((status) => (
-                    <option key={status.value} value={status.value}>
-                      {status.label}
-                    </option>
-                  ))}
-                </select>
+              <div className="space-y-1.5">
+                <span className="block text-[12px] font-semibold text-[#334155]">상태</span>
+                <div className="inline-flex min-h-10 items-center gap-3 py-2">
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={isStatusSwitchOn}
+                    aria-label={`메뉴 상태 ${statusSwitchLabel}`}
+                    disabled={isStatusSwitchDisabled}
+                    onClick={() => updateManagedStatus(isStatusSwitchOn ? "HIDDEN" : "PUBLISHED")}
+                    className={`relative h-6 w-11 rounded-full transition disabled:cursor-not-allowed disabled:opacity-55 ${
+                      isStatusSwitchOn ? "bg-[#3f74c7]" : "bg-[#cbd5e1]"
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition ${
+                        isStatusSwitchOn ? "left-6" : "left-1"
+                      }`}
+                    />
+                  </button>
+                  <span className="text-[13px] font-semibold text-[#334155]">
+                    {statusSwitchLabel}
+                  </span>
+                </div>
                 {selectedNode.status === "ARCHIVED" && (
                   <p className="text-[11px] leading-5 text-[#8fa3bb]">
                     보관 상태는 유튜브 동기화로만 해제됩니다.
@@ -183,7 +187,7 @@ export function MenuDetailPanel({
                     처리됩니다.
                   </p>
                 )}
-              </label>
+              </div>
             </div>
           </div>
 
