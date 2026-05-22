@@ -34,8 +34,7 @@ export function BoardManagementEditor({ controller }: { controller: BoardManagem
             <select
               value={controller.selectedMenuId}
               onChange={(event) => controller.handleSelectedMenuChange(Number(event.target.value))}
-              disabled={Boolean(controller.selectedPostId)}
-              className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] font-semibold text-[#334155] disabled:bg-[#f8fafc]"
+              className="w-full rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[13px] font-semibold text-[#334155]"
             >
               {controller.boardMenus.map((boardMenu) => (
                 <option key={boardMenu.id} value={boardMenu.id}>

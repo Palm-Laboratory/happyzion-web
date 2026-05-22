@@ -89,6 +89,15 @@ export function useBoardManagementController({
     const urlMenuId = Number(searchParams.get("menuId"));
     return boardMenus.find((m) => m.id === urlMenuId)?.id ?? initialMenuId;
   });
+
+  // 게시글 편집 시 URL에서 읽은 원래 menuId/boardMenu (드롭다운 변경과 무관하게 고정)
+  // - detailQuery(조회) 및 deletePost(삭제)는 원래 게시판 컨텍스트를 사용해야 함
+  // - savePost(수정)는 목적지(selectedBoard) 컨텍스트를 사용해야 함 → re-fetch GET이 올바른 slug로 동작
+  const urlMenuId = Number(searchParams.get("menuId"));
+  const urlBoardMenu = (screenMode === "editor" && Boolean(selectedPostId))
+    ? (boardMenus.find((m) => m.id === urlMenuId) ?? null)
+    : null;
+
   const [posts, setPosts] = useState<BoardPostListItem[]>(() => {
     const firstMenu = boardMenus[0] ?? null;
     return firstMenu ? initialPosts.map((post) => toBoardPostListItem(post, firstMenu)) : [];
@@ -148,14 +157,14 @@ export function useBoardManagementController({
   });
 
   const detailQuery = useQuery({
-    queryKey: ["admin-board-post", selectedBoardMenu?.boardKey, selectedMenuId, selectedPostId],
+    queryKey: ["admin-board-post", urlBoardMenu?.boardKey, urlMenuId, selectedPostId],
     queryFn: () =>
       fetchBoardPostDetail({
-        boardKey: selectedBoardMenu?.boardKey ?? "",
+        boardKey: urlBoardMenu?.boardKey ?? "",
         postId: selectedPostId ?? "",
-        menuId: selectedMenuId,
+        menuId: urlMenuId,
       }),
-    enabled: screenMode === "editor" && Boolean(selectedBoardMenu?.boardKey) && Boolean(selectedMenuId) && Boolean(selectedPostId),
+    enabled: screenMode === "editor" && Boolean(urlBoardMenu?.boardKey) && Boolean(urlMenuId) && Boolean(selectedPostId),
   });
 
   const saveMutation = useMutation({
@@ -378,6 +387,8 @@ export function useBoardManagementController({
         throw new Error(validationMessage);
       }
 
+      // 백엔드가 postId로 게시글을 조회하므로 boardSlug는 라우팅 힌트에 불과
+      // PUT을 목적지(selectedBoard) slug로 보내야 저장 후 re-fetch(GET)가 올바른 slug로 동작
       saveMutation.mutate({
         boardSlug: selectedBoard.slug,
         postId: selectedPostId,
@@ -391,7 +402,15 @@ export function useBoardManagementController({
   }, [saveMutation, savePayload, selectedBoard, selectedBoardMenu, selectedPostId, toast]);
 
   const handleDelete = useCallback(async () => {
-    if (!selectedBoard || !selectedPostId) {
+    if (!selectedPostId) {
+      return;
+    }
+
+    // 삭제는 현재 게시글이 속한 원래 게시판 기준으로 수행 (드롭다운 변경과 무관)
+    const deleteBoardSlug = urlBoardMenu?.boardKey ?? selectedBoard?.slug ?? "";
+    const deleteMenuId = urlMenuId || selectedMenuId;
+
+    if (!deleteBoardSlug) {
       return;
     }
 
@@ -402,11 +421,11 @@ export function useBoardManagementController({
 
     setError(null);
     await deleteMutation.mutateAsync({
-      boardSlug: selectedBoard.slug,
+      boardSlug: deleteBoardSlug,
       postId: selectedPostId,
-      menuId: selectedMenuId,
+      menuId: deleteMenuId,
     }).catch(() => undefined);
-  }, [deleteMutation, selectedBoard, selectedMenuId, selectedPostId]);
+  }, [deleteMutation, selectedBoard, selectedMenuId, selectedPostId, urlBoardMenu, urlMenuId]);
 
   const handleEditorUploadError = useCallback((uploadError: Error) => {
     const message = getEditorUploadErrorMessage(uploadError);
@@ -423,8 +442,7 @@ export function useBoardManagementController({
   }, []);
 
   const handleSelectedMenuChange = useCallback((menuId: number) => {
-    // 새 글 작성 중에만 호출되므로(기존 게시글 수정 시 드롭다운 disabled)
-    // 저장 대상 게시판만 변경하고 이미 입력한 내용은 유지한다
+    // 저장 대상 게시판을 변경; 이미 입력한 내용은 유지한다
     setSelectedMenuId(menuId);
     setError(null);
   }, []);
