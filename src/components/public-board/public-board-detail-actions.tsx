@@ -67,7 +67,7 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
 
 function DirectionBadge({ direction }: { direction: "left" | "right" }) {
   return (
-    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#2a123c]">
+    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#2a123c]">
       <ChevronIcon direction={direction} />
     </span>
   );
@@ -162,7 +162,7 @@ export default function PublicBoardDetailActions({
           </Link>
         ) : (
           <div className="flex items-start gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#4a3b5e]/60">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#4a3b5e]/60">
               <ChevronIcon direction="left" />
             </span>
             <div className="min-w-0 flex-1">
@@ -184,12 +184,12 @@ export default function PublicBoardDetailActions({
             <DirectionBadge direction="right" />
           </Link>
         ) : (
-          <div className="flex items-center gap-4 rounded-[22px] border border-dashed border-cedar/14 bg-white/70 px-4 py-4">
+          <div className="flex items-center gap-4 rounded-[16px] border border-dashed border-cedar/14 bg-white/70 px-4 py-4">
             <div className="min-w-0 flex-1 text-right">
               <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음글</p>
               <p className="type-body-xs mt-1 text-site-muted">다음 게시글이 없습니다.</p>
             </div>
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#f4eff6] text-[#4a3b5e]/60">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#4a3b5e]/60">
               <ChevronIcon direction="right" />
             </span>
           </div>

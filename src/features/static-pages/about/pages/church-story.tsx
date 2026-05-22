@@ -59,15 +59,13 @@ const timelineItems: TimelineItem[] = [
 
 function FoundationCard() {
   return (
-    <aside className="relative h-auto w-full shrink-0 overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-7 py-9 text-left text-white sm:px-11 sm:py-12 lg:h-[320px] lg:w-[450px]">
-      <div className="flex flex-col gap-4">
-        <p className="type-label-lg text-[#c9a96e]">
-          Church Foundation
-        </p>
-        <h3 className="type-title-lg whitespace-pre-line text-white">
+    <aside className="relative h-auto w-full shrink-0 overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl text-left text-white lg:h-[320px] lg:w-[450px]">
+      <div className="flex flex-col gap-comp-base">
+        <p className="type-label-lg text-[#c9a96e]">Church Foundation</p>
+        <h3 className="type-title-md md:type-title-lg whitespace-pre-line text-white">
           {"1997년 7월 1일\n신원당 시영아파트 (14평 가정교회)"}
         </h3>
-        <p className="type-caption-lg whitespace-pre-line font-medium text-white/80">
+        <p className="type-body-sm md:type-body-md whitespace-pre-line font-medium text-white/80">
           하나님의 부르심에 응답하여, 작은 가정에서 시작된 시온장로교회의 첫걸음
         </p>
       </div>
@@ -84,7 +82,7 @@ function FoundationCard() {
 
 function BeginningSection() {
   return (
-    <section className="flex w-full flex-col items-start gap-10 md:gap-[50px] lg:gap-[60px]">
+    <section className="flex w-full flex-col items-start gap-layout-lg lg:gap-layout-xl">
       <SectionHeading
         label="The Beginning"
         title={
@@ -98,8 +96,8 @@ function BeginningSection() {
         description="Founded by Faith · Guided by Grace"
         className="md:max-w-none [&_h2]:md:whitespace-nowrap"
       />
-      <div className="grid w-full items-start gap-10 lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-[60px]">
-        <div className="type-body-md flex min-w-0 flex-col gap-8 text-[#4A3B5E]">
+      <div className="grid w-full items-start gap-layout-lg lg:grid-cols-[minmax(0,1fr)_450px] lg:gap-layout-xl">
+        <div className="type-body-sm md:type-body-md flex min-w-0 flex-col gap-layout-md text-[#4A3B5E]">
           {beginningParagraphs.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
@@ -112,8 +110,8 @@ function BeginningSection() {
 
 function TimelineDate({ item }: { item: TimelineItem }) {
   return (
-    <div className="relative flex w-[82px] shrink-0 self-stretch border-r border-[#8b6db5]/60 pl-0 pr-6 pt-12 md:px-6">
-      <div className="flex w-full flex-col items-center gap-1">
+    <div className="relative flex w-[82px] shrink-0 self-stretch border-r border-[#8b6db5]/60 pl-0 pr-pad-md pt-pad-4xl md:px-pad-md">
+      <div className="flex w-full flex-col items-center gap-comp-xxs">
         <p className="type-label-lg font-hahmlet font-medium text-[#8b6db5]">
           {item.year}
         </p>
@@ -165,28 +163,32 @@ function TimelinePlace({ place }: { place: string }) {
   );
 }
 
-function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean }) {
+function TimelineContent({
+  item,
+  isLast,
+}: {
+  item: TimelineItem;
+  isLast: boolean;
+}) {
   return (
     <article
-      className={`flex min-w-0 flex-1 flex-col items-start gap-5 pb-[60px] pl-6 pt-6 md:pl-10 ${
-        isLast ? "" : "border-b border-[#5d3d8a/15]"
+      className={`flex min-w-0 flex-1 flex-col items-start gap-comp-lg pb-pad-4xl pl-pad-md pt-pad-md md:pl-pad-xxl ${
+        isLast ? "" : "border-b border-[#5d3d8a]/15"
       }`}
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-comp-sm">
         <p className="type-label-lg text-[#c9a96e]">
           <TimelinePlace place={item.place} />
         </p>
-        <h3 className="type-title-xl font-medium text-[#250030]">
+        <h3 className="type-title-lg md:type-title-xl font-medium text-[#250030]">
           <TimelineTitle title={item.title} />
         </h3>
       </div>
-      <p className="type-body-sm text-[#4a3b5e]">
-        {item.body}
-      </p>
+      <p className="type-body-sm text-[#4a3b5e]">{item.body}</p>
       {item.quote ? (
-        <blockquote className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-          <p className="type-quote-md relative z-10 text-[#33103f]">
-            &ldquo;{item.quote}&rdquo;
+        <blockquote className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
+          <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
+            &quot;{item.quote}&quot;
           </p>
           <span
             className="absolute left-[19px] top-[-11px] text-[84px] leading-[84px] text-[#4d1367]/10"
@@ -198,9 +200,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
         </blockquote>
       ) : null}
       {item.closing ? (
-        <p className="type-body-sm text-[#4a3b5e]">
-          {item.closing}
-        </p>
+        <p className="type-body-sm text-[#4a3b5e]">{item.closing}</p>
       ) : null}
     </article>
   );
@@ -208,7 +208,7 @@ function TimelineContent({ item, isLast }: { item: TimelineItem; isLast: boolean
 
 function TimelineSection() {
   return (
-    <section className="flex w-full flex-col items-start gap-10 md:gap-[50px] lg:gap-[60px]">
+    <section className="flex w-full flex-col items-start gap-layout-lg lg:gap-layout-xl">
       <SectionHeading
         label="Church Timeline"
         title="걸어온 길"
@@ -217,9 +217,15 @@ function TimelineSection() {
       />
       <div className="flex w-full flex-col items-start">
         {timelineItems.map((item, index) => (
-          <div className="flex w-full items-start" key={`${item.year}-${item.month ?? "year"}-${item.title}`}>
+          <div
+            className="flex w-full items-start"
+            key={`${item.year}-${item.month ?? "year"}-${item.title}`}
+          >
             <TimelineDate item={item} />
-            <TimelineContent item={item} isLast={index === timelineItems.length - 1} />
+            <TimelineContent
+              item={item}
+              isLast={index === timelineItems.length - 1}
+            />
           </div>
         ))}
       </div>
@@ -229,20 +235,21 @@ function TimelineSection() {
 
 function ClosingCallout() {
   return (
-    <section className="relative w-full overflow-hidden rounded bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] px-8 py-[54px] md:px-[60px]">
+    <section className="relative w-full overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_25%_29%,#1f1035_0%,#2e1d46_100%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_46%,rgba(153,63,186,0.12),rgba(153,63,186,0)_52%)]" />
-      <div className="relative z-10 flex flex-col items-start gap-4">
-        <p className="type-label-lg text-[#c9a96e]">
-          God&apos;s Faithfulness
-        </p>
-        <h2 className="type-title-lg text-white">
+      <div className="relative z-10 flex flex-col items-start gap-comp-base">
+        <p className="type-label-lg text-[#c9a96e]">God&apos;s Faithfulness</p>
+        <h2 className="type-title-md md:type-title-lg text-white">
           부흥은 멀리 있지 않습니다. 당신이 여기 있는 것이, 그 시작입니다.
         </h2>
-        <p className="type-caption-lg font-medium text-white/80">
-          지난 30년의 걸음 하나하나가 하나님의 인도하심이었습니다.
-          <br />
-          작은 14평 가정에서 시작된 교회가 오늘도 사람을 살리는 사역을 이어가고 있습니다.
-        </p>
+        <div className="flex flex-col gap-comp-xxs">
+          <p className="type-body-sm md:type-body-md font-medium text-white/80">
+            지난 30년의 걸음 하나하나가 하나님의 인도하심이었습니다.
+          </p>
+          <p className="type-body-sm md:type-body-md font-medium text-white/80">
+            작은 14평 가정에서 시작된 교회가 오늘도 사람을 살리는 사역을 이어가고 있습니다.
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -251,9 +258,9 @@ function ClosingCallout() {
 export default function ChurchStoryStaticPage() {
   return (
     <main className="w-full overflow-x-hidden bg-white">
-      <div className="section-shell section-shell--narrow flex flex-col items-start gap-[60px] pb-[200px] pt-[100px] md:gap-20 lg:gap-[100px]">
+      <div className="section-shell section-shell--narrow flex flex-col items-start gap-section-sm pb-section-xl pt-section-sm md:gap-section-md md:pb-section-xxl md:pt-section-md lg:gap-section-lg lg:pb-section-3xl lg:pt-section-lg">
         <BeginningSection />
-        <div className="h-px w-full bg-[#5d3d8a/15]" />
+        <div className="h-px w-full bg-[#5d3d8a]/15" />
         <TimelineSection />
         <ClosingCallout />
       </div>

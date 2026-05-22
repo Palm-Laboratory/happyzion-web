@@ -154,7 +154,10 @@ function MissionStorySectionMobile() {
 
       <div className="mt-20 flex h-fit w-full max-w-[760px] flex-col items-center">
         <div className="flex items-center gap-4 uppercase">
-          <p className="type-display-counter text-[#FDF8FF]">
+          <p
+            className="text-[3.5rem] leading-none tracking-[0.01em] text-[#FDF8FF]"
+            style={{ fontFamily: "var(--font-corinthia), cursive" }}
+          >
             {String(activeIndex + 1)}
           </p>
           <div className="h-px w-9 bg-[rgba(255,250,240,0.65)]" />
@@ -401,7 +404,8 @@ function MissionStorySectionDesktop() {
                   {missionStories.map((story, index) => (
                     <div
                       key={`${story.id}-dial-number`}
-                      className="type-display-counter flex h-16 items-center text-[#FDF8FF]"
+                      className="flex h-16 items-center text-[3.5rem] leading-none tracking-[0.01em] text-[#FDF8FF]"
+                      style={{ fontFamily: "var(--font-corinthia), cursive" }}
                     >
                       {index + 1}
                     </div>

@@ -43,8 +43,8 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
   const captionColor = isRed ? "text-[#b73838]" : isGold ? "text-[#c9a96e]" : "text-[#33103f]";
 
   return (
-    <article className="flex w-full flex-col gap-4">
-      <header className="flex w-full items-end gap-5 border-b border-[#5d3d8a]/15 pb-3 text-left sm:gap-6">
+    <article className="flex w-full flex-col gap-comp-base">
+      <header className="flex w-full items-end gap-comp-lg border-b border-[#5d3d8a]/15 pb-pad-xxs text-left sm:gap-comp-xl">
         <p className={`font-serif text-[32px] font-medium italic leading-none tracking-[0] md:text-[36px] ${yearColor}`}>
           {item.year}
         </p>
@@ -55,19 +55,19 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
       <div className="w-full">
         {item.entries.map((entry) => (
           <div
-            className="flex min-h-[42px] items-center border-t border-[#5d3d8a]/5 py-2 first:border-t-0"
+            className="flex min-h-[42px] items-center border-t border-[#5d3d8a]/5 py-pad-3xs first:border-t-0"
             key={`${item.year}-${entry.month}-${entry.place}`}
           >
-            <div className="type-label-lg w-[72px] shrink-0 pl-3 text-[#8b6db5] sm:w-[84px]">
+            <div className="type-label-lg w-[72px] shrink-0 pl-pad-xxs text-[#8b6db5] sm:w-[84px]">
               {entry.month}
             </div>
-            <div className="flex min-w-0 items-center gap-3">
+            <div className="flex min-w-0 items-center gap-comp-md">
               <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isGold ? "bg-[#c9a96e]" : isRed ? "bg-[#b73838]" : "bg-[#8b6db5]"}`} />
               <p className="type-body-sm text-[#4a3b5e]">
                 {entry.place}
               </p>
               {entry.isFirst ? (
-                <span className="type-label-sm border border-[#c9a96e]/30 bg-[#c9a96e]/10 px-1.5 py-[3px] text-[#c9a96e]">
+                <span className="type-label-sm border border-[#c9a96e]/30 bg-[#c9a96e]/10 px-[6px] py-[3px] text-[#c9a96e]">
                   First
                 </span>
               ) : null}
@@ -81,16 +81,20 @@ function MissionTimelineItem({ item }: { item: MissionYear }) {
 
 function MissionCallout() {
   return (
-    <section className="mt-[100px] w-full overflow-hidden rounded bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] px-6 py-[54px] md:px-[60px]">
-      <p className="type-label-lg mb-4 text-[#c9a96e]">The Mission Continues</p>
-      <h3 className="type-title-lg text-white">
-        변함없는 20년의 선교,
-        <br />
-        시온장로교회는 오늘도 달려갑니다.
-      </h3>
-      <p className="type-caption-lg mt-6 font-medium text-white/80">
-        &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot; - 사도행전 1:8
-      </p>
+    <section className="w-full overflow-hidden rounded-[4px] bg-[radial-gradient(circle_at_28%_30%,#1f1035_0%,#2e1d46_62%),radial-gradient(circle_at_68%_47%,rgba(153,63,186,0.12),rgba(153,63,186,0)_42%)] p-pad-lg md:p-pad-xxl lg:p-pad-4xl">
+      <div className="flex flex-col gap-comp-xl">
+        <div className="flex flex-col gap-comp-base">
+          <p className="type-label-lg text-[#c9a96e]">The Mission Continues</p>
+          <h3 className="type-title-md md:type-title-lg text-white">
+            변함없는 20년의 선교,
+            <br />
+            시온장로교회는 오늘도 달려갑니다.
+          </h3>
+        </div>
+        <p className="type-body-sm md:type-body-md font-medium text-white/80">
+          &quot;오직 성령이 너희에게 임하시면 너희가 권능을 받고 예루살렘과 온 유대와 사마리아와 땅 끝까지 이르러 내 증인이 되리라&quot; - 사도행전 1:8
+        </p>
+      </div>
     </section>
   );
 }
@@ -99,20 +103,20 @@ export default async function MissionHistoryStaticPage() {
   const missionHistory = await getPublicMissionHistory().catch(() => []);
 
   return (
-    <main className="bg-white py-[70px] lg:py-[100px]">
-      <div className="section-shell section-shell--narrow">
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <div className="flex flex-col gap-layout-lg pb-section-lg lg:gap-layout-xl">
         <SectionHeading
           label="Mission History"
           title="시온장로교회 선교 이력"
           description="The Journey of Faith and Mission"
-          className="mb-[60px] max-w-[540px]"
+          className="max-w-[540px]"
         />
 
         <MissionMobileGalleryHero galleries={MISSION_GALLERIES} />
 
-        <div className="grid gap-14 md:grid-cols-[minmax(0,1fr)_300px] md:gap-8 lg:grid-cols-[minmax(0,560px)_400px] lg:gap-[60px]">
+        <div className="mt-layout-md grid gap-layout-xl md:mt-0 md:grid-cols-[minmax(0,1fr)_300px] md:gap-layout-md lg:grid-cols-[minmax(0,560px)_400px] lg:gap-layout-xl">
           <section id="mission-history-timeline-track">
-            <div className="flex flex-col gap-[60px]">
+            <div className="flex flex-col gap-layout-xl">
               {missionHistory.map((item) => (
                 <MissionTimelineItem item={item} key={item.year} />
               ))}
@@ -120,8 +124,8 @@ export default async function MissionHistoryStaticPage() {
           </section>
           <MissionStickyGalleryRail galleries={MISSION_GALLERIES} />
         </div>
-        <MissionCallout />
       </div>
+      <MissionCallout />
     </main>
   );
 }

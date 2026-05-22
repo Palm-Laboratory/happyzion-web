@@ -264,9 +264,9 @@ function renderInlineText(text: string, key: string, marks: unknown[] = []): Rea
       case "underline":
         return <u key={markKey}>{content}</u>;
       case "code":
-        return <code key={markKey} className="type-body-xs rounded bg-[#8b6db5]/8 px-1.5 py-0.5 font-mono text-[#33103f]">{content}</code>;
+        return <code key={markKey} className="type-body-xs rounded-[4px] bg-[#8b6db5]/8 px-1.5 py-0.5 font-mono text-[#33103f]">{content}</code>;
       case "highlight":
-        return <mark key={markKey} style={getHighlightStyle(candidate.attrs)} className="rounded px-1">{content}</mark>;
+        return <mark key={markKey} style={getHighlightStyle(candidate.attrs)} className="rounded-[4px] px-1">{content}</mark>;
       case "subscript":
         return <sub key={markKey}>{content}</sub>;
       case "superscript":
@@ -362,7 +362,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
             checked={candidate.attrs?.checked === true}
             readOnly
             aria-label="완료 여부"
-            className="mt-2 h-4 w-4 rounded border-cedar/20 accent-cedar"
+            className="mt-2 h-4 w-4 rounded-[4px] border-cedar/20 accent-cedar"
           />
           <div className="min-w-0 flex-1 space-y-2">{children}</div>
         </li>

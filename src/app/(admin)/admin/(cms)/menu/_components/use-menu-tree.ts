@@ -84,11 +84,11 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     ? getSlugPreview(selectedNode, selectedManualSlugMode)
     : null;
   const hiddenStatusAffectsDescendants =
-    Boolean(selectedNode) && selectedNode?.parentId === null && descendantIds.size > 0;
+    Boolean(selectedNode) && selectedNode?.parentId == null && descendantIds.size > 0;
   const isAncestorRootHidden = useMemo(() => {
-    if (!selectedNode || selectedNode.parentId === null) return false;
+    if (!selectedNode || selectedNode.parentId == null) return false;
     let current = menuById.get(selectedNode.parentId);
-    while (current && current.parentId !== null) {
+    while (current && current.parentId != null) {
       current = menuById.get(current.parentId);
     }
     return current?.status === "HIDDEN";

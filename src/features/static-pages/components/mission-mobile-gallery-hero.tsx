@@ -71,7 +71,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
   };
 
   return (
-    <section className="relative mb-14 h-[32svh] w-full overflow-hidden bg-[#1e1035] md:hidden">
+    <section className="relative h-[32svh] w-full overflow-hidden bg-[#1e1035] md:hidden">
       <div
         className="flex h-full w-full"
         style={{
@@ -94,7 +94,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
         ))}
       </div>
       <div className="absolute inset-0 bg-black/20" />
-      <div className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between bg-black/70 px-5">
+      <div className="absolute inset-x-0 bottom-0 flex h-16 items-center justify-between bg-black/70 px-pad-sm">
         <button
           type="button"
           className="flex h-12 w-12 shrink-0 items-center justify-center border border-white/70 text-2xl leading-none text-white"
@@ -103,7 +103,7 @@ export default function MissionMobileGalleryHero({ galleries }: MissionMobileGal
         >
           &lt;
         </button>
-        <div className="flex min-w-0 flex-1 items-center justify-between gap-4 px-4">
+        <div className="flex min-w-0 flex-1 items-center justify-between gap-comp-base px-pad-xs">
           <p className="type-label-lg font-black truncate text-[#c9a96e]">
             {activeCountry}
           </p>

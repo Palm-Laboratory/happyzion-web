@@ -103,10 +103,10 @@ export default async function HomePage() {
             >
               <div className="flex flex-col items-center gap-6 md:gap-8">
                 <div className="flex flex-col items-center gap-3 lg:gap-[calc(0.9rem*var(--welcome-scale))]">
-                  <p className="type-label-xl font-cormorant-infant text-[#5b3b63]">
+                  <p className="type-label-xl font-cormorant-infant text-[#896B91]">
                     welcome
                   </p>
-                  <div className="h-px w-[60px] bg-[#5b3b63]" />
+                  <div className="h-px w-[60px] bg-[#896B91]" />
                 </div>
 
                 <h2 className="type-heading-lg max-w-[1000px] text-[#250030]">
@@ -260,10 +260,10 @@ export default async function HomePage() {
                         gap: "0.75rem",
                       }}
                     >
-                      <p className="type-label-xl font-cormorant-infant text-[#5b3b63]">
+                      <p className="type-label-xl font-cormorant-infant text-[#896B91]">
                         our vision
                       </p>
-                      <div className="h-px w-[60px] bg-[#5b3b63]" />
+                      <div className="h-px w-[60px] bg-[#896B91]" />
                     </div>
 
                     <div

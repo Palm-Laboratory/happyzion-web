@@ -175,12 +175,12 @@ const applicationNotes = ["모든 교재 무료 제공", "이전 수료 과정 �
 
 function QuoteCard() {
   return (
-    <aside className="relative w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-7 py-6">
-      <p className="type-quote-md relative z-10 text-[#33103f]">
+    <aside className="relative flex flex-col gap-comp-base w-full border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-base py-pad-md">
+      <p className="type-quote-sm md:type-quote-md relative z-10 text-[#33103f]">
         &quot;또 네가 많은 증인 앞에서 내게 들은 바를 충성된 사람들에게 부탁하라 그들이
         또 다른 사람들을 가르칠 수 있으리라&quot;
       </p>
-      <p className="type-quote-xs relative z-10 mt-4 text-[#510a75]">
+      <p className="type-quote-xs relative z-10 text-[#510a75]">
         디모데후서 2:2
       </p>
       <span
@@ -206,7 +206,7 @@ function PrincipleItem({
   details: readonly string[];
 }) {
   return (
-    <article className="flex gap-4 border-b border-[#8b6db5]/18 py-5 first:pt-0 last:border-b-0 last:pb-0 md:gap-7">
+    <article className="flex gap-comp-base border-b border-[#8b6db5]/18 py-pad-sm first:pt-0 last:border-b-0 last:pb-0 md:gap-comp-xxl">
       <div className="flex items-center">
         <span
           className="type-counter-lg -translate-y-[4px] text-[#e4b96b]"
@@ -215,14 +215,14 @@ function PrincipleItem({
         </span>
       </div>
 
-      <div className="border-l border-[#8b6db5]/18 pl-4 md:pl-6">
+      <div className="flex flex-col gap-comp-sm border-l border-[#8b6db5]/18 pl-pad-xs md:pl-pad-md">
         <p className="type-label-md tracking-[0.12em] text-[#8b6db5]">
           {englishTitle.toUpperCase()}
         </p>
-        <h3 className="type-title-md mt-2 font-medium text-[#33103f]">
+        <h3 className="type-title-md font-medium text-[#33103f]">
           {title}
         </h3>
-        <p className="type-body-xs mt-2 text-[#4a3b5e]">
+        <p className="type-body-xs text-[#4a3b5e]">
           {details.join(" · ")}
         </p>
       </div>
@@ -232,7 +232,7 @@ function PrincipleItem({
 
 function Roadmap() {
   return (
-    <div>
+    <div className="flex flex-col gap-layout-md">
       <SectionHeading
         id="disciples-roadmap-title"
         label="full roadmap"
@@ -240,12 +240,12 @@ function Roadmap() {
         className="max-w-none"
       />
 
-      <div className="relative mt-8">
+      <div className="relative">
         <span className="absolute bottom-[22px] left-[21px] top-[22px] w-px bg-[#8b6db5]/18 md:left-[23px]" />
 
-        <div className="space-y-7 md:space-y-8">
+        <div className="flex flex-col gap-layout-sm md:gap-layout-md">
           {roadmapItems.map((item, index) => (
-            <div key={item.label} className="relative flex gap-5 md:gap-7">
+            <div key={item.label} className="relative flex gap-comp-lg md:gap-comp-xxl">
               <div className="relative z-10 flex w-[44px] shrink-0 justify-center md:w-[48px]">
                 <span
                   className={`flex h-[44px] w-[44px] items-center justify-center rounded-full md:h-[48px] md:w-[48px] ${
@@ -262,28 +262,28 @@ function Roadmap() {
                 </span>
               </div>
 
-              <div className="min-w-0 flex-1 pt-3 md:pt-2">
+              <div className="min-w-0 flex-1 flex flex-col gap-comp-md pt-pad-xxs md:pt-pad-3xs">
                 <p className="type-label-md md:type-label-lg tracking-[0.18em] text-[#928397]">
                   {item.label}
                   <span className="mx-3 tracking-[0.12em]">·</span>
                   {item.duration}
                 </p>
                 <article
-                  className={`mt-3 rounded-[8px] border px-5 py-4 shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-7 ${
+                  className={`flex flex-col gap-comp-xs rounded-[8px] border px-pad-sm py-pad-xs shadow-[0_2px_10px_rgba(51,16,63,0.04)] md:px-pad-base ${
                     index === roadmapItems.length - 1
                       ? "border-[#2a123c] bg-[#2a123c] text-white"
                       : "border-[#8b6db5]/18 bg-white"
                   }`}
                 >
                   <h3
-                    className={`type-title-xl ${
+                    className={`type-title-md md:type-title-lg ${
                       index === roadmapItems.length - 1 ? "text-white" : "text-[#33103f]"
                     }`}
                   >
                     {item.title}
                   </h3>
                   <p
-                    className={`type-body-xs mt-[6px] ${
+                    className={`type-body-xs ${
                       index === roadmapItems.length - 1 ? "text-white/80" : "text-[#4a3b5e]"
                     }`}
                   >
@@ -296,8 +296,8 @@ function Roadmap() {
         </div>
       </div>
 
-      <div className="mt-8 rounded-[8px] bg-[#f5f0f9] px-5 py-5 text-center">
-        <p className="type-body-md text-[#6F5576]">
+      <div className="mt-4 md:mt-8 rounded-[8px] bg-[#f5f0f9] px-pad-sm py-pad-sm text-center">
+        <p className="type-body-sm md:type-body-md text-[#6F5576]">
           총 기간: 5주 + 36주 =
           <span className="font-bold text-[#33103f]"> 41주</span>
           <span className="mx-3">·</span>
@@ -313,14 +313,15 @@ function CurriculumStageTabs() {
   const selectedStage = curriculumStages[selectedIndex] ?? curriculumStages[0];
 
   return (
-    <div className="w-full">
-      <p className="type-body-md mb-8 text-[#4a3b5e]">
-        대상: {selectedStage.target}
-        <span className="mx-3 text-[#4a3b5e]">·</span>
-        목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
-      </p>
+    <div className="flex flex-col gap-layout-md w-full">
+      <div className="flex flex-col gap-layout-sm">
+        <p className="type-body-sm md:type-body-md text-[#4a3b5e]">
+          대상: {selectedStage.target}
+          <span className="mx-3 text-[#4a3b5e]">·</span>
+          목표: <span className="font-bold text-[#33103f]">{selectedStage.objective}</span>
+        </p>
 
-      <div className="grid grid-cols-3 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
+        <div className="grid grid-cols-3 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
         {curriculumStages.map((stage, index) => {
           const active = index === selectedIndex;
 
@@ -329,7 +330,7 @@ function CurriculumStageTabs() {
               key={stage.level}
               type="button"
               onClick={() => setSelectedIndex(index)}
-              className={`flex flex-col items-center justify-center gap-1 border-r border-[#8b6db5]/18 px-3 py-4 text-center transition last:border-r-0 ${
+              className={`flex flex-col items-center justify-center gap-comp-xxs border-r border-[#8b6db5]/18 px-pad-xxs py-pad-xs text-center transition last:border-r-0 ${
                 active ? "bg-[#2a123c] text-white" : "bg-white text-[#33103f] hover:bg-[#f5f0f9]"
               }`}
               aria-pressed={active}
@@ -347,16 +348,18 @@ function CurriculumStageTabs() {
             </button>
           );
         })}
+        </div>
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
+      <div className="flex flex-col gap-comp-base">
+      <div className="overflow-hidden rounded-[4px] border border-[#8b6db5]/25 bg-white">
         <div className="grid grid-cols-[80px_minmax(0,1fr)] bg-[#2a123c] md:grid-cols-[96px_minmax(0,1fr)]">
-          <div className="px-4 py-4 md:px-5">
+          <div className="px-pad-xs py-pad-xs md:px-pad-sm">
             <p className="type-title-xxs font-suit font-bold text-white">
               주차
             </p>
           </div>
-          <div className="px-6 py-4">
+          <div className="px-pad-md py-pad-xs">
             <p className="type-title-xxs font-suit font-bold text-white">
               과목
             </p>
@@ -370,14 +373,14 @@ function CurriculumStageTabs() {
               courseIndex % 2 === 0 ? "bg-[#f5f0f9]" : "bg-white"
             }`}
           >
-            <div className="flex items-center justify-start border-r border-[#8b6db5]/18 px-4 py-4 md:px-5">
+            <div className="flex items-center justify-start border-r border-[#8b6db5]/18 px-pad-xs py-pad-xs md:px-pad-sm">
               <span
                 className="type-counter-sm -translate-y-[2px] font-bold tracking-[0.12em] text-[rgb(228_185_107)]"
               >
                 {String(courseIndex + 1).padStart(2, "0")}
               </span>
             </div>
-            <div className="flex items-center px-6 py-4">
+            <div className="flex items-center px-pad-md py-pad-xs">
               <p className="type-body-sm font-medium text-[#33103f]">
                 {course}
               </p>
@@ -386,13 +389,14 @@ function CurriculumStageTabs() {
         ))}
       </div>
 
-      <div className="mt-4 border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-5 py-4">
+      <div className="flex flex-col gap-comp-sm border-l-[3px] border-[#510a75] bg-[#f5f0f9] px-pad-sm py-pad-xs">
         <p className="type-title-xs text-[#33103f]">
           수료 기준
         </p>
-        <p className="type-body-xs mt-3 text-[#4a3b5e]">
+        <p className="type-body-xs text-[#4a3b5e]">
           {selectedStage.requirements.join(" · ")}
         </p>
+      </div>
       </div>
     </div>
   );
@@ -408,17 +412,17 @@ function ClassStructureCard({
   details: readonly string[];
 }) {
   return (
-    <article className="relative flex flex-col items-start gap-3 text-left">
+    <article className="relative flex flex-col items-start gap-comp-md text-left">
       <div className="flex items-end gap-1">
         <span className="text-[2rem] font-bold leading-none text-[#e4b96b]" style={{ fontFamily: "var(--font-cormorant), serif" }}>
           {minute}
         </span>
         <span className="type-body-md pb-[2px] leading-none text-[#6F5576]">분</span>
       </div>
-      <h3 className="type-title-xs font-medium mb-1 text-[#33103f]">
+      <h3 className="type-title-xs font-medium text-[#33103f]">
         {title}
       </h3>
-      <div className="type-body-xs flex flex-col items-start gap-1 text-[#6F5576]">
+      <div className="type-body-xs flex flex-col items-start gap-comp-xxs text-[#6F5576]">
         {details.map((detail) => (
           <p key={detail}>· {detail}</p>
         ))}
@@ -429,7 +433,7 @@ function ClassStructureCard({
 
 function ClassStructureSection() {
   return (
-    <section aria-labelledby="disciples-class-structure-title" className="mt-20 md:mt-[68px]">
+    <section aria-labelledby="disciples-class-structure-title" className="flex flex-col gap-layout-md">
       <SectionHeading
         id="disciples-class-structure-title"
         label="class structure"
@@ -437,7 +441,7 @@ function ClassStructureSection() {
         className="max-w-none"
       />
 
-      <div className="mt-8">
+      <div className="flex flex-col gap-layout-base">
         <div className="flex h-[9px] w-full overflow-hidden rounded-full">
           {classStructure.map((item, index) => {
             const edgeClassName =
@@ -452,7 +456,7 @@ function ClassStructureSection() {
           })}
         </div>
 
-        <div className="mt-6 border-b border-[#8b6db5]/18 pb-6">
+        <div className="border-b border-[#8b6db5]/18 pb-pad-md">
           <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
             {classStructure.map((item) => (
               <ClassStructureCard key={item.title} {...item} />
@@ -471,7 +475,7 @@ function ClassStructureSection() {
           </div>
         </div>
 
-        <p className="type-body-xs mt-4 text-[#6F5576]">
+        <p className="type-body-xs text-[#6F5576]">
           총 <span className="font-bold text-[#33103f]">60분</span> · 소그룹 2-5명 또는
           일대일 진행
         </p>
@@ -488,15 +492,15 @@ function ScheduleCard({
   items: readonly (readonly [string, string])[];
 }) {
   return (
-    <article className="rounded-[8px] bg-[#f5f0f9] p-6 md:p-8">
+    <article className="flex flex-col gap-comp-lg rounded-[8px] bg-[#f5f0f9] p-pad-md md:p-pad-lg">
       <h3 className="type-title-md text-[#33103f]">
         {title}
       </h3>
-      <div className="mt-5">
+      <div>
         {items.map(([left, right]) => (
           <div
             key={`${left}-${right}`}
-            className="flex items-center justify-between gap-6 border-b border-[#8b6db5]/12 py-3"
+            className="flex items-center justify-between gap-comp-xl border-b border-[#8b6db5]/12 py-pad-xxs"
           >
             <span className="type-body-xs text-[#6F5576]">{left}</span>
             <span className="type-body-xs font-semibold text-[#33103f]">
@@ -511,74 +515,71 @@ function ScheduleCard({
 
 export default function DiscipleshipTrainingStaticPage() {
   return (
-    <main className="section-shell section-shell--narrow bg-white pt-10 pb-20 md:pt-16 md:pb-24">
-      <section aria-labelledby="disciples-intro-title">
-        <SectionHeading
-          id="disciples-intro-title"
-          label="discipleship"
-          title="제자훈련"
-          description="Discipleship Training"
-          titleAs="h1"
-        />
+    <main className="section-shell section-shell--narrow bg-white pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+      <div className="flex flex-col gap-layout-xxl">
+        <section aria-labelledby="disciples-intro-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="disciples-intro-title"
+            label="discipleship"
+            title="제자훈련"
+            description="Discipleship Training"
+            titleAs="h1"
+          />
 
-        <div className="mt-8">
           <QuoteCard />
-        </div>
-      </section>
+        </section>
 
-      <section aria-labelledby="disciples-principles-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="disciples-principles-title"
-          label="philosophy"
-          title="제자훈련의 3대 원리"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-principles-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="disciples-principles-title"
+            label="philosophy"
+            title="제자훈련의 3대 원리"
+            className="max-w-none"
+          />
 
-        <div className="mt-8">
-          {discipleshipPrinciples.map((principle) => (
-            <PrincipleItem key={principle.number} {...principle} />
-          ))}
-        </div>
-      </section>
+          <div>
+            {discipleshipPrinciples.map((principle) => (
+              <PrincipleItem key={principle.number} {...principle} />
+            ))}
+          </div>
+        </section>
 
-      <section aria-labelledby="disciples-roadmap-title" className="mt-20 md:mt-[68px]">
-        <Roadmap />
-      </section>
+        <section aria-labelledby="disciples-roadmap-title">
+          <Roadmap />
+        </section>
 
-      <section aria-labelledby="disciples-curriculum-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="disciples-curriculum-title"
-          label="curriculum"
-          title="단계별 교육 과정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-curriculum-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="disciples-curriculum-title"
+            label="curriculum"
+            title="단계별 교육 과정"
+            className="max-w-none"
+          />
 
-        <div className="mt-6">
           <CurriculumStageTabs />
-        </div>
-      </section>
+        </section>
 
-      <ClassStructureSection />
+        <ClassStructureSection />
 
-      <section aria-labelledby="disciples-schedule-title" className="mt-20 md:mt-[68px]">
-        <SectionHeading
-          id="disciples-schedule-title"
-          label="schedule"
-          title="훈련 일정"
-          className="max-w-none"
-        />
+        <section aria-labelledby="disciples-schedule-title" className="flex flex-col gap-layout-md">
+          <SectionHeading
+            id="disciples-schedule-title"
+            label="schedule"
+            title="훈련 일정"
+            className="max-w-none"
+          />
 
-        <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <ScheduleCard title="연간 일정" items={annualSchedule} />
-          <ScheduleCard title="주간 일정" items={weeklySchedule} />
-        </div>
-      </section>
+          <div className="grid gap-layout-base md:grid-cols-2">
+            <ScheduleCard title="연간 일정" items={annualSchedule} />
+            <ScheduleCard title="주간 일정" items={weeklySchedule} />
+          </div>
+        </section>
 
       {/*
       <section
         id="apply"
         aria-labelledby="disciples-apply-title"
-        className="mt-20 scroll-mt-32 md:mt-[68px] md:scroll-mt-36"
+        className="mt-20 scroll-mt-32 md:mt-20 md:scroll-mt-36"
       >
         <div className="rounded-[8px] bg-[#2a123c] p-8 md:flex md:items-start md:justify-between md:gap-10 md:p-9">
           <div className="md:max-w-[320px] lg:max-w-[360px]">
@@ -603,6 +604,7 @@ export default function DiscipleshipTrainingStaticPage() {
         </div>
       </section>
       */}
+      </div>
     </main>
   );
 }
