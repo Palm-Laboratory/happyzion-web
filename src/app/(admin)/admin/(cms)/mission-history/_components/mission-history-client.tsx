@@ -16,15 +16,13 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         newItemIds={editor.newItemIds}
         workingCopies={editor.workingCopies}
         isDirty={editor.isDirty}
+        reorderedItemIds={editor.reorderedItemIds}
         canMoveYearUp={editor.canMoveYearUp}
         canMoveYearDown={editor.canMoveYearDown}
         draggingYearId={editor.draggingYearId}
         dropYearIndicatorIndex={editor.dropYearIndicatorIndex}
-        hasReordered={editor.hasReordered}
-        isOrderSaving={editor.isOrderSaving}
         listRef={editor.listRef}
         onAddYear={editor.handleAddYear}
-        onSaveOrder={editor.handleSaveOrder}
         onSelectYear={editor.selectYear}
         onMoveYearUp={editor.handleMoveYearUp}
         onMoveYearDown={editor.handleMoveYearDown}
@@ -38,6 +36,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         draft={editor.draft}
         isNewYear={editor.isNewYear}
         isDirty={editor.isDirty}
+        reorderedCount={editor.reorderedCount}
         changeCount={editor.changeCount}
         saveDisabled={editor.saveDisabled}
         isSaving={editor.isSaving}

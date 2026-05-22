@@ -65,6 +65,14 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   const toast = useAdminToast();
   const listRef = useRef<HTMLUListElement>(null);
   const detailScrollRef = useRef<HTMLDivElement>(null);
+  // reorder 완료 시 토스트를 억제할지 여부.
+  // 순서+내용 동시 저장, 또는 신규 항목 생성 후 chained reorder 시 true로 설정.
+  // reorderMutation.onSuccess/onError에서만 false로 초기화한다.
+  const suppressReorderToastRef = useRef(false);
+  // 신규 항목 저장 후 chained reorder에 사용할 위치 정보.
+  // create 성공 시 소비하고 null로 초기화한다.
+  const pendingNewItemPositionRef = useRef<{ before: string[]; after: string[] } | null>(null);
+
   const [items, setItems] = useState<MissionYear[]>(() => initialYears.map(fromServerYear));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState<MissionYear | null>(null);
@@ -79,7 +87,9 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   const [dropIndicatorIndex, setDropIndicatorIndex] = useState<number | null>(null);
   const [draggingYearId, setDraggingYearId] = useState<string | null>(null);
   const [dropYearIndicatorIndex, setDropYearIndicatorIndex] = useState<number | null>(null);
-  const [hasReordered, setHasReordered] = useState(false);
+  const [savedYearOrder, setSavedYearOrder] = useState<string[]>(
+    () => initialYears.map((y) => String(y.id)),
+  );
 
   const selected = items.find((item) => item.id === selectedId) ?? null;
   const isDirty = Boolean(draft && selected && JSON.stringify(draft) !== JSON.stringify(selected));
@@ -89,10 +99,44 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   const canMoveYearUp = selectedIndex > 0;
   const canMoveYearDown = selectedIndex !== -1 && selectedIndex < items.length - 1;
 
+  const reorderedItemIds = new Set(
+    items
+      .filter((i) => !newItemIds.has(i.id))
+      .filter((item, index) => item.id !== savedYearOrder[index])
+      .map((i) => i.id),
+  );
+  const reorderedCount = reorderedItemIds.size;
+
   const clearAllErrors = useCallback(() => {
     setInvalidFields(new Set());
     setInvalidEntryFields(new Map());
   }, []);
+
+  // createMutation.onSuccess에서 참조하기 위해 reorderMutation을 먼저 선언한다.
+  const reorderMutation = useMutation({
+    mutationFn: async (yearIds: number[]) => {
+      const response = await fetch("/api/admin/mission-history/reorder", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ yearIds }),
+      });
+      if (!response.ok) {
+        const payload = (await response.json().catch(() => ({}))) as { message?: string };
+        throw new Error(payload.message ?? "순서 저장에 실패했습니다.");
+      }
+    },
+    onSuccess: (_, yearIds) => {
+      setSavedYearOrder(yearIds.map(String));
+      if (!suppressReorderToastRef.current) {
+        toast.success("순서가 저장되었습니다.");
+      }
+      suppressReorderToastRef.current = false;
+    },
+    onError: (error) => {
+      suppressReorderToastRef.current = false;
+      toast.error(error instanceof Error ? error.message : "순서 저장 중 오류가 발생했습니다.");
+    },
+  });
 
   const createMutation = useMutation({
     mutationFn: createMissionYearRequest,
@@ -114,6 +158,18 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
       setShowCancelConfirm(false);
       clearAllErrors();
       toast.success("변경사항이 저장되었습니다.");
+
+      // 신규 항목을 끝이 아닌 위치에 배치했거나 기존 순서도 바뀐 경우 → chained reorder로 반영
+      const position = pendingNewItemPositionRef.current;
+      if (position !== null) {
+        pendingNewItemPositionRef.current = null;
+        const finalOrder = [...position.before, savedItem.id, ...position.after];
+        setSavedYearOrder(finalOrder); // 낙관적 업데이트: reorder 성공 시 동일 값으로 덮어씀
+        suppressReorderToastRef.current = true;
+        reorderMutation.mutate(finalOrder.map(Number));
+      } else {
+        setSavedYearOrder((prev) => [...prev, savedItem.id]);
+      }
     },
     onError: (error) => {
       toast.error(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.");
@@ -144,6 +200,7 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     mutationFn: deleteMissionYearRequest,
     onSuccess: (_, deletedId) => {
       setItems((prev) => prev.filter((item) => item.id !== deletedId));
+      setSavedYearOrder((prev) => prev.filter((id) => id !== deletedId));
       setSelectedId(null);
       setDraft(null);
       setIsNewYear(false);
@@ -195,51 +252,47 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     }, 0);
   }, [clearAllErrors]);
 
-  const reorderMutation = useMutation({
-    mutationFn: async (yearIds: number[]) => {
-      const response = await fetch("/api/admin/mission-history/reorder", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ yearIds }),
-      });
-      if (!response.ok) {
-        const payload = (await response.json().catch(() => ({}))) as { message?: string };
-        throw new Error(payload.message ?? "순서 저장에 실패했습니다.");
-      }
-    },
-    onSuccess: () => {
-      setHasReordered(false);
-      toast.success("순서가 저장되었습니다.");
-    },
-    onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "순서 저장 중 오류가 발생했습니다.");
-    },
-  });
-
   const handleSave = useCallback(() => {
-    if (!draft || (!isDirty && !isNewYear)) return;
+    const hasContentChange = Boolean(draft && (isDirty || isNewYear));
 
-    const validation = validateMissionYearDraft(draft);
-    setInvalidFields(validation.invalidFields);
-    setInvalidEntryFields(validation.invalidEntryFields);
+    // 내용 변경이 있는 경우 검증을 먼저 통과시킨 뒤 모든 저장 실행
+    if (hasContentChange) {
+      const validation = validateMissionYearDraft(draft!);
+      setInvalidFields(validation.invalidFields);
+      setInvalidEntryFields(validation.invalidEntryFields);
 
-    if (!validation.valid) {
-      toast.error("필수 항목을 모두 입력해주세요.");
+      if (!validation.valid) {
+        toast.error("필수 항목을 모두 입력해주세요.");
+        return;
+      }
+    }
+
+    if (isNewYear && draft) {
+      // 신규 항목: create 먼저 실행. 끝이 아닌 위치이거나 기존 순서도 바뀐 경우
+      // pendingNewItemPositionRef에 위치 정보를 저장해두고 onSuccess에서 chained reorder를 호출한다.
+      const newIdx = items.findIndex((i) => i.id === draft.id);
+      const existingBefore = items.slice(0, newIdx).filter((i) => !newItemIds.has(i.id)).map((i) => i.id);
+      const existingAfter = items.slice(newIdx + 1).filter((i) => !newItemIds.has(i.id)).map((i) => i.id);
+      const needsReorder = existingAfter.length > 0 || reorderedCount > 0;
+
+      pendingNewItemPositionRef.current = needsReorder ? { before: existingBefore, after: existingAfter } : null;
+      createMutation.mutate(draft);
       return;
     }
 
-    if (isNewYear) {
-      createMutation.mutate(draft);
-    } else {
-      updateMutation.mutate(draft);
-    }
-  }, [createMutation, draft, isDirty, isNewYear, toast, updateMutation]);
+    // 기존 항목: 순서 변경 + 내용 변경 각각 처리.
+    // suppressReorderToastRef를 reorderMutation.onSuccess/onError에서만 초기화하므로
+    // 내용 저장이 먼저 완료되어도 reorder 토스트가 억제된다.
+    suppressReorderToastRef.current = reorderedCount > 0 && hasContentChange;
 
-  const handleSaveOrder = useCallback(() => {
-    if (!hasReordered) return;
-    const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
-    reorderMutation.mutate(yearIds);
-  }, [hasReordered, items, newItemIds, reorderMutation]);
+    if (reorderedCount > 0) {
+      const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
+      reorderMutation.mutate(yearIds);
+    }
+
+    if (!hasContentChange) return;
+    updateMutation.mutate(draft!);
+  }, [createMutation, draft, isDirty, isNewYear, items, newItemIds, reorderedCount, reorderMutation, toast, updateMutation]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
     let nextValue = value;
@@ -416,7 +469,6 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
         next.splice(insertAt, 0, moved);
         return next;
       });
-      setHasReordered(true);
       setDraggingYearId(null);
       setDropYearIndicatorIndex(null);
     },
@@ -437,7 +489,6 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
       [next[index - 1], next[index]] = [next[index], next[index - 1]];
       return next;
     });
-    setHasReordered(true);
   }, [selectedId]);
 
   const handleMoveYearDown = useCallback(() => {
@@ -449,11 +500,10 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
       [next[index], next[index + 1]] = [next[index + 1], next[index]];
       return next;
     });
-    setHasReordered(true);
   }, [selectedId]);
 
-  const isSaving = createMutation.isPending || updateMutation.isPending;
-  const saveDisabled = (!isDirty && !isNewYear) || isSaving;
+  const isSaving = createMutation.isPending || updateMutation.isPending || reorderMutation.isPending;
+  const saveDisabled = (!isDirty && !isNewYear && reorderedCount === 0) || isSaving;
 
   return {
     items,
@@ -495,11 +545,10 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     resetEntryDrag,
     draggingYearId,
     dropYearIndicatorIndex,
-    hasReordered,
-    isOrderSaving: reorderMutation.isPending,
+    reorderedCount,
+    reorderedItemIds,
     canMoveYearUp,
     canMoveYearDown,
-    handleSaveOrder,
     handleYearDragStart,
     handleYearDragOver,
     handleYearDrop,

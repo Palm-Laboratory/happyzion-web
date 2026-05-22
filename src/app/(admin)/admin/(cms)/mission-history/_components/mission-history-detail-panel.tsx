@@ -8,6 +8,7 @@ interface MissionHistoryDetailPanelProps {
   draft: MissionYear | null;
   isNewYear: boolean;
   isDirty: boolean;
+  reorderedCount: number;
   changeCount: number;
   saveDisabled: boolean;
   isSaving: boolean;
@@ -41,6 +42,7 @@ export function MissionHistoryDetailPanel({
   draft,
   isNewYear,
   isDirty,
+  reorderedCount,
   changeCount,
   saveDisabled,
   isSaving,
@@ -73,39 +75,41 @@ export function MissionHistoryDetailPanel({
     <div className="flex flex-col rounded-xl border border-[#e2e8f0] bg-white">
       <div className="flex items-center justify-between border-b border-[#eef2f7] px-4 py-3">
         <p className="text-[13px] font-bold text-[#132033]">{isNewYear ? "새 연도 추가" : "상세 편집"}</p>
-        {draft ? (
-          <div className="flex items-center gap-2">
-            {isNewYear && (
-              <button
-                type="button"
-                onClick={onCancelNew}
-                disabled={isSaving}
-                className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                취소
-              </button>
-            )}
-            {!isNewYear && isDirty && (
-              <button
-                type="button"
-                onClick={onRequestCancel}
-                disabled={isSaving}
-                className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                취소
-              </button>
-            )}
+        <div className="flex items-center gap-2">
+          {draft && isNewYear && (
             <button
               type="button"
-              onClick={onSave}
-              className="rounded-lg bg-[#3f74c7] px-4 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[#2d5da8] disabled:cursor-not-allowed disabled:opacity-60"
-              disabled={saveDisabled}
+              onClick={onCancelNew}
+              disabled={isSaving}
+              className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isSaving ? "저장 중..." : isNewYear ? "저장" : "변경사항 저장"}
-              {!isSaving && isDirty && changeCount > 0 && ` (${changeCount})`}
+              취소
             </button>
-          </div>
-        ) : null}
+          )}
+          {draft && !isNewYear && isDirty && (
+            <button
+              type="button"
+              onClick={onRequestCancel}
+              disabled={isSaving}
+              className="rounded-lg border border-[#d7e3f4] bg-white px-4 py-1.5 text-[12px] font-semibold text-[#334155] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              취소
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={onSave}
+            className="rounded-lg bg-[#3f74c7] px-4 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[#2d5da8] disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={saveDisabled}
+          >
+            {isSaving
+              ? "저장 중..."
+              : isNewYear
+                ? "저장"
+                : "변경사항 저장"}
+            {!isSaving && changeCount + reorderedCount > 0 && ` (${changeCount + reorderedCount})`}
+          </button>
+        </div>
       </div>
 
       {draft ? (

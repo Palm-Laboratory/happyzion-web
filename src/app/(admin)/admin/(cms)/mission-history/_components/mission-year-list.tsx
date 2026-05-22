@@ -10,15 +10,13 @@ interface MissionYearListProps {
   newItemIds: Set<string>;
   workingCopies: Map<string, MissionYear>;
   isDirty: boolean;
+  reorderedItemIds: Set<string>;
   canMoveYearUp: boolean;
   canMoveYearDown: boolean;
   draggingYearId: string | null;
   dropYearIndicatorIndex: number | null;
-  hasReordered: boolean;
-  isOrderSaving: boolean;
   listRef: RefObject<HTMLUListElement | null>;
   onAddYear: () => void;
-  onSaveOrder: () => void;
   onSelectYear: (item: MissionYear) => void;
   onMoveYearUp: () => void;
   onMoveYearDown: () => void;
@@ -34,15 +32,13 @@ export function MissionYearList({
   newItemIds,
   workingCopies,
   isDirty,
+  reorderedItemIds,
   canMoveYearUp,
   canMoveYearDown,
   draggingYearId,
   dropYearIndicatorIndex,
-  hasReordered,
-  isOrderSaving,
   listRef,
   onAddYear,
-  onSaveOrder,
   onSelectYear,
   onMoveYearUp,
   onMoveYearDown,
@@ -59,28 +55,16 @@ export function MissionYearList({
           <p className="text-[13px] font-bold text-[#132033]">연도 목록</p>
           <p className="text-[11px] text-[#6d7f95]">드래그하거나 버튼으로 순서를 바꿀 수 있습니다</p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          {hasReordered ? (
-            <button
-              type="button"
-              onClick={onSaveOrder}
-              disabled={isOrderSaving}
-              className="flex items-center gap-1.5 rounded-lg bg-[#3f74c7] px-3 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[#2d5da8] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isOrderSaving ? "저장 중..." : "순서 저장"}
-            </button>
-          ) : null}
-          <button
-            type="button"
-            onClick={onAddYear}
-            className="flex items-center gap-1.5 rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-1.5 text-[12px] font-semibold text-[#2d5da8] transition hover:bg-[#edf4ff]"
-          >
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-              <path d="M6.5 2v9M2 6.5h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
-            새 연도 추가
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={onAddYear}
+          className="flex shrink-0 items-center gap-1.5 rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-1.5 text-[12px] font-semibold text-[#2d5da8] transition hover:bg-[#edf4ff]"
+        >
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+            <path d="M6.5 2v9M2 6.5h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+          새 연도 추가
+        </button>
       </div>
 
       {/* 순서 조작 컨트롤 */}
@@ -131,7 +115,9 @@ export function MissionYearList({
       >
         {items.map((item, index) => {
           const isActive = item.id === selectedId;
-          const hasLocalChanges = item.id === selectedId ? isDirty : workingCopies.has(item.id);
+          const hasLocalChanges =
+            (item.id === selectedId ? isDirty : workingCopies.has(item.id)) ||
+            reorderedItemIds.has(item.id);
           const isDragging = item.id === draggingYearId;
           const showTopDropLine = dropYearIndicatorIndex === index;
           const showBottomDropLine =
