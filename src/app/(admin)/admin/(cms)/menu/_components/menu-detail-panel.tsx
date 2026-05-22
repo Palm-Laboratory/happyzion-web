@@ -129,11 +129,9 @@ export function MenuDetailPanel({
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="space-y-1.5">
                 <span className="text-[12px] font-semibold text-[#334155]">타입</span>
-                <input
-                  value={getMenuTypeDisplayLabel(selectedNode)}
-                  readOnly
-                  className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[13px]"
-                />
+                <p className="w-full rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[13px] text-[#475569]">
+                  {getMenuTypeDisplayLabel(selectedNode)}
+                </p>
               </label>
 
               <label className="space-y-1.5">
