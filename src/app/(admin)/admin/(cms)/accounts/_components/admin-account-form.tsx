@@ -63,6 +63,13 @@ export default function AdminAccountForm({
   const [showPassword, setShowPassword] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [formValues, setFormValues] = useState({
+    username: item?.username ?? "",
+    displayName: item?.displayName ?? "",
+    role: item?.role ?? "ADMIN",
+    active: item?.active ?? true,
+    password: "",
+  });
 
   useEffect(() => {
     if (!state.message) return;
@@ -72,6 +79,11 @@ export default function AdminAccountForm({
     }
     toast.error(state.message);
   }, [state.message, state.messageKey, state.success, toast]);
+
+  useEffect(() => {
+    if (!state.values) return;
+    setFormValues((prev) => ({ ...prev, ...state.values }));
+  }, [state.values]);
 
   async function handleDelete() {
     if (!deleteAction || isDeleting) return;
@@ -108,7 +120,10 @@ export default function AdminAccountForm({
                         name="username"
                         type="text"
                         autoComplete="off"
-                        defaultValue={item?.username ?? ""}
+                        value={formValues.username}
+                        onChange={(event) =>
+                          setFormValues((prev) => ({ ...prev, username: event.target.value }))
+                        }
                         className={`${inputCls(!!state.errors?.username)} font-mono`}
                       />
                       <p className="mt-1.5 text-[11px] text-[#8fa3bb]">아이디를 변경할 수 있습니다.</p>
@@ -131,6 +146,10 @@ export default function AdminAccountForm({
                     type="text"
                     autoComplete="off"
                     placeholder="new-admin"
+                    value={formValues.username}
+                    onChange={(event) =>
+                      setFormValues((prev) => ({ ...prev, username: event.target.value }))
+                    }
                     className={inputCls(!!state.errors?.username)}
                   />
                   <p className="mt-1.5 text-[11px] text-[#8fa3bb]">영소문자, 숫자, -, _ 만 사용 가능합니다.</p>
@@ -147,7 +166,10 @@ export default function AdminAccountForm({
                 name="displayName"
                 type="text"
                 autoComplete="off"
-                defaultValue={item?.displayName ?? ""}
+                value={formValues.displayName}
+                onChange={(event) =>
+                  setFormValues((prev) => ({ ...prev, displayName: event.target.value }))
+                }
                 readOnly={false}
                 placeholder="홍길동"
                 className={inputCls(!!state.errors?.displayName)}
@@ -172,7 +194,13 @@ export default function AdminAccountForm({
                 <select
                   id="role"
                   name="role"
-                  defaultValue={item?.role ?? "ADMIN"}
+                  value={formValues.role}
+                  onChange={(event) =>
+                    setFormValues((prev) => ({
+                      ...prev,
+                      role: event.target.value as typeof prev.role,
+                    }))
+                  }
                   className={inputCls(!!state.errors?.role)}
                 >
                   <option value="SUPER_ADMIN">슈퍼 관리자</option>
@@ -213,7 +241,10 @@ export default function AdminAccountForm({
                           type="radio"
                           name="active"
                           value={opt.value}
-                          defaultChecked={item?.active === opt.active}
+                          checked={formValues.active === opt.active}
+                          onChange={() =>
+                            setFormValues((prev) => ({ ...prev, active: opt.active }))
+                          }
                           className="accent-[#3f74c7]"
                         />
                         <span className="text-[13px] font-semibold text-[#132033]">{opt.label}</span>
@@ -244,6 +275,10 @@ export default function AdminAccountForm({
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder={mode === "new" ? "8자 이상 입력" : "변경할 경우에만 입력 (빈 칸이면 유지)"}
+                value={formValues.password}
+                onChange={(event) =>
+                  setFormValues((prev) => ({ ...prev, password: event.target.value }))
+                }
                 className={`${inputCls(!!state.errors?.password)} pr-11`}
               />
               <button
