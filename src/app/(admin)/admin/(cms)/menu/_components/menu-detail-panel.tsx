@@ -291,7 +291,7 @@ export function MenuDetailPanel({
 
             <div className="space-y-1.5">
               <span className="text-[12px] font-semibold text-[#334155]">공개 주소</span>
-              <div className="flex flex-wrap items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-3 py-2">
+              <div className="flex flex-wrap items-center gap-2 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2">
                 <code className="min-w-0 flex-1 break-all text-[13px] text-[#475569]">
                   {selectedPreviewPublicRoute}
                 </code>

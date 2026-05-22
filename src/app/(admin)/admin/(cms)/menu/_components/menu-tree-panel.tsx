@@ -100,6 +100,8 @@ export function MenuTreePanel({
             {flatItems.map(({ node, depth }) => {
               const canToggle = depth === 0 && node.children.length > 0;
               const isExpanded = expandedRootIds.has(node.id);
+              const typeLabel = getMenuTypeDisplayLabel(node);
+              const isStaticTypeLabel = typeLabel === "정적 페이지 그룹" || node.type === "STATIC";
               const siblings = findSiblingList(items, node.id);
               const siblingIndex = siblings?.findIndex((item) => item.id === node.id) ?? -1;
               const showTopDropLine =
@@ -205,8 +207,12 @@ export function MenuTreePanel({
                         <span className="block truncate text-[13px] font-semibold">
                           {node.label}
                         </span>
-                        <span className="mt-0.5 block truncate text-[11px] text-[#8fa3bb]">
-                          {getMenuTypeDisplayLabel(node)}
+                        <span
+                          className={`mt-0.5 block truncate text-[11px] ${
+                            isStaticTypeLabel ? "font-semibold text-[#d9ab06]" : "text-[#8fa3bb]"
+                          }`}
+                        >
+                          {typeLabel}
                         </span>
                       </span>
                     </span>

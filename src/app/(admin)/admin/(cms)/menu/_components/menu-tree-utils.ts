@@ -36,7 +36,7 @@ function romanizeHangulSyllable(char: string): string {
   ].join("");
 }
 
-export function slugifyToAscii(rawText: string): string {
+export function slugifyToAscii(rawText: string, options?: { preserveTrailingSeparator?: boolean }): string {
   let value = "";
   let pendingSeparator = false;
 
@@ -68,12 +68,16 @@ export function slugifyToAscii(rawText: string): string {
     }
   }
 
+  if (options?.preserveTrailingSeparator && pendingSeparator && value.length > 0) {
+    return `${value}-`;
+  }
+
   return value.replace(/-+$/g, "");
 }
 
 export function getSlugPreview(node: EditorNode, manual: boolean) {
   const source = manual ? node.slug : node.label;
-  const value = slugifyToAscii(source);
+  const value = slugifyToAscii(source, { preserveTrailingSeparator: manual });
 
   return {
     source,
