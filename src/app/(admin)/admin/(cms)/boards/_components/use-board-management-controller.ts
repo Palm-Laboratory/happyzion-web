@@ -35,6 +35,7 @@ import {
   getAttachmentAssets,
   getEditorUploadErrorMessage,
   getErrorMessage,
+  hasPendingImageUploadNodes,
   sortPostsByUpdatedAt,
   toBoardPostListItem,
 } from "./board-management-utils";
@@ -149,6 +150,12 @@ export function useBoardManagementController({
       ])],
     };
   }, [attachmentAssetIds, draft, selectedMenuId]);
+
+  // 에디터 문서에 imageUpload 노드가 있으면 업로드 진행 중(또는 위젯 미해제) 상태
+  const hasPendingImageUpload = useMemo(
+    () => hasPendingImageUploadNodes(draft.contentJson as Record<string, unknown>),
+    [draft.contentJson],
+  );
 
   const listQuery = useQuery({
     queryKey: ["admin-board-posts", boardMenusSignature, appliedBoardMenu, appliedTitle, listReloadTick],
@@ -382,6 +389,10 @@ export function useBoardManagementController({
         throw new Error("게시판 메뉴를 선택해 주세요.");
       }
 
+      if (hasPendingImageUpload) {
+        throw new Error("이미지 업로드가 완료되지 않았습니다. 업로드 완료 후 저장해 주세요.");
+      }
+
       const validationMessage = validateBoardPostSavePayload(savePayload);
       if (validationMessage) {
         throw new Error(validationMessage);
@@ -399,7 +410,7 @@ export function useBoardManagementController({
       setError(message);
       toast.error(message);
     }
-  }, [saveMutation, savePayload, selectedBoard, selectedBoardMenu, selectedPostId, toast]);
+  }, [hasPendingImageUpload, saveMutation, savePayload, selectedBoard, selectedBoardMenu, selectedPostId, toast]);
 
   const handleDelete = useCallback(async () => {
     if (!selectedPostId) {
@@ -456,6 +467,7 @@ export function useBoardManagementController({
 
   return {
     error,
+    hasPendingImageUpload,
     boardMenus,
     disconnectedBoardMenus,
     screenMode,

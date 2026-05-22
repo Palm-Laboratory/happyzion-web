@@ -6,6 +6,23 @@ import type {
 import type { AdminMenuTreeNode } from "@/lib/admin-menu-api";
 import type { AttachmentAsset, BoardPostListItem, Draft } from "./board-management-types";
 
+/**
+ * Tiptap 문서 JSON을 재귀 탐색해 imageUpload 노드가 존재하는지 확인한다.
+ * imageUpload 노드는 업로드 위젯이 열려 있는 동안(업로드 진행 중 포함) 문서에 남으며,
+ * 업로드가 완료·교체될 때 image 노드로 대체된다.
+ */
+export function hasPendingImageUploadNodes(
+  node: Record<string, unknown> | null | undefined,
+): boolean {
+  if (!node || typeof node !== "object") return false;
+  if (node.type === "imageUpload") return true;
+  const content = node.content;
+  if (Array.isArray(content)) {
+    return (content as Record<string, unknown>[]).some(hasPendingImageUploadNodes);
+  }
+  return false;
+}
+
 export function createEmptyDraft(): Draft {
   const contentJson = createEmptyTiptapDocument();
   return {

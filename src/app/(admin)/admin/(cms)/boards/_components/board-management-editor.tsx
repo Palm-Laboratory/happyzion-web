@@ -94,6 +94,12 @@ export function BoardManagementEditor({ controller }: { controller: BoardManagem
             disabled={controller.saving}
           />
 
+          {controller.hasPendingImageUpload && (
+            <p className="text-[12px] text-[#b45309]">
+              이미지 업로드가 진행 중입니다. 완료 후 저장해 주세요.
+            </p>
+          )}
+
           <AttachmentPanel controller={controller} />
 
           <div className="flex items-center justify-between gap-2 border-t border-[#edf2f7] pt-4">
@@ -120,7 +126,7 @@ export function BoardManagementEditor({ controller }: { controller: BoardManagem
               <button
                 type="button"
                 onClick={controller.handleSave}
-                disabled={controller.saving}
+                disabled={controller.saving || controller.hasPendingImageUpload}
                 className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[12px] font-semibold text-white disabled:opacity-60"
               >
                 {controller.saving ? "저장 중..." : "게시글 저장"}
