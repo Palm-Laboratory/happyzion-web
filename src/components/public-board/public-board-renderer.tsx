@@ -651,7 +651,13 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             <p className="type-body-xs text-site-muted">
               {props.post.authorName || "-"} {" | "} 등록일:{" "}
               <time dateTime={props.post.createdAt}>{formatDate(props.post.createdAt)}</time>
-              {" | "} 조회수: {props.post.viewCount.toLocaleString("ko-KR")}
+              {" | "} 조회수:{" "}
+              <PublicBoardViewCount
+                boardKey={props.boardKey}
+                menuId={props.post.menuId}
+                postId={props.post.id}
+                initialViewCount={props.post.viewCount}
+              />
             </p>
             {fileAttachments.length > 0 ? (
               <PublicBoardAttachmentsDropdown

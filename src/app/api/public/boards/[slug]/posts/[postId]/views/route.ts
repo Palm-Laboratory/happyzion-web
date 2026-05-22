@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 
 import { ServerFetchError } from "@/lib/server-fetch";
 import { recordPublicBoardPostView } from "@/lib/public-board-api";
@@ -17,6 +18,7 @@ export async function POST(request: Request, context: RouteContext) {
 
   try {
     await recordPublicBoardPostView(slug, menuId, postId);
+    revalidateTag("public-board");
     return new NextResponse(null, { status: 204 });
   } catch (error) {
     const status = error instanceof ServerFetchError ? error.status : 502;
