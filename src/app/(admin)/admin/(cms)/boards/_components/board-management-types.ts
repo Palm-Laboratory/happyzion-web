@@ -31,6 +31,13 @@ export type AttachmentAsset = {
   byteSize?: number;
 };
 
+export type PendingAttachmentItem = {
+  tempId: string;
+  filename: string;
+  byteSize: number;
+  progress: number;
+};
+
 export type BoardPostListItem = AdminBoardPostSummary & {
   boardSlug: string;
   boardMenuId: number;

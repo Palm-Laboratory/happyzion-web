@@ -27,6 +27,7 @@ import {
   type BoardManagementClientProps,
   type BoardPostListItem,
   type Draft,
+  type PendingAttachmentItem,
   type ScreenMode,
 } from "./board-management-types";
 import {
@@ -105,6 +106,8 @@ export function useBoardManagementController({
   });
   const [draft, setDraft] = useState<Draft>(initialPost ? createDraftFromPost(initialPost) : createEmptyDraft());
   const [attachmentAssets, setAttachmentAssets] = useState<AttachmentAsset[]>(initialPost ? getAttachmentAssets(initialPost) : []);
+  const [editorContentVersion, setEditorContentVersion] = useState(0);
+  const [pendingAttachments, setPendingAttachments] = useState<PendingAttachmentItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [boardMenuFilter, setBoardMenuFilter] = useState("ALL");
   const [titleQuery, setTitleQuery] = useState("");
@@ -218,32 +221,56 @@ export function useBoardManagementController({
   });
 
   const uploadAttachmentMutation = useMutation({
-    mutationFn: async (files: File[]) => {
+    mutationFn: async (items: { file: File; tempId: string }[]) => {
       if (!selectedBoard) {
         throw new Error("첨부 파일을 업로드할 게시판 메뉴를 먼저 선택해 주세요.");
       }
 
-      const uploaded: AttachmentAsset[] = [];
-      for (const file of files) {
+      for (const { file, tempId } of items) {
         const rawToken = await requestUploadToken(selectedBoard.id, "FILE_ATTACHMENT");
-        const asset = await uploadAdminAssetDirect({
-          file,
-          kind: "FILE_ATTACHMENT",
-          rawToken,
-        });
-        uploaded.push({ id: asset.assetId, originalFilename: asset.originalFilename, byteSize: asset.byteSize });
-      }
 
-      return uploaded;
+        const updateProgress = (pct: number) => {
+          setPendingAttachments((current) =>
+            current.map((p) => (p.tempId === tempId ? { ...p, progress: pct } : p)),
+          );
+        };
+
+        let asset;
+        if (process.env.NODE_ENV === "development") {
+          // 로컬에서는 네트워크가 너무 빨라 XHR progress 이벤트가 눈에 안 보임.
+          // fake progress 애니메이션을 실제 업로드와 병렬로 실행해 UI를 확인할 수 있게 함.
+          const DEV_ANIM_MS = 1200;
+          const STEPS = 12;
+          let step = 0;
+          const fakeTimer = setInterval(() => {
+            step += 1;
+            updateProgress(Math.round((step / STEPS) * 90));
+            if (step >= STEPS) clearInterval(fakeTimer);
+          }, DEV_ANIM_MS / STEPS);
+
+          asset = await uploadAdminAssetDirect({ file, kind: "FILE_ATTACHMENT", rawToken });
+          clearInterval(fakeTimer);
+          updateProgress(100);
+          await new Promise<void>((r) => setTimeout(r, 250));
+        } else {
+          asset = await uploadAdminAssetDirect(
+            { file, kind: "FILE_ATTACHMENT", rawToken },
+            (loaded, total) => updateProgress(Math.round((loaded / total) * 100)),
+          );
+        }
+
+        setPendingAttachments((current) => current.filter((p) => p.tempId !== tempId));
+        setAttachmentAssets((current) => {
+          if (current.some((a) => a.id === asset.assetId)) return current;
+          return [...current, { id: asset.assetId, originalFilename: asset.originalFilename, byteSize: asset.byteSize }];
+        });
+      }
     },
-    onSuccess: (uploaded) => {
-      setAttachmentAssets((current) => {
-        const existingIds = new Set(current.map((asset) => asset.id));
-        return [...current, ...uploaded.filter((asset) => !existingIds.has(asset.id))];
-      });
+    onSuccess: () => {
       toast.success("첨부 파일을 저장용 자산으로 업로드했습니다.");
     },
     onError: (uploadError) => {
+      setPendingAttachments([]);
       const raw = getErrorMessage(uploadError, "첨부 파일 업로드에 실패했습니다.");
       // 백엔드의 토큰 검증 오류는 보안상 의도적으로 뭉뚱그린 메시지라 그대로 노출하지 않는다.
       const message =
@@ -264,6 +291,8 @@ export function useBoardManagementController({
     if (prev === "editor" && screenMode === "list") {
       setDraft(createEmptyDraft());
       setAttachmentAssets([]);
+      setPendingAttachments([]);
+      setEditorContentVersion((current) => current + 1);
       setError(null);
       const msg = pendingNoticeRef.current;
       pendingNoticeRef.current = null;
@@ -309,6 +338,7 @@ export function useBoardManagementController({
 
     setDraft(createDraftFromPost(detailQuery.data));
     setAttachmentAssets(getAttachmentAssets(detailQuery.data));
+    setEditorContentVersion((current) => current + 1);
   }, [detailQuery.data, screenMode, selectedPostId]);
 
   useEffect(() => {
@@ -362,9 +392,63 @@ export function useBoardManagementController({
       }
     }
 
+    const fileArray = Array.from(files);
+    const items = fileArray.map((file) => ({
+      tempId: `pending-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      file,
+    }));
+
+    setPendingAttachments((current) => [
+      ...current,
+      ...items.map(({ tempId, file: f }) => ({
+        tempId,
+        filename: f.name,
+        byteSize: f.size,
+        progress: 0,
+      })),
+    ]);
     setError(null);
-    await uploadAttachmentMutation.mutateAsync(Array.from(files));
+    await uploadAttachmentMutation.mutateAsync(items);
   }, [uploadAttachmentMutation]);
+
+  const simulateAttachmentUpload = useCallback((fileCount: number, durationMs: number) => {
+    if (process.env.NODE_ENV !== "development") return;
+
+    const items: PendingAttachmentItem[] = Array.from({ length: fileCount }, (_, i) => ({
+      tempId: `sim-${Date.now()}-${i}`,
+      filename: `테스트파일_${i + 1}.pdf`,
+      byteSize: (i + 1) * 512 * 1024,
+      progress: 0,
+    }));
+
+    setPendingAttachments((current) => [...current, ...items]);
+
+    const ticks = 20;
+    const tickMs = durationMs / fileCount / ticks;
+    let fileIdx = 0;
+    let tick = 0;
+
+    const timer = setInterval(() => {
+      tick += 1;
+      const progress = Math.min(100, Math.round((tick / ticks) * 100));
+      const { tempId, filename, byteSize } = items[fileIdx];
+
+      setPendingAttachments((current) =>
+        current.map((p) => (p.tempId === tempId ? { ...p, progress } : p)),
+      );
+
+      if (tick >= ticks) {
+        setPendingAttachments((current) => current.filter((p) => p.tempId !== tempId));
+        setAttachmentAssets((current) => [
+          ...current,
+          { id: tempId, originalFilename: filename, byteSize },
+        ]);
+        fileIdx += 1;
+        tick = 0;
+        if (fileIdx >= fileCount) clearInterval(timer);
+      }
+    }, tickMs);
+  }, []);
 
   const openNewPost = useCallback(() => {
     const preferredMenu = boardMenuFilter === "ALL"
@@ -375,6 +459,8 @@ export function useBoardManagementController({
     setSelectedMenuId(menuId);
     setDraft(createEmptyDraft());
     setAttachmentAssets([]);
+    setPendingAttachments([]);
+    setEditorContentVersion((current) => current + 1);
     setError(null);
     toast.info("새 게시글 작성 모드입니다.");
     router.push(`/admin/boards?mode=editor${menuId ? `&menuId=${menuId}` : ""}`);
@@ -481,6 +567,7 @@ export function useBoardManagementController({
     posts,
     filteredPosts,
     draft,
+    editorContentVersion,
     attachmentAssets,
     totalPages,
     safeDisplayPage,
@@ -489,6 +576,8 @@ export function useBoardManagementController({
     loading,
     saving,
     uploadingAttachment: uploadAttachmentMutation.isPending,
+    pendingAttachments,
+    simulateAttachmentUpload,
     boardMenuFilter,
     titleQuery,
     canEditPost,

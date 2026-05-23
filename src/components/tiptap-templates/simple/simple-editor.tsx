@@ -77,6 +77,7 @@ import { MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import {
+  cloneTiptapDocument,
   createEmptyTiptapDocument,
   extractYouTubeVideoId,
   type TiptapDocument,
@@ -96,6 +97,12 @@ type SimpleEditorProps = {
   onImageUploadError?: (error: Error) => void
   disabled?: boolean
   contained?: boolean
+}
+
+type SimpleEditorValue = TiptapDocument | Record<string, unknown>
+
+function cloneEditorValue(value?: SimpleEditorValue) {
+  return cloneTiptapDocument(value ?? createEmptyTiptapDocument())
 }
 
 function createEditorImageSource(asset: SimpleEditorUploadAsset) {
@@ -239,7 +246,7 @@ export function SimpleEditor({
     "main"
   )
   const toolbarRef = useRef<HTMLDivElement>(null)
-  const initialContent = useMemo(() => value ?? createEmptyTiptapDocument(), [value])
+  const initialContent = useMemo(() => cloneEditorValue(value), [value])
 
   useEffect(() => {
     document.documentElement.classList.remove("dark")
@@ -343,7 +350,7 @@ export function SimpleEditor({
 
     const currentValue = editor.getJSON()
     if (JSON.stringify(currentValue) !== JSON.stringify(value)) {
-      editor.commands.setContent(value, { emitUpdate: false })
+      editor.commands.setContent(cloneEditorValue(value), { emitUpdate: false })
     }
   }, [editor, value])
 

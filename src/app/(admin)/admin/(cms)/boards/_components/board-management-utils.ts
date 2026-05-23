@@ -1,4 +1,7 @@
-import { createEmptyTiptapDocument } from "@/lib/admin-board-editor-content";
+import {
+  cloneTiptapDocument,
+  createEmptyTiptapDocument,
+} from "@/lib/admin-board-editor-content";
 import type {
   AdminBoardPostDetail,
   AdminBoardPostSummary,
@@ -39,7 +42,7 @@ export function createDraftFromPost(post: AdminBoardPostDetail): Draft {
     title: post.title ?? "",
     isPublic: post.isPublic ?? false,
     isPinned: post.isPinned ?? false,
-    contentJson: post.contentJson ?? createEmptyTiptapDocument(),
+    contentJson: cloneTiptapDocument(post.contentJson ?? createEmptyTiptapDocument()),
     contentHtml: post.contentHtml ?? "",
   };
 }

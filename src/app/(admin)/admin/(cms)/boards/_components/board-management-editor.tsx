@@ -87,6 +87,7 @@ export function BoardManagementEditor({ controller }: { controller: BoardManagem
           </label>
 
           <BoardPostEditor
+            key={`${controller.selectedPostId ?? "new"}:${controller.editorContentVersion}`}
             value={controller.draft.contentJson}
             onImageUpload={controller.handleUpload}
             onImageUploadError={controller.handleEditorUploadError}
@@ -142,17 +143,20 @@ export function BoardManagementEditor({ controller }: { controller: BoardManagem
 }
 
 function AttachmentPanel({ controller }: { controller: BoardManagementController }) {
+  const isUploading = controller.uploadingAttachment;
+  const hasItems = controller.pendingAttachments.length > 0 || controller.attachmentAssets.length > 0;
+
   return (
     <div className="space-y-2 rounded-xl border border-[#eef2f7] bg-[#f8fafc] px-4 py-3">
       <div className="flex flex-wrap items-center gap-2">
-        <label className="inline-flex cursor-pointer items-center rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155]">
+        <label className={`inline-flex cursor-pointer items-center rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[12px] font-semibold text-[#334155] ${isUploading || controller.saving ? "cursor-not-allowed opacity-50" : ""}`}>
           첨부 파일 업로드
           <input
             type="file"
             multiple
             accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.hwp,.zip,.rar,.7z"
-            className="sr-only"
-            disabled={controller.saving || controller.uploadingAttachment}
+            className="hidden"
+            disabled={controller.saving || isUploading}
             onChange={(event) => {
               void controller.handleAttachmentUpload(event.target.files).catch((uploadError) => {
                 const message = getErrorMessage(uploadError, "첨부 파일 업로드에 실패했습니다.");
@@ -162,13 +166,35 @@ function AttachmentPanel({ controller }: { controller: BoardManagementController
             }}
           />
         </label>
-        {controller.uploadingAttachment && <span className="text-[12px] text-[#6d7f95]">업로드 중...</span>}
+        {process.env.NODE_ENV === "development" && (
+          <button
+            type="button"
+            disabled={isUploading || controller.saving}
+            onClick={() => controller.simulateAttachmentUpload(5, 4000)}
+            className="rounded-lg border border-dashed border-[#94a3b8] px-3 py-1.5 text-[11px] text-[#6d7f95] hover:bg-[#f1f5f9] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            [DEV] 업로드 시뮬레이션 (5파일/4초)
+          </button>
+        )}
       </div>
-      {controller.attachmentAssets.length > 0 && (
+      {hasItems && (
         <ul className="space-y-1">
+          {controller.pendingAttachments.map((item) => (
+            <li key={item.tempId} className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-3 py-2">
+              <p className="shrink-0 text-[12px] font-medium text-[#334155]">{item.filename}</p>
+              <div className="h-1 flex-1 overflow-hidden rounded-full bg-[#e2e8f0]">
+                <div
+                  className="h-full rounded-full bg-[#3f74c7] transition-all duration-200"
+                  style={{ width: `${item.progress}%` }}
+                />
+              </div>
+              <span className="shrink-0 text-[11px] tabular-nums text-[#6d7f95]">{item.progress}%</span>
+              <div className="shrink-0 w-[22px]" />
+            </li>
+          ))}
           {controller.attachmentAssets.map((asset) => (
-            <li key={asset.id} className="flex items-center justify-between gap-2 rounded-lg border border-[#e2e8f0] bg-white px-3 py-2">
-              <div className="min-w-0">
+            <li key={asset.id} className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] bg-white px-3 py-2">
+              <div className="min-w-0 flex-1">
                 <p className="truncate text-[12px] font-medium text-[#334155]">{asset.originalFilename}</p>
                 {asset.byteSize != null && (
                   <p className="text-[11px] text-[#8fa3bc]">{(asset.byteSize / 1024).toFixed(1)} KB</p>

@@ -66,6 +66,26 @@ test("SimpleEditor registers link and underline extensions for the visible toolb
   assert.match(contents, /LinkPopover|LinkButton/, "Expected the link toolbar controls to remain wired.");
 });
 
+test("SimpleEditor gives Tiptap cloned content so editor lifecycle cannot mutate caller state", async () => {
+  const contents = await readEditor();
+
+  assert.match(
+    contents,
+    /cloneTiptapDocument/,
+    "Expected SimpleEditor to import the shared Tiptap document clone helper.",
+  );
+  assert.match(
+    contents,
+    /content:\s*initialContent/,
+    "Expected the initial Tiptap content to come from a cloned value.",
+  );
+  assert.match(
+    contents,
+    /setContent\s*\(\s*cloneEditorValue\(value\)/,
+    "Expected external value sync to set cloned content instead of passing caller-owned objects.",
+  );
+});
+
 test("public board renderer supports every SimpleEditor text mark exposed to authors", async () => {
   const renderer = await readRenderer();
 

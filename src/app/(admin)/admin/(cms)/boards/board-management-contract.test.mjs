@@ -264,6 +264,26 @@ test("board post editor uses Tiptap and exposes image plus YouTube insertion con
   );
 });
 
+test("board management remounts the Tiptap editor when loaded detail content changes", async () => {
+  const contents = await readClientUnitSource();
+
+  assert.match(
+    contents,
+    /editorContentVersion/,
+    "Expected board detail content loads to track an editor content version.",
+  );
+  assert.match(
+    contents,
+    /setEditorContentVersion\s*\(\s*\(current\)\s*=>\s*current\s*\+\s*1\s*\)/,
+    "Expected the editor content version to advance when detail draft content is applied.",
+  );
+  assert.match(
+    contents,
+    /<BoardPostEditor\b[\s\S]*key=\{\s*`\$\{controller\.selectedPostId\s*\?\?\s*["']new["']\}:\$\{controller\.editorContentVersion\}`\s*\}/,
+    "Expected BoardPostEditor to remount after detail content replaces an empty draft.",
+  );
+});
+
 test("board post editor uses the official Tiptap simple editor UI controls", async () => {
   const contents = await readSource(simpleEditorPath);
 

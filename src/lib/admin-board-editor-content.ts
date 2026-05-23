@@ -29,6 +29,14 @@ export function createEmptyTiptapDocument(): TiptapDocument {
   };
 }
 
+export function cloneTiptapDocument<T extends TiptapDocument | Record<string, unknown>>(document: T): T {
+  if (typeof structuredClone === "function") {
+    return structuredClone(document);
+  }
+
+  return JSON.parse(JSON.stringify(document)) as T;
+}
+
 export function createImageNode({ assetId, storedPath, alt = "" }: CreateImageNodeInput): TiptapNode {
   return {
     type: "image",
