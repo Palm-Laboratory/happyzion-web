@@ -30,6 +30,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         onYearDragOver={editor.handleYearDragOver}
         onYearDrop={editor.handleYearDrop}
         onYearDragEnd={editor.resetYearDrag}
+        onRollbackOrder={editor.handleRollbackOrder}
       />
 
       <MissionHistoryDetailPanel

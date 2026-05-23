@@ -24,6 +24,7 @@ interface MissionYearListProps {
   onYearDragOver: (event: DragEvent<HTMLButtonElement>, yearIndex: number) => void;
   onYearDrop: (event: DragEvent<HTMLButtonElement>) => void;
   onYearDragEnd: () => void;
+  onRollbackOrder: () => void;
 }
 
 export function MissionYearList({
@@ -46,6 +47,7 @@ export function MissionYearList({
   onYearDragOver,
   onYearDrop,
   onYearDragEnd,
+  onRollbackOrder,
 }: MissionYearListProps) {
   return (
     <div className="flex flex-col rounded-xl border border-[#e2e8f0] bg-white">
@@ -105,6 +107,32 @@ export function MissionYearList({
           </svg>
           아래로
         </button>
+        {reorderedItemIds.size > 0 && (
+          <button
+            type="button"
+            onClick={onRollbackOrder}
+            aria-label="순서 변경 취소"
+            className="ml-auto flex items-center gap-1 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[12px] font-semibold text-amber-700 transition hover:bg-amber-100"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path
+                d="M2 4h5.5a3 3 0 0 1 0 6H4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M4 2 2 4l2 2"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            순서 되돌리기
+          </button>
+        )}
       </div>
 
       {/* 연도 목록 */}

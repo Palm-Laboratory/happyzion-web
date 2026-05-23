@@ -502,6 +502,17 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     });
   }, [selectedId]);
 
+  const handleRollbackOrder = useCallback(() => {
+    setItems((prev) => {
+      const itemMap = new Map(prev.map((item) => [item.id, item]));
+      const restored = savedYearOrder
+        .map((id) => itemMap.get(id))
+        .filter((item): item is MissionYear => item !== undefined);
+      const newOnes = prev.filter((i) => newItemIds.has(i.id));
+      return [...restored, ...newOnes];
+    });
+  }, [newItemIds, savedYearOrder]);
+
   const isSaving = createMutation.isPending || updateMutation.isPending || reorderMutation.isPending;
   const saveDisabled = (!isDirty && !isNewYear && reorderedCount === 0) || isSaving;
 
@@ -555,5 +566,6 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     resetYearDrag,
     handleMoveYearUp,
     handleMoveYearDown,
+    handleRollbackOrder,
   };
 }
