@@ -104,7 +104,7 @@ export function BoardManagementList({ controller }: { controller: BoardManagemen
                       className={`border-b border-[#f0f4f8] last:border-0 transition ${controller.canEditPost(post) ? "cursor-pointer hover:bg-[#fafcff]" : "opacity-60"}`}
                       onClick={() => controller.canEditPost(post) && controller.openPost(post)}
                     >
-                      <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{index + 1}</td>
+                      <td className="px-5 py-4 text-[13px] text-[#5d6f86]">{controller.filteredPosts.length - index}</td>
                       <td className="px-5 py-4 text-[12px] text-[#5d6f86]">{post.boardMenuLabel}</td>
                       <td className="px-5 py-4">
                         <p className="max-w-[200px] truncate text-[13px] font-semibold text-[#132033]">
