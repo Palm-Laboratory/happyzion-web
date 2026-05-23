@@ -244,7 +244,12 @@ export function useBoardManagementController({
       toast.success("첨부 파일을 저장용 자산으로 업로드했습니다.");
     },
     onError: (uploadError) => {
-      const message = getErrorMessage(uploadError, "첨부 파일 업로드에 실패했습니다.");
+      const raw = getErrorMessage(uploadError, "첨부 파일 업로드에 실패했습니다.");
+      // 백엔드의 토큰 검증 오류는 보안상 의도적으로 뭉뚱그린 메시지라 그대로 노출하지 않는다.
+      const message =
+        raw === "유효하지 않은 업로드 토큰입니다."
+          ? "지원하지 않는 파일 형식이거나 파일 크기가 제한을 초과했습니다."
+          : raw;
       setError(message);
       toast.error(message);
     },

@@ -15,7 +15,30 @@ export interface AdminUploadTokenRequest {
 
 const DEFAULT_MAX_BYTE_SIZE = 10_000_000;
 const INLINE_IMAGE_MIME_TYPES = ["image/png", "image/jpeg", "image/webp"];
-const FILE_ATTACHMENT_MIME_TYPES = [...INLINE_IMAGE_MIME_TYPES, "application/pdf"];
+const FILE_ATTACHMENT_MIME_TYPES = [
+  // 이미지
+  "image/png",
+  "image/jpeg",
+  "image/gif",
+  "image/webp",
+  // 문서
+  "application/pdf",
+  "application/msword",                                                          // .doc
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",    // .docx
+  "application/vnd.ms-excel",                                                   // .xls
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",          // .xlsx
+  "application/vnd.ms-powerpoint",                                              // .ppt
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation",  // .pptx
+  "application/x-hwp",                                                          // .hwp (브라우저/OS별 변형 1)
+  "application/haansofthwp",                                                    // .hwp (변형 2)
+  "application/vnd.hancom.hwp",                                                 // .hwp (변형 3)
+  // 압축
+  "application/zip",
+  "application/x-zip-compressed",
+  "application/x-rar-compressed",
+  "application/vnd.rar",
+  "application/x-7z-compressed",
+];
 const MAIN_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
 function defaultAllowedMimeTypes(kind: AdminUploadAssetKind) {
