@@ -13,13 +13,15 @@ type PublicVideoDetailActionsProps = {
 
 function ShareIcon() {
   return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-6 w-6">
+    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-5 w-5 shrink-0">
+      <circle cx="15" cy="4" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="15" cy="16" r="2.25" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="5" cy="10" r="2.25" stroke="currentColor" strokeWidth="1.5" />
       <path
-        d="M13.96 6.07a2.54 2.54 0 1 0-2.24-3.74 2.54 2.54 0 0 0 2.24 3.74Zm-7.92 6.47a2.54 2.54 0 1 0-2.24 3.74 2.54 2.54 0 0 0 2.24-3.74Zm10.16.17a2.54 2.54 0 1 0-.04 0ZM5.92 14.05l7.97-4.1m-7.97-4 7.97 4.1"
+        d="M6.9 8.85 13.1 5.15M6.9 11.15 13.1 14.85"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.5"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
     </svg>
   );
@@ -67,7 +69,7 @@ function ChevronIcon({ direction }: { direction: "left" | "right" }) {
 
 function DirectionBadge({ direction }: { direction: "left" | "right" }) {
   return (
-    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#2a123c]">
+    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#F2F2F2] text-[#6B4A75]">
       <ChevronIcon direction={direction} />
     </span>
   );
@@ -142,17 +144,17 @@ export default function PublicVideoDetailActions({
           >
             <DirectionBadge direction="left" />
             <div className="min-w-0 flex-1">
-              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
+              <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
               <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousVideo.title}</p>
             </div>
           </Link>
         ) : (
           <div className="flex items-start gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#4a3b5e]/60">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#F2F2F2] text-[#6B4A75]/60">
               <ChevronIcon direction="left" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
+              <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
               <p className="type-body-xs mt-1 text-site-muted">이전 영상이 없습니다.</p>
             </div>
           </div>
@@ -164,7 +166,7 @@ export default function PublicVideoDetailActions({
             className="group flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
           >
             <div className="min-w-0 flex-1 text-right">
-              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
+              <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
               <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextVideo.title}</p>
             </div>
             <DirectionBadge direction="right" />
@@ -172,10 +174,10 @@ export default function PublicVideoDetailActions({
         ) : (
           <div className="flex items-center gap-4 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white/70 px-4 py-4">
             <div className="min-w-0 flex-1 text-right">
-              <p className="type-label-md font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
+              <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
               <p className="type-body-xs mt-1 text-site-muted">다음 영상이 없습니다.</p>
             </div>
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#fcf8ff] text-[#4a3b5e]/60">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#F2F2F2] text-[#6B4A75]/60">
               <ChevronIcon direction="right" />
             </span>
           </div>

@@ -24,7 +24,7 @@ function DetailAccordion({
   content: string;
 }) {
   return (
-    <details className="group rounded-[16px] bg-[#fcf8ff] px-[30px] open:pb-7">
+    <details className="group rounded-[16px] bg-[#F2F2F2] px-[30px] open:pb-7">
       <summary className="flex h-[60px] cursor-pointer list-none items-center justify-between text-[#33103f]">
         <span className="font-semibold">{title}</span>
         <ChevronIcon className="h-4 w-4 transition group-open:rotate-180" />
