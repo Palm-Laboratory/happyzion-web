@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import IframeScrollGuard from "@/components/public-video/iframe-scroll-guard";
 import PublicShortformPlaylistGrid from "@/components/public-video/public-shortform-playlist-grid";
 import SectionHeading from "@/components/section-heading";
 import { formatLongDate } from "@/lib/format-date";
@@ -37,9 +38,9 @@ function LongformHero({ featured }: { featured: PublicVideoSummary | null }) {
       <div className="overflow-hidden rounded-[8px] bg-[#33103f] shadow-[0_18px_40px_rgba(20,6,26,0.12)]">
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#33103f]">
           {featured ? (
-            <iframe
-              title={featured.title}
+            <IframeScrollGuard
               src={`https://www.youtube-nocookie.com/embed/${featured.videoId}`}
+              title={featured.title}
               loading="lazy"
               referrerPolicy="strict-origin-when-cross-origin"
               className="absolute inset-0 block h-full w-full"

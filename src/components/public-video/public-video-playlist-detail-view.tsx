@@ -1,3 +1,4 @@
+import IframeScrollGuard from "@/components/public-video/iframe-scroll-guard";
 import PublicShortformVideoDetailExperience from "@/components/public-video/public-shortform-video-detail-experience";
 import PublicVideoDetailActions from "@/components/public-video/public-video-detail-actions";
 import { formatLongDate } from "@/lib/format-date";
@@ -58,9 +59,9 @@ export default function PublicVideoPlaylistDetailView({
         <div className="min-w-0 space-y-4">
             <div className="w-full overflow-hidden rounded-[16px] bg-[#33103f] shadow-[0_18px_40px_rgba(20,6,26,0.12)]">
               <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#33103f]">
-                <iframe
-                  title={video.title}
+                <IframeScrollGuard
                   src={`https://www.youtube-nocookie.com/embed/${video.videoId}`}
+                  title={video.title}
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                   className="absolute inset-0 block h-full w-full"
