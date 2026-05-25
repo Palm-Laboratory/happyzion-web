@@ -9,6 +9,7 @@ import {
   roadmapQuarters,
   smallGroupCycleSteps,
   smallGroupPrinciples,
+  leaderSelectionCriteria,
   personnelRows,
   personnelBars,
   personnelTotalCount,
@@ -391,6 +392,38 @@ function PersonnelPlanContent({
   );
 }
 
+function LeaderCriteriaCard({
+  number,
+  title,
+  items,
+}: {
+  number: string;
+  title: string;
+  items: string[];
+}) {
+  return (
+    <article className="flex flex-col gap-comp-lg rounded-[4px] bg-white/10 p-pad-sm">
+      <div className="flex flex-col gap-comp-sm">
+        <p
+          className="text-4xl font-semibold italic leading-9 tracking-[0.04em] text-[#e3bfff]"
+          style={{ fontFamily: "var(--font-corinthia), cursive" }}
+        >
+          {number}
+        </p>
+        <h3 className="type-title-sm text-[#fdf8ff]">{title}</h3>
+      </div>
+      <ul className="type-body-xs flex flex-col gap-comp-sm text-[#FDF8FF]/80">
+        {items.map((item) => (
+          <li key={item} className="flex gap-comp-xs">
+            <span className="tracking-[2.8px]">·</span>
+            <span className="tracking-[0.01em]">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+}
+
 function LeaderSelectionContent({
   activeIndex = 0,
   count = 1,
@@ -421,7 +454,11 @@ function LeaderSelectionContent({
         label="6가지 자격 요건"
         className="md:pb-layout-xxl"
       >
-        <PrincipleList />
+        <div className="grid gap-comp-base md:grid-cols-2">
+          {leaderSelectionCriteria.map((criterion) => (
+            <LeaderCriteriaCard key={criterion.number} {...criterion} />
+          ))}
+        </div>
       </SmallGroupSectionBlock>
     </>
   );
