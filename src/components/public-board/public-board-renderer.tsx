@@ -557,11 +557,11 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
             <>
               <div className="border-b border-[#33103f]">
                 <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
-                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
-                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
-                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
-                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">등록일</span>
-                  <span className="type-label-md text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
+                  <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
+                  <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
+                  <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
+                  <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">등록일</span>
+                  <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
                 </div>
               </div>
               <ul className="min-h-[320px]">
@@ -641,9 +641,6 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
     <main className="bg-white pb-20">
       <article className="section-shell section-shell--narrow pt-10 md:pt-16">
         <header className="border-b border-cedar/12 pb-8">
-          <Link href={props.boardPath} className="type-body-xs font-semibold text-cedar underline-offset-4 hover:underline">
-            {props.boardLabel}
-          </Link>
           <div className="mt-5">
             <SectionHeading label="Board" title={props.post.title} titleAs="h1" className="max-w-none" />
           </div>
@@ -673,7 +670,7 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
           </div>
         </header>
 
-        <div className="type-body-md prose mt-10 max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
+        <div className="type-body-md prose mt-10 min-h-[320px] max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
           {renderTiptapDocument(props.post.contentJson)}
         </div>
         <div className="mt-10 border-b border-[rgba(93,61,138,0.16)]" />

@@ -70,12 +70,12 @@ export default function PublicBoardListControls({
         <p className="type-body-xs text-[#6f5a7a]">
           전체 <span className="font-semibold text-[#33103f]">{totalItems.toLocaleString("ko-KR")}</span>건
         </p>
-        <label className="type-body-xs flex items-center gap-2 text-site-muted">
+        <div className="relative">
           <select
             value={String(pageSize)}
             disabled={isPending}
             onChange={(event) => handlePageSizeChange(Number(event.target.value))}
-            className="h-11 appearance-none rounded-[8px] border border-[rgba(93,61,138,0.15)] bg-white py-3 pl-4 pr-9 leading-none text-[#4a3b5e] outline-none transition hover:border-[#8b6db5] focus:border-[#8b6db5]"
+            className="type-body-xs h-11 appearance-none rounded-[8px] border border-[rgba(93,61,138,0.15)] bg-white py-3 pl-4 pr-9 leading-none text-[#4a3b5e] outline-none transition hover:border-[#8b6db5] focus:border-[#8b6db5]"
           >
             {PAGE_SIZE_OPTIONS.map((option) => (
               <option key={option} value={option}>
@@ -88,7 +88,7 @@ export default function PublicBoardListControls({
               <path d="M5.03 6.53a.75.75 0 0 1 1.06 0L9 9.44l2.91-2.91a.75.75 0 1 1 1.06 1.06l-3.44 3.44a.75.75 0 0 1-1.06 0L5.03 7.59a.75.75 0 0 1 0-1.06" />
             </svg>
           </span>
-        </label>
+        </div>
       </div>
       <form onSubmit={handleSearchSubmit} className="flex items-center gap-[15px] md:min-w-[320px] md:justify-end">
         <input
