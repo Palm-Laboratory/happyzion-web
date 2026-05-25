@@ -887,6 +887,8 @@ export interface components {
             contentForm: "LONGFORM" | "SHORTFORM";
             playlists: components["schemas"]["VideoPlaylistLink"][];
             related: components["schemas"]["VideoPlaylistItemSummary"][];
+            previousVideo?: components["schemas"]["VideoPlaylistItemSummary"] | null;
+            nextVideo?: components["schemas"]["VideoPlaylistItemSummary"] | null;
             shortformPlaylist?: components["schemas"]["VideoShortformPlaylistWindow"] | null;
         };
         VideoPlaylistLink: {

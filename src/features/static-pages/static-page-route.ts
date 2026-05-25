@@ -6,7 +6,7 @@ import { createPageMetadata } from "@/lib/seo";
 
 function deriveSubtitle(path: string) {
   const rootSegment = path.split("/").filter(Boolean)[0];
-  return rootSegment ? `${rootSegment.toUpperCase()} HAPPY ZION` : "HAPPY ZION";
+  return rootSegment ? rootSegment.toUpperCase() : "";
 }
 
 export async function resolveStaticPageShellProps(path: string, fallbackTitle: string) {

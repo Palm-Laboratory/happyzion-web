@@ -106,7 +106,7 @@ function getShellTitle(resolved: PublicResolvedMenuPage) {
 
 function getShellSubtitle(path: string) {
   const rootSegment = path.split("/").filter(Boolean)[0];
-  return rootSegment ? `${rootSegment.toUpperCase()} HAPPY ZION` : "HAPPY ZION";
+  return rootSegment ? rootSegment.toUpperCase() : "";
 }
 
 function getPageTitle(resolved: PublicResolvedMenuPage) {
