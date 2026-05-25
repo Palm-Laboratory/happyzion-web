@@ -356,7 +356,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       return <ul key={key} className="space-y-2 pl-0">{children}</ul>;
     case "taskItem":
       return (
-        <li key={key} className="flex list-none items-start gap-3">
+        <li key={key} className="flex list-none items-start gap-comp-md">
           <input
             type="checkbox"
             checked={candidate.attrs?.checked === true}
@@ -375,7 +375,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       );
     case "codeBlock":
       return (
-        <pre key={key} className="type-body-xs overflow-x-auto rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6 px-5 py-4 text-[#33103f]">
+        <pre key={key} className="type-body-xs overflow-x-auto rounded-[8px] border border-[#8b6db5]/15 bg-[#8b6db5]/6 px-pad-sm py-pad-xs text-[#33103f]">
           <code className="font-mono whitespace-pre-wrap">{children}</code>
         </pre>
       );
@@ -475,9 +475,9 @@ function renderBoardPostSummary(
     <li key={post.id} className={itemClassName}>
       <Link
         href={getBoardPathHref(boardPath, post.id)}
-        className="group block px-3 py-4 md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px_100px] md:items-center md:py-5"
+        className="group block px-pad-xxs py-pad-xs md:grid md:grid-cols-[100px_minmax(0,1fr)_140px_140px_100px] md:items-center md:py-pad-sm"
       >
-        <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-3 gap-y-1 md:hidden">
+        <div className="grid grid-cols-[52px_minmax(0,1fr)] gap-x-comp-md gap-y-comp-xxs md:hidden">
           <span
             className={`type-body-xs row-span-2 flex items-start justify-start pt-0.5 font-medium ${post.isPinned
                 ? "text-white"
@@ -492,7 +492,7 @@ function renderBoardPostSummary(
               numberLabel
             )}
           </span>
-          <span className="flex min-w-0 items-center gap-1.5">
+          <span className="flex min-w-0 items-center gap-comp-xs">
             <span className="type-body-md min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
               {post.title}
             </span>
@@ -509,7 +509,7 @@ function renderBoardPostSummary(
         <span className={`hidden type-body-xs text-center font-medium md:block ${numberClassName}`}>
           {numberLabel}
         </span>
-        <span className="hidden min-w-0 items-center gap-2 md:flex">
+        <span className="hidden min-w-0 items-center gap-comp-sm md:flex">
           <span className="type-body-md min-w-0 truncate font-semibold text-[#33103f] group-hover:text-[#8b6db5]">
             {post.title}
           </span>
@@ -547,16 +547,18 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
     const paginationPages = buildPaginationPages(props.currentPage, props.totalPages);
 
     return (
-      <main className="min-h-[680px] bg-white pb-20">
-        <section className="section-shell section-shell--narrow pt-10 md:pt-16">
-          <header>
-            <SectionHeading label="Board" title={props.boardLabel} className="max-w-none" />
-          </header>
-          <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} searchTitle={props.searchTitle} />
+      <main className="min-h-[680px] bg-white">
+        <section className="section-shell section-shell--narrow pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+          <div className="flex flex-col gap-layout-md">
+            <header>
+              <SectionHeading label="Board" title={props.boardLabel} className="max-w-none" />
+            </header>
+            <PublicBoardListControls totalItems={props.totalItems} pageSize={props.pageSize} searchTitle={props.searchTitle} />
+          </div>
           {props.posts.length > 0 ? (
             <>
               <div className="border-b border-[#33103f]">
-                <div className="hidden gap-3 px-3 py-3 text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-5">
+                <div className="hidden gap-comp-md px-pad-xxs py-pad-xxs text-center md:grid md:grid-cols-[88px_minmax(0,1fr)_120px_132px_88px] md:px-pad-sm">
                   <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">번호</span>
                   <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">제목</span>
                   <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">작성자</span>
@@ -564,69 +566,71 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
                   <span className="type-label-md font-suit text-center font-semibold tracking-[0.08em] text-site-muted">조회수</span>
                 </div>
               </div>
-              <ul className="min-h-[320px]">
-                {props.posts.map((post, index) =>
-                  renderBoardPostSummary(
-                    props.boardPath,
-                    post,
-                    getBoardPostNumber(props.currentPage, props.pageSize, props.totalItems, index),
-                  ),
-                )}
-              </ul>
-              {props.totalPages >= 1 ? (
-                <nav aria-label={`${props.boardLabel} 페이지 이동`} className="mt-[84px] flex items-center justify-center gap-5 md:gap-9">
-                  <Link
-                    href={getBoardListPageHref(props.boardPath, props.currentPage - 1, {
-                      pageSize: props.pageSize,
-                      searchTitle: props.searchTitle,
-                    })}
-                    aria-disabled={props.currentPage <= 1}
-                    className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
-                      ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                      : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
-                      }`}
-                  >
-                    이전
-                  </Link>
-                  <div className="flex items-center gap-3">
-                    {paginationPages.map((page) => {
-                      const isCurrent = page === props.currentPage;
-                      return (
-                        <Link
-                          key={page}
-                          href={getBoardListPageHref(props.boardPath, page, {
-                            pageSize: props.pageSize,
-                            searchTitle: props.searchTitle,
-                          })}
-                          aria-current={isCurrent ? "page" : undefined}
-                          className={`type-body-xs inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
-                            ? "border-[#33103f] bg-[#33103f] text-white"
-                            : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
-                            }`}
-                        >
-                          {page}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                  <Link
-                    href={getBoardListPageHref(props.boardPath, props.currentPage + 1, {
-                      pageSize: props.pageSize,
-                      searchTitle: props.searchTitle,
-                    })}
-                    aria-disabled={props.currentPage >= props.totalPages}
-                    className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
-                      ? "pointer-events-none border-cedar/12 text-site-muted/60"
-                      : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
-                      }`}
-                  >
-                    다음
-                  </Link>
-                </nav>
-              ) : null}
+              <div className="flex flex-col gap-layout-xxl">
+                <ul className="min-h-[320px]">
+                  {props.posts.map((post, index) =>
+                    renderBoardPostSummary(
+                      props.boardPath,
+                      post,
+                      getBoardPostNumber(props.currentPage, props.pageSize, props.totalItems, index),
+                    ),
+                  )}
+                </ul>
+                {props.totalPages >= 1 ? (
+                  <nav aria-label={`${props.boardLabel} 페이지 이동`} className="flex items-center justify-center gap-comp-lg md:gap-comp-4xl">
+                    <Link
+                      href={getBoardListPageHref(props.boardPath, props.currentPage - 1, {
+                        pageSize: props.pageSize,
+                        searchTitle: props.searchTitle,
+                      })}
+                      aria-disabled={props.currentPage <= 1}
+                      className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage <= 1
+                        ? "pointer-events-none border-cedar/12 text-site-muted/60"
+                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                        }`}
+                    >
+                      이전
+                    </Link>
+                    <div className="flex items-center gap-comp-md">
+                      {paginationPages.map((page) => {
+                        const isCurrent = page === props.currentPage;
+                        return (
+                          <Link
+                            key={page}
+                            href={getBoardListPageHref(props.boardPath, page, {
+                              pageSize: props.pageSize,
+                              searchTitle: props.searchTitle,
+                            })}
+                            aria-current={isCurrent ? "page" : undefined}
+                            className={`type-body-xs inline-flex h-8 w-8 items-center justify-center rounded-full border leading-none transition ${isCurrent
+                              ? "border-[#33103f] bg-[#33103f] text-white"
+                              : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                              }`}
+                          >
+                            {page}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                    <Link
+                      href={getBoardListPageHref(props.boardPath, props.currentPage + 1, {
+                        pageSize: props.pageSize,
+                        searchTitle: props.searchTitle,
+                      })}
+                      aria-disabled={props.currentPage >= props.totalPages}
+                      className={`type-body-xs inline-flex items-center justify-center rounded-full border px-[14px] py-[10px] leading-[1] transition ${props.currentPage >= props.totalPages
+                        ? "pointer-events-none border-cedar/12 text-site-muted/60"
+                        : "border-[#8b6db5]/15 text-[#33103f] hover:bg-[#8b6db5]/6"
+                        }`}
+                    >
+                      다음
+                    </Link>
+                  </nav>
+                ) : null}
+              </div>
             </>
           ) : (
-            <div className="mt-8 rounded-[4px] border border-dashed border-cedar/18 px-6 py-14 text-center">
+            <div className="mt-pad-lg rounded-[4px] border border-dashed border-cedar/18 px-pad-md py-14 text-center">
               <p className="type-body-xs text-site-muted">등록된 게시글이 없습니다.</p>
             </div>
           )}
@@ -638,48 +642,52 @@ export default function PublicBoardRenderer(props: PublicBoardRendererProps) {
   const fileAttachments = props.post.assets.filter((asset) => asset.kind === "FILE_ATTACHMENT");
 
   return (
-    <main className="bg-white pb-20">
-      <article className="section-shell section-shell--narrow pt-10 md:pt-16">
-        <header className="border-b border-cedar/12 pb-8">
-          <div className="mt-5">
+    <main className="bg-white">
+      <section className="section-shell section-shell--narrow pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+        <article className="flex flex-col gap-pad-lg">
+          <header className="flex flex-col gap-comp-base">
             <SectionHeading label="Board" title={props.post.title} titleAs="h1" className="max-w-none" />
-          </div>
-          <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <p className="type-body-xs text-site-muted">
-              {props.post.authorName || "-"} {" | "} 등록일:{" "}
-              <time dateTime={props.post.createdAt}>{formatDate(props.post.createdAt)}</time>
-              {" | "} 조회수:{" "}
-              <PublicBoardViewCount
-                boardKey={props.boardKey}
-                menuId={props.post.menuId}
-                postId={props.post.id}
-                initialViewCount={props.post.viewCount}
-              />
-            </p>
-            {fileAttachments.length > 0 ? (
-              <PublicBoardAttachmentsDropdown
-                boardPath={props.boardPath}
-                postId={props.post.id}
-                attachments={fileAttachments.map((asset) => ({
-                  id: asset.id,
-                  filename: asset.originalFilename,
-                  byteSize: asset.byteSize,
-                }))}
-              />
-            ) : null}
-          </div>
-        </header>
+            <div className="flex flex-col gap-comp-md md:flex-row md:items-center md:justify-between">
+              <p className="type-body-xs text-site-muted">
+                {props.post.authorName || "-"} {" | "} 등록일:{" "}
+                <time dateTime={props.post.createdAt}>{formatDate(props.post.createdAt)}</time>
+                {" | "} 조회수:{" "}
+                <PublicBoardViewCount
+                  boardKey={props.boardKey}
+                  menuId={props.post.menuId}
+                  postId={props.post.id}
+                  initialViewCount={props.post.viewCount}
+                />
+              </p>
+              {fileAttachments.length > 0 ? (
+                <PublicBoardAttachmentsDropdown
+                  boardPath={props.boardPath}
+                  postId={props.post.id}
+                  attachments={fileAttachments.map((asset) => ({
+                    id: asset.id,
+                    filename: asset.originalFilename,
+                    byteSize: asset.byteSize,
+                  }))}
+                />
+              ) : null}
+            </div>
+          </header>
 
-        <div className="type-body-md prose mt-10 min-h-[320px] max-w-none text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
-          {renderTiptapDocument(props.post.contentJson)}
-        </div>
-        <div className="mt-10 border-b border-[rgba(93,61,138,0.16)]" />
-        <PublicBoardDetailActions
-          boardPath={props.boardPath}
-          previousPost={props.post.previousPost}
-          nextPost={props.post.nextPost}
-        />
-      </article>
+          <div>
+            <div className="border-b border-cedar/12" />
+            <div className="type-body-md prose min-h-[320px] max-w-none py-pad-xxl text-[#4a3b5e] prose-headings:text-[#33103f] prose-a:text-[#8b6db5] prose-strong:text-[#33103f]">
+              {renderTiptapDocument(props.post.contentJson)}
+            </div>
+            <div className="border-b border-[rgba(93,61,138,0.16)]" />
+          </div>
+
+          <PublicBoardDetailActions
+            boardPath={props.boardPath}
+            previousPost={props.post.previousPost}
+            nextPost={props.post.nextPost}
+          />
+        </article>
+      </section>
     </main>
   );
 }

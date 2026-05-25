@@ -33,6 +33,7 @@ const config: Config = {
         cedar: "#2a4f8f",
         themeBlue: "#1c2f48",
         "site-ink": "#10213f",
+        "site-muted": "#928397",
       },
       boxShadow: {
         soft: "0 14px 40px rgba(31, 43, 36, 0.12)",

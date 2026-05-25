@@ -32,7 +32,7 @@ function PlayIcon({ className = "" }: { className?: string }) {
 
 function LongformHero({ featured }: { featured: PublicVideoSummary | null }) {
   return (
-    <section className="space-y-8">
+    <section className="flex flex-col gap-comp-3xl">
       <SectionHeading label="Recent Video" title="최신 영상" />
 
       <div className="overflow-hidden rounded-[8px] bg-[#33103f] shadow-[0_18px_40px_rgba(20,6,26,0.12)]">
@@ -63,7 +63,7 @@ function LongformPlaylistCard({ video }: { video: PublicVideoSummary }) {
   const metaLine = buildMetaLine(video);
 
   return (
-    <Link href={video.href} className="group flex items-center gap-4 rounded-[8px] py-1 transition hover:opacity-90">
+    <Link href={video.href} className="group flex items-center gap-comp-base rounded-[8px] transition hover:opacity-90">
       <div className="relative h-[84px] w-[132px] shrink-0 overflow-hidden rounded-[8px] bg-[#33103f]">
         {video.thumbnailUrl ? (
           <Image
@@ -82,12 +82,14 @@ function LongformPlaylistCard({ video }: { video: PublicVideoSummary }) {
         </div>
       </div>
 
-      <div className="min-w-0 flex-1">
-        <h3 className="line-clamp-2 text-[20px] font-bold tracking-[-0.03em] text-[#33103f] md:line-clamp-1 md:text-[18px]">
-          {video.title}
-        </h3>
-        {metaLine ? <p className="mt-1 truncate text-[12px] font-medium text-[#33103f]/60">{metaLine}</p> : null}
-        {publishedAt ? <p className="mt-2 text-[14px] font-normal text-[#33103f]">{publishedAt}</p> : null}
+      <div className="flex min-w-0 flex-1 flex-col gap-comp-sm">
+        <div className="flex flex-col gap-comp-xxs">
+          <h3 className="type-body-lg line-clamp-2 font-bold tracking-[-0.03em] text-[#33103f] md:line-clamp-1 md:text-[18px]">
+            {video.title}
+          </h3>
+          {metaLine ? <p className="type-body-xs truncate font-medium text-[#33103f]/60">{metaLine}</p> : null}
+        </div>
+        {publishedAt ? <p className="type-body-xs text-[#33103f]">{publishedAt}</p> : null}
       </div>
     </Link>
   );
@@ -109,16 +111,16 @@ function PlaylistPagination({
   const visiblePages = getVisiblePages(currentPage, totalPages);
 
   return (
-    <nav className="flex items-center justify-center gap-2 pt-2" aria-label="영상 목록 페이지네이션">
+    <nav className="flex items-center justify-center gap-comp-sm pt-2" aria-label="영상 목록 페이지네이션">
       {currentPage === 1 ? (
-        <span className="rounded-full border border-[#33103f]/12 px-[14px] py-[10px] text-[14px] leading-[1] text-[#33103f]/35">
+        <span className="type-body-xs rounded-full border border-[#33103f]/12 px-[14px] py-[10px] leading-[1] text-[#33103f]/35">
           이전
         </span>
       ) : (
         <Link
           href={buildPageHref(basePath, currentPage - 1)}
           prefetch={false}
-          className="rounded-full border border-[#33103f]/12 px-[14px] py-[10px] text-[14px] leading-[1] text-[#33103f] transition hover:bg-[#33103f]/5"
+          className="type-body-xs rounded-full border border-[#33103f]/12 px-[14px] py-[10px] leading-[1] text-[#33103f] transition hover:bg-[#33103f]/5"
         >
           이전
         </Link>
@@ -131,7 +133,7 @@ function PlaylistPagination({
             <span
               key={page}
               aria-current="page"
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-[#33103f] text-[12px] font-medium leading-none text-white"
+              className="type-body-xs flex h-8 w-8 items-center justify-center rounded-full bg-[#33103f] font-medium leading-none text-white"
             >
               {page}
             </span>
@@ -143,7 +145,7 @@ function PlaylistPagination({
             key={page}
             href={buildPageHref(basePath, page)}
             prefetch={false}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#33103f]/12 text-[12px] font-medium leading-none text-[#33103f] transition hover:bg-[#33103f]/5"
+            className="type-body-xs flex h-8 w-8 items-center justify-center rounded-full border border-[#33103f]/12 font-medium leading-none text-[#33103f] transition hover:bg-[#33103f]/5"
           >
             {page}
           </Link>
@@ -151,14 +153,14 @@ function PlaylistPagination({
       })}
 
       {currentPage === totalPages ? (
-        <span className="rounded-full border border-[#33103f]/12 px-[14px] py-[10px] text-[14px] leading-[1] text-[#33103f]/35">
+        <span className="type-body-xs rounded-full border border-[#33103f]/12 px-[14px] py-[10px] leading-[1] text-[#33103f]/35">
           다음
         </span>
       ) : (
         <Link
           href={buildPageHref(basePath, currentPage + 1)}
           prefetch={false}
-          className="rounded-full border border-[#33103f]/12 px-[14px] py-[10px] text-[14px] leading-[1] text-[#33103f] transition hover:bg-[#33103f]/5"
+          className="type-body-xs rounded-full border border-[#33103f]/12 px-[14px] py-[10px] leading-[1] text-[#33103f] transition hover:bg-[#33103f]/5"
         >
           다음
         </Link>
@@ -175,20 +177,20 @@ function LongformPlaylistView({
   videos: PublicVideoList;
 }) {
   return (
-    <main className="bg-white pb-16">
-      <div className="section-shell flex flex-col gap-10 pb-20 pt-16">
+    <main className="bg-white">
+      <div className="section-shell flex flex-col gap-pad-xxl pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
         <LongformHero featured={videos.featured ?? null} />
 
         <div className="h-px w-full bg-[#33103f]/12" />
 
-        <section className="space-y-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <section className="flex flex-col gap-pad-xxl">
+          <div className="flex flex-col gap-comp-xl md:flex-row md:items-center md:justify-between">
             <SectionHeading label="Playlist" title="목록" />
             <a
               href={`https://www.youtube.com/playlist?list=${playlist.playlistId}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 self-start text-[18px] font-semibold tracking-[-0.03em] text-[#33103f] transition hover:text-[#8b6db5]"
+              className="inline-flex items-center gap-comp-sm self-start text-[18px] font-semibold tracking-[-0.03em] text-[#33103f] transition hover:text-[#8b6db5]"
             >
               YouTube
               <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" aria-hidden="true">
@@ -205,7 +207,7 @@ function LongformPlaylistView({
 
           {videos.items.length > 0 ? (
             <>
-              <div className="grid gap-x-10 gap-y-9 md:grid-cols-2">
+              <div className="grid gap-x-pad-xxl gap-y-comp-4xl md:grid-cols-2">
                 {videos.items.map((video) => (
                   <LongformPlaylistCard key={video.videoId} video={video} />
                 ))}
@@ -217,7 +219,7 @@ function LongformPlaylistView({
               />
             </>
           ) : (
-            <div className="rounded-[8px] border border-dashed border-[#33103f]/20 px-6 py-14 text-center text-[15px] text-[#33103f]/60">
+            <div className="rounded-[8px] border border-dashed border-[#33103f]/20 px-pad-md py-14 text-center text-[15px] text-[#33103f]/60">
               공개된 영상이 아직 없습니다.
             </div>
           )}
@@ -235,9 +237,9 @@ function ShortformPlaylistView({
   videos: PublicVideoList;
 }) {
   return (
-    <main className="bg-white pb-16">
-      <div className="section-shell flex flex-col gap-10 pb-20 pt-16">
-        <section className="w-full space-y-10">
+    <main className="bg-white">
+      <div className="section-shell flex flex-col gap-pad-xxl pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+        <section className="flex w-full flex-col gap-pad-xxl">
           <SectionHeading label="Shorts" title={playlist.title} />
           <PublicShortformPlaylistGrid
             path={playlist.fullPath}

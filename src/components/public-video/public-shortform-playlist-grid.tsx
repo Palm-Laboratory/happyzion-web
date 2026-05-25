@@ -13,7 +13,7 @@ function ShortformCard({ video }: { video: ShortformVideoItem }) {
   const publishedAt = formatLongDate(video.publishedAt);
 
   return (
-    <Link href={video.href} className="group flex flex-col gap-3">
+    <Link href={video.href} className="group flex flex-col gap-comp-md">
       <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[8px] bg-[#33103f]">
         {video.thumbnailUrl ? (
           <Image
@@ -27,9 +27,9 @@ function ShortformCard({ video }: { video: ShortformVideoItem }) {
         <div className="absolute inset-0 bg-[#33103f]/10" />
       </div>
 
-      <div className="flex flex-col gap-2 text-[#33103f]">
-        <p className="line-clamp-2 text-[14px] font-semibold leading-7">{video.title}</p>
-        {publishedAt ? <p className="text-[12px] leading-3 text-[#33103f]/70">{publishedAt}</p> : null}
+      <div className="flex flex-col gap-comp-sm text-[#33103f]">
+        <p className="type-body-xs line-clamp-2 font-semibold leading-7">{video.title}</p>
+        {publishedAt ? <p className="type-label-md text-[#33103f]/70">{publishedAt}</p> : null}
       </div>
     </Link>
   );
@@ -121,15 +121,15 @@ export default function PublicShortformPlaylistGrid({
 
   if (items.length === 0) {
     return (
-      <div className="rounded-[8px] border border-dashed border-[#33103f]/20 px-6 py-14 text-center text-[15px] text-[#33103f]/60">
-        공개된 영상이 아직 없습니다.
+      <div className="rounded-[8px] border border-dashed border-[#33103f]/20 px-pad-md py-14 text-center text-[#33103f]/60">
+        <p className="type-body-sm">공개된 영상이 아직 없습니다.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10">
-      <div className="grid grid-cols-2 gap-x-[14px] gap-y-8 sm:gap-x-[22px] sm:gap-y-10 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="flex flex-col gap-pad-xxl">
+      <div className="grid grid-cols-2 gap-x-[14px] gap-y-comp-3xl sm:gap-x-[22px] sm:gap-y-pad-xxl lg:grid-cols-3 xl:grid-cols-4">
         {items.map((video) => (
           <ShortformCard key={video.videoId} video={video} />
         ))}
@@ -141,7 +141,7 @@ export default function PublicShortformPlaylistGrid({
             type="button"
             onClick={handleLoadMore}
             disabled={isLoadingMore}
-            className="inline-flex min-w-[132px] items-center justify-center rounded-full bg-[#33103f] px-6 py-3 text-[14px] font-semibold text-white transition hover:bg-[#4b1760] disabled:cursor-not-allowed disabled:bg-[#928397]"
+            className="type-body-xs inline-flex min-w-[132px] items-center justify-center rounded-full bg-[#33103f] px-pad-md py-pad-xxs font-semibold text-white transition hover:bg-[#4b1760] disabled:cursor-not-allowed disabled:bg-[#928397]"
           >
             {isLoadingMore ? `불러오는 중... (${currentPage}/${totalPages})` : `더보기 (${currentPage}/${totalPages})`}
           </button>
@@ -149,7 +149,7 @@ export default function PublicShortformPlaylistGrid({
       ) : null}
 
       {loadFailed ? (
-        <p className="text-center text-[13px] text-[#9a5a00]">
+        <p className="type-body-xs text-center text-[#9a5a00]">
           영상을 더 불러오지 못했습니다. 다시 시도해 주세요.
         </p>
       ) : null}

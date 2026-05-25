@@ -117,45 +117,45 @@ export default function PublicVideoDetailActions({
   }
 
   return (
-    <section className="mt-8">
-      <div className="grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-between">
+    <section className="flex flex-col gap-comp-3xl">
+      <div className="grid grid-cols-2 gap-comp-md sm:flex sm:items-center sm:justify-between">
         <button
           type="button"
           onClick={handleShare}
-          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#8b6db5]/20 bg-white px-4 font-semibold text-[#33103f] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-comp-sm rounded-full border border-[#8b6db5]/20 bg-white px-pad-xs font-semibold text-[#33103f] transition hover:border-[#8b6db5] hover:bg-white sm:self-start"
         >
           {shareLabel === "링크 복사됨" ? <CopyIcon /> : <ShareIcon />}
           {shareLabel}
         </button>
         <Link
           href={listPath}
-          className="type-body-xs inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#33103f] bg-[#33103f] px-4 font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] sm:self-auto"
+          className="type-body-xs inline-flex h-11 items-center justify-center gap-comp-sm rounded-full border border-[#33103f] bg-[#33103f] px-pad-xs font-semibold text-white transition hover:border-[#8b6db5] hover:bg-[#8b6db5] sm:self-auto"
         >
           <ListIcon />
           목록으로
         </Link>
       </div>
 
-      <div className="mt-8 space-y-3 md:grid md:grid-cols-2 md:gap-[60px] md:space-y-0">
+      <div className="flex flex-col gap-comp-md md:grid md:grid-cols-2 md:gap-layout-xl">
         {previousVideo ? (
           <Link
             href={previousVideo.href}
-            className="group flex items-start gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
+            className="group flex items-start gap-comp-lg rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-pad-md transition hover:border-[#8b6db5] hover:bg-white"
           >
             <DirectionBadge direction="left" />
-            <div className="min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 flex-col gap-comp-xxs">
               <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
-              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousVideo.title}</p>
+              <p className="type-body-md line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{previousVideo.title}</p>
             </div>
           </Link>
         ) : (
-          <div className="flex items-start gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6">
+          <div className="flex items-start gap-comp-lg rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-pad-md">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#F2F2F2] text-[#6B4A75]/60">
               <ChevronIcon direction="left" />
             </span>
-            <div className="min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 flex-col gap-comp-xxs">
               <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">이전 영상</p>
-              <p className="type-body-xs mt-1 text-site-muted">이전 영상이 없습니다.</p>
+              <p className="type-body-xs text-site-muted">이전 영상이 없습니다.</p>
             </div>
           </div>
         )}
@@ -163,19 +163,19 @@ export default function PublicVideoDetailActions({
         {nextVideo ? (
           <Link
             href={nextVideo.href}
-            className="group flex items-center justify-end gap-5 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-6 transition hover:border-[#8b6db5] hover:bg-white"
+            className="group flex items-center justify-end gap-comp-lg rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white p-pad-md transition hover:border-[#8b6db5] hover:bg-white"
           >
-            <div className="min-w-0 flex-1 text-right">
+            <div className="flex min-w-0 flex-1 flex-col gap-comp-xxs text-right">
               <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
-              <p className="type-body-md mt-1 line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextVideo.title}</p>
+              <p className="type-body-md line-clamp-1 font-semibold text-[#33103f] transition group-hover:text-[#8b6db5]">{nextVideo.title}</p>
             </div>
             <DirectionBadge direction="right" />
           </Link>
         ) : (
-          <div className="flex items-center gap-4 rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white/70 px-4 py-4">
-            <div className="min-w-0 flex-1 text-right">
+          <div className="flex items-center gap-comp-base rounded-[16px] border border-dashed border-[rgba(93,61,138,0.2)] bg-white/70 p-pad-xs">
+            <div className="flex min-w-0 flex-1 flex-col gap-comp-xxs text-right">
               <p className="type-label-lg font-suit font-semibold tracking-[0.08em] text-site-muted">다음 영상</p>
-              <p className="type-body-xs mt-1 text-site-muted">다음 영상이 없습니다.</p>
+              <p className="type-body-xs text-site-muted">다음 영상이 없습니다.</p>
             </div>
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[8px] bg-[#F2F2F2] text-[#6B4A75]/60">
               <ChevronIcon direction="right" />

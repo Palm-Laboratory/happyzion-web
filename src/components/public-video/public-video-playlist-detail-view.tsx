@@ -24,12 +24,12 @@ function DetailAccordion({
   content: string;
 }) {
   return (
-    <details className="group rounded-[16px] bg-[#F2F2F2] px-[30px] open:pb-7">
+    <details className="group rounded-[16px] bg-[#F2F2F2] px-[30px] open:pb-comp-xxl">
       <summary className="flex h-[60px] cursor-pointer list-none items-center justify-between text-[#33103f]">
-        <span className="font-semibold">{title}</span>
+        <span className="type-body-sm font-semibold">{title}</span>
         <ChevronIcon className="h-4 w-4 transition group-open:rotate-180" />
       </summary>
-      <div className="whitespace-pre-line pb-1 text-[15px] leading-8 text-[#33103f]/75">{content}</div>
+      <div className="type-body-sm whitespace-pre-line pb-comp-xxs leading-8 text-[#33103f]/75">{content}</div>
     </details>
   );
 }
@@ -54,9 +54,9 @@ export default function PublicVideoPlaylistDetailView({
     : null;
 
   return (
-    <main className="bg-white pb-16">
-      <section className="section-shell py-10">
-        <div className="min-w-0 space-y-4">
+    <main className="bg-white">
+      <section className="section-shell pt-section-sm pb-section-xl md:pt-section-md md:pb-section-xxl lg:pt-section-lg lg:pb-section-3xl">
+        <div className="flex min-w-0 flex-col gap-layout-lg">
             <div className="w-full overflow-hidden rounded-[16px] bg-[#33103f] shadow-[0_18px_40px_rgba(20,6,26,0.12)]">
               <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#33103f]">
                 <IframeScrollGuard
@@ -71,29 +71,30 @@ export default function PublicVideoPlaylistDetailView({
               </div>
             </div>
 
-            <div className="space-y-6 px-1">
-              <div className="space-y-4 text-[#33103f]">
+            <div className="flex flex-col gap-comp-xl">
+              <div className="flex flex-col gap-comp-base text-[#33103f]">
                 <h1 className="line-clamp-2 text-[30px] font-bold leading-[1.15] tracking-[-0.04em] lg:line-clamp-1 md:text-[24px]">
                   {video.title}
                   {metaLine ? ` | ${metaLine}` : ""}
                 </h1>
-                {taxonomyLine ? <p className="text-[16px] font-normal leading-none text-[#33103f]/80">{taxonomyLine}</p> : null}
+                {taxonomyLine ? <p className="type-body-sm leading-none text-[#33103f]/80">{taxonomyLine}</p> : null}
               </div>
 
-              <div className="space-y-[15px]">
+              <div className="flex flex-col gap-layout-sm">
                 {descriptionContent ? <DetailAccordion title="영상 설명" content={descriptionContent} /> : null}
                 {scriptureContent ? <DetailAccordion title="본문 말씀" content={scriptureContent} /> : null}
               </div>
 
-              <hr className="mt-24 border-t border-[#33103f]/10" />
-
-              <PublicVideoDetailActions
-                listPath={playlist.fullPath}
-                previousVideo={video.previousVideo ?? null}
-                nextVideo={video.nextVideo ?? null}
-              />
+              <div className="flex flex-col gap-pad-lg">
+                <hr className={`border-t border-[#33103f]/10${(descriptionContent || scriptureContent) ? "" : " mt-24"}`} />
+                <PublicVideoDetailActions
+                  listPath={playlist.fullPath}
+                  previousVideo={video.previousVideo ?? null}
+                  nextVideo={video.nextVideo ?? null}
+                />
+              </div>
             </div>
-        </div>
+          </div>
       </section>
     </main>
   );

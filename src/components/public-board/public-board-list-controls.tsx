@@ -65,8 +65,8 @@ export default function PublicBoardListControls({
   }
 
   return (
-    <div className="mt-8 flex flex-col gap-4 border-b border-cedar/12 pb-5 md:flex-row md:items-center md:justify-between">
-      <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-col gap-comp-base border-b border-cedar/12 pb-pad-sm md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center justify-between gap-layout-sm">
         <p className="type-body-xs text-[#6f5a7a]">
           전체 <span className="font-semibold text-[#33103f]">{totalItems.toLocaleString("ko-KR")}</span>건
         </p>
@@ -75,7 +75,7 @@ export default function PublicBoardListControls({
             value={String(pageSize)}
             disabled={isPending}
             onChange={(event) => handlePageSizeChange(Number(event.target.value))}
-            className="type-body-xs h-11 appearance-none rounded-[8px] border border-[rgba(93,61,138,0.15)] bg-white py-3 pl-4 pr-9 leading-none text-[#4a3b5e] outline-none transition hover:border-[#8b6db5] focus:border-[#8b6db5]"
+            className="type-body-xs h-11 appearance-none rounded-[8px] border border-[rgba(93,61,138,0.15)] bg-white py-pad-xxs pl-pad-xs pr-pad-xl leading-none text-[#4a3b5e] outline-none transition hover:border-[#8b6db5] focus:border-[#8b6db5]"
           >
             {PAGE_SIZE_OPTIONS.map((option) => (
               <option key={option} value={option}>
@@ -90,14 +90,14 @@ export default function PublicBoardListControls({
           </span>
         </div>
       </div>
-      <form onSubmit={handleSearchSubmit} className="flex items-center gap-[15px] md:min-w-[320px] md:justify-end">
+      <form onSubmit={handleSearchSubmit} className="flex items-center gap-layout-sm md:min-w-[320px] md:justify-end">
         <input
           type="search"
           value={searchValue}
           disabled={isPending}
           onChange={(event) => setSearchValue(event.target.value)}
           placeholder="게시글 검색"
-          className="type-body-xs h-10 min-w-0 flex-1 rounded-full border border-[#8b6db5]/15 bg-white px-4 text-[#33103f] outline-none transition placeholder:text-[#6f5a7a]/70 hover:border-[#8b6db5] hover:bg-[#8b6db5]/6 focus:border-[#8b6db5] md:max-w-[260px]"
+          className="type-body-xs h-10 min-w-0 flex-1 rounded-full border border-[#8b6db5]/15 bg-white px-pad-xs text-[#33103f] outline-none transition placeholder:text-[#6f5a7a]/70 hover:border-[#8b6db5] hover:bg-[#8b6db5]/6 focus:border-[#8b6db5] md:max-w-[260px]"
         />
         <button
           type="submit"

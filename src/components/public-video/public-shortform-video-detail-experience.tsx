@@ -186,6 +186,23 @@ function resolvePath(href: string) {
   }
 }
 
+function MuteIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M11 5L6 9H2v6h4l5 4V5z"
+        fill="currentColor"
+      />
+      <path
+        d="M17 9l6 6M23 9l-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 function ChevronIcon({
   className = "",
   direction,
@@ -243,29 +260,51 @@ function ShortformPlayer({
         className="pointer-events-none absolute inset-0 h-full w-full [&>iframe]:h-full [&>iframe]:w-full [&>iframe]:border-0"
       />
       <div className="absolute inset-0 z-10" />
+      {isMuted ? (
+        <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm">
+            <MuteIcon className="h-7 w-7 text-white" />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
 
 function VideoDescription({ activeMeta, video }: { activeMeta: string; video: ShortformPlaybackVideo }) {
   const publishedAt = formatLongDate(video.publishedAt);
+  const descRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const desc = descRef.current;
+    if (!desc) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      desc.scrollTop += e.deltaY;
+    };
+
+    desc.addEventListener("wheel", onWheel, { passive: false });
+    return () => desc.removeEventListener("wheel", onWheel);
+  }, [video]);
 
   return (
-    <div className="flex h-full flex-col space-y-4">
-      <div className="space-y-3">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[#8b6db5] md:text-[#8b6db5]">
+    <div className="flex h-full flex-col gap-comp-xxl">
+      <div className="flex flex-col gap-comp-md">
+        <p className="type-label-lg font-semibold text-[#8b6db5]">
           Shorts
         </p>
-        <h1 className="line-clamp-3 text-[28px] font-bold leading-[1.16] tracking-[-0.04em] md:text-[34px]">
+        <h1 className="type-heading-md line-clamp-3 text-[1.5rem] md:text-[1.5rem] lg:text-[1.5rem]">
           {video.title}
         </h1>
-        {activeMeta ? <p className="text-[14px] leading-[1.6] text-current/72">{activeMeta}</p> : null}
-        {publishedAt ? <p className="text-[13px] leading-none text-current/64">{publishedAt}</p> : null}
+        {activeMeta ? <p className="type-body-xs text-current/72">{activeMeta}</p> : null}
+        {publishedAt ? <p className="type-body-xs leading-none text-current/64">{publishedAt}</p> : null}
       </div>
 
       {video.description ? (
-        <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-          <p className="whitespace-pre-line text-[14px] leading-7 text-current/70">
+        <div ref={descRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <p className="type-body-xs whitespace-pre-line text-current/70">
             {video.description}
           </p>
         </div>
@@ -698,8 +737,8 @@ export default function PublicShortformVideoDetailExperience({
   return (
     <div className="fixed inset-0 z-[60] overflow-hidden bg-[#1f0f28] text-white md:static md:z-auto md:overflow-visible md:bg-white md:text-[#33103f]">
       <section className="h-full overflow-hidden md:h-auto md:overflow-visible">
-        <div className="mx-auto grid h-full w-full max-w-[1180px] grid-rows-1 md:min-h-[760px] md:grid-cols-[minmax(220px,1fr)_minmax(300px,390px)_minmax(180px,1fr)] md:items-start md:gap-10 md:px-8 md:py-14">
-          <div className="hidden md:flex md:h-[680px] md:max-h-[72vh] md:flex-col">
+        <div className="mx-auto grid h-full w-full max-w-[1180px] grid-rows-1 md:min-h-[760px] md:grid-cols-[minmax(220px,1fr)_minmax(300px,390px)_minmax(180px,1fr)] md:items-start md:gap-pad-xxl md:px-pad-lg md:py-14">
+          <div className="hidden md:flex md:h-[680px] md:max-h-[72vh] md:flex-col md:overflow-hidden">
             <VideoDescription activeMeta={activeMeta} video={activeVideo} />
           </div>
 
@@ -714,7 +753,7 @@ export default function PublicShortformVideoDetailExperience({
           </div>
 
           <div className="hidden md:flex md:flex-col md:items-start md:justify-center md:self-center">
-            <div className="flex shrink-0 flex-col gap-3">
+            <div className="flex shrink-0 flex-col gap-comp-md">
               <button
                 type="button"
                 onClick={() => {
@@ -722,7 +761,7 @@ export default function PublicShortformVideoDetailExperience({
                 }}
                 disabled={!canMovePrevious}
                 aria-label="이전 쇼츠"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/16 bg-white/12 text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-35 md:h-14 md:w-14 md:border-[#33103f]/12 md:bg-[#fcf8ff] md:text-[#33103f] md:hover:bg-[#f6eef9]"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/16 bg-white/12 text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-35 md:h-14 md:w-14 md:border-[#33103f]/12 md:bg-transparent md:text-[#33103f] md:hover:bg-[#33103f]/5"
               >
                 <ChevronIcon direction="up" className="h-5 w-5" />
               </button>
@@ -733,7 +772,7 @@ export default function PublicShortformVideoDetailExperience({
                 }}
                 disabled={!canMoveNext}
                 aria-label="다음 쇼츠"
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/16 bg-white/12 text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-35 md:h-14 md:w-14 md:border-[#33103f]/12 md:bg-[#fcf8ff] md:text-[#33103f] md:hover:bg-[#f6eef9]"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/16 bg-white/12 text-white transition hover:bg-white/18 disabled:cursor-not-allowed disabled:opacity-35 md:h-14 md:w-14 md:border-[#33103f]/12 md:bg-transparent md:text-[#33103f] md:hover:bg-[#33103f]/5"
               >
                 <ChevronIcon direction="down" className="h-5 w-5" />
               </button>
