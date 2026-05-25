@@ -190,7 +190,7 @@ export default function VideoEditClient({ initialDetail }: { initialDetail: Admi
           </div>
 
           <label className="space-y-1.5">
-            <span className="text-[12px] font-semibold text-[#334155]">요약</span>
+            <span className="text-[12px] font-semibold text-[#334155]">영상 설명</span>
             <textarea
               value={draft.summary}
               onChange={(e) => set("summary", e.target.value)}

@@ -335,7 +335,7 @@ export default function VideoListClient({
           <table className="min-w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-[#edf2f7] bg-[#f8fafc]">
-                {["번호", "제목", "발행자", "노출일", "유형", "상태"].map((h) => (
+                {["번호", "제목", "발행자", "노출일", "상태"].map((h) => (
                   <th
                     key={h}
                     className="whitespace-nowrap px-5 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]"
@@ -348,13 +348,13 @@ export default function VideoListClient({
             <tbody>
               {listLoading ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-[13px] text-[#6d7f95]">
+                  <td colSpan={5} className="px-5 py-12 text-center text-[13px] text-[#6d7f95]">
                     불러오는 중...
                   </td>
                 </tr>
               ) : pagedItems.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-5 py-12 text-center text-[13px] text-[#6d7f95]">
+                  <td colSpan={5} className="px-5 py-12 text-center text-[13px] text-[#6d7f95]">
                     {applied.search ? "검색 결과가 없습니다." : "등록된 영상이 없습니다."}
                   </td>
                 </tr>
@@ -382,11 +382,6 @@ export default function VideoListClient({
                     </td>
                     <td className="whitespace-nowrap px-5 py-4 text-[12px] text-[#5d6f86]">
                       {formatDateTime(item.publishedAt ?? null)}
-                    </td>
-                    <td className="px-5 py-4">
-                      <span className="rounded-full bg-[#f1f5f9] px-2.5 py-0.5 text-[10px] font-semibold text-[#475569]">
-                        {item.contentForm === "SHORTFORM" ? "SHORT" : "LONG"}
-                      </span>
                     </td>
                     <td className="px-5 py-4">
                       {item.hidden ? (
