@@ -1,6 +1,6 @@
 "use client";
 
-import type { EditorNode } from "./menu-tree-utils";
+import { isStaticMenuGroup, type EditorNode } from "./menu-tree-utils";
 
 type Props = {
   selectedNode: EditorNode;
@@ -21,6 +21,7 @@ export function MenuDeleteSection({
 }: Props) {
   if (selectedNode.isAuto) return null;
   if (selectedNode.type === "STATIC") return null;
+  if (isStaticMenuGroup(selectedNode)) return null;
 
   if (confirmingSelectedDelete) {
     return (

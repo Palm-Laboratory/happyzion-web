@@ -12,13 +12,6 @@ import { useAdminToast } from "../../components/admin-toast-provider";
 
 type EditorNode = AdminMenuTreeNode;
 
-const STATUS_META: Record<MenuStatus, string> = {
-  DRAFT: "bg-amber-100 text-amber-700",
-  PUBLISHED: "bg-emerald-100 text-emerald-700",
-  HIDDEN: "bg-slate-100 text-slate-700",
-  ARCHIVED: "bg-rose-100 text-rose-700",
-};
-
 const STATUS_LABEL: Record<MenuStatus, string> = {
   DRAFT: "분류 대기",
   PUBLISHED: "노출 중",
@@ -165,6 +158,14 @@ function SyncMetricCard({
       <p className={`mt-2 text-2xl font-bold ${tone}`}>{value}</p>
     </div>
   );
+}
+
+function getPlaylistStatusSwitchLabel(status: MenuStatus) {
+  if (status === "ARCHIVED" || status === "DRAFT") {
+    return STATUS_LABEL[status];
+  }
+
+  return status === "PUBLISHED" ? "공개" : "숨김";
 }
 
 export default function VideoSyncClient({
@@ -382,7 +383,7 @@ export default function VideoSyncClient({
           <table className="min-w-full border-collapse text-left">
             <thead>
               <tr className="border-b border-[#edf2f7] bg-[#f8fafc]">
-                {["재생목록", "소속 메뉴", "영상 수", "형식", "연동 상태", "운영 상태", "빠른 작업", "저장"].map((header) => (
+                {["재생목록", "소속 메뉴", "영상 수", "형식", "연동 상태", "운영 상태", "제목", "저장"].map((header) => (
                   <th
                     key={header}
                     className="whitespace-nowrap px-5 py-3 text-[11px] font-semibold tracking-wide text-[#55697f]"
@@ -400,135 +401,148 @@ export default function VideoSyncClient({
                   </td>
                 </tr>
               ) : (
-                editablePlaylists.map((playlist) => (
-                  <tr key={playlist.id} className="border-b border-[#f0f4f8] last:border-0">
-                    <td className="px-5 py-4">
-                      <p className="text-[13px] font-semibold text-[#132033]">{playlist.label}</p>
-                      <p className="mt-0.5 text-[11px] text-[#8fa3bb]">{playlist.playlistSourceTitle ?? "-"}</p>
-                    </td>
-                    <td className="px-5 py-4">
-                      <select
-                        value={playlist.parentId ?? ""}
-                        onChange={(event) => {
-                          const rawValue = event.target.value;
-                          const nextParentId = rawValue ? Number(rawValue) : null;
-                          let nextTree = reparentNode(menuItems, playlist.id, nextParentId);
-                          if (nextParentId === null) {
-                            nextTree = mapTree(nextTree, playlist.id, (node) => ({ ...node, status: "DRAFT" }));
-                          }
-                          markPlaylistDirty(playlist.id, nextTree);
-                        }}
-                        className="w-[148px] rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[12px] text-[#334155]"
-                      >
-                        <option value="">미지정</option>
-                        {youtubeGroupOptions.map((group) => (
-                          <option key={group.id} value={group.id}>
-                            {"　".repeat(group.depth)}
-                            {group.label}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td className="px-5 py-4 text-[12px] text-[#5d6f86]">{playlist.itemCount}개</td>
-                    <td className="px-5 py-4">
-                      <select
-                        value={playlist.playlistContentForm ?? "LONGFORM"}
-                        onChange={(event) => {
-                          const nextValue = event.target.value as YouTubeContentForm;
-                          updatePlaylistNode(playlist.id, (node) => ({
-                            ...node,
-                            playlistContentForm: nextValue,
-                          }));
-                        }}
-                        className="w-[92px] rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[12px] text-[#334155]"
-                      >
-                        <option value="LONGFORM">롱폼</option>
-                        <option value="SHORTFORM">쇼츠</option>
-                      </select>
-                    </td>
-                    <td className="px-5 py-4">
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
-                          playlist.syncStatus === "ACTIVE"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : "bg-rose-100 text-rose-700"
-                        }`}
-                      >
-                        {playlist.syncStatus === "ACTIVE" ? "정상" : "제거됨"}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${STATUS_META[playlist.status]}`}
-                      >
-                        {STATUS_LABEL[playlist.status]}
-                      </span>
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex flex-wrap gap-2">
-                        {playlist.status !== "PUBLISHED" && (
+                editablePlaylists.map((playlist) => {
+                  const isStatusSwitchOn = playlist.status === "PUBLISHED";
+                  const isStatusSwitchDisabled =
+                    !playlist.parentId ||
+                    playlist.status === "ARCHIVED" ||
+                    playlist.syncStatus === "REMOVED";
+                  const statusSwitchLabel = getPlaylistStatusSwitchLabel(playlist.status);
+
+                  return (
+                    <tr key={playlist.id} className="border-b border-[#f0f4f8] last:border-0">
+                      <td className="px-5 py-4">
+                        <p className="text-[13px] font-semibold text-[#132033]">{playlist.label}</p>
+                        <p className="mt-0.5 text-[11px] text-[#8fa3bb]">{playlist.playlistSourceTitle ?? "-"}</p>
+                      </td>
+                      <td className="px-5 py-4">
+                        <select
+                          value={playlist.parentId ?? ""}
+                          onChange={(event) => {
+                            const rawValue = event.target.value;
+                            const nextParentId = rawValue ? Number(rawValue) : null;
+                            let nextTree = reparentNode(menuItems, playlist.id, nextParentId);
+                            if (nextParentId === null) {
+                              nextTree = mapTree(nextTree, playlist.id, (node) => ({ ...node, status: "DRAFT" }));
+                            }
+                            markPlaylistDirty(playlist.id, nextTree);
+                          }}
+                          className="w-[148px] rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[12px] text-[#334155]"
+                        >
+                          <option value="">미지정</option>
+                          {youtubeGroupOptions.map((group) => (
+                            <option key={group.id} value={group.id}>
+                              {"　".repeat(group.depth)}
+                              {group.label}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-5 py-4 text-[12px] text-[#5d6f86]">{playlist.itemCount}개</td>
+                      <td className="px-5 py-4">
+                        <select
+                          value={playlist.playlistContentForm ?? "LONGFORM"}
+                          onChange={(event) => {
+                            const nextValue = event.target.value as YouTubeContentForm;
+                            updatePlaylistNode(playlist.id, (node) => ({
+                              ...node,
+                              playlistContentForm: nextValue,
+                            }));
+                          }}
+                          className="w-[92px] rounded-lg border border-[#d5deea] bg-white px-3 py-2 text-[12px] text-[#334155]"
+                        >
+                          <option value="LONGFORM">롱폼</option>
+                          <option value="SHORTFORM">쇼츠</option>
+                        </select>
+                      </td>
+                      <td className="px-5 py-4">
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${
+                            playlist.syncStatus === "ACTIVE"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-rose-100 text-rose-700"
+                          }`}
+                        >
+                          {playlist.syncStatus === "ACTIVE" ? "정상" : "제거됨"}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="inline-flex min-h-10 items-center gap-3 py-2">
                           <button
                             type="button"
-                            onClick={() => {
-                              if (playlist.syncStatus === "REMOVED") {
-                                toast.error("유튜브에서 제거된 재생목록은 공개할 수 없습니다.");
-                                return;
+                            role="switch"
+                            aria-checked={isStatusSwitchOn}
+                            aria-label={`재생목록 운영 상태 ${statusSwitchLabel}`}
+                            disabled={isStatusSwitchDisabled}
+                            onClick={() =>
+                              updatePlaylistNode(playlist.id, (node) => ({
+                                ...node,
+                                status: isStatusSwitchOn ? "HIDDEN" : "PUBLISHED",
+                              }))
+                            }
+                            className={`relative h-6 w-11 rounded-full transition disabled:cursor-not-allowed disabled:opacity-55 ${
+                              isStatusSwitchOn ? "bg-[#3f74c7]" : "bg-[#cbd5e1]"
+                            }`}
+                          >
+                            <span
+                              aria-hidden="true"
+                              className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition ${
+                                isStatusSwitchOn ? "left-6" : "left-1"
+                              }`}
+                            />
+                          </button>
+                          <span className="text-[13px] font-semibold text-[#334155]">
+                            {statusSwitchLabel}
+                          </span>
+                        </div>
+                        {!playlist.parentId && (
+                          <p className="text-[11px] leading-5 text-[#8fa3bb]">
+                            소속 메뉴 지정 후 공개/숨김을 변경할 수 있습니다.
+                          </p>
+                        )}
+                        {playlist.status === "ARCHIVED" && (
+                          <p className="text-[11px] leading-5 text-[#8fa3bb]">
+                            보관 상태는 유튜브 동기화로만 해제됩니다.
+                          </p>
+                        )}
+                        {playlist.syncStatus === "REMOVED" && playlist.status !== "ARCHIVED" && (
+                          <p className="text-[11px] leading-5 text-[#8fa3bb]">
+                            유튜브에서 제거된 재생목록은 공개할 수 없습니다.
+                          </p>
+                        )}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex flex-wrap gap-2">
+                          {playlist.playlistSourceTitle && playlist.label !== playlist.playlistSourceTitle && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updatePlaylistNode(playlist.id, (node) => ({
+                                  ...node,
+                                  label: playlist.playlistSourceTitle ?? node.label,
+                                  labelCustomized: false,
+                                }))
                               }
-                              updatePlaylistNode(playlist.id, (node) => ({
-                                ...node,
-                                status: node.parentId ? "PUBLISHED" : node.status,
-                              }));
-                            }}
-                            disabled={!playlist.parentId}
-                            className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] font-semibold text-emerald-700 disabled:opacity-50"
-                          >
-                            공개
-                          </button>
-                        )}
-                        {playlist.status !== "HIDDEN" && playlist.status !== "ARCHIVED" && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updatePlaylistNode(playlist.id, (node) => ({
-                                ...node,
-                                status: "HIDDEN",
-                              }))
-                            }
-                            disabled={!playlist.parentId}
-                            className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-[11px] font-semibold text-slate-700 disabled:opacity-50"
-                          >
-                            숨김
-                          </button>
-                        )}
-                        {playlist.playlistSourceTitle && playlist.label !== playlist.playlistSourceTitle && (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              updatePlaylistNode(playlist.id, (node) => ({
-                                ...node,
-                                label: playlist.playlistSourceTitle ?? node.label,
-                                labelCustomized: false,
-                              }))
-                            }
-                            className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[11px] font-semibold text-[#2d5da8]"
-                          >
-                            원제목 복원
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-5 py-4">
-                      <button
-                        type="button"
-                        onClick={() => handleSavePlaylist(playlist.id)}
-                        disabled={!dirtyPlaylistIds.has(playlist.id) || savingPlaylistId !== null}
-                        className="whitespace-nowrap rounded-lg bg-[#3f74c7] px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-60"
-                      >
-                        {savingPlaylistId === playlist.id ? "저장 중..." : "저장"}
-                      </button>
-                    </td>
-                  </tr>
-                ))
+                              className="rounded-lg border border-[#d7e3f4] bg-white px-3 py-2 text-[11px] font-semibold text-[#2d5da8]"
+                            >
+                              원제목 복원
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-5 py-4">
+                        <button
+                          type="button"
+                          onClick={() => handleSavePlaylist(playlist.id)}
+                          disabled={!dirtyPlaylistIds.has(playlist.id) || savingPlaylistId !== null}
+                          className="whitespace-nowrap rounded-lg bg-[#3f74c7] px-3 py-2 text-[11px] font-semibold text-white disabled:opacity-60"
+                        >
+                          {savingPlaylistId === playlist.id ? "저장 중..." : "저장"}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
