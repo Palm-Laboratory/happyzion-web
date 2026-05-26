@@ -60,8 +60,8 @@ export default function Breadcrumb({
 
   return (
     <div className="flex w-full flex-col bg-[#f7f6f8]">
-      <nav className="section-shell border-b border-[#33103F]/10 py-3" aria-label="Breadcrumb">
-        <ol className="type-body-xs flex items-center justify-center gap-1.5">
+      <nav className="section-shell border-b border-[#33103F]/10 py-pad-xxs" aria-label="Breadcrumb">
+        <ol className="type-body-xs flex items-center justify-center gap-comp-xs">
           <li>
             <Link href="/" className="font-medium text-[#33103F]/70 transition hover:text-[#33103F]">
               홈
@@ -117,7 +117,7 @@ export default function Breadcrumb({
           aria-label="LNB"
           onScroll={handleLnbScroll}
         >
-          <ul className="section-shell mx-auto flex w-max min-w-max items-center justify-center gap-1 px-4">
+          <ul className="section-shell mx-auto flex w-max min-w-max items-center justify-center gap-comp-xxs px-pad-xs">
             {menuGroup.items.filter((item) => !item.hiddenInLnb).map((item) => {
               const isActive = item === currentItem;
               const openItemInNewTab = shouldOpenNavigationInNewTab(item.href, {
@@ -128,7 +128,7 @@ export default function Breadcrumb({
               return (
                 <li key={item.key}>
                   {isActive ? (
-                    <span className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-[#33103F] px-3 py-3.5 font-bold text-[#33103F] md:px-4">
+                    <span className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-[#33103F] px-pad-xxs py-pad-xxs font-bold text-[#33103F] md:px-pad-xs">
                       {item.label}
                     </span>
                   ) : (
@@ -137,7 +137,7 @@ export default function Breadcrumb({
                       prefetch={false}
                       target={openItemInNewTab ? "_blank" : undefined}
                       rel={openItemInNewTab ? "noopener noreferrer" : undefined}
-                      className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-transparent px-3 py-3.5 font-medium text-[#33103F]/70 transition-colors hover:border-[#33103F]/30 hover:text-[#33103F] md:px-4"
+                      className="type-body-xs block whitespace-nowrap border-b-[2.5px] border-transparent px-pad-xxs py-pad-xxs font-medium text-[#33103F]/70 transition-colors hover:border-[#33103F]/30 hover:text-[#33103F] md:px-pad-xs"
                     >
                       {item.label}
                     </Link>

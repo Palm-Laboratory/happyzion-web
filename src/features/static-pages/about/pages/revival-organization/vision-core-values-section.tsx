@@ -68,10 +68,7 @@ function CoreValueAccordion() {
             className="border-[#8b6db5]/12 flex items-start gap-comp-xl border-b py-pad-sm last:border-b-0"
           >
             <div className="flex shrink-0 items-start gap-comp-base">
-              <p
-                className="w-[28px] shrink-0 text-[24px] italic leading-none text-[#c9a96e]"
-                style={{ fontFamily: "var(--font-cormorant), serif" }}
-              >
+              <p className="type-counter-md w-[28px] shrink-0 italic text-[#c9a96e]">
                 {value.number}
               </p>
               <h3 className="w-[96px] shrink-0 type-title-xs font-medium text-[#33103f]">{value.title}</h3>

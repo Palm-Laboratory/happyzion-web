@@ -41,11 +41,11 @@ export default function PageHeader({
       <div className="pointer-events-none absolute right-[8%] top-[38%] h-[392px] w-[392px] rounded-full border border-white/5" />
       <div className="pointer-events-none absolute left-[4%] top-[78%] h-[314px] w-[314px] rounded-full border border-white/5" />
       <div className="relative z-10 flex h-full items-center justify-center">
-        <div className="text-center uppercase">
-          <p className="mb-4 font-serif text-xs font-light leading-none tracking-[0.16em] text-[#c9a96e] md:mb-5">
+        <div className="flex flex-col items-center gap-comp-base text-center uppercase md:gap-comp-lg">
+          <p className="type-label-xl tracking-[0.18em] text-[#c9a96e]">
             {subtitle}
           </p>
-          <h1 className="font-hahmlet text-[40px] font-semibold leading-none tracking-[0.01em] text-white md:text-[46px] lg:text-[52px]">
+          <h1 className="type-heading-xl text-white">
             {displayTitle}
           </h1>
         </div>

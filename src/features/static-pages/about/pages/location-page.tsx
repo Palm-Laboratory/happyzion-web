@@ -28,15 +28,15 @@ const busRoutes = [
 function MobileBusRouteCard({ type, routes, stop }: (typeof busRoutes)[number]) {
   return (
     <article className="flex flex-col gap-comp-base rounded-[8px] border border-[#8b6db5]/18 bg-white px-pad-sm py-pad-sm shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-title-md font-medium text-black">{type}</h3>
-      <dl className="type-body-xs flex flex-col gap-comp-md">
+      <h3 className="type-title-md font-medium text-[#250030]">{type}</h3>
+      <dl className="flex flex-col gap-comp-md">
         <div className="flex items-start justify-between gap-comp-base border-b border-[#8b6db5]/12 pb-comp-md">
-          <dt className="shrink-0 font-semibold text-black/70">노선</dt>
-          <dd className="text-right font-bold text-black/88">{routes}</dd>
+          <dt className="type-body-xs shrink-0 font-semibold text-[#4A3B5E]">노선</dt>
+          <dd className="type-body-xs text-right font-bold text-[#33103F]">{routes}</dd>
         </div>
         <div className="flex items-start justify-between gap-comp-base">
-          <dt className="shrink-0 font-semibold text-black/70">안내</dt>
-          <dd className="text-right font-medium text-black/88">{stop}</dd>
+          <dt className="type-body-xs shrink-0 font-semibold text-[#4A3B5E]">안내</dt>
+          <dd className="type-body-xs text-right font-medium text-[#33103F]">{stop}</dd>
         </div>
       </dl>
     </article>
@@ -252,13 +252,13 @@ export default function LocationStaticPage() {
                 <BulletItem>주소 : {CHURCH_ADDRESS}</BulletItem>
                 <BulletItem>
                   TEL :{" "}
-                  <a href={`tel:${churchPhoneHref}`} className="transition hover:text-[#510a75]">
+                  <a href={`tel:${churchPhoneHref}`} className="underline underline-offset-2 transition hover:text-[#510a75]">
                     {CHURCH_PHONE}
                   </a>
                 </BulletItem>
                 <BulletItem>
                   EMAIL :{" "}
-                  <a href={`mailto:${CHURCH_EMAIL}`} className="transition hover:text-[#510a75]">
+                  <a href={`mailto:${CHURCH_EMAIL}`} className="underline underline-offset-2 transition hover:text-[#510a75]">
                     {CHURCH_EMAIL}
                   </a>
                 </BulletItem>

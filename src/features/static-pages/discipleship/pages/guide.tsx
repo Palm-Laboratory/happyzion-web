@@ -111,11 +111,9 @@ function CoreValueList() {
             <h3 className="type-title-sm font-medium leading-none text-[#33103f]">
               {value.title}
             </h3>
-            <div className="type-body-sm font-suit flex flex-col gap-comp-sm leading-none text-[#6F5576]">
-              {value.description.map((line, i) => (
-                <p key={i}>· {line}</p>
-              ))}
-            </div>
+            <p className="type-body-sm font-suit leading-none text-[#6F5576]">
+              {value.description.join(" ")}
+            </p>
           </article>
         ))}
       </div>

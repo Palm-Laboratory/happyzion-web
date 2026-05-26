@@ -60,19 +60,19 @@ function MobileServiceCard({
 }: ServiceTime) {
   return (
     <article className="border-[#8b6db5]/18 flex flex-col gap-comp-base rounded-[8px] border bg-white px-pad-sm py-pad-sm shadow-[0_8px_24px_rgba(16,33,63,0.06)]">
-      <h3 className="type-title-md font-medium text-black">{title}</h3>
-      <dl className="type-body-xs flex flex-col gap-comp-md">
+      <h3 className="type-title-md font-medium text-[#250030]">{title}</h3>
+      <dl className="flex flex-col gap-comp-md">
         <div className="border-[#8b6db5]/12 flex items-start justify-between gap-comp-base border-b pb-comp-md">
-          <dt className="shrink-0 font-semibold text-black/70">시간</dt>
-          <dd className="text-black/88 text-right font-medium">{schedule}</dd>
+          <dt className="type-body-xs shrink-0 font-semibold text-[#4A3B5E]">시간</dt>
+          <dd className="type-body-xs text-right font-medium text-[#33103F]">{schedule}</dd>
         </div>
         <div className="flex items-start justify-between gap-comp-base">
-          <dt className="shrink-0 font-semibold text-black/70">장소</dt>
-          <dd className="text-black/88 text-right font-medium">{location}</dd>
+          <dt className="type-body-xs shrink-0 font-semibold text-[#4A3B5E]">장소</dt>
+          <dd className="type-body-xs text-right font-medium text-[#33103F]">{location}</dd>
         </div>
         <div className="border-[#8b6db5]/12 flex items-start justify-between gap-comp-base border-t pt-comp-md">
-          <dt className="shrink-0 font-semibold text-black/70">대상</dt>
-          <dd className="text-black/88 text-right font-medium">{audience}</dd>
+          <dt className="type-body-xs shrink-0 font-semibold text-[#4A3B5E]">대상</dt>
+          <dd className="type-body-xs text-right font-medium text-[#33103F]">{audience}</dd>
         </div>
       </dl>
     </article>
