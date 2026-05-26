@@ -12,6 +12,7 @@ import {
   type PublicBoardPostListResponse,
   type PublicBoardPostSummary,
 } from "@/lib/public-board-api";
+import { normalizeLinkHref } from "@/lib/tiptap/url";
 import { buildUploadPath } from "@/lib/upload-path";
 
 type PublicBoardRendererListProps = {
@@ -213,7 +214,7 @@ function getSafeLinkHref(value: unknown): string | null {
     return null;
   }
 
-  const href = value.trim();
+  const href = normalizeLinkHref(value);
   if (!href) {
     return null;
   }
@@ -225,7 +226,7 @@ function getSafeLinkHref(value: unknown): string | null {
   try {
     const url = new URL(href);
     return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "mailto:" || url.protocol === "tel:"
-      ? href
+      ? url.href
       : null;
   } catch {
     return null;

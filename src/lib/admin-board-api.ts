@@ -161,7 +161,7 @@ function buildSavePayload(payload: BoardPostSavePayload) {
   };
 }
 
-export async function getAdminBoards(): Promise<AdminBoardSummary[]> {
+export async function getAdminBoards(_userId?: string): Promise<AdminBoardSummary[]> {
   const response = await adminApiFetch("/api/v1/admin/boards");
   const payload = (await response.json()) as components["schemas"]["BoardAdminListBoardsResponse"];
   return payload.boards.map(normalizeBoard);

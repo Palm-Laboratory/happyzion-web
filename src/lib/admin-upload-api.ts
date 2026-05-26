@@ -19,7 +19,6 @@ const FILE_ATTACHMENT_MIME_TYPES = [
   // 이미지
   "image/png",
   "image/jpeg",
-  "image/gif",
   "image/webp",
   // 문서
   "application/pdf",

@@ -82,10 +82,14 @@ export function useBoardManagementController({
   );
   const initialMenuId = boardMenus[0]?.id ?? 0;
 
-  // screenMode · selectedPostId 는 URL search params 에서 파생
-  // → 사이드바에서 /admin/boards 를 클릭하면 ?mode=editor 가 사라져 자동으로 list 로 전환
-  const screenMode: ScreenMode = searchParams.get("mode") === "editor" ? "editor" : "list";
-  const selectedPostId: string | null = searchParams.get("postId") ?? null;
+  const [screenMode, setScreenMode] = useState<ScreenMode>("list");
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+
+  // URL 변경(사이드바 클릭, 뒤로 가기 등)에 따라 screenMode/selectedPostId를 동기화
+  useEffect(() => {
+    setScreenMode(searchParams.get("mode") === "editor" ? "editor" : "list");
+    setSelectedPostId(searchParams.get("postId") ?? null);
+  }, [searchParams]);
 
   const [selectedMenuId, setSelectedMenuId] = useState(() => {
     const urlMenuId = Number(searchParams.get("menuId"));
@@ -457,6 +461,8 @@ export function useBoardManagementController({
 
     const menuId = preferredMenu?.id ?? 0;
     setSelectedMenuId(menuId);
+    setSelectedPostId(null);
+    setScreenMode("editor");
     setDraft(createEmptyDraft());
     setAttachmentAssets([]);
     setPendingAttachments([]);
@@ -468,6 +474,8 @@ export function useBoardManagementController({
 
   const openPost = useCallback((post: BoardPostListItem) => {
     setSelectedMenuId(post.boardMenuId);
+    setSelectedPostId(post.id);
+    setScreenMode("editor");
     setError(null);
     router.push(`/admin/boards?mode=editor&postId=${post.id}&menuId=${post.boardMenuId}`);
   }, [router]);

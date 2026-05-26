@@ -23,6 +23,10 @@ export interface MissionYearPayload {
   entries: MissionEntryPayload[];
 }
 
+export interface MissionYearBatchUpdatePayload extends MissionYearPayload {
+  id: number;
+}
+
 export async function listMissionYears(): Promise<MissionYear[]> {
   const response = await adminApiFetch("/api/v1/admin/mission-history");
   const data = (await response.json()) as { years: MissionYear[] };
@@ -45,6 +49,19 @@ export async function updateMissionYear(yearId: number, payload: MissionYearPayl
     body: JSON.stringify(payload),
   });
   return response.json() as Promise<MissionYearDetail>;
+}
+
+export async function saveMissionHistoryBatch(payload: {
+  years: MissionYearBatchUpdatePayload[];
+  yearIds?: number[];
+}): Promise<MissionYearDetail[]> {
+  const response = await adminApiFetch("/api/v1/admin/mission-history/batch", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  const data = (await response.json()) as { years: MissionYearDetail[] };
+  return data.years;
 }
 
 export async function reorderMissionYears(yearIds: number[]): Promise<void> {

@@ -15,8 +15,8 @@ export default async function AdminBoardsPage() {
   }
 
   const [boards, menuItems] = await Promise.all([
-    getAdminBoards(),
-    getAdminMenuItems(),
+    getAdminBoards(session.user.id),
+    getAdminMenuItems(session.user.id),
   ]);
   const boardMenus = menuItems.filter((item) => item.type === "BOARD" && item.boardKey && !item.isAuto);
 

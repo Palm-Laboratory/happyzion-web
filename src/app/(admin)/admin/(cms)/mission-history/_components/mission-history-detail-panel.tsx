@@ -8,6 +8,7 @@ interface MissionHistoryDetailPanelProps {
   draft: MissionYear | null;
   isNewYear: boolean;
   isDirty: boolean;
+  hasPendingOtherChanges: boolean;
   reorderedCount: number;
   changeCount: number;
   saveDisabled: boolean;
@@ -42,6 +43,7 @@ export function MissionHistoryDetailPanel({
   draft,
   isNewYear,
   isDirty,
+  hasPendingOtherChanges,
   reorderedCount,
   changeCount,
   saveDisabled,
@@ -86,7 +88,7 @@ export function MissionHistoryDetailPanel({
               취소
             </button>
           )}
-          {draft && !isNewYear && isDirty && (
+          {draft && !isNewYear && (isDirty || hasPendingOtherChanges) && (
             <button
               type="button"
               onClick={onRequestCancel}

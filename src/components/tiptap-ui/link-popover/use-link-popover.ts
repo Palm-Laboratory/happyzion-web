@@ -13,6 +13,7 @@ import { LinkIcon } from "@/components/tiptap-icons/link-icon"
 import {
   isMarkInSchema,
   isNodeTypeSelected,
+  normalizeLinkHref,
   sanitizeUrl,
 } from "@/lib/tiptap-utils"
 
@@ -138,16 +139,18 @@ export function useLinkHandler(props: LinkHandlerProps) {
 
   const setLink = useCallback(() => {
     if (!url || !editor) return
+    const href = normalizeLinkHref(url)
+    if (!href) return
 
     const { selection } = editor.state
     const isEmpty = selection.empty
 
     let chain = editor.chain().focus()
 
-    chain = chain.extendMarkRange("link").setLink({ href: url })
+    chain = chain.extendMarkRange("link").setLink({ href })
 
     if (isEmpty) {
-      chain = chain.insertContent({ type: "text", text: url })
+      chain = chain.insertContent({ type: "text", text: href })
     }
 
     chain.run()
@@ -173,7 +176,7 @@ export function useLinkHandler(props: LinkHandlerProps) {
     (target: string = "_blank", features: string = "noopener,noreferrer") => {
       if (!url) return
 
-      const safeUrl = sanitizeUrl(url, window.location.href)
+      const safeUrl = sanitizeUrl(normalizeLinkHref(url), window.location.href)
       if (safeUrl !== "#") {
         window.open(safeUrl, target, features)
       }

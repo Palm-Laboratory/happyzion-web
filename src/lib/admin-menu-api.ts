@@ -42,7 +42,7 @@ function flattenMenuItems(items: AdminMenuTreeNode[]): AdminMenuTreeNode[] {
   return items.flatMap((item) => [item, ...flattenMenuItems(item.children)]);
 }
 
-export async function getAdminMenuItems(): Promise<AdminMenuTreeNode[]> {
+export async function getAdminMenuItems(_userId?: string): Promise<AdminMenuTreeNode[]> {
   const tree = await getAdminMenuTree();
   return flattenMenuItems(tree.items);
 }

@@ -37,6 +37,7 @@ export default function MissionHistoryClient({ initialYears }: { initialYears: S
         draft={editor.draft}
         isNewYear={editor.isNewYear}
         isDirty={editor.isDirty}
+        hasPendingOtherChanges={editor.hasPendingOtherChanges}
         reorderedCount={editor.reorderedCount}
         changeCount={editor.changeCount}
         saveDisabled={editor.saveDisabled}

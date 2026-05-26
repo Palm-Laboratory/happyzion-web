@@ -6,6 +6,9 @@ type ProtocolOptions = {
 type ProtocolConfig = Array<ProtocolOptions | string>
 
 const ATTR_WHITESPACE = /[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g
+const DOMAIN_LIKE_HREF =
+  /^(?:localhost|(?:[a-z0-9-]+\.)+[a-z]{2,})(?::\d+)?(?:[/?#].*)?$/i
+const MISSING_COLON_HTTP_PROTOCOL = /^(https?)\/\//i
 
 export function isAllowedUri(
   uri: string | undefined,
@@ -61,4 +64,28 @@ export function sanitizeUrl(
     // If URL creation fails, it's considered invalid
   }
   return "#"
+}
+
+export function normalizeLinkHref(inputUrl: string): string {
+  const repairedUrl = inputUrl
+    .trim()
+    .replace(MISSING_COLON_HTTP_PROTOCOL, "$1://")
+
+  if (!repairedUrl) {
+    return ""
+  }
+
+  if (repairedUrl.startsWith("//")) {
+    return `https:${repairedUrl}`
+  }
+
+  if (repairedUrl.startsWith("/") || repairedUrl.startsWith("#")) {
+    return repairedUrl
+  }
+
+  if (DOMAIN_LIKE_HREF.test(repairedUrl)) {
+    return `https://${repairedUrl}`
+  }
+
+  return repairedUrl
 }

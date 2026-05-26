@@ -40,18 +40,28 @@ async function createMissionYearRequest(draft: MissionYear) {
   return fromServerYear((await response.json()) as ServerYear);
 }
 
-async function updateMissionYearRequest(draft: MissionYear) {
-  const response = await fetch(`/api/admin/mission-history/${draft.id}`, {
-    method: "PUT",
+async function saveMissionHistoryBatchRequest(options: {
+  drafts: MissionYear[];
+  yearIds?: number[];
+}) {
+  const response = await fetch("/api/admin/mission-history/batch", {
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(toPayload(draft)),
+    body: JSON.stringify({
+      years: options.drafts.map((draft) => ({
+        id: Number(draft.id),
+        ...toPayload(draft),
+      })),
+      yearIds: options.yearIds,
+    }),
   });
 
   if (!response.ok) {
     throw new Error(await readMissionHistoryError(response, "저장에 실패했습니다."));
   }
 
-  return fromServerYear((await response.json()) as ServerYear);
+  const data = (await response.json()) as { years: ServerYear[] };
+  return data.years.map(fromServerYear);
 }
 
 async function deleteMissionYearRequest(yearId: string) {
@@ -90,10 +100,18 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
   const [savedYearOrder, setSavedYearOrder] = useState<string[]>(
     () => initialYears.map((y) => String(y.id)),
   );
+  const [isBatchSaving, setIsBatchSaving] = useState(false);
 
   const selected = items.find((item) => item.id === selectedId) ?? null;
   const isDirty = Boolean(draft && selected && JSON.stringify(draft) !== JSON.stringify(selected));
-  const changeCount = countYearChanges(draft, selected);
+
+  const otherPendingChangesCount = Array.from(workingCopies.entries())
+    .filter(([id]) => id !== selectedId)
+    .reduce((sum, [id, wc]) => {
+      const orig = items.find((i) => i.id === id);
+      return orig ? sum + countYearChanges(wc, orig) : sum;
+    }, 0);
+  const changeCount = countYearChanges(draft, selected) + otherPendingChangesCount;
 
   const selectedIndex = selectedId ? items.findIndex((i) => i.id === selectedId) : -1;
   const canMoveYearUp = selectedIndex > 0;
@@ -170,26 +188,6 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
       } else {
         setSavedYearOrder((prev) => [...prev, savedItem.id]);
       }
-    },
-    onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.");
-    },
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: updateMissionYearRequest,
-    onSuccess: (savedItem) => {
-      setItems((prev) => prev.map((item) => (item.id === savedItem.id ? savedItem : item)));
-      setDraft(structuredClone(savedItem));
-      setWorkingCopies((prev) => {
-        const next = new Map(prev);
-        next.delete(savedItem.id);
-        return next;
-      });
-      setIsNewYear(false);
-      setShowCancelConfirm(false);
-      clearAllErrors();
-      toast.success("변경사항이 저장되었습니다.");
     },
     onError: (error) => {
       toast.error(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.");
@@ -280,19 +278,76 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
       return;
     }
 
-    // 기존 항목: 순서 변경 + 내용 변경 각각 처리.
-    // suppressReorderToastRef를 reorderMutation.onSuccess/onError에서만 초기화하므로
-    // 내용 저장이 먼저 완료되어도 reorder 토스트가 억제된다.
-    suppressReorderToastRef.current = reorderedCount > 0 && hasContentChange;
+    // 다른 연도의 workingCopies (현재 선택 제외)
+    const otherCopies = Array.from(workingCopies.entries())
+      .filter(([id]) => id !== selectedId)
+      .map(([, wc]) => wc);
+    const batchDrafts = [...otherCopies, ...(hasContentChange && draft ? [draft] : [])];
+
+    if (batchDrafts.length > 0) {
+      const invalidBatchDraft = batchDrafts
+        .map((batchDraft) => ({
+          batchDraft,
+          validation: validateMissionYearDraft(batchDraft),
+        }))
+        .find(({ validation }) => !validation.valid);
+
+      if (invalidBatchDraft) {
+        if (draft && selectedId && selectedId !== invalidBatchDraft.batchDraft.id && hasContentChange) {
+          setWorkingCopies((prev) => new Map(prev).set(selectedId, structuredClone(draft)));
+        }
+        setSelectedId(invalidBatchDraft.batchDraft.id);
+        setDraft(structuredClone(invalidBatchDraft.batchDraft));
+        setIsNewYear(false);
+        setShowCancelConfirm(false);
+        setInvalidFields(invalidBatchDraft.validation.invalidFields);
+        setInvalidEntryFields(invalidBatchDraft.validation.invalidEntryFields);
+        toast.error("필수 항목을 모두 입력해주세요.");
+        return;
+      }
+
+      setIsBatchSaving(true);
+      const yearIds = reorderedCount > 0
+        ? items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id))
+        : undefined;
+
+      saveMissionHistoryBatchRequest({ drafts: batchDrafts, yearIds })
+        .then((savedItems) => {
+          setItems((prev) => {
+            const savedMap = new Map(savedItems.map((si) => [si.id, si]));
+            return prev.map((item) => savedMap.get(item.id) ?? item);
+          });
+          const selectedSavedItem = savedItems.find((item) => item.id === selectedId);
+          if (selectedSavedItem) {
+            setDraft(structuredClone(selectedSavedItem));
+            setIsNewYear(false);
+            setShowCancelConfirm(false);
+            clearAllErrors();
+          }
+          setWorkingCopies((prev) => {
+            const next = new Map(prev);
+            savedItems.forEach((si) => next.delete(si.id));
+            return next;
+          });
+          if (yearIds) {
+            setSavedYearOrder(yearIds.map(String));
+          }
+          toast.success("변경사항이 저장되었습니다.");
+        })
+        .catch((error) => {
+          toast.error(error instanceof Error ? error.message : "저장 중 오류가 발생했습니다.");
+        })
+        .finally(() => {
+          setIsBatchSaving(false);
+        });
+      return;
+    }
 
     if (reorderedCount > 0) {
       const yearIds = items.filter((i) => !newItemIds.has(i.id)).map((i) => Number(i.id));
       reorderMutation.mutate(yearIds);
     }
-
-    if (!hasContentChange) return;
-    updateMutation.mutate(draft!);
-  }, [createMutation, draft, isDirty, isNewYear, items, newItemIds, reorderedCount, reorderMutation, toast, updateMutation]);
+  }, [clearAllErrors, createMutation, draft, isDirty, isNewYear, items, newItemIds, reorderedCount, reorderMutation, selectedId, toast, workingCopies]);
 
   const updateDraftField = useCallback(<K extends keyof MissionYear>(key: K, value: MissionYear[K]) => {
     let nextValue = value;
@@ -373,11 +428,7 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     } else {
       const original = items.find((item) => item.id === selectedId);
       if (original) setDraft(structuredClone(original));
-      setWorkingCopies((prev) => {
-        const next = new Map(prev);
-        next.delete(selectedId);
-        return next;
-      });
+      setWorkingCopies(new Map());
     }
     setShowCancelConfirm(false);
     clearAllErrors();
@@ -513,8 +564,8 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     });
   }, [newItemIds, savedYearOrder]);
 
-  const isSaving = createMutation.isPending || updateMutation.isPending || reorderMutation.isPending;
-  const saveDisabled = (!isDirty && !isNewYear && reorderedCount === 0) || isSaving;
+  const isSaving = createMutation.isPending || reorderMutation.isPending || isBatchSaving;
+  const saveDisabled = (!isDirty && !isNewYear && reorderedCount === 0 && otherPendingChangesCount === 0) || isSaving;
 
   return {
     items,
@@ -534,6 +585,7 @@ export function useMissionHistoryEditor(initialYears: ServerYear[]) {
     listRef,
     detailScrollRef,
     isDirty,
+    hasPendingOtherChanges: otherPendingChangesCount > 0,
     changeCount,
     saveDisabled,
     selectYear,
