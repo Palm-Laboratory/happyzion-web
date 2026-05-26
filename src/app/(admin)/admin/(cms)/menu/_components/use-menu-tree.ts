@@ -41,6 +41,7 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
   const [manualSlugDrafts, setManualSlugDrafts] = useState<Record<number, string>>({});
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [expandedRootIds, setExpandedRootIds] = useState<Set<number>>(() => new Set());
+  const [treeFocusRequest, setTreeFocusRequest] = useState<{ id: number; token: number } | null>(null);
 
   const itemsRef = useRef(items);
   itemsRef.current = items;
@@ -147,9 +148,29 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     });
   };
 
+  const selectNode = (id: number) => {
+    setSelectedId(id);
+    const node = findNode(itemsRef.current, id);
+    if (node && node.parentId === null && node.children.length > 0) {
+      setExpandedRootIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+    }
+  };
+
   const updateSelectedNode = (updater: (node: EditorNode) => EditorNode) => {
     if (!selectedNode) return;
     markDirty(mapTree(items, selectedNode.id, updater));
+  };
+
+  const reparentSelectedNode = (nextParentId: number | null) => {
+    if (!selectedNode) return;
+    markDirty(reparentNode(items, selectedNode.id, nextParentId));
+    if (nextParentId !== null) {
+      setExpandedRootIds((prev) => new Set(prev).add(nextParentId));
+    }
+    setTreeFocusRequest((prev) => ({
+      id: selectedNode.id,
+      token: (prev?.token ?? 0) + 1,
+    }));
   };
 
   const handleAddRoot = (type: MenuType) => {
@@ -333,7 +354,9 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     parentCandidates,
     selectedId,
     setSelectedId,
+    selectNode,
     expandedRootIds,
+    treeFocusRequest,
     toggleRootExpanded,
     showAddModal,
     setShowAddModal,
@@ -342,6 +365,7 @@ export function useMenuTree(initialItems: AdminMenuTreeNode[], staticPages: Admi
     saving: saveMutation.isPending || deleteMutation.isPending,
     markDirty,
     updateSelectedNode,
+    reparentSelectedNode,
     handleAddRoot,
     handleAddChild,
     switchSelectedSlugMode,

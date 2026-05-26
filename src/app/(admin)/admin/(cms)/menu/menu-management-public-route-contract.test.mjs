@@ -158,6 +158,60 @@ test("menu management client labels slug as a URL path field", async () => {
   );
 });
 
+test("parent dropdown reparenting expands the newly selected parent menu", async () => {
+  const useMenuTree = await readUseMenuTree();
+  const detailPanel = await readDetailPanel();
+  const client = await readClient();
+
+  assert.match(
+    useMenuTree,
+    /reparentSelectedNode[\s\S]{0,260}setExpandedRootIds[\s\S]{0,120}add\(nextParentId\)/,
+    "Expected parent changes to expand the newly selected parent menu in the tree.",
+  );
+  assert.match(
+    detailPanel,
+    /onReparentNode\(nextParentId\)/,
+    "Expected the parent dropdown to use the reparent handler instead of raw dirty marking.",
+  );
+  assert.match(
+    client,
+    /onReparentNode=\{tree\.reparentSelectedNode\}/,
+    "Expected the menu client to wire the reparent handler into the detail panel.",
+  );
+});
+
+test("parent dropdown reparenting focuses the moved menu row in the tree", async () => {
+  const useMenuTree = await readUseMenuTree();
+  const treePanel = await readFile(path.join(componentsDir, "menu-tree-panel.tsx"), "utf8");
+  const client = await readClient();
+
+  assert.match(
+    useMenuTree,
+    /treeFocusRequest[\s\S]{0,220}setTreeFocusRequest/,
+    "Expected reparenting to issue a tree focus request for the moved menu.",
+  );
+  assert.match(
+    treePanel,
+    /data-menu-tree-node-id=\{node\.id\}/,
+    "Expected menu tree rows to expose a stable focus target.",
+  );
+  assert.match(
+    treePanel,
+    /querySelector<HTMLButtonElement>[\s\S]{0,120}data-menu-tree-node-id/,
+    "Expected the tree panel to resolve the moved row by id.",
+  );
+  assert.match(
+    treePanel,
+    /target\?\.focus\(\{\s*preventScroll:\s*true\s*\}\)/,
+    "Expected the moved menu row to receive keyboard focus after reparenting.",
+  );
+  assert.match(
+    client,
+    /treeFocusRequest=\{tree\.treeFocusRequest\}/,
+    "Expected the menu client to pass focus requests into the tree panel.",
+  );
+});
+
 test("menu management client previews automatic and custom slug conversion", async () => {
   const treeUtils = await readTreeUtils();
   const useMenuTreeContents = await readUseMenuTree();

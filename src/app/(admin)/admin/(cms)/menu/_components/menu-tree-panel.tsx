@@ -1,6 +1,7 @@
 "use client";
 
 import type { DragEvent, RefObject } from "react";
+import { useEffect } from "react";
 import { STATUS_LABEL, STATUS_META } from "./menu-tree-constants";
 import {
   type DropIndicator,
@@ -14,6 +15,7 @@ type Props = {
   items: EditorNode[];
   selectedId: number | null;
   expandedRootIds: Set<number>;
+  treeFocusRequest: { id: number; token: number } | null;
   changedMenuIds: Set<number>;
   draggingMenuId: number | null;
   dropIndicator: DropIndicator | null;
@@ -62,6 +64,7 @@ export function MenuTreePanel({
   items,
   selectedId,
   expandedRootIds,
+  treeFocusRequest,
   changedMenuIds,
   draggingMenuId,
   dropIndicator,
@@ -74,6 +77,20 @@ export function MenuTreePanel({
   onDrop,
   onDragEnd,
 }: Props) {
+  useEffect(() => {
+    if (!treeFocusRequest || !treeScrollRef.current) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const target = treeScrollRef.current?.querySelector<HTMLButtonElement>(
+        `[data-menu-tree-node-id="${treeFocusRequest.id}"]`,
+      );
+      target?.scrollIntoView({ block: "nearest" });
+      target?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [treeFocusRequest, treeScrollRef]);
+
   return (
     <section className="flex max-h-[calc(100vh-220px)] min-h-[520px] flex-col rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
       <div className="flex items-center justify-between gap-3 border-b border-[#edf2f7] px-5 py-4">
@@ -123,6 +140,7 @@ export function MenuTreePanel({
                 <li key={node.id}>
                   <button
                     type="button"
+                    data-menu-tree-node-id={node.id}
                     draggable
                     onClick={() => onSelect(node.id)}
                     onDragStart={(event) => onDragStart(event, node.id)}

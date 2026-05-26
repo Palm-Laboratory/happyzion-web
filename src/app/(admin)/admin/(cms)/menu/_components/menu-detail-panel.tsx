@@ -10,7 +10,6 @@ import {
   hideNodeTree,
   isStaticMenuGroup,
   moveNodeWithinSiblings,
-  reparentNode,
 } from "./menu-tree-utils";
 
 type Props = {
@@ -39,6 +38,7 @@ type Props = {
   onCancelChanges: () => void;
   onUpdateNode: (updater: (node: EditorNode) => EditorNode) => void;
   onMarkDirty: (items: EditorNode[]) => void;
+  onReparentNode: (nextParentId: number | null) => void;
   onCancelDelete: () => void;
   onConfirmDelete: () => void;
   onRequestDelete: () => void;
@@ -67,6 +67,7 @@ export function MenuDetailPanel({
   onCancelChanges,
   onUpdateNode,
   onMarkDirty,
+  onReparentNode,
   onCancelDelete,
   onConfirmDelete,
   onRequestDelete,
@@ -268,11 +269,11 @@ export function MenuDetailPanel({
               </p>
               {!isStaticLockedMenu && selectedSlugPreview && (
                 <div className="rounded-lg border border-[#dbe7f6] bg-white px-3 py-2">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="space-y-1">
                     <span className="text-[11px] font-semibold text-[#334155]">
                       {selectedSlugPreview.modeLabel}
                     </span>
-                    <code className="max-w-full break-all rounded bg-[#f1f5f9] px-2 py-1 text-[12px] text-[#1f3f68]">
+                    <code className="block break-all rounded bg-[#f1f5f9] px-2 py-1 text-[12px] text-[#1f3f68]">
                       {selectedSlugPreview.value || "(생성 불가)"}
                     </code>
                   </div>
@@ -437,7 +438,7 @@ export function MenuDetailPanel({
                 onChange={(event) => {
                   const rawValue = event.target.value;
                   const nextParentId = rawValue ? Number(rawValue) : null;
-                  onMarkDirty(reparentNode(items, selectedNode.id, nextParentId));
+                  onReparentNode(nextParentId);
                 }}
                 disabled={
                   selectedNode.type === "STATIC" ||

@@ -29,11 +29,12 @@ export default function MenuManagementClient({
           items={tree.items}
           selectedId={tree.selectedId}
           expandedRootIds={tree.expandedRootIds}
+          treeFocusRequest={tree.treeFocusRequest}
           changedMenuIds={tree.changedMenuIds}
           draggingMenuId={drag.draggingMenuId}
           dropIndicator={drag.dropIndicator}
           treeScrollRef={drag.treeScrollRef}
-          onSelect={tree.setSelectedId}
+          onSelect={tree.selectNode}
           onToggleRootExpanded={tree.toggleRootExpanded}
           onAddMenu={() => tree.setShowAddModal(true)}
           onDragStart={drag.handleMenuDragStart}
@@ -95,6 +96,7 @@ export default function MenuManagementClient({
                 onCancelChanges={tree.handleCancelChanges}
                 onUpdateNode={tree.updateSelectedNode}
                 onMarkDirty={tree.markDirty}
+                onReparentNode={tree.reparentSelectedNode}
                 onCancelDelete={() => tree.setDeleteConfirmId(null)}
                 onConfirmDelete={tree.handleConfirmDelete}
                 onRequestDelete={tree.handleRequestDelete}
