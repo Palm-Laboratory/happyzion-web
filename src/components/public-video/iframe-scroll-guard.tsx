@@ -78,7 +78,7 @@ export default function IframeScrollGuard({
     let watchRafId = 0;
 
     function createTempOverlay() {
-      if (tempOverlay) return;
+      if (tempOverlay || !root) return;
 
       tempOverlay = document.createElement("div");
       tempOverlay.style.cssText = "position:absolute;inset:0;z-index:10;";
