@@ -53,6 +53,9 @@ export default function SmoothScroll() {
       autoRaf: false,
     });
 
+    // IframeScrollGuard 등에서 접근할 수 있도록 전역 노출
+    (window as Window & { __lenis?: typeof lenis }).__lenis = lenis;
+
     let frame = 0;
 
     const raf = (time: number) => {
@@ -69,6 +72,7 @@ export default function SmoothScroll() {
         window.cancelAnimationFrame(frame);
       }
       lenis.destroy();
+      delete (window as Window & { __lenis?: typeof lenis }).__lenis;
     };
   }, [pathname]);
 

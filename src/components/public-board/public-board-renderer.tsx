@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
+import IframeScrollGuard from "@/components/public-video/iframe-scroll-guard";
 import SectionHeading from "@/components/section-heading";
 import PublicBoardDetailActions from "@/components/public-board/public-board-detail-actions";
 import PublicBoardAttachmentsDropdown from "@/components/public-board/public-board-attachments-dropdown";
@@ -423,7 +424,7 @@ function renderTiptapNode(node: unknown, key: string): ReactNode {
       return (
         <div key={key} className="overflow-hidden bg-[#201426]">
           <div className="relative aspect-video w-full">
-            <iframe
+            <IframeScrollGuard
               src={`https://www.youtube-nocookie.com/embed/${videoId}`}
               title="YouTube video"
               loading="lazy"
