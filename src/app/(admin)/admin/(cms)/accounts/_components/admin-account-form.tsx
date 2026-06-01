@@ -310,7 +310,9 @@ export default function AdminAccountForm({
             {mode === "edit" && deleteAction && (
               deleteConfirm ? (
                 <div className="flex items-center gap-2">
-                  <span className="text-[12px] text-[#5d6f86]">정말 삭제하시겠습니까?</span>
+                  <span className="text-[12px] text-[#5d6f86]">
+                    운영 이력이 없는 계정만 완전히 삭제됩니다. 정말 삭제하시겠습니까?
+                  </span>
                   <button
                     type="button"
                     onClick={handleDelete}

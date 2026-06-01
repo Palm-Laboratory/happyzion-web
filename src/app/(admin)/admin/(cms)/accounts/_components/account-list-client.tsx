@@ -20,7 +20,7 @@ function formatDate(value: string) {
 export default function AccountListClient({ accounts }: { accounts: AdminAccount[] }) {
   const [searchInput, setSearchInput] = useState("");
   const [roleInput, setRoleInput] = useState<AdminAccountRole | "ALL">("ALL");
-  const [activeInput, setActiveInput] = useState<"ALL" | "ACTIVE" | "INACTIVE">("ALL");
+  const [activeInput, setActiveInput] = useState<"ALL" | "ACTIVE" | "INACTIVE">("ACTIVE");
   const [displayPage, setDisplayPage] = useState(0);
   const [displayPageSize, setDisplayPageSize] = useState(20);
 
@@ -28,7 +28,7 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
     search: string;
     role: AdminAccountRole | "ALL";
     active: "ALL" | "ACTIVE" | "INACTIVE";
-  }>({ search: "", role: "ALL", active: "ALL" });
+  }>({ search: "", role: "ALL", active: "ACTIVE" });
 
   const filteredAccounts = useMemo(() => {
     return accounts.filter((account) => {
@@ -147,8 +147,8 @@ export default function AccountListClient({ accounts }: { accounts: AdminAccount
               onClick={() => {
                 setSearchInput("");
                 setRoleInput("ALL");
-                setActiveInput("ALL");
-                setApplied({ search: "", role: "ALL", active: "ALL" });
+                setActiveInput("ACTIVE");
+                setApplied({ search: "", role: "ALL", active: "ACTIVE" });
               }}
               className="text-[11px] text-[#8fa3bb] underline-offset-2 hover:text-[#3f74c7] hover:underline"
             >

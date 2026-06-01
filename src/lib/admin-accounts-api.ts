@@ -124,5 +124,9 @@ export function toFriendlyAdminAccountMessage(error: unknown, fallback: string):
     return "슈퍼 관리자 계정은 삭제할 수 없습니다.";
   }
 
+  if (message.includes("운영 이력") && message.includes("삭제")) {
+    return "운영 이력이 있는 계정은 삭제할 수 없습니다. 계정 상태를 비활성으로 변경해 주세요.";
+  }
+
   return fallback;
 }
