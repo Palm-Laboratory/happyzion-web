@@ -51,8 +51,9 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
   const router = useRouter();
   /** 차트의 특정 칸을 클릭하면 그 칸 라벨 저장. null이면 전체 집계. */
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
 
-  // granularity/연도/월이 바뀌면 선택 해제
+// granularity/연도/월이 바뀌면 선택 해제
   useEffect(() => {
     setSelectedLabel(null);
   }, [data.granularity, data.year, data.month]);
@@ -218,6 +219,11 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 const label = String(raw);
                 setSelectedLabel((cur) => (cur === label ? null : label));
               }}
+              onMouseMove={(state) => {
+                const raw = state?.activeLabel;
+                setHoveredLabel(raw != null ? String(raw) : null);
+              }}
+              onMouseLeave={() => setHoveredLabel(null)}
               style={{ cursor: "pointer" }}
             >
               <CartesianGrid stroke="#eef2f7" strokeDasharray="3 3" vertical={false} />
@@ -226,25 +232,33 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 tick={{ fill: "#5d6f86", fontSize: 12 }}
                 axisLine={{ stroke: "#d5deea" }}
                 tickLine={false}
+                padding={{ left: 32, right: 32 }}
               />
+              {/* 각 구간 수직선: 평상시 점선, hover 시 실선, 선택 시 하이라이트 */}
+              {data.buckets.map((b) => {
+                const isSelected = b.label === selectedLabel;
+                const isHovered = b.label === hoveredLabel;
+                return (
+                  <ReferenceLine
+                    key={b.label}
+                    x={b.label}
+                    stroke={isSelected ? "#3f74c7" : "#c8d6e8"}
+                    strokeWidth={isSelected || isHovered ? 1.5 : 1}
+                    strokeDasharray={isHovered || isSelected ? undefined : "4 4"}
+                    strokeOpacity={isSelected ? 0.8 : isHovered ? 0.6 : 0.5}
+                    ifOverflow="extendDomain"
+                  />
+                );
+              })}
+              {/* 선택된 구간 하이라이트 배경 */}
               {selectedLabel && (
-                <>
-                  {/* 칸 하이라이트 (반투명 두꺼운 막대) */}
-                  <ReferenceLine
-                    x={selectedLabel}
-                    stroke="#3f74c7"
-                    strokeWidth={64}
-                    strokeOpacity={0.1}
-                    ifOverflow="extendDomain"
-                  />
-                  {/* 선택 위치 점선 */}
-                  <ReferenceLine
-                    x={selectedLabel}
-                    stroke="#3f74c7"
-                    strokeDasharray="3 3"
-                    ifOverflow="extendDomain"
-                  />
-                </>
+                <ReferenceLine
+                  x={selectedLabel}
+                  stroke="#3f74c7"
+                  strokeWidth={64}
+                  strokeOpacity={0.08}
+                  ifOverflow="extendDomain"
+                />
               )}
               <YAxis
                 tick={{ fill: "#5d6f86", fontSize: 11 }}
