@@ -78,7 +78,7 @@ export default function FinanceReportListClient({
   return (
     <div className="space-y-4">
       {/* 필터 */}
-      <section className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
+      <section className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-6 shadow-sm">
         <div className="flex flex-wrap items-end gap-3">
           <label className="flex flex-col gap-1.5">
             <span className="text-[11px] font-semibold text-[#55697f]">연도</span>
@@ -156,7 +156,7 @@ export default function FinanceReportListClient({
                   }`}
                   onClick={() => router.push(`/admin/finance/${r.id}`)}
                 >
-                  <td className="px-5 py-3">
+                  <td className="px-5 py-6">
                     <Link
                       href={`/admin/finance/${r.id}`}
                       className="font-semibold text-[#0f1c2e] hover:text-[#3f74c7]"
@@ -165,28 +165,28 @@ export default function FinanceReportListClient({
                       {r.year}년 {r.month}월 {r.week}주
                     </Link>
                   </td>
-                  <td className="px-5 py-3 text-right tabular-nums text-[#1d6f42]">
+                  <td className="px-5 py-6 text-right tabular-nums text-[#1d6f42]">
                     {WON(r.incomeTotal)}
                   </td>
-                  <td className="px-5 py-3 text-right tabular-nums text-[#B73838]">
+                  <td className="px-5 py-6 text-right tabular-nums text-[#B73838]">
                     {WON(r.expenseTotal)}
                   </td>
                   <td
-                    className={`px-5 py-3 text-right tabular-nums font-semibold ${
+                    className={`px-5 py-6 text-right tabular-nums font-semibold ${
                       r.balance < 0 ? "text-[#B73838]" : "text-[#0f1c2e]"
                     }`}
                   >
                     {WON(r.balance)}
                   </td>
-                  <td className="px-5 py-3 text-[#5d6f86]">
+                  <td className="px-5 py-6 text-[#5d6f86]">
                     <span className="block max-w-[220px] truncate" title={r.sourceFilename}>
                       {r.sourceFilename}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-[#5d6f86] tabular-nums">
+                  <td className="px-5 py-6 text-[#5d6f86] tabular-nums">
                     {formatUploadedAt(r.uploadedAt)}
                   </td>
-                  <td className="px-5 py-3 text-center">
+                  <td className="px-5 py-6 text-center">
                     {r.checksumMismatch && (
                       <span
                         title="합계 불일치 경고"

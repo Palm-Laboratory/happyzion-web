@@ -99,6 +99,9 @@ export type FinanceReportDetail = {
   sourceFilename: string;
   uploadedAt: string;
   checksumMismatch: boolean;
+  /** 양식 합계셀 값 — 불일치 시 차이 금액 표시용 */
+  formIncomeTotal: number | null;
+  formExpenseTotal: number | null;
   lines: FinanceReportLineItem[];
   unexecutedItems: FinanceReportUnexecutedItem[];
 };

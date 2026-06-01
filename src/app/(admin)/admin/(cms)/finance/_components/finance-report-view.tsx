@@ -116,12 +116,62 @@ export function FinanceUnexecutedItemsTable({
   );
 }
 
+const WON_DIFF = (n: number) => {
+  const abs = Math.abs(n).toLocaleString("ko-KR");
+  return n >= 0 ? `+${abs}원` : `-${abs}원`;
+};
+
 /** 합계 불일치 경고 배너 (checksumMismatch=true일 때만 표시) */
-export function FinanceChecksumWarning() {
+export function FinanceChecksumWarning({
+  incomeTotal,
+  expenseTotal,
+  formIncomeTotal,
+  formExpenseTotal,
+}: {
+  incomeTotal?: number;
+  expenseTotal?: number;
+  formIncomeTotal?: number | null;
+  formExpenseTotal?: number | null;
+}) {
+  const incomeDiff =
+    formIncomeTotal != null && incomeTotal != null ? incomeTotal - formIncomeTotal : null;
+  const expenseDiff =
+    formExpenseTotal != null && expenseTotal != null ? expenseTotal - formExpenseTotal : null;
+
   return (
     <div className="rounded-xl border border-[#fbb6b6] bg-[#fef4f4] px-5 py-3 text-[13px] text-[#b91c1c]">
       <strong className="font-semibold">⚠ 합계 불일치 경고</strong> — 우리가 합산한 값과 양식의
       합계셀이 다릅니다. 매핑되지 않은 항목이 있거나 양식이 변경됐을 가능성이 있어요.
+      {(incomeDiff !== null || expenseDiff !== null) && (
+        <ul className="mt-2 space-y-0.5 text-[12px]">
+          {incomeDiff !== null && incomeDiff !== 0 && (
+            <li>
+              수입: 우리 합계{" "}
+              <span className="font-semibold tabular-nums">
+                {incomeTotal!.toLocaleString("ko-KR")}원
+              </span>{" "}
+              vs 양식 합계셀{" "}
+              <span className="font-semibold tabular-nums">
+                {formIncomeTotal!.toLocaleString("ko-KR")}원
+              </span>{" "}
+              <span className="font-bold tabular-nums">({WON_DIFF(incomeDiff)})</span>
+            </li>
+          )}
+          {expenseDiff !== null && expenseDiff !== 0 && (
+            <li>
+              지출: 우리 합계{" "}
+              <span className="font-semibold tabular-nums">
+                {expenseTotal!.toLocaleString("ko-KR")}원
+              </span>{" "}
+              vs 양식 합계셀{" "}
+              <span className="font-semibold tabular-nums">
+                {formExpenseTotal!.toLocaleString("ko-KR")}원
+              </span>{" "}
+              <span className="font-bold tabular-nums">({WON_DIFF(expenseDiff)})</span>
+            </li>
+          )}
+        </ul>
+      )}
     </div>
   );
 }

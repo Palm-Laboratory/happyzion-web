@@ -268,7 +268,14 @@ function PreviewPanel({
       </section>
 
       {/* 합계 교차검증 경고 */}
-      {totals.checksumMismatch && <FinanceChecksumWarning />}
+      {totals.checksumMismatch && (
+        <FinanceChecksumWarning
+          incomeTotal={totals.incomeTotal}
+          expenseTotal={totals.expenseTotal}
+          formIncomeTotal={totals.formCellIncomeTotal}
+          formExpenseTotal={totals.formCellExpenseTotal}
+        />
+      )}
 
       {/* 합계 요약 */}
       <FinanceSummaryCards totals={totals} />

@@ -10,6 +10,7 @@ import {
   FinanceSummaryCards,
   FinanceUnexecutedItemsTable,
 } from "../_components/finance-report-view";
+import FinanceReportDeleteButton from "./_components/finance-report-delete-button";
 
 function formatUploadedAt(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {
@@ -84,12 +85,15 @@ export default async function FinanceReportDetailPage({
             한 주의 수입·지출 내역과 미집행 품목을 양식과 동일한 형태로 표시합니다.
           </p>
         </div>
-        <Link
-          href="/admin/finance"
-          className="rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb]"
-        >
-          ← 목록으로
-        </Link>
+        <div className="flex items-center gap-2">
+          <FinanceReportDeleteButton id={report.id} label={periodLabel} />
+          <Link
+            href="/admin/finance"
+            className="rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb]"
+          >
+            ← 목록으로
+          </Link>
+        </div>
       </div>
 
       {/* 메타 정보 */}
@@ -101,7 +105,14 @@ export default async function FinanceReportDetailPage({
       </section>
 
       {/* 합계 불일치 경고 */}
-      {report.checksumMismatch && <FinanceChecksumWarning />}
+      {report.checksumMismatch && (
+        <FinanceChecksumWarning
+          incomeTotal={report.incomeTotal}
+          expenseTotal={report.expenseTotal}
+          formIncomeTotal={report.formIncomeTotal}
+          formExpenseTotal={report.formExpenseTotal}
+        />
+      )}
 
       {/* 합계 요약 */}
       <FinanceSummaryCards totals={toTotals(report)} />
