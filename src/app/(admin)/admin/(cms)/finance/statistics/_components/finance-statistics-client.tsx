@@ -1,14 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Bar,
-  BarChart,
   CartesianGrid,
   Cell,
   Legend,
+  Line,
+  LineChart,
   Pie,
   PieChart,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -16,6 +18,7 @@ import {
 } from "recharts";
 import type {
   FinanceStatBreakdown,
+  FinanceStatBucket,
   FinanceStatGranularity,
   FinanceStatResponse,
 } from "@/lib/admin-finance-types";
@@ -46,6 +49,13 @@ const PIE_COLORS = [
 
 export default function FinanceStatisticsClient({ data }: { data: FinanceStatResponse }) {
   const router = useRouter();
+  /** 차트의 특정 칸을 클릭하면 그 칸 라벨 저장. null이면 전체 집계. */
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+
+  // granularity/연도/월이 바뀌면 선택 해제
+  useEffect(() => {
+    setSelectedLabel(null);
+  }, [data.granularity, data.year, data.month]);
 
   function navigate(next: { granularity?: FinanceStatGranularity; year?: number; month?: number }) {
     const params = new URLSearchParams();
@@ -57,6 +67,32 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
     if (granularity === "WEEK" && month) params.set("month", String(month));
     router.push(`/admin/finance/statistics?${params}`);
   }
+
+  // 선택된 칸이 있으면 그 칸만, 없으면 전체 합산
+  const selectedIndex = selectedLabel
+    ? data.buckets.findIndex((b) => b.label === selectedLabel)
+    : -1;
+  const selectedBucket: FinanceStatBucket | null =
+    selectedIndex >= 0 ? data.buckets[selectedIndex] : null;
+  const displaySummary = selectedBucket
+    ? {
+        incomeTotal: selectedBucket.incomeTotal,
+        expenseTotal: selectedBucket.expenseTotal,
+        balance: selectedBucket.balance,
+      }
+    : data.summary;
+  // 칸 선택 시 전기 비교 = 직전 칸. 없으면 null.
+  const prevBucket =
+    selectedIndex > 0 ? data.buckets[selectedIndex - 1] : null;
+  const displayPrevious = selectedBucket
+    ? prevBucket
+      ? {
+          incomeTotal: prevBucket.incomeTotal,
+          expenseTotal: prevBucket.expenseTotal,
+          balance: prevBucket.balance,
+        }
+      : null
+    : data.previousSummary;
 
   return (
     <div className="space-y-5">
@@ -118,11 +154,22 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
             </label>
           )}
 
-          <div className="ml-auto text-[12px] text-[#5d6f86]">
-            {data.previousLabel && (
-              <span>
-                전기 비교: <span className="font-semibold text-[#0f1c2e]">{data.previousLabel}</span>
-              </span>
+          <div className="ml-auto flex items-center gap-2 text-[12px]">
+            {selectedBucket && (
+              <>
+                <span className="text-[#5d6f86]">선택된 기간:</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1 font-semibold text-[#3f74c7]">
+                  {selectedBucket.label}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedLabel(null)}
+                    className="-mr-1 flex h-4 w-4 items-center justify-center rounded-full text-[#3f74c7] hover:bg-white/60"
+                    aria-label="선택 해제"
+                  >
+                    ×
+                  </button>
+                </span>
+              </>
             )}
           </div>
         </div>
@@ -132,20 +179,20 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
       <div className="grid grid-cols-3 gap-3">
         <SummaryWithDelta
           label="수입 합계"
-          value={data.summary.incomeTotal}
-          previous={data.previousSummary?.incomeTotal ?? null}
+          value={displaySummary.incomeTotal}
+          previous={displayPrevious?.incomeTotal ?? null}
           accent={INCOME_COLOR}
         />
         <SummaryWithDelta
           label="지출 합계"
-          value={data.summary.expenseTotal}
-          previous={data.previousSummary?.expenseTotal ?? null}
+          value={displaySummary.expenseTotal}
+          previous={displayPrevious?.expenseTotal ?? null}
           accent={EXPENSE_COLOR}
         />
         <SummaryWithDelta
           label="잔액"
-          value={data.summary.balance}
-          previous={data.previousSummary?.balance ?? null}
+          value={displaySummary.balance}
+          previous={displayPrevious?.balance ?? null}
           accent={BALANCE_COLOR}
         />
       </div>
@@ -153,11 +200,25 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
       {/* 추이 차트 */}
       <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
         <div className="border-b border-[#e7eef7] px-5 py-3">
-          <h2 className="text-[14px] font-bold text-[#0f1c2e]">기간별 추이</h2>
+          <h2 className="text-[14px] font-bold text-[#0f1c2e]">
+            기간별 추이{selectedBucket && (
+              <span className="ml-1 font-bold text-[#3f74c7]">· {selectedBucket.label}</span>
+            )}
+          </h2>
         </div>
-        <div className="px-3 py-4">
+        <div className="px-3 py-4 [&_*]:!outline-none">
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={data.buckets} barGap={4}>
+            <LineChart
+              data={data.buckets}
+              margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
+              onClick={(state) => {
+                const raw = state?.activeLabel;
+                if (raw == null) return;
+                const label = String(raw);
+                setSelectedLabel((cur) => (cur === label ? null : label));
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <CartesianGrid stroke="#eef2f7" strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="label"
@@ -165,6 +226,25 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 axisLine={{ stroke: "#d5deea" }}
                 tickLine={false}
               />
+              {selectedLabel && (
+                <>
+                  {/* 칸 하이라이트 (반투명 두꺼운 막대) */}
+                  <ReferenceLine
+                    x={selectedLabel}
+                    stroke="#3f74c7"
+                    strokeWidth={64}
+                    strokeOpacity={0.1}
+                    ifOverflow="extendDomain"
+                  />
+                  {/* 선택 위치 점선 */}
+                  <ReferenceLine
+                    x={selectedLabel}
+                    stroke="#3f74c7"
+                    strokeDasharray="3 3"
+                    ifOverflow="extendDomain"
+                  />
+                </>
+              )}
               <YAxis
                 tick={{ fill: "#5d6f86", fontSize: 11 }}
                 axisLine={{ stroke: "#d5deea" }}
@@ -177,17 +257,41 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 contentStyle={{ borderRadius: 8, border: "1px solid #dbe4f0", fontSize: 12 }}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="incomeTotal" name="수입" fill={INCOME_COLOR} radius={[3, 3, 0, 0]} />
-              <Bar dataKey="expenseTotal" name="지출" fill={EXPENSE_COLOR} radius={[3, 3, 0, 0]} />
-            </BarChart>
+              <Line
+                type="linear"
+                dataKey="incomeTotal"
+                name="수입"
+                stroke={INCOME_COLOR}
+                strokeWidth={2.5}
+                dot={{ r: 3, strokeWidth: 0, fill: INCOME_COLOR }}
+                activeDot={{ r: 5 }}
+              />
+              <Line
+                type="linear"
+                dataKey="expenseTotal"
+                name="지출"
+                stroke={EXPENSE_COLOR}
+                strokeWidth={2.5}
+                dot={{ r: 3, strokeWidth: 0, fill: EXPENSE_COLOR }}
+                activeDot={{ r: 5 }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
       </section>
 
-      {/* 대분류별 비중 (수입/지출) */}
+      {/* 대분류별 비중 (수입/지출) — 선택된 칸이 있으면 그 칸 기준, 없으면 전체 */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <BreakdownPie title="수입 대분류 비중" data={data.incomeByMajor} />
-        <BreakdownPie title="지출 대분류 비중" data={data.expenseByMajor} />
+        <BreakdownPie
+          title="수입 대분류 비중"
+          periodLabel={selectedBucket?.label}
+          data={selectedBucket ? selectedBucket.incomeByMajor : data.incomeByMajor}
+        />
+        <BreakdownPie
+          title="지출 대분류 비중"
+          periodLabel={selectedBucket?.label}
+          data={selectedBucket ? selectedBucket.expenseByMajor : data.expenseByMajor}
+        />
       </div>
     </div>
   );
@@ -228,14 +332,18 @@ function SummaryWithDelta({
   );
 }
 
-function BreakdownPie({ title, data }: { title: string; data: FinanceStatBreakdown[] }) {
+function BreakdownPie({ title, periodLabel, data }: { title: string; periodLabel?: string; data: FinanceStatBreakdown[] }) {
   const visible = data.filter((d) => d.amount > 0);
   const total = visible.reduce((s, d) => s + d.amount, 0);
 
   return (
     <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
       <div className="border-b border-[#e7eef7] px-5 py-3">
-        <h2 className="text-[14px] font-bold text-[#0f1c2e]">{title}</h2>
+          <h2 className="text-[14px] font-bold text-[#0f1c2e]">
+            {title}{periodLabel && (
+              <span className="ml-1 text-[#3f74c7]">· {periodLabel}</span>
+            )}
+          </h2>
       </div>
       {visible.length === 0 ? (
         <div className="p-8 text-center text-[12px] text-[#5d6f86]">데이터 없음</div>

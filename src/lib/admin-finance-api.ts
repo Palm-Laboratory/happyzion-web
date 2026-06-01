@@ -211,6 +211,19 @@ function breakdown(
   }));
 }
 
+/** 임시: 합계로부터 대분류 비중을 비례 분배 (실제 백엔드는 finance_report_line group by) */
+function bucketWithBreakdown(
+  label: string,
+  s: FinanceStatSummary,
+): FinanceStatBucket {
+  return {
+    label,
+    ...s,
+    incomeByMajor: breakdown(s.incomeTotal, INCOME_MAJORS, INCOME_WEIGHTS),
+    expenseByMajor: breakdown(s.expenseTotal, EXPENSE_MAJORS, EXPENSE_WEIGHTS),
+  };
+}
+
 function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
   const year = q.year ?? 2026;
   let buckets: FinanceStatBucket[] = [];
@@ -223,12 +236,11 @@ function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
     scopeReports = MOCK_REPORTS.filter((r) => r.year === year && r.month === month);
     buckets = [1, 2, 3, 4, 5].map((w) => {
       const r = scopeReports.find((x) => x.week === w);
-      return {
-        label: `${w}주`,
+      return bucketWithBreakdown(`${w}주`, {
         incomeTotal: r?.incomeTotal ?? 0,
         expenseTotal: r?.expenseTotal ?? 0,
         balance: r?.balance ?? 0,
-      };
+      });
     });
     const prevMonth = month === 1 ? 12 : month - 1;
     const prevYear = month === 1 ? year - 1 : year;
@@ -241,8 +253,7 @@ function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
     scopeReports = MOCK_REPORTS.filter((r) => r.year === year);
     buckets = Array.from({ length: 12 }, (_, i) => i + 1).map((m) => {
       const monthReports = scopeReports.filter((r) => r.month === m);
-      const s = sumReports(monthReports);
-      return { label: `${m}월`, ...s };
+      return bucketWithBreakdown(`${m}월`, sumReports(monthReports));
     });
     const prev = MOCK_REPORTS.filter((r) => r.year === year - 1);
     if (prev.length) {
@@ -254,8 +265,7 @@ function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
     buckets = [1, 2, 3, 4].map((q4) => {
       const months = [q4 * 3 - 2, q4 * 3 - 1, q4 * 3];
       const qReports = scopeReports.filter((r) => months.includes(r.month));
-      const s = sumReports(qReports);
-      return { label: `${q4}분기`, ...s };
+      return bucketWithBreakdown(`${q4}분기`, sumReports(qReports));
     });
     const prev = MOCK_REPORTS.filter((r) => r.year === year - 1);
     if (prev.length) {
@@ -267,8 +277,7 @@ function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
     const years = Array.from(new Set(MOCK_REPORTS.map((r) => r.year))).sort();
     buckets = years.map((y) => {
       const yReports = MOCK_REPORTS.filter((r) => r.year === y);
-      const s = sumReports(yReports);
-      return { label: `${y}년`, ...s };
+      return bucketWithBreakdown(`${y}년`, sumReports(yReports));
     });
     scopeReports = MOCK_REPORTS;
   }

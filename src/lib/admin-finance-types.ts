@@ -118,6 +118,10 @@ export type FinanceStatBucket = {
   incomeTotal: number;
   expenseTotal: number;
   balance: number;
+  /** 이 칸의 대분류별 수입 비중 — 드릴다운(특정 칸 선택 시 파이 차트에서 사용) */
+  incomeByMajor: FinanceStatBreakdown[];
+  /** 이 칸의 대분류별 지출 비중 */
+  expenseByMajor: FinanceStatBreakdown[];
 };
 
 export type FinanceStatSummary = {
