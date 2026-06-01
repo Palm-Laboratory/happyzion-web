@@ -149,18 +149,6 @@ const NAV_GROUPS = [
         ),
       },
       {
-        href: "/admin/sms",
-        label: "SMS 관리",
-        exact: false,
-        matchHrefs: ["/admin/sms/send", "/admin/sms/send-bulk"],
-        icon: (
-          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
-            <path d="M3.25 4.25A1.25 1.25 0 0 1 4.5 3h8A1.25 1.25 0 0 1 13.75 4.25v5.25a1.25 1.25 0 0 1-1.25 1.25H7.25L4 13.5v-2.75A1.25 1.25 0 0 1 3.25 9.5V4.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-            <path d="M5.75 6.25h5.5M5.75 8.25h3.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        ),
-      },
-      {
         href: "/admin/finance",
         label: "재정 관리",
         exact: false,
@@ -185,6 +173,18 @@ const NAV_GROUPS = [
             exact: false,
           },
         ],
+      },
+      {
+        href: "/admin/sms",
+        label: "SMS 관리",
+        exact: false,
+        matchHrefs: ["/admin/sms/send", "/admin/sms/send-bulk"],
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M3.25 4.25A1.25 1.25 0 0 1 4.5 3h8A1.25 1.25 0 0 1 13.75 4.25v5.25a1.25 1.25 0 0 1-1.25 1.25H7.25L4 13.5v-2.75A1.25 1.25 0 0 1 3.25 9.5V4.25Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M5.75 6.25h5.5M5.75 8.25h3.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
       },
     ],
   },
