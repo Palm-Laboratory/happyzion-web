@@ -4,6 +4,11 @@ import type {
   FinanceReportListQuery,
   FinanceReportPageResponse,
   FinanceReportSummary,
+  FinanceStatBreakdown,
+  FinanceStatBucket,
+  FinanceStatQuery,
+  FinanceStatResponse,
+  FinanceStatSummary,
 } from "@/lib/admin-finance-types";
 
 /**
@@ -155,4 +160,130 @@ function scaleMockLines(income: number, expense: number) {
       amount: Math.round((expense * l.weight) / 1000) * 1000,
     })),
   ];
+}
+
+/* ── 통계 ──────────────────────────────────────────────── */
+
+/**
+ * 백엔드 미구현 동안의 mock.
+ * 실제 API: GET /api/v1/admin/finance/statistics?granularity=...&year=...&month=...
+ */
+export async function getFinanceStatistics(
+  q: FinanceStatQuery,
+): Promise<FinanceStatResponse> {
+  return mockGetFinanceStatistics(q);
+}
+
+const INCOME_MAJORS = ["십일조", "헌금", "특별헌금", "찬조헌금"] as const;
+const INCOME_WEIGHTS = [0.448, 0.371, 0.154, 0.027];
+const EXPENSE_MAJORS = [
+  "목회자",
+  "선교비",
+  "선교비적립",
+  "교회유지",
+  "특별헌금",
+  "행사비",
+  "고정자산",
+  "카드성물",
+  "경비",
+] as const;
+const EXPENSE_WEIGHTS = [0.58, 0.148, 0.035, 0.036, 0.069, 0.026, 0.0, 0.04, 0.066];
+
+function sumReports(reports: FinanceReportSummary[]): FinanceStatSummary {
+  return reports.reduce(
+    (acc, r) => ({
+      incomeTotal: acc.incomeTotal + r.incomeTotal,
+      expenseTotal: acc.expenseTotal + r.expenseTotal,
+      balance: acc.balance + r.balance,
+    }),
+    { incomeTotal: 0, expenseTotal: 0, balance: 0 },
+  );
+}
+
+function breakdown(
+  total: number,
+  majors: readonly string[],
+  weights: number[],
+): FinanceStatBreakdown[] {
+  return majors.map((m, i) => ({
+    major: m,
+    amount: Math.round((total * weights[i]) / 1000) * 1000,
+  }));
+}
+
+function mockGetFinanceStatistics(q: FinanceStatQuery): FinanceStatResponse {
+  const year = q.year ?? 2026;
+  let buckets: FinanceStatBucket[] = [];
+  let scopeReports: FinanceReportSummary[] = [];
+  let previousSummary: FinanceStatSummary | null = null;
+  let previousLabel: string | null = null;
+
+  if (q.granularity === "WEEK") {
+    const month = q.month ?? 5;
+    scopeReports = MOCK_REPORTS.filter((r) => r.year === year && r.month === month);
+    buckets = [1, 2, 3, 4, 5].map((w) => {
+      const r = scopeReports.find((x) => x.week === w);
+      return {
+        label: `${w}주`,
+        incomeTotal: r?.incomeTotal ?? 0,
+        expenseTotal: r?.expenseTotal ?? 0,
+        balance: r?.balance ?? 0,
+      };
+    });
+    const prevMonth = month === 1 ? 12 : month - 1;
+    const prevYear = month === 1 ? year - 1 : year;
+    const prev = MOCK_REPORTS.filter((r) => r.year === prevYear && r.month === prevMonth);
+    if (prev.length) {
+      previousSummary = sumReports(prev);
+      previousLabel = `${prevYear}년 ${prevMonth}월`;
+    }
+  } else if (q.granularity === "MONTH") {
+    scopeReports = MOCK_REPORTS.filter((r) => r.year === year);
+    buckets = Array.from({ length: 12 }, (_, i) => i + 1).map((m) => {
+      const monthReports = scopeReports.filter((r) => r.month === m);
+      const s = sumReports(monthReports);
+      return { label: `${m}월`, ...s };
+    });
+    const prev = MOCK_REPORTS.filter((r) => r.year === year - 1);
+    if (prev.length) {
+      previousSummary = sumReports(prev);
+      previousLabel = `${year - 1}년`;
+    }
+  } else if (q.granularity === "QUARTER") {
+    scopeReports = MOCK_REPORTS.filter((r) => r.year === year);
+    buckets = [1, 2, 3, 4].map((q4) => {
+      const months = [q4 * 3 - 2, q4 * 3 - 1, q4 * 3];
+      const qReports = scopeReports.filter((r) => months.includes(r.month));
+      const s = sumReports(qReports);
+      return { label: `${q4}분기`, ...s };
+    });
+    const prev = MOCK_REPORTS.filter((r) => r.year === year - 1);
+    if (prev.length) {
+      previousSummary = sumReports(prev);
+      previousLabel = `${year - 1}년`;
+    }
+  } else {
+    // YEAR
+    const years = Array.from(new Set(MOCK_REPORTS.map((r) => r.year))).sort();
+    buckets = years.map((y) => {
+      const yReports = MOCK_REPORTS.filter((r) => r.year === y);
+      const s = sumReports(yReports);
+      return { label: `${y}년`, ...s };
+    });
+    scopeReports = MOCK_REPORTS;
+  }
+
+  const summary = sumReports(scopeReports);
+
+  return {
+    granularity: q.granularity,
+    year: q.granularity === "YEAR" ? undefined : year,
+    month: q.granularity === "WEEK" ? (q.month ?? 5) : undefined,
+    buckets,
+    summary,
+    previousSummary,
+    previousLabel,
+    incomeByMajor: breakdown(summary.incomeTotal, INCOME_MAJORS, INCOME_WEIGHTS),
+    expenseByMajor: breakdown(summary.expenseTotal, EXPENSE_MAJORS, EXPENSE_WEIGHTS),
+  };
 }

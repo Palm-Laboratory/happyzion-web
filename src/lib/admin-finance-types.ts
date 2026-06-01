@@ -98,3 +98,53 @@ export type FinanceReportDetail = {
   lines: FinanceParsedLine[];
   unexecutedItems: FinanceParsedUnexecutedItem[];
 };
+
+/* ── 통계 ──────────────────────────────────────────────── */
+
+export type FinanceStatGranularity = "WEEK" | "MONTH" | "QUARTER" | "YEAR";
+
+export type FinanceStatQuery = {
+  granularity: FinanceStatGranularity;
+  /** MONTH/QUARTER/YEAR=대상 연도 자체, WEEK=월의 소속 연도 */
+  year?: number;
+  /** WEEK granularity일 때만 의미. 그 외 무시 */
+  month?: number;
+};
+
+/** 추이 그래프의 한 칸 */
+export type FinanceStatBucket = {
+  /** 화면 라벨 — 예: "1주", "3월", "2분기", "2026년" */
+  label: string;
+  incomeTotal: number;
+  expenseTotal: number;
+  balance: number;
+};
+
+export type FinanceStatSummary = {
+  incomeTotal: number;
+  expenseTotal: number;
+  balance: number;
+};
+
+export type FinanceStatBreakdown = {
+  major: string;
+  amount: number;
+};
+
+/** GET /api/v1/admin/finance/statistics 응답 */
+export type FinanceStatResponse = {
+  granularity: FinanceStatGranularity;
+  year?: number;
+  month?: number;
+  /** 추이 차트용 버킷 (월별이면 12개, 분기면 4개 등) */
+  buckets: FinanceStatBucket[];
+  /** 선택된 범위의 합계 */
+  summary: FinanceStatSummary;
+  /** 전기 (전주/전월/전분기/전년) 합계. 데이터 없으면 null */
+  previousSummary: FinanceStatSummary | null;
+  previousLabel: string | null;
+  /** 대분류별 수입 비중 */
+  incomeByMajor: FinanceStatBreakdown[];
+  /** 대분류별 지출 비중 */
+  expenseByMajor: FinanceStatBreakdown[];
+};

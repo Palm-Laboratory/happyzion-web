@@ -168,12 +168,12 @@ export default function FinanceReportListClient({
                   <td className="px-5 py-3 text-right tabular-nums text-[#1d6f42]">
                     {WON(r.incomeTotal)}
                   </td>
-                  <td className="px-5 py-3 text-right tabular-nums text-[#b3502a]">
+                  <td className="px-5 py-3 text-right tabular-nums text-[#B73838]">
                     {WON(r.expenseTotal)}
                   </td>
                   <td
                     className={`px-5 py-3 text-right tabular-nums font-semibold ${
-                      r.balance < 0 ? "text-[#b3502a]" : "text-[#0f1c2e]"
+                      r.balance < 0 ? "text-[#B73838]" : "text-[#0f1c2e]"
                     }`}
                   >
                     {WON(r.balance)}

@@ -1,12 +1,50 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
+import { getFinanceStatistics } from "@/lib/admin-finance-api";
+import type {
+  FinanceStatGranularity,
+  FinanceStatQuery,
+} from "@/lib/admin-finance-types";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
+import FinanceStatisticsClient from "./_components/finance-statistics-client";
 
-export default async function FinanceStatisticsPage() {
+const VALID_GRANULARITIES: FinanceStatGranularity[] = ["WEEK", "MONTH", "QUARTER", "YEAR"];
+
+type RawSearchParams = {
+  granularity?: string;
+  year?: string;
+  month?: string;
+};
+
+function parseQuery(sp: RawSearchParams): FinanceStatQuery {
+  const g = VALID_GRANULARITIES.includes(sp.granularity as FinanceStatGranularity)
+    ? (sp.granularity as FinanceStatGranularity)
+    : "MONTH";
+  const yearNum = Number(sp.year);
+  const monthNum = Number(sp.month);
+  const year = Number.isFinite(yearNum) && yearNum > 0 ? yearNum : 2026;
+  const month =
+    g === "WEEK" && Number.isFinite(monthNum) && monthNum >= 1 && monthNum <= 12
+      ? monthNum
+      : g === "WEEK"
+        ? 5
+        : undefined;
+  return { granularity: g, year: g === "YEAR" ? undefined : year, month };
+}
+
+export default async function FinanceStatisticsPage({
+  searchParams,
+}: {
+  searchParams: Promise<RawSearchParams>;
+}) {
   const session = await getAdminSession();
   if (!isAdminSession(session)) {
     redirect("/admin/login?callbackUrl=/admin/finance/statistics");
   }
+
+  const sp = await searchParams;
+  const query = parseQuery(sp);
+  const data = await getFinanceStatistics(query);
 
   return (
     <div className="space-y-6">
@@ -21,9 +59,7 @@ export default async function FinanceStatisticsPage() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-[#e2e8f0] bg-white p-8 text-center text-[13px] text-[#5d6f86]">
-        통계 UI 구현 예정 (기간 토글 + 요약 카드 + 차트)
-      </div>
+      <FinanceStatisticsClient data={data} />
     </div>
   );
 }
