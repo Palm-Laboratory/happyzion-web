@@ -33,9 +33,6 @@ export default function MemberMissionsClient({
   const [error, setError] = useState<string | null>(null);
 
   const totalCount = participations.length;
-  const latest = participations.length > 0
-    ? participations.reduce((a, b) => (a.startDate >= b.startDate ? a : b))
-    : null;
 
   // 이미 참여 중인 여정 ID
   const joinedTripIds = new Set(participations.map((p) => p.tripId));
@@ -55,16 +52,6 @@ export default function MemberMissionsClient({
           <p className="text-2xl font-bold text-[#3f74c7]">{totalCount}</p>
           <p className="text-xs text-[#8fa3bb]">총 참여 횟수</p>
         </div>
-        {latest && (
-          <>
-            <div className="h-8 w-px bg-[#e2eaf3]" />
-            <div>
-              <p className="text-xs text-[#8fa3bb]">최근 참여 여정</p>
-              <p className="mt-0.5 text-sm font-semibold text-[#1a3152]">{latest.tripTitle}</p>
-              <p className="text-xs text-[#8fa3bb]">{latest.startDate.slice(0, 4)} · {latest.country}</p>
-            </div>
-          </>
-        )}
         <div className="ml-auto">
           <button
             type="button"

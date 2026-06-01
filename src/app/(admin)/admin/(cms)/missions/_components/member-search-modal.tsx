@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { maskName, maskPhone } from "@/lib/admin-members-mask";
 import type { ChurchMemberSummary } from "@/lib/admin-members-types";
 
 export interface SelectedMember {
@@ -130,11 +129,11 @@ export default function MemberSearchModal({ onSelect, onClose }: MemberSearchMod
                   >
                     {/* 아바타 */}
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e8f2ff] text-xs font-semibold text-[#3f74c7]">
-                      {maskName(m.name).slice(0, 1)}
+                      {m.name.slice(0, 1)}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-[#1a3152]">{maskName(m.name)}</p>
-                      <p className="text-xs text-[#8fa3bb]">{maskPhone(m.phone)}</p>
+                      <p className="truncate text-sm font-medium text-[#1a3152]">{m.name}</p>
+                      <p className="text-xs text-[#8fa3bb]">{m.phone}</p>
                     </div>
                     {m.cellLabel && (
                       <span className="shrink-0 rounded-full bg-[#f0f4f9] px-2 py-0.5 text-xs text-[#4a6484]">

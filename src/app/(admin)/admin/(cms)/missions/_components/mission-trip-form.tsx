@@ -71,7 +71,7 @@ export default function MissionTripForm({ mode, initialData, action }: MissionTr
             defaultValue={initialData?.leaderLabel ?? ""}
             maxLength={120}
             className={inputCls}
-            placeholder="홍길동 목사"
+            placeholder="000 목사"
           />
         </div>
 
