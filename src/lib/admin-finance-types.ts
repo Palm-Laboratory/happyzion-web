@@ -43,6 +43,8 @@ export type FinanceParsePreview = {
   period: FinancePeriod | null;
   /** A1 원본 텍스트 (예: "2026년 5월 3주"). UI에 "엑셀에서 추출됨" 안내용 */
   periodSourceText: string | null;
+  /** 동일 기간(year/month/week) 보고서가 이미 존재하면 true */
+  isDuplicate: boolean;
   lines: FinanceParsedLine[];
   unexecutedItems: FinanceParsedUnexecutedItem[];
   totals: FinanceParsedTotals;

@@ -10,7 +10,7 @@ import {
   FinanceUnexecutedItemsTable,
 } from "../../_components/finance-report-view";
 
-type Step = "idle" | "parsing" | "preview" | "saving";
+type Step = "idle" | "parsing" | "preview" | "confirming" | "saving";
 
 export default function FinanceUploadClient() {
   const router = useRouter();
@@ -59,22 +59,31 @@ export default function FinanceUploadClient() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  async function handleSave() {
-    if (!preview || !fileRef.current) return;
+  function validatePeriod() {
     const { year, month, week } = period;
-    if (!year || !month || !week) {
-      setError("연/월/주를 모두 입력해주세요.");
-      return;
-    }
-    if (month < 1 || month > 12) {
-      setError("월은 1~12 사이여야 합니다.");
-      return;
-    }
-    if (week < 1 || week > 5) {
-      setError("주는 1~5 사이여야 합니다.");
+    if (!year || !month || !week) return "연/월/주를 모두 입력해주세요.";
+    if (month < 1 || month > 12) return "월은 1~12 사이여야 합니다.";
+    if (week < 1 || week > 5) return "주는 1~5 사이여야 합니다.";
+    return null;
+  }
+
+  function handleSaveClick() {
+    const validationError = validatePeriod();
+    if (validationError) {
+      setError(validationError);
       return;
     }
     setError(null);
+    if (preview?.isDuplicate) {
+      setStep("confirming");
+    } else {
+      void doSave();
+    }
+  }
+
+  async function doSave() {
+    if (!preview || !fileRef.current) return;
+    const { year, month, week } = period;
     setStep("saving");
     try {
       const formData = new FormData();
@@ -119,7 +128,10 @@ export default function FinanceUploadClient() {
           period={period}
           setPeriod={setPeriod}
           onReset={reset}
-          onSave={handleSave}
+          onSave={handleSaveClick}
+          onConfirm={() => void doSave()}
+          onCancelConfirm={() => setStep("preview")}
+          confirming={step === "confirming"}
           saving={step === "saving"}
           error={error}
         />
@@ -198,6 +210,9 @@ function PreviewPanel({
   setPeriod,
   onReset,
   onSave,
+  onConfirm,
+  onCancelConfirm,
+  confirming,
   saving,
   error,
 }: {
@@ -206,6 +221,9 @@ function PreviewPanel({
   setPeriod: (p: Partial<FinancePeriod>) => void;
   onReset: () => void;
   onSave: () => void;
+  onConfirm: () => void;
+  onCancelConfirm: () => void;
+  confirming: boolean;
   saving: boolean;
   error: string | null;
 }) {
@@ -290,25 +308,53 @@ function PreviewPanel({
         <div className="rounded-lg border border-[#fcd5cb] bg-[#fef2ed] px-4 py-2 text-[13px] text-[#b3502a]">{error}</div>
       )}
 
+      {/* 중복 덮어쓰기 확인 */}
+      {confirming && (
+        <div className="rounded-xl border border-[#fde68a] bg-[#fffbeb] px-5 py-4 space-y-3">
+          <p className="text-[13px] text-[#92400e]">
+            이미 <span className="font-semibold">{period.year}년 {period.month}월 {period.week}주차</span> 재정 데이터가 있습니다.
+            확인 버튼을 누르시면 기존 데이터가 덮어 씌워집니다.
+          </p>
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={onCancelConfirm}
+              className="rounded-lg border border-[#d5deea] px-4 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb]"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="rounded-lg bg-[#d97706] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[#b45309]"
+            >
+              확인
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 액션 */}
-      <div className="flex items-center justify-end gap-2">
-        <button
-          type="button"
-          onClick={onReset}
-          disabled={saving}
-          className="rounded-lg border border-[#d5deea] px-4 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb] disabled:opacity-50"
-        >
-          취소
-        </button>
-        <button
-          type="button"
-          onClick={onSave}
-          disabled={saving}
-          className="rounded-lg bg-[#3f74c7] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[#3461ad] disabled:opacity-50"
-        >
-          {saving ? "저장 중…" : "저장"}
-        </button>
-      </div>
+      {!confirming && (
+        <div className="flex items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={onReset}
+            disabled={saving}
+            className="rounded-lg border border-[#d5deea] px-4 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb] disabled:opacity-50"
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={onSave}
+            disabled={saving}
+            className="rounded-lg bg-[#3f74c7] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[#3461ad] disabled:opacity-50"
+          >
+            {saving ? "저장 중…" : "저장"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
