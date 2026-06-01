@@ -135,6 +135,19 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: "/admin/missions",
+        label: "선교 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M8.5 2.5v12M2.5 8.5h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M8.5 2.75c0 0-2 2-2 5.75s2 5.75 2 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M8.5 2.75c0 0 2 2 2 5.75s-2 5.75-2 5.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
     ],
   },
 ];
