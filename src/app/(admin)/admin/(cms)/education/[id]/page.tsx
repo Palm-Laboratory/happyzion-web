@@ -44,7 +44,9 @@ export default async function EducationCourseDetailPage({
 
       <EducationCourseForm mode="edit" initialData={course} action={boundUpdate} />
       <EnrollmentManager courseId={id} initialEnrollments={course.enrollments} />
-      <DeleteCourseButton onDelete={boundDelete} />
+      <div className="flex justify-end">
+        <DeleteCourseButton onDelete={boundDelete} />
+      </div>
     </div>
   );
 }

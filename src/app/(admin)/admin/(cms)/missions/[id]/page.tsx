@@ -44,7 +44,9 @@ export default async function MissionTripDetailPage({
 
       <MissionTripForm mode="edit" initialData={trip} action={boundUpdate} />
       <ParticipantManager tripId={id} initialParticipants={trip.participants} />
-      <DeleteTripButton onDelete={boundDelete} />
+      <div className="flex justify-end">
+        <DeleteTripButton onDelete={boundDelete} />
+      </div>
     </div>
   );
 }
