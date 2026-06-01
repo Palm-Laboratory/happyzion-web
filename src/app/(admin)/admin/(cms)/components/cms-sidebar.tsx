@@ -135,6 +135,32 @@ const NAV_GROUPS = [
           </svg>
         ),
       },
+      {
+        href: "/admin/finance",
+        label: "재정 관리",
+        exact: false,
+        matchHrefs: ["/admin/finance/upload", "/admin/finance/statistics"],
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M6.25 6.5h4.5M6.25 8.5h4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M8.5 5.25v6.5M7 11.25l1.5 1 1.5-1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        ),
+        children: [
+          {
+            href: "/admin/finance",
+            label: "보고서",
+            exact: true,
+            matchHrefs: ["/admin/finance/upload"],
+          },
+          {
+            href: "/admin/finance/statistics",
+            label: "통계",
+            exact: false,
+          },
+        ],
+      },
     ],
   },
 ];
