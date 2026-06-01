@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import { getFinanceReport } from "@/lib/admin-finance-api";
+import type { FinanceReportDetail } from "@/lib/admin-finance-types";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import {
   FinanceChecksumWarning,
@@ -12,12 +13,39 @@ import {
 
 function formatUploadedAt(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit",
   });
+}
+
+/** 백엔드 응답 → 공용 뷰 컴포넌트 props 변환 */
+function toTotals(r: FinanceReportDetail) {
+  return {
+    incomeTotal: r.incomeTotal,
+    expenseTotal: r.expenseTotal,
+    balance: r.balance,
+    formCellIncomeTotal: null,
+    formCellExpenseTotal: null,
+    checksumMismatch: r.checksumMismatch,
+  };
+}
+
+function toLines(r: FinanceReportDetail) {
+  return r.lines.map((l) => ({
+    direction: l.direction,
+    major: l.major,
+    minor: l.minor,
+    amount: l.amount,
+  }));
+}
+
+function toUnexecuted(r: FinanceReportDetail) {
+  return r.unexecutedItems.map((it) => ({
+    content: it.content,
+    amount: it.amount,
+    executedDate: it.executedDate,
+    note: it.note,
+  }));
 }
 
 export default async function FinanceReportDetailPage({
@@ -37,7 +65,7 @@ export default async function FinanceReportDetailPage({
   const report = await getFinanceReport(numericId);
   if (!report) notFound();
 
-  const periodLabel = `${report.period.year}년 ${report.period.month}월 ${report.period.week}주`;
+  const periodLabel = `${report.year}년 ${report.month}월 ${report.week}주`;
 
   return (
     <div className="space-y-6">
@@ -66,24 +94,23 @@ export default async function FinanceReportDetailPage({
 
       {/* 메타 정보 */}
       <section className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
-        <div className="grid grid-cols-1 gap-3 text-[13px] sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 text-[13px] sm:grid-cols-2">
           <MetaItem label="원본 파일" value={report.sourceFilename} mono />
-          <MetaItem label="업로더" value={report.uploaderName} />
           <MetaItem label="업로드 일시" value={formatUploadedAt(report.uploadedAt)} />
         </div>
       </section>
 
       {/* 합계 불일치 경고 */}
-      {report.totals.checksumMismatch && <FinanceChecksumWarning />}
+      {report.checksumMismatch && <FinanceChecksumWarning />}
 
       {/* 합계 요약 */}
-      <FinanceSummaryCards totals={report.totals} />
+      <FinanceSummaryCards totals={toTotals(report)} />
 
       {/* 수입 / 지출 2단 테이블 */}
-      <FinanceLinesTwoColumn lines={report.lines} />
+      <FinanceLinesTwoColumn lines={toLines(report)} />
 
       {/* 미집행 품목 */}
-      <FinanceUnexecutedItemsTable items={report.unexecutedItems} />
+      <FinanceUnexecutedItemsTable items={toUnexecuted(report)} />
     </div>
   );
 }
@@ -92,10 +119,7 @@ function MetaItem({ label, value, mono }: { label: string; value: string; mono?:
   return (
     <div>
       <p className="text-[11px] font-semibold text-[#55697f]">{label}</p>
-      <p
-        className={`mt-0.5 truncate text-[#0f1c2e] ${mono ? "font-mono text-[12px]" : ""}`}
-        title={value}
-      >
+      <p className={`mt-0.5 truncate text-[#0f1c2e] ${mono ? "font-mono text-[12px]" : ""}`} title={value}>
         {value}
       </p>
     </div>

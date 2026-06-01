@@ -9,7 +9,6 @@ import {
   FinanceSummaryCards,
   FinanceUnexecutedItemsTable,
 } from "../../_components/finance-report-view";
-import { mockParsePreview } from "./finance-upload-mock";
 
 type Step = "idle" | "parsing" | "preview" | "saving";
 
@@ -19,22 +18,36 @@ export default function FinanceUploadClient() {
   const [preview, setPreview] = useState<FinanceParsePreview | null>(null);
   const [period, setPeriod] = useState<Partial<FinancePeriod>>({});
   const [error, setError] = useState<string | null>(null);
+  const fileRef = useRef<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  function handleFile(file: File) {
+  async function handleFile(file: File) {
     if (!file.name.match(/\.xlsx$/i)) {
       setError(".xlsx 파일만 업로드 가능합니다.");
       return;
     }
     setError(null);
     setStep("parsing");
-    // mock parse — 실제 API: POST /api/v1/admin/finance/reports/preview
-    setTimeout(() => {
-      const result = mockParsePreview(file.name);
+    fileRef.current = file;
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/finance/reports/preview", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error((body as { message?: string }).message ?? "파싱에 실패했습니다.");
+      }
+      const result = (await res.json()) as FinanceParsePreview;
       setPreview(result);
       setPeriod(result.period ?? {});
       setStep("preview");
-    }, 500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "파싱에 실패했습니다.");
+      setStep("idle");
+    }
   }
 
   function reset() {
@@ -42,11 +55,12 @@ export default function FinanceUploadClient() {
     setPreview(null);
     setPeriod({});
     setError(null);
+    fileRef.current = null;
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  function handleSave() {
-    if (!preview) return;
+  async function handleSave() {
+    if (!preview || !fileRef.current) return;
     const { year, month, week } = period;
     if (!year || !month || !week) {
       setError("연/월/주를 모두 입력해주세요.");
@@ -62,11 +76,25 @@ export default function FinanceUploadClient() {
     }
     setError(null);
     setStep("saving");
-    // mock save — 실제 API: POST /api/v1/admin/finance/reports
-    setTimeout(() => {
-      alert(`저장 완료 (mock): ${year}년 ${month}월 ${week}주`);
+    try {
+      const formData = new FormData();
+      formData.append("file", fileRef.current);
+      formData.append("year", String(year));
+      formData.append("month", String(month));
+      formData.append("week", String(week));
+      const res = await fetch("/api/admin/finance/reports", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error((body as { message?: string }).message ?? "저장에 실패했습니다.");
+      }
       router.push("/admin/finance");
-    }, 500);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "저장에 실패했습니다.");
+      setStep("preview");
+    }
   }
 
   return (

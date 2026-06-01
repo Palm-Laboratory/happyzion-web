@@ -90,13 +90,34 @@ export type FinanceReportPageResponse = {
 /** GET /api/v1/admin/finance/reports/{id} 응답 */
 export type FinanceReportDetail = {
   id: number;
-  period: FinancePeriod;
+  year: number;
+  month: number;
+  week: number;
+  incomeTotal: number;
+  expenseTotal: number;
+  balance: number;
   sourceFilename: string;
   uploadedAt: string;
-  uploaderName: string;
-  totals: FinanceParsedTotals;
-  lines: FinanceParsedLine[];
-  unexecutedItems: FinanceParsedUnexecutedItem[];
+  checksumMismatch: boolean;
+  lines: FinanceReportLineItem[];
+  unexecutedItems: FinanceReportUnexecutedItem[];
+};
+
+export type FinanceReportLineItem = {
+  categoryId: number;
+  direction: FinanceDirection;
+  major: string;
+  minor: string;
+  amount: number;
+};
+
+export type FinanceReportUnexecutedItem = {
+  id: number;
+  content: string;
+  amount: number;
+  executedDate: string | null;
+  note: string | null;
+  sortOrder: number;
 };
 
 /* ── 통계 ──────────────────────────────────────────────── */
