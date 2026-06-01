@@ -33,7 +33,7 @@ const GRANULARITIES: { value: FinanceStatGranularity; label: string }[] = [
 
 const INCOME_COLOR = "#1d6f42";
 const EXPENSE_COLOR = "#B73838";
-const BALANCE_COLOR = "#3f74c7";
+const BALANCE_COLOR = "#3a6db5";
 
 const PIE_COLORS = [
   "#3f74c7",
@@ -82,17 +82,19 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         balance: selectedBucket.balance,
       }
     : data.summary;
-  // 칸 선택 시 전기 비교 = 직전 칸. 없으면 null.
-  const prevBucket =
-    selectedIndex > 0 ? data.buckets[selectedIndex - 1] : null;
+  // 요약 카드에 표시할 기간 라벨
+  const summaryPeriodLabel = selectedBucket
+    ? selectedBucket.label
+    : data.granularity === "WEEK"
+      ? `${data.year}년 ${data.month}월 전체`
+      : data.granularity === "MONTH"
+        ? `${data.year}년 전체`
+        : data.granularity === "QUARTER"
+          ? `${data.year}년 전체`
+          : "전체";
+
   const displayPrevious = selectedBucket
-    ? prevBucket
-      ? {
-          incomeTotal: prevBucket.incomeTotal,
-          expenseTotal: prevBucket.expenseTotal,
-          balance: prevBucket.balance,
-        }
-      : null
+    ? selectedBucket.previousSummary
     : data.previousSummary;
 
   return (
@@ -180,18 +182,21 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
       <div className="grid grid-cols-3 gap-3">
         <SummaryWithDelta
           label="수입 합계"
+          periodLabel={summaryPeriodLabel}
           value={displaySummary.incomeTotal}
           previous={displayPrevious?.incomeTotal ?? null}
           accent={INCOME_COLOR}
         />
         <SummaryWithDelta
           label="지출 합계"
+          periodLabel={summaryPeriodLabel}
           value={displaySummary.expenseTotal}
           previous={displayPrevious?.expenseTotal ?? null}
           accent={EXPENSE_COLOR}
         />
         <SummaryWithDelta
           label="잔액"
+          periodLabel={summaryPeriodLabel}
           value={displaySummary.balance}
           previous={displayPrevious?.balance ?? null}
           accent={BALANCE_COLOR}
@@ -314,11 +319,13 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
 
 function SummaryWithDelta({
   label,
+  periodLabel,
   value,
   previous,
   accent,
 }: {
   label: string;
+  periodLabel?: string;
   value: number;
   previous: number | null;
   accent: string;
@@ -328,14 +335,24 @@ function SummaryWithDelta({
 
   return (
     <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
-      <p className="text-[11px] font-semibold text-[#55697f]">{label}</p>
+      <div className="flex items-center gap-2">
+        <p className="text-[11px] font-semibold text-[#55697f]">{label}</p>
+        {periodLabel && (
+          <span className="rounded-full bg-[#f0f4fb] px-2 py-0.5 text-[10px] font-semibold text-[#3f74c7]">
+            {periodLabel}
+          </span>
+        )}
+      </div>
       <p className="mt-1 text-[20px] font-bold tabular-nums" style={{ color: accent }}>
         {WON(value)}
       </p>
       {hasDelta ? (
         <p className="mt-1 text-[11px] text-[#5d6f86]">
           전기 대비{" "}
-          <span className="font-semibold tabular-nums text-[#0f1c2e]">
+          <span
+            className="font-semibold tabular-nums"
+            style={{ color: delta! >= 0 ? "#e07080" : "#2471a3" }}
+          >
             {delta! >= 0 ? "▲" : "▼"} {Math.abs(delta!).toFixed(1)}%
           </span>{" "}
           ({WON(previous!)})

@@ -146,6 +146,8 @@ export type FinanceStatBucket = {
   incomeByMajor: FinanceStatBreakdown[];
   /** 이 칸의 대분류별 지출 비중 */
   expenseByMajor: FinanceStatBreakdown[];
+  /** 직전 구간 합계 (전기 대비 비교용) */
+  previousSummary: FinanceStatSummary | null;
 };
 
 export type FinanceStatSummary = {
