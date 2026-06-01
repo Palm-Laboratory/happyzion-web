@@ -137,6 +137,18 @@ const NAV_GROUPS = [
         ),
       },
       {
+        href: "/admin/education",
+        label: "교육 관리",
+        exact: false,
+        icon: (
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
+            <path d="M8.5 3.5 1.5 6.5l7 3 7-3-7-3Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M4.5 8v3.5c0 0 1.5 1.5 4 1.5s4-1.5 4-1.5V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15.5 6.5v3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
         href: "/admin/sms",
         label: "SMS 관리",
         exact: false,

@@ -15,6 +15,7 @@ export default function MemberDetailTabs({ memberId }: { memberId: number }) {
   const tabs: Tab[] = [
     { label: "개인정보", href: `/admin/members/${memberId}`, exact: true },
     { label: "선교", href: `/admin/members/${memberId}/missions` },
+    { label: "교육", href: `/admin/members/${memberId}/education` },
   ];
 
   function isActive(tab: Tab) {
