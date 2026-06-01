@@ -209,6 +209,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         <div className="px-3 py-4 [&_*]:!outline-none">
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
+              key={`${data.granularity}-${data.year ?? "all"}-${data.month ?? "all"}`}
               data={data.buckets}
               margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
               onClick={(state) => {
@@ -264,7 +265,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 stroke={INCOME_COLOR}
                 strokeWidth={2.5}
                 dot={{ r: 3, strokeWidth: 0, fill: INCOME_COLOR }}
-                activeDot={{ r: 5 }}
+                activeDot={{ r: 5, strokeWidth: 0, fill: INCOME_COLOR }}
               />
               <Line
                 type="linear"
@@ -273,7 +274,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 stroke={EXPENSE_COLOR}
                 strokeWidth={2.5}
                 dot={{ r: 3, strokeWidth: 0, fill: EXPENSE_COLOR }}
-                activeDot={{ r: 5 }}
+                activeDot={{ r: 5, strokeWidth: 0, fill: EXPENSE_COLOR }}
               />
             </LineChart>
           </ResponsiveContainer>
