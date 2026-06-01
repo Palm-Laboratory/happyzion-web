@@ -36,18 +36,25 @@ export function FinanceLinesTwoColumn({ lines }: { lines: FinanceParsedLine[] })
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <LinesTable title="수입" majors={incomeMajors} />
-      <LinesTable title="지출" majors={expenseMajors} />
+      <LinesTable title="지출" majors={expenseMajors} showDetail />
     </div>
   );
 }
 
-function LinesTable({ title, majors }: { title: string; majors: MajorGroup[] }) {
+function LinesTable({ title, majors, showDetail }: { title: string; majors: MajorGroup[]; showDetail?: boolean }) {
   return (
     <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
       <div className="border-b border-[#e7eef7] px-5 py-3">
         <h2 className="text-[14px] font-bold text-[#0f1c2e]">{title}</h2>
       </div>
       <table className="w-full text-[13px]">
+        <thead>
+          <tr className="border-b border-[#e7eef7] text-left text-[11px] font-semibold text-[#55697f]">
+            <th className="px-5 py-2">계정과목</th>
+            <th className="px-5 py-2 text-right">금액</th>
+            {showDetail && <th className="px-5 py-2">세부내역</th>}
+          </tr>
+        </thead>
         <tbody>
           {majors.map((g) => (
             <Fragment key={g.major}>
@@ -56,6 +63,7 @@ function LinesTable({ title, majors }: { title: string; majors: MajorGroup[] }) 
                 <td className="px-5 py-2 text-right font-semibold tabular-nums text-[#0f1c2e]">
                   {WON(g.subtotal)}
                 </td>
+                {showDetail && <td />}
               </tr>
               {g.lines.map((l) => (
                 <tr key={l.minor} className="border-b border-[#f1f5fb] last:border-b-0">
@@ -67,6 +75,9 @@ function LinesTable({ title, majors }: { title: string; majors: MajorGroup[] }) 
                   >
                     {WON(l.amount)}
                   </td>
+                  {showDetail && (
+                    <td className="px-5 py-1.5 text-[#5d6f86]">{l.detail ?? ""}</td>
+                  )}
                 </tr>
               ))}
             </Fragment>

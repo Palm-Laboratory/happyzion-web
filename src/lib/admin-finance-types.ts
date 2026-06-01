@@ -14,6 +14,7 @@ export type FinanceParsedLine = {
   major: string;
   minor: string;
   amount: number;
+  detail: string | null;
 };
 
 export type FinanceParsedUnexecutedItem = {
@@ -114,6 +115,7 @@ export type FinanceReportLineItem = {
   major: string;
   minor: string;
   amount: number;
+  detail: string | null;
 };
 
 export type FinanceReportUnexecutedItem = {
