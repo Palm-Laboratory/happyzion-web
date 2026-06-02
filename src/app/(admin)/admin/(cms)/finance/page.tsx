@@ -152,9 +152,11 @@ export default async function FinanceDashboardPage() {
       />
 
       <div className="space-y-1">
-        <h1 className="text-xl font-bold text-[#0f1c2e]">재정 대시보드</h1>
+        <h1 className="text-xl font-bold text-[#0f1c2e]">
+          {latest ? `${periodLabel} 재정 요약` : "재정 대시보드"}
+        </h1>
         <p className="text-[13px] text-[#5d6f86]">
-          {latest ? `${periodLabel} 기준 수입·지출 현황입니다.` : "업로드된 보고서가 없습니다."}
+          {latest ? "주간 재정 보고서 기반 현황입니다." : "업로드된 보고서가 없습니다."}
         </p>
       </div>
 
@@ -187,7 +189,7 @@ export default async function FinanceDashboardPage() {
       {/* 최근 4주 보고서 */}
       <section className="overflow-hidden rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-[#e7eef7] px-5 py-3.5">
-          <h2 className="text-[14px] font-bold text-[#0f1c2e]">최근 보고서</h2>
+          <h2 className="text-[14px] font-bold text-[#0f1c2e]">최근 4주 보고서</h2>
           <Link
             href="/admin/finance/reports"
             className="flex items-center gap-1 text-[12px] font-semibold text-[#3f74c7] hover:underline"
