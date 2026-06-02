@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
-import { getFinanceStatistics } from "@/lib/admin-finance-api";
+import { getFinanceStatistics, listFinanceReports } from "@/lib/admin-finance-api";
 import type {
   FinanceStatGranularity,
   FinanceStatQuery,
@@ -16,19 +16,25 @@ type RawSearchParams = {
   month?: string;
 };
 
-function parseQuery(sp: RawSearchParams): FinanceStatQuery {
+async function parseQuery(sp: RawSearchParams): Promise<FinanceStatQuery> {
   const g = VALID_GRANULARITIES.includes(sp.granularity as FinanceStatGranularity)
     ? (sp.granularity as FinanceStatGranularity)
     : "MONTH";
   const yearNum = Number(sp.year);
   const monthNum = Number(sp.month);
   const year = Number.isFinite(yearNum) && yearNum > 0 ? yearNum : 2026;
-  const month =
-    g === "WEEK" && Number.isFinite(monthNum) && monthNum >= 1 && monthNum <= 12
-      ? monthNum
-      : g === "WEEK"
-        ? 5
-        : undefined;
+
+  let month: number | undefined;
+  if (g === "WEEK") {
+    if (Number.isFinite(monthNum) && monthNum >= 1 && monthNum <= 12) {
+      month = monthNum;
+    } else {
+      const recent = await listFinanceReports({ page: 0, size: 1 });
+      const latest = recent.items[0];
+      month = latest ? latest.month : new Date().getMonth() + 1;
+    }
+  }
+
   return { granularity: g, year: g === "YEAR" ? undefined : year, month };
 }
 
@@ -43,7 +49,7 @@ export default async function FinanceStatisticsPage({
   }
 
   const sp = await searchParams;
-  const query = parseQuery(sp);
+  const query = await parseQuery(sp);
   const data = await getFinanceStatistics(query);
 
   return (

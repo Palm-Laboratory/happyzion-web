@@ -143,6 +143,7 @@ export type FinanceStatQuery = {
 export type FinanceStatBucket = {
   /** 화면 라벨 — 예: "1주", "3월", "2분기", "2026년" */
   label: string;
+  hasData: boolean;
   incomeTotal: number;
   expenseTotal: number;
   balance: number;
@@ -181,4 +182,6 @@ export type FinanceStatResponse = {
   incomeByMajor: FinanceStatBreakdown[];
   /** 대분류별 지출 비중 */
   expenseByMajor: FinanceStatBreakdown[];
+  /** 선택 기간 시작 이전까지의 누적 잔액 */
+  cumulativeStartBalance: number;
 };

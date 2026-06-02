@@ -24,9 +24,11 @@ function formatUploadedAt(iso: string) {
 export default function FinanceReportListClient({
   data,
   query,
+  basePath = "/admin/finance/reports",
 }: {
   data: FinanceReportPageResponse;
   query: FinanceReportListQuery;
+  basePath?: string;
 }) {
   const router = useRouter();
   const [yearInput, setYearInput] = useState<string>(query.year?.toString() ?? "");
@@ -51,22 +53,22 @@ export default function FinanceReportListClient({
     if (monthInput.trim()) params.set("month", monthInput.trim());
     if (query.size !== 20) params.set("size", String(query.size));
     params.set("page", "0");
-    router.push(`/admin/finance?${params}`);
+    router.push(`${basePath}?${params}`);
   }
 
   function resetFilter() {
     setYearInput("");
     setMonthInput("");
-    router.push("/admin/finance");
+    router.push(basePath);
   }
 
   function goToPage(page: number) {
-    router.push(`/admin/finance?${buildParams({ page: String(page) })}`);
+    router.push(`${basePath}?${buildParams({ page: String(page) })}`);
   }
 
   function handleSizeChange(size: number) {
     router.push(
-      `/admin/finance?${buildParams({
+      `${basePath}?${buildParams({
         size: size !== 20 ? String(size) : undefined,
         page: "0",
       })}`,
@@ -139,7 +141,7 @@ export default function FinanceReportListClient({
                 <th className="px-5 py-2.5">기간</th>
                 <th className="px-5 py-2.5 text-right">수입</th>
                 <th className="px-5 py-2.5 text-right">지출</th>
-                <th className="px-5 py-2.5 text-right">남은 헌금</th>
+                <th className="px-5 py-2.5 text-right">잉여금</th>
                 <th className="px-5 py-2.5">파일명</th>
                 <th className="px-5 py-2.5">업로드 일시</th>
                 <th className="px-5 py-2.5 w-10"></th>

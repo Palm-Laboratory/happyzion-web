@@ -34,6 +34,13 @@ export async function getFinanceReport(id: number): Promise<FinanceReportDetail 
   }
 }
 
+// ── 누적 잔액 ───────────────────────────────────────────────────────────────
+
+export async function getFinanceBalance(): Promise<{ incomeTotal: number; expenseTotal: number; balance: number }> {
+  const res = await adminApiFetch("/api/v1/admin/finance/balance");
+  return res.json();
+}
+
 // ── 통계 ────────────────────────────────────────────────────────────────────
 
 export async function getFinanceStatistics(

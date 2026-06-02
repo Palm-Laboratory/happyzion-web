@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
   Cell,
   Legend,
@@ -31,9 +33,9 @@ const GRANULARITIES: { value: FinanceStatGranularity; label: string }[] = [
   { value: "YEAR", label: "연별" },
 ];
 
-const INCOME_COLOR = "#1d6f42";
-const EXPENSE_COLOR = "#B73838";
-const BALANCE_COLOR = "#3a6db5";
+const INCOME_COLOR = "#B73838";
+const EXPENSE_COLOR = "#3a6db5";
+const BALANCE_COLOR = "#1d6f42";
 
 const PIE_COLORS = [
   "#3f74c7",
@@ -82,6 +84,47 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         balance: selectedBucket.balance,
       }
     : data.summary;
+
+  // hasData=false 구간은 null로 변환 (차트에서 선 끊김 처리)
+  const chartBuckets = data.buckets.map((b) => ({
+    ...b,
+    incomeTotal: b.hasData ? b.incomeTotal : null,
+    expenseTotal: b.hasData ? b.expenseTotal : null,
+    balance: b.hasData ? b.balance : null,
+  }));
+
+  // 전체 누적 잔액
+  const totalCumulativeBalance = data.cumulativeStartBalance + data.summary.balance;
+
+  // 누적 잔액: 기간 시작 이전 누적 잔액 + 버킷별 누적 합산
+  const cumulativeBalanceData = data.buckets.reduce<{ label: string; cumulativeBalance: number | null }[]>(
+    (acc, b) => {
+      if (!b.hasData) {
+        acc.push({ label: b.label, cumulativeBalance: null });
+      } else {
+        const prev = acc.findLast((a) => a.cumulativeBalance != null)?.cumulativeBalance ?? data.cumulativeStartBalance;
+        acc.push({ label: b.label, cumulativeBalance: prev + b.balance });
+      }
+      return acc;
+    },
+    [],
+  );
+
+  // 선택된 구간의 누적 잔액
+  const selectedCumulativeBalance = selectedIndex >= 0
+    ? (cumulativeBalanceData[selectedIndex]?.cumulativeBalance ?? totalCumulativeBalance)
+    : totalCumulativeBalance;
+
+  const cumulativePeriodLabel = selectedBucket
+    ? data.granularity === "WEEK" && data.year && data.month
+      ? `${data.year}년 ${data.month}월 ${selectedBucket.label} 기준`
+      : `${selectedBucket.label} 기준`
+    : data.granularity === "WEEK" && data.year && data.month
+      ? `${data.year}년 ${data.month}월 기준`
+      : (data.granularity === "MONTH" || data.granularity === "QUARTER") && data.year
+      ? `${data.year}년 기준`
+      : "전체 기준";
+
   // 요약 카드에 표시할 기간 라벨
   const summaryPeriodLabel = selectedBucket
     ? selectedBucket.label
@@ -178,7 +221,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         </div>
       </section>
 
-      {/* 요약 카드 (전기 대비) */}
+      {/* 요약 카드 */}
       <div className="grid grid-cols-3 gap-3">
         <SummaryWithDelta
           label="수입 합계"
@@ -195,16 +238,17 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
           accent={EXPENSE_COLOR}
         />
         <SummaryWithDelta
-          label="잔액"
-          periodLabel={summaryPeriodLabel}
-          value={displaySummary.balance}
-          previous={displayPrevious?.balance ?? null}
+          label="누적 잔액"
+          periodLabel={cumulativePeriodLabel}
+          value={selectedCumulativeBalance}
+          previous={null}
           accent={BALANCE_COLOR}
         />
       </div>
 
-      {/* 추이 차트 */}
-      <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
+      {/* 추이 차트 + 누적 잔액 차트 */}
+      <div className="grid grid-cols-3 gap-3">
+      <section className="col-span-2 rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
         <div className="border-b border-[#e7eef7] px-5 py-3">
           <h2 className="text-[14px] font-bold text-[#0f1c2e]">
             기간별 추이{selectedBucket && (
@@ -214,9 +258,9 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         </div>
         <div className="px-3 py-4 [&_*]:!outline-none">
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart
+            <AreaChart
               key={`${data.granularity}-${data.year ?? "all"}-${data.month ?? "all"}`}
-              data={data.buckets}
+              data={chartBuckets}
               margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
               onClick={(state) => {
                 const raw = state?.activeLabel;
@@ -231,6 +275,18 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
               onMouseLeave={() => setHoveredLabel(null)}
               style={{ cursor: "pointer" }}
             >
+              <defs>
+                  <linearGradient id="gradIncomeStat" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={INCOME_COLOR} stopOpacity={0.45} />
+                  <stop offset="30%" stopColor={INCOME_COLOR} stopOpacity={0.15} />
+                  <stop offset="65%" stopColor={INCOME_COLOR} stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="gradExpenseStat" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={EXPENSE_COLOR} stopOpacity={0.45} />
+                  <stop offset="30%" stopColor={EXPENSE_COLOR} stopOpacity={0.15} />
+                  <stop offset="65%" stopColor={EXPENSE_COLOR} stopOpacity={0} />
+                </linearGradient>
+              </defs>
               <CartesianGrid stroke="#eef2f7" strokeDasharray="3 3" vertical={false} />
               <XAxis
                 dataKey="label"
@@ -239,7 +295,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 tickLine={false}
                 padding={{ left: 32, right: 32 }}
               />
-              {/* 각 구간 수직선: 평상시 점선, hover 시 실선, 선택 시 하이라이트 */}
+              {/* 각 구간 수직선: 평상시 연한 점선, hover/선택 시 진한 점선 */}
               {data.buckets.map((b) => {
                 const isSelected = b.label === selectedLabel;
                 const isHovered = b.label === hoveredLabel;
@@ -247,10 +303,10 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                   <ReferenceLine
                     key={b.label}
                     x={b.label}
-                    stroke={isSelected ? "#3f74c7" : "#c8d6e8"}
+                    stroke={isSelected ? "#8a9ab5" : "#c8d6e8"}
                     strokeWidth={isSelected || isHovered ? 1.5 : 1}
-                    strokeDasharray={isHovered || isSelected ? undefined : "4 4"}
-                    strokeOpacity={isSelected ? 0.8 : isHovered ? 0.6 : 0.5}
+                    strokeDasharray="4 4"
+                    strokeOpacity={isSelected ? 0.9 : isHovered ? 0.7 : 0.5}
                     ifOverflow="extendDomain"
                   />
                 );
@@ -259,7 +315,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
               {selectedLabel && (
                 <ReferenceLine
                   x={selectedLabel}
-                  stroke="#3f74c7"
+                  stroke="#8a9ab5"
                   strokeWidth={64}
                   strokeOpacity={0.08}
                   ifOverflow="extendDomain"
@@ -277,28 +333,117 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 contentStyle={{ borderRadius: 8, border: "1px solid #dbe4f0", fontSize: 12 }}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Line
+              <Area
                 type="linear"
                 dataKey="incomeTotal"
                 name="수입"
                 stroke={INCOME_COLOR}
                 strokeWidth={2.5}
-                dot={{ r: 3, strokeWidth: 0, fill: INCOME_COLOR }}
-                activeDot={{ r: 5, strokeWidth: 0, fill: INCOME_COLOR }}
+                fill="url(#gradIncomeStat)"
+                connectNulls={false}
+                dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={INCOME_COLOR} strokeWidth={0} />}
+                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={INCOME_COLOR} strokeWidth={0} />}
               />
-              <Line
+              <Area
                 type="linear"
                 dataKey="expenseTotal"
                 name="지출"
                 stroke={EXPENSE_COLOR}
                 strokeWidth={2.5}
-                dot={{ r: 3, strokeWidth: 0, fill: EXPENSE_COLOR }}
-                activeDot={{ r: 5, strokeWidth: 0, fill: EXPENSE_COLOR }}
+                fill="url(#gradExpenseStat)"
+                connectNulls={false}
+                dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={EXPENSE_COLOR} strokeWidth={0} />}
+                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={EXPENSE_COLOR} strokeWidth={0} />}
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       </section>
+
+      {/* 누적 잔액 차트 */}
+      <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
+        <div className="border-b border-[#e7eef7] px-5 py-3">
+          <h2 className="text-[14px] font-bold text-[#0f1c2e]">누적 잔액</h2>
+        </div>
+        <div className="px-3 py-4 [&_*]:!outline-none">
+          <ResponsiveContainer width="100%" height={300}>
+            <AreaChart key={`cumbal-${data.granularity}-${data.year ?? "all"}-${data.month ?? "all"}`} data={cumulativeBalanceData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="gradCumBalance" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={BALANCE_COLOR} stopOpacity={0.45} />
+                  <stop offset="30%" stopColor={BALANCE_COLOR} stopOpacity={0.15} />
+                  <stop offset="65%" stopColor={BALANCE_COLOR} stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid stroke="#eef2f7" strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="label"
+                tick={{ fill: "#5d6f86", fontSize: 11 }}
+                axisLine={{ stroke: "#d5deea" }}
+                tickLine={false}
+                padding={{ left: 16, right: 16 }}
+              />
+              <YAxis
+                tick={{ fill: "#5d6f86", fontSize: 11 }}
+                axisLine={{ stroke: "#d5deea" }}
+                tickLine={false}
+                tickFormatter={(v: number) => formatShort(v)}
+                width={60}
+                domain={
+                  data.granularity === "WEEK" ? [70_000_000, 90_000_000] :
+                  data.granularity === "QUARTER" ? [65_000_000, 90_000_000] :
+                  data.granularity === "YEAR" ? [50_000_000, 90_000_000] :
+                  ["auto", "auto"]
+                }
+                ticks={
+                  data.granularity === "WEEK" ? [70_000_000, 75_000_000, 80_000_000, 85_000_000, 90_000_000] :
+                  data.granularity === "QUARTER" ? [65_000_000, 70_000_000, 75_000_000, 80_000_000, 85_000_000, 90_000_000] :
+                  data.granularity === "YEAR" ? [50_000_000, 60_000_000, 70_000_000, 80_000_000, 90_000_000] :
+                  undefined
+                }
+              />
+              <Tooltip
+                formatter={(v) => WON(Number(v ?? 0))}
+                contentStyle={{ borderRadius: 8, border: "1px solid #dbe4f0", fontSize: 12 }}
+              />
+              <Legend wrapperStyle={{ fontSize: 12 }} />
+              {data.buckets.map((b) => (
+                <ReferenceLine
+                  key={b.label}
+                  x={b.label}
+                  stroke="#c8d6e8"
+                  strokeWidth={1}
+                  strokeDasharray="4 4"
+                  strokeOpacity={0.5}
+                  ifOverflow="extendDomain"
+                />
+              ))}
+              {selectedLabel && (
+                <ReferenceLine
+                  x={selectedLabel}
+                  stroke="#8a9ab5"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 3"
+                  strokeOpacity={0.8}
+                  ifOverflow="extendDomain"
+                />
+              )}
+              <Area
+                type="linear"
+                dataKey="cumulativeBalance"
+                name="누적 잔액"
+                stroke={BALANCE_COLOR}
+                strokeWidth={2.5}
+                fill="url(#gradCumBalance)"
+                connectNulls={false}
+                dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={BALANCE_COLOR} strokeWidth={0} />}
+                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={BALANCE_COLOR} strokeWidth={0} />}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+      </div>
 
       {/* 대분류별 비중 (수입/지출) — 선택된 칸이 있으면 그 칸 기준, 없으면 전체 */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

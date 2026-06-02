@@ -14,7 +14,7 @@ export function FinanceSummaryCards({ totals }: { totals: FinanceParsedTotals })
     <div className="grid grid-cols-3 gap-3">
       <Card label="수입 합계" value={totals.incomeTotal} accent="#1d6f42" />
       <Card label="지출 합계" value={totals.expenseTotal} accent="#B73838" />
-      <Card label="남은 헌금" value={totals.balance} accent="#3f74c7" />
+      <Card label="잉여금" value={totals.balance} accent="#3f74c7" />
     </div>
   );
 }

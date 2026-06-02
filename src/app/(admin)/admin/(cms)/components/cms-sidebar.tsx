@@ -152,7 +152,7 @@ const NAV_GROUPS = [
         href: "/admin/finance",
         label: "재정 관리",
         exact: false,
-        matchHrefs: ["/admin/finance/upload", "/admin/finance/statistics"],
+        matchHrefs: ["/admin/finance/upload", "/admin/finance/statistics", "/admin/finance/reports"],
         icon: (
           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" aria-hidden="true">
             <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" strokeWidth="1.5" />
@@ -163,8 +163,13 @@ const NAV_GROUPS = [
         children: [
           {
             href: "/admin/finance",
-            label: "보고서",
+            label: "대시보드",
             exact: true,
+          },
+          {
+            href: "/admin/finance/reports",
+            label: "보고서",
+            exact: false,
             matchHrefs: ["/admin/finance/upload"],
           },
           {
