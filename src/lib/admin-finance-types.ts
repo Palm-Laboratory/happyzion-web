@@ -153,12 +153,16 @@ export type FinanceStatBucket = {
   expenseByMajor: FinanceStatBreakdown[];
   /** 직전 구간 합계 (전기 대비 비교용) */
   previousSummary: FinanceStatSummary | null;
+  /** 전년 동기 합계 */
+  yoySummary: FinanceStatSummary | null;
 };
 
 export type FinanceStatSummary = {
   incomeTotal: number;
   expenseTotal: number;
   balance: number;
+  incomeByMajor: FinanceStatBreakdown[];
+  expenseByMajor: FinanceStatBreakdown[];
 };
 
 export type FinanceStatBreakdown = {
@@ -184,4 +188,8 @@ export type FinanceStatResponse = {
   expenseByMajor: FinanceStatBreakdown[];
   /** 선택 기간 시작 이전까지의 누적 잔액 */
   cumulativeStartBalance: number;
+  /** 전년 동기 전체 합계 */
+  yoySummary: FinanceStatSummary | null;
+  /** 전년 동기 기간 시작 이전 누적 잔액 */
+  yoyCumulativeStartBalance: number;
 };

@@ -49,11 +49,15 @@ const PIE_COLORS = [
   "#9aa5b8",
 ];
 
+type SelectedItem = { direction: "INCOME" | "EXPENSE"; major: string } | null;
+
 export default function FinanceStatisticsClient({ data }: { data: FinanceStatResponse }) {
   const router = useRouter();
   /** 차트의 특정 칸을 클릭하면 그 칸 라벨 저장. null이면 전체 집계. */
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>(null);
+  const [showYoy, setShowYoy] = useState(false);
 
 // granularity/연도/월이 바뀌면 선택 해제
   useEffect(() => {
@@ -85,13 +89,44 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
       }
     : data.summary;
 
+  // 전체 대분류 항목 목록 (드롭다운용)
+  const allIncomeMajors = Array.from(new Set(data.buckets.flatMap((b) => b.incomeByMajor.map((m) => m.major))));
+  const allExpenseMajors = Array.from(new Set(data.buckets.flatMap((b) => b.expenseByMajor.map((m) => m.major))));
+
+  // 전년 동기 차트 데이터
+  const yoyChartBuckets = data.buckets.map((b) => {
+    const yoy = b.yoySummary;
+    if (!yoy) return { label: b.label, yoyIncome: null, yoyExpense: null };
+    if (selectedItem) {
+      const amount = selectedItem.direction === "INCOME"
+        ? (yoy.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? null)
+        : (yoy.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? null);
+      return {
+        label: b.label,
+        yoyIncome: selectedItem.direction === "INCOME" ? amount : null,
+        yoyExpense: selectedItem.direction === "EXPENSE" ? amount : null,
+      };
+    }
+    return { label: b.label, yoyIncome: yoy.incomeTotal, yoyExpense: yoy.expenseTotal };
+  });
+
   // hasData=false 구간은 null로 변환 (차트에서 선 끊김 처리)
-  const chartBuckets = data.buckets.map((b) => ({
-    ...b,
-    incomeTotal: b.hasData ? b.incomeTotal : null,
-    expenseTotal: b.hasData ? b.expenseTotal : null,
-    balance: b.hasData ? b.balance : null,
-  }));
+  // selectedItem이 있으면 해당 항목 금액만, 없으면 전체
+  const chartBuckets = data.buckets.map((b) => {
+    if (!b.hasData) return { ...b, incomeTotal: null, expenseTotal: null, balance: null };
+    if (selectedItem) {
+      const amount = selectedItem.direction === "INCOME"
+        ? (b.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0)
+        : (b.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0);
+      return {
+        ...b,
+        incomeTotal: selectedItem.direction === "INCOME" ? amount : null,
+        expenseTotal: selectedItem.direction === "EXPENSE" ? amount : null,
+        balance: null,
+      };
+    }
+    return { ...b, incomeTotal: b.incomeTotal, expenseTotal: b.expenseTotal, balance: b.balance };
+  }).map((b, i) => ({ ...b, ...yoyChartBuckets[i] }));
 
   // 전체 누적 잔액
   const totalCumulativeBalance = data.cumulativeStartBalance + data.summary.balance;
@@ -114,6 +149,11 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
   const selectedCumulativeBalance = selectedIndex >= 0
     ? (cumulativeBalanceData[selectedIndex]?.cumulativeBalance ?? totalCumulativeBalance)
     : totalCumulativeBalance;
+
+  // 누적 잔액 전기 대비: 구간 선택 시 이전 구간 누적 잔액, 미선택 시 기간 시작 이전 누적 잔액
+  const previousCumulativeBalance = selectedIndex >= 0
+    ? (cumulativeBalanceData.slice(0, selectedIndex).findLast((a) => a.cumulativeBalance != null)?.cumulativeBalance ?? data.cumulativeStartBalance)
+    : data.cumulativeStartBalance || null;
 
   const cumulativePeriodLabel = selectedBucket
     ? data.granularity === "WEEK" && data.year && data.month
@@ -139,6 +179,76 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
   const displayPrevious = selectedBucket
     ? selectedBucket.previousSummary
     : data.previousSummary;
+
+  const deltaLabel = (() => {
+    if (data.granularity === "WEEK") return selectedBucket ? "전주 대비" : "전월 대비";
+    if (data.granularity === "MONTH") return selectedBucket ? "전월 대비" : "전연도 대비";
+    if (data.granularity === "QUARTER") return selectedBucket ? "전분기 대비" : "전연도 대비";
+    // YEAR
+    return selectedBucket ? "전연도 대비" : null;
+  })();
+
+  // 항목 선택 시 해당 방향의 합계만 계산
+  const itemDisplayIncome: number | null = selectedItem
+    ? selectedItem.direction === "INCOME"
+      ? (selectedBucket
+          ? (selectedBucket.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0)
+          : data.buckets.filter((b) => b.hasData).reduce((sum, b) => sum + (b.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0), 0))
+      : null
+    : null;
+
+  const itemDisplayExpense: number | null = selectedItem
+    ? selectedItem.direction === "EXPENSE"
+      ? (selectedBucket
+          ? (selectedBucket.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0)
+          : data.buckets.filter((b) => b.hasData).reduce((sum, b) => sum + (b.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0), 0))
+      : null
+    : null;
+
+  // 항목 선택 시 이전 구간 해당 항목 금액 (전기 대비용)
+  const prevSource = selectedBucket?.previousSummary ?? data.previousSummary;
+  const itemPreviousIncome: number | null = selectedItem?.direction === "INCOME" && prevSource
+    ? (prevSource.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0)
+    : null;
+  const itemPreviousExpense: number | null = selectedItem?.direction === "EXPENSE" && prevSource
+    ? (prevSource.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? 0)
+    : null;
+
+  // 전년 동기 누적 잔액 배열 계산
+  const yoyCumulativeBalanceData = data.buckets.reduce<{ label: string; cumulativeBalance: number | null }[]>(
+    (acc, b) => {
+      if (!b.yoySummary) {
+        acc.push({ label: b.label, cumulativeBalance: null });
+      } else {
+        const prev = acc.findLast((a) => a.cumulativeBalance != null)?.cumulativeBalance ?? data.yoyCumulativeStartBalance;
+        acc.push({ label: b.label, cumulativeBalance: prev + b.yoySummary.balance });
+      }
+      return acc;
+    },
+    [],
+  );
+
+  // yoy 누적 잔액 배열을 cumulativeBalanceData에 merge
+  const mergedCumulativeData = cumulativeBalanceData.map((d, i) => ({
+    ...d,
+    yooCumulativeBalance: yoyCumulativeBalanceData[i]?.cumulativeBalance ?? null,
+  }));
+
+  // 전년 동기 값 계산 — 체크박스 ON + 특정 구간 선택 시에만 표시
+  const yoySource = showYoy && selectedBucket ? selectedBucket.yoySummary : null;
+  const yoyCumulativeBalance = showYoy && selectedIndex >= 0
+    ? (yoyCumulativeBalanceData[selectedIndex]?.cumulativeBalance ?? null)
+    : null;
+  const yoyIncome = yoySource
+    ? (selectedItem?.direction === "INCOME"
+        ? (yoySource.incomeByMajor.find((m) => m.major === selectedItem.major)?.amount ?? null)
+        : (selectedItem?.direction === "EXPENSE" ? null : yoySource.incomeTotal))
+    : null;
+  const yoyExpense = yoySource
+    ? (selectedItem?.direction === "EXPENSE"
+        ? (yoySource.expenseByMajor.find((m) => m.major === selectedItem.major)?.amount ?? null)
+        : (selectedItem?.direction === "INCOME" ? null : yoySource.expenseTotal))
+    : null;
 
   return (
     <div className="space-y-5">
@@ -200,9 +310,68 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
             </label>
           )}
 
-          <div className="ml-auto flex items-center gap-2 text-[12px]">
+        </div>
+      </section>
+
+      {/* 요약 카드 */}
+      <div className="grid grid-cols-3 gap-3">
+        {itemDisplayIncome === null && selectedItem ? (
+          <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
+            <p className="text-[11px] font-semibold text-[#55697f]">수입 합계</p>
+            <p className="mt-1 text-[20px] font-bold text-[#c8d6e8]">— —</p>
+            <p className="mt-1 text-[11px] text-[#a8b3c2]">전기 데이터 없음</p>
+          </div>
+        ) : (
+          <SummaryWithDelta
+            label="수입 합계"
+            periodLabel={summaryPeriodLabel}
+            value={itemDisplayIncome ?? displaySummary.incomeTotal}
+            previous={itemPreviousIncome ?? (selectedItem ? null : (deltaLabel ? (displayPrevious?.incomeTotal ?? null) : null))}
+            yoy={yoyIncome}
+            yoyMissing={showYoy && !!selectedBucket && !yoySource}
+            accent={INCOME_COLOR}
+            deltaLabel={deltaLabel ?? "전기 대비"}
+          />
+        )}
+        {itemDisplayExpense === null && selectedItem ? (
+          <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
+            <p className="text-[11px] font-semibold text-[#55697f]">지출 합계</p>
+            <p className="mt-1 text-[20px] font-bold text-[#c8d6e8]">— —</p>
+            <p className="mt-1 text-[11px] text-[#a8b3c2]">전기 데이터 없음</p>
+          </div>
+        ) : (
+          <SummaryWithDelta
+            label="지출 합계"
+            periodLabel={summaryPeriodLabel}
+            value={itemDisplayExpense ?? displaySummary.expenseTotal}
+            previous={itemPreviousExpense ?? (selectedItem ? null : (deltaLabel ? (displayPrevious?.expenseTotal ?? null) : null))}
+            yoy={yoyExpense}
+            yoyMissing={showYoy && !!selectedBucket && !yoySource}
+            accent={EXPENSE_COLOR}
+            deltaLabel={deltaLabel ?? "전기 대비"}
+          />
+        )}
+        <SummaryWithDelta
+          label="누적 잔액"
+          periodLabel={cumulativePeriodLabel}
+          value={selectedCumulativeBalance}
+          previous={deltaLabel ? previousCumulativeBalance : null}
+          yoy={yoyCumulativeBalance}
+          yoyMissing={showYoy && !!selectedBucket && !selectedBucket.yoySummary}
+          accent={BALANCE_COLOR}
+          hideDeltaIfNull
+          deltaLabel={deltaLabel ?? "전기 대비"}
+        />
+      </div>
+
+      {/* 추이 차트 + 누적 잔액 차트 */}
+      <div className="grid grid-cols-3 gap-3">
+      <section className="col-span-2 rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-[#e7eef7] px-5 py-3">
+          <div className="flex items-center gap-2">
+            <h2 className="text-[14px] font-bold text-[#0f1c2e]">기간별 추이</h2>
             {selectedBucket && (
-              <>
+              <div className="flex items-center gap-2 text-[12px]">
                 <span className="text-[#5d6f86]">선택된 기간:</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3 py-1 font-semibold text-[#3f74c7]">
                   {selectedBucket.label}
@@ -215,46 +384,46 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                     ×
                   </button>
                 </span>
-              </>
+              </div>
             )}
           </div>
-        </div>
-      </section>
-
-      {/* 요약 카드 */}
-      <div className="grid grid-cols-3 gap-3">
-        <SummaryWithDelta
-          label="수입 합계"
-          periodLabel={summaryPeriodLabel}
-          value={displaySummary.incomeTotal}
-          previous={displayPrevious?.incomeTotal ?? null}
-          accent={INCOME_COLOR}
-        />
-        <SummaryWithDelta
-          label="지출 합계"
-          periodLabel={summaryPeriodLabel}
-          value={displaySummary.expenseTotal}
-          previous={displayPrevious?.expenseTotal ?? null}
-          accent={EXPENSE_COLOR}
-        />
-        <SummaryWithDelta
-          label="누적 잔액"
-          periodLabel={cumulativePeriodLabel}
-          value={selectedCumulativeBalance}
-          previous={null}
-          accent={BALANCE_COLOR}
-        />
-      </div>
-
-      {/* 추이 차트 + 누적 잔액 차트 */}
-      <div className="grid grid-cols-3 gap-3">
-      <section className="col-span-2 rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
-        <div className="border-b border-[#e7eef7] px-5 py-3">
-          <h2 className="text-[14px] font-bold text-[#0f1c2e]">
-            기간별 추이{selectedBucket && (
-              <span className="ml-1 font-bold text-[#3f74c7]">· {selectedBucket.label}</span>
+          <div className="flex items-center gap-3">
+            <label className="flex cursor-pointer items-center gap-1.5 text-[12px] text-[#55697f]">
+              <input
+                type="checkbox"
+                checked={showYoy}
+                onChange={(e) => setShowYoy(e.target.checked)}
+                className="h-3.5 w-3.5 accent-[#3f74c7]"
+              />
+              전년 동기 비교
+            </label>
+            <select
+            value={selectedItem ? `${selectedItem.direction}:${selectedItem.major}` : ""}
+            onChange={(e) => {
+              const val = e.target.value;
+              if (!val) { setSelectedItem(null); return; }
+              const [direction, major] = val.split(":") as ["INCOME" | "EXPENSE", string];
+              setSelectedItem({ direction, major });
+            }}
+            className="rounded-lg border border-[#d5deea] bg-white px-3 py-1.5 text-[12px] text-[#0f1c2e] focus:outline-none"
+          >
+            <option value="">전체</option>
+            {allIncomeMajors.length > 0 && (
+              <optgroup label="── 수입 ──">
+                {allIncomeMajors.map((major) => (
+                  <option key={`INCOME:${major}`} value={`INCOME:${major}`}>{major}</option>
+                ))}
+              </optgroup>
             )}
-          </h2>
+            {allExpenseMajors.length > 0 && (
+              <optgroup label="── 지출 ──">
+                {allExpenseMajors.map((major) => (
+                  <option key={`EXPENSE:${major}`} value={`EXPENSE:${major}`}>{major}</option>
+                ))}
+              </optgroup>
+            )}
+          </select>
+          </div>
         </div>
         <div className="px-3 py-4 [&_*]:!outline-none">
           <ResponsiveContainer width="100%" height={300}>
@@ -266,11 +435,19 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 const raw = state?.activeLabel;
                 if (raw == null) return;
                 const label = String(raw);
+                const bucket = data.buckets.find((b) => b.label === label);
+                if (!bucket?.hasData) return;
                 setSelectedLabel((cur) => (cur === label ? null : label));
               }}
               onMouseMove={(state) => {
                 const raw = state?.activeLabel;
-                setHoveredLabel(raw != null ? String(raw) : null);
+                if (raw != null) {
+                  const label = String(raw);
+                  const bucket = data.buckets.find((b) => b.label === label);
+                  setHoveredLabel(bucket?.hasData ? label : null);
+                } else {
+                  setHoveredLabel(null);
+                }
               }}
               onMouseLeave={() => setHoveredLabel(null)}
               style={{ cursor: "pointer" }}
@@ -333,28 +510,60 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 contentStyle={{ borderRadius: 8, border: "1px solid #dbe4f0", fontSize: 12 }}
               />
               <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Area
-                type="linear"
-                dataKey="incomeTotal"
-                name="수입"
-                stroke={INCOME_COLOR}
-                strokeWidth={2.5}
-                fill="url(#gradIncomeStat)"
-                connectNulls={false}
-                dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={INCOME_COLOR} strokeWidth={0} />}
-                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={INCOME_COLOR} strokeWidth={0} />}
-              />
-              <Area
-                type="linear"
-                dataKey="expenseTotal"
-                name="지출"
-                stroke={EXPENSE_COLOR}
-                strokeWidth={2.5}
-                fill="url(#gradExpenseStat)"
-                connectNulls={false}
-                dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={EXPENSE_COLOR} strokeWidth={0} />}
-                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={EXPENSE_COLOR} strokeWidth={0} />}
-              />
+              {(!selectedItem || selectedItem.direction === "INCOME") && (
+                <Area
+                  type="linear"
+                  dataKey="incomeTotal"
+                  name={selectedItem ? selectedItem.major : "수입"}
+                  stroke={INCOME_COLOR}
+                  strokeWidth={2.5}
+                  fill="url(#gradIncomeStat)"
+                  connectNulls={false}
+                  dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={INCOME_COLOR} strokeWidth={0} />}
+                  activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={INCOME_COLOR} strokeWidth={0} />}
+                />
+              )}
+              {(!selectedItem || selectedItem.direction === "EXPENSE") && (
+                <Area
+                  type="linear"
+                  dataKey="expenseTotal"
+                  name={selectedItem ? selectedItem.major : "지출"}
+                  stroke={EXPENSE_COLOR}
+                  strokeWidth={2.5}
+                  fill="url(#gradExpenseStat)"
+                  connectNulls={false}
+                  dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={EXPENSE_COLOR} strokeWidth={0} />}
+                  activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={EXPENSE_COLOR} strokeWidth={0} />}
+                />
+              )}
+              {showYoy && (!selectedItem || selectedItem.direction === "INCOME") && (
+                <Line
+                  type="linear"
+                  dataKey="yoyIncome"
+                  name="전년 동기 수입"
+                  stroke={INCOME_COLOR}
+                  strokeWidth={1.5}
+                  strokeDasharray="5 4"
+                  strokeOpacity={0.6}
+                  dot={false}
+                  connectNulls={false}
+                  legendType="none"
+                />
+              )}
+              {showYoy && (!selectedItem || selectedItem.direction === "EXPENSE") && (
+                <Line
+                  type="linear"
+                  dataKey="yoyExpense"
+                  name="전년 동기 지출"
+                  stroke={EXPENSE_COLOR}
+                  strokeWidth={1.5}
+                  strokeDasharray="5 4"
+                  strokeOpacity={0.6}
+                  dot={false}
+                  connectNulls={false}
+                  legendType="none"
+                />
+              )}
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -367,7 +576,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
         </div>
         <div className="px-3 py-4 [&_*]:!outline-none">
           <ResponsiveContainer width="100%" height={300}>
-            <AreaChart key={`cumbal-${data.granularity}-${data.year ?? "all"}-${data.month ?? "all"}`} data={cumulativeBalanceData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+            <AreaChart key={`cumbal-${data.granularity}-${data.year ?? "all"}-${data.month ?? "all"}`} data={mergedCumulativeData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="gradCumBalance" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor={BALANCE_COLOR} stopOpacity={0.45} />
@@ -439,6 +648,20 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={BALANCE_COLOR} strokeWidth={0} />}
                 activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={BALANCE_COLOR} strokeWidth={0} />}
               />
+              {showYoy && (
+                <Line
+                  type="linear"
+                  dataKey="yooCumulativeBalance"
+                  name="전년 동기 누적 잔액"
+                  stroke={BALANCE_COLOR}
+                  strokeWidth={1.5}
+                  strokeDasharray="5 4"
+                  strokeOpacity={0.5}
+                  dot={false}
+                  connectNulls={false}
+                  legendType="none"
+                />
+              )}
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -462,21 +685,43 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
   );
 }
 
+function DeltaLine({ value, previous, label }: { value: number; previous: number | null; label: string }) {
+  if (previous == null) return null;
+  if (previous === 0) return <p className="text-[11px] text-[#a8b3c2]">{label} 데이터 없음</p>;
+  const delta = ((value - previous) / Math.abs(previous)) * 100;
+  return (
+    <p className="text-[11px] text-[#5d6f86]">
+      {label}{" "}
+      <span className="font-semibold tabular-nums" style={{ color: delta >= 0 ? "#e07080" : "#2471a3" }}>
+        {delta >= 0 ? "▲" : "▼"} {Math.abs(delta).toFixed(1)}%
+      </span>{" "}
+      ({WON(previous)})
+    </p>
+  );
+}
+
 function SummaryWithDelta({
   label,
   periodLabel,
   value,
   previous,
+  yoy,
+  yoyMissing = false,
   accent,
+  hideDeltaIfNull = false,
+  deltaLabel = "전기 대비",
 }: {
   label: string;
   periodLabel?: string;
   value: number;
   previous: number | null;
+  yoy?: number | null;
+  yoyMissing?: boolean;
   accent: string;
+  hideDeltaIfNull?: boolean;
+  deltaLabel?: string;
 }) {
   const hasDelta = previous != null && previous !== 0;
-  const delta = hasDelta ? ((value - previous!) / Math.abs(previous!)) * 100 : null;
 
   return (
     <div className="rounded-2xl border border-[#dbe4f0] bg-white px-5 py-4 shadow-sm">
@@ -491,20 +736,24 @@ function SummaryWithDelta({
       <p className="mt-1 text-[20px] font-bold tabular-nums" style={{ color: accent }}>
         {WON(value)}
       </p>
-      {hasDelta ? (
-        <p className="mt-1 text-[11px] text-[#5d6f86]">
-          전기 대비{" "}
-          <span
-            className="font-semibold tabular-nums"
-            style={{ color: delta! >= 0 ? "#e07080" : "#2471a3" }}
-          >
-            {delta! >= 0 ? "▲" : "▼"} {Math.abs(delta!).toFixed(1)}%
-          </span>{" "}
-          ({WON(previous!)})
-        </p>
-      ) : (
-        <p className="mt-1 text-[11px] text-[#a8b3c2]">전기 데이터 없음</p>
-      )}
+      <div className="mt-1 flex items-center gap-3">
+        {hasDelta ? (
+          <DeltaLine value={value} previous={previous} label={deltaLabel} />
+        ) : !hideDeltaIfNull ? (
+          <p className="text-[11px] text-[#a8b3c2]">전기 데이터 없음</p>
+        ) : null}
+        {yoy != null ? (
+          <>
+            {(hasDelta || !hideDeltaIfNull) && <span className="text-[11px] text-[#d5deea]">|</span>}
+            <DeltaLine value={value} previous={yoy} label="전년 동기" />
+          </>
+        ) : yoyMissing ? (
+          <>
+            {(hasDelta || !hideDeltaIfNull) && <span className="text-[11px] text-[#d5deea]">|</span>}
+            <p className="text-[11px] text-[#a8b3c2]">전년 동기 데이터 없음</p>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }
