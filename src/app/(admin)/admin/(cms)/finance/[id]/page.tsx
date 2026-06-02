@@ -11,6 +11,7 @@ import {
   FinanceUnexecutedItemsTable,
 } from "../_components/finance-report-view";
 import FinanceReportDeleteButton from "./_components/finance-report-delete-button";
+import FinanceReportPdfButton from "./_components/finance-report-pdf-button";
 
 function formatUploadedAt(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {
@@ -37,6 +38,7 @@ function toLines(r: FinanceReportDetail) {
     major: l.major,
     minor: l.minor,
     amount: l.amount,
+    detail: l.detail ?? null,
   }));
 }
 
@@ -87,6 +89,7 @@ export default async function FinanceReportDetailPage({
         </div>
         <div className="flex items-center gap-2">
           <FinanceReportDeleteButton id={report.id} label={periodLabel} />
+          <FinanceReportPdfButton reportId={report.id} />
           <Link
             href="/admin/finance"
             className="rounded-lg border border-[#d5deea] px-3 py-2 text-[13px] font-medium text-[#5d6f86] hover:bg-[#f4f7fb]"
@@ -117,11 +120,14 @@ export default async function FinanceReportDetailPage({
       {/* 합계 요약 */}
       <FinanceSummaryCards totals={toTotals(report)} />
 
-      {/* 수입 / 지출 2단 테이블 */}
-      <FinanceLinesTwoColumn lines={toLines(report)} />
-
-      {/* 미집행 품목 */}
-      <FinanceUnexecutedItemsTable items={toUnexecuted(report)} />
+      {/* 수입 + 미집행 품목 / 지출 2단 레이아웃 */}
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
+        <div className="flex flex-col gap-4">
+          <FinanceLinesTwoColumn lines={toLines(report)} side="income" />
+          <FinanceUnexecutedItemsTable items={toUnexecuted(report)} />
+        </div>
+        <FinanceLinesTwoColumn lines={toLines(report)} side="expense" />
+      </div>
     </div>
   );
 }

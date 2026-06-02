@@ -30,11 +30,13 @@ function Card({ label, value, accent }: { label: string; value: number; accent: 
   );
 }
 
-/** 양식의 수입/지출 2단 테이블 */
-export function FinanceLinesTwoColumn({ lines }: { lines: FinanceParsedLine[] }) {
+/** 양식의 수입/지출 테이블 — side 없으면 2단, 있으면 해당 쪽만 렌더링 */
+export function FinanceLinesTwoColumn({ lines, side }: { lines: FinanceParsedLine[]; side?: "income" | "expense" }) {
   const { incomeMajors, expenseMajors } = groupByMajor(lines);
+  if (side === "income") return <LinesTable title="수입" majors={incomeMajors} />;
+  if (side === "expense") return <LinesTable title="지출" majors={expenseMajors} showDetail />;
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-2">
       <LinesTable title="수입" majors={incomeMajors} />
       <LinesTable title="지출" majors={expenseMajors} showDetail />
     </div>
@@ -42,8 +44,9 @@ export function FinanceLinesTwoColumn({ lines }: { lines: FinanceParsedLine[] })
 }
 
 function LinesTable({ title, majors, showDetail }: { title: string; majors: MajorGroup[]; showDetail?: boolean }) {
+  const total = majors.reduce((sum, g) => sum + g.subtotal, 0);
   return (
-    <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
+    <section className="overflow-hidden rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
       <div className="border-b border-[#e7eef7] px-5 py-3">
         <h2 className="text-[14px] font-bold text-[#0f1c2e]">{title}</h2>
       </div>
@@ -83,6 +86,15 @@ function LinesTable({ title, majors, showDetail }: { title: string; majors: Majo
             </Fragment>
           ))}
         </tbody>
+        <tfoot>
+          <tr className="border-t-2 border-[#dbe4f0] bg-[#f4f7fb]">
+            <td className="px-5 py-2.5 text-[13px] font-bold text-[#0f1c2e]">합계</td>
+            <td className="px-5 py-2.5 text-right text-[13px] font-bold tabular-nums text-[#0f1c2e]">
+              {WON(total)}
+            </td>
+            {showDetail && <td />}
+          </tr>
+        </tfoot>
       </table>
     </section>
   );
@@ -95,7 +107,7 @@ export function FinanceUnexecutedItemsTable({
   items: FinanceParsedUnexecutedItem[];
 }) {
   return (
-    <section className="rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
+    <section className="overflow-hidden rounded-2xl border border-[#dbe4f0] bg-white shadow-sm">
       <div className="border-b border-[#e7eef7] px-5 py-3">
         <h2 className="text-[14px] font-bold text-[#0f1c2e]">미집행 품목</h2>
       </div>
