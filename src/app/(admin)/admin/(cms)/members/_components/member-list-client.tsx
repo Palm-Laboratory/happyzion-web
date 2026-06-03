@@ -16,11 +16,50 @@ function formatDate(value: string) {
   return new Date(value).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit" });
 }
 
+type PaginationItem = number | "ellipsis-start" | "ellipsis-end";
+
+export function getVisiblePageItems(currentPage: number, totalPages: number): PaginationItem[] {
+  if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index);
+
+  const pages = new Set<number>([0, totalPages - 1]);
+  for (let page = currentPage - 1; page <= currentPage + 1; page += 1) {
+    if (page > 0 && page < totalPages - 1) pages.add(page);
+  }
+
+  if (currentPage <= 2) {
+    pages.add(1);
+    pages.add(2);
+    pages.add(3);
+  }
+
+  if (currentPage >= totalPages - 3) {
+    pages.add(totalPages - 4);
+    pages.add(totalPages - 3);
+    pages.add(totalPages - 2);
+  }
+
+  const sorted = Array.from(pages).filter((page) => page >= 0 && page < totalPages).sort((a, b) => a - b);
+  const items: PaginationItem[] = [];
+  for (const page of sorted) {
+    const previous = items.at(-1);
+    if (typeof previous === "number" && page - previous > 1) {
+      items.push(page < totalPages - 1 ? "ellipsis-start" : "ellipsis-end");
+    }
+    items.push(page);
+  }
+  return items;
+}
+
 export default function MemberListClient({ data, query }: MemberListClientProps) {
   const [nameInput, setNameInput] = useState(query.name ?? "");
   const [phoneInput, setPhoneInput] = useState(query.phone ?? "");
   const [includeInactiveInput, setIncludeInactiveInput] = useState(query.includeInactive ?? false);
   const router = useRouter();
+  const totalPages = Math.max(1, Math.ceil(data.total / query.size));
+  const currentPage = Math.min(Math.max(query.page, 0), totalPages - 1);
+  const visiblePageItems = getVisiblePageItems(currentPage, totalPages);
+  const firstVisibleNumber = data.items.length === 0 ? 0 : query.page * query.size + 1;
+  const lastVisibleNumber = data.items.length === 0 ? 0 : Math.min(data.total, query.page * query.size + data.items.length);
 
   function buildParams(overrides: Record<string, string | undefined>) {
     const params = new URLSearchParams();
@@ -54,7 +93,8 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
   }
 
   function goToPage(page: number) {
-    router.push(`/admin/members?${buildParams({ page: String(page) })}`);
+    const nextPage = Math.min(Math.max(page, 0), totalPages - 1);
+    router.push(`/admin/members?${buildParams({ page: String(nextPage) })}`);
   }
 
   function handleSizeChange(size: number) {
@@ -123,7 +163,12 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
       <section className="rounded-2xl border border-[#e2e8f0] bg-white shadow-sm">
         <div className="flex items-center justify-between border-b border-[#edf2f7] px-5 py-4">
           <span className="text-[13px] text-[#5d6f86]">
-            {query.page * query.size + 1}번부터 표시 중
+            총 {data.total.toLocaleString("ko-KR")}명
+            {data.total > 0 && (
+              <span className="ml-2 text-[#8fa3bb]">
+                {firstVisibleNumber.toLocaleString("ko-KR")}-{lastVisibleNumber.toLocaleString("ko-KR")}번 표시
+              </span>
+            )}
           </span>
           <select
             value={query.size}
@@ -188,11 +233,11 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
         {/* Pagination */}
         <div className="grid grid-cols-3 items-center border-t border-[#edf2f7] px-5 py-4">
           <div />
-          <div className="flex items-center justify-center gap-1">
+          <nav className="flex items-center justify-center gap-1" aria-label="교인 목록 페이지">
             <button
               type="button"
-              onClick={() => goToPage(query.page - 1)}
-              disabled={query.page === 0}
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 0}
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="이전 페이지"
             >
@@ -200,16 +245,39 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
                 <path d="M7.5 2.5l-3 3 3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
+            {visiblePageItems.map((item) => {
+              if (typeof item !== "number") {
+                return (
+                  <span
+                    key={item}
+                    className="flex h-8 w-8 items-center justify-center text-[12px] font-semibold text-[#8fa3bb]"
+                    aria-hidden="true"
+                  >
+                    ...
+                  </span>
+                );
+              }
+              const isCurrent = item === currentPage;
+              return (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => goToPage(item)}
+                  aria-current={isCurrent ? "page" : undefined}
+                  className={`flex h-8 min-w-8 items-center justify-center rounded-lg px-2 text-[12px] font-semibold transition ${
+                    isCurrent
+                      ? "bg-[#3f74c7] text-white"
+                      : "border border-[#e2e8f0] bg-white text-[#334155] hover:bg-[#f0f6ff]"
+                  }`}
+                >
+                  {item + 1}
+                </button>
+              );
+            })}
             <button
               type="button"
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#3f74c7] text-[12px] font-semibold text-white"
-            >
-              {query.page + 1}
-            </button>
-            <button
-              type="button"
-              onClick={() => goToPage(query.page + 1)}
-              disabled={!data.hasNext}
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage >= totalPages - 1}
               className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[#334155] transition hover:bg-[#f0f6ff] disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="다음 페이지"
             >
@@ -217,7 +285,7 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
                 <path d="M4.5 2.5l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
-          </div>
+          </nav>
           <div className="flex justify-end">
             <Link
               href="/admin/members/new"
