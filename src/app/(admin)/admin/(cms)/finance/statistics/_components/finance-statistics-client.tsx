@@ -182,10 +182,10 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
 
   const deltaLabel = (() => {
     if (data.granularity === "WEEK") return selectedBucket ? "전주 대비" : "전월 대비";
-    if (data.granularity === "MONTH") return selectedBucket ? "전월 대비" : "전연도 대비";
-    if (data.granularity === "QUARTER") return selectedBucket ? "전분기 대비" : "전연도 대비";
+    if (data.granularity === "MONTH") return selectedBucket ? "전월 대비" : "전년도 대비";
+    if (data.granularity === "QUARTER") return selectedBucket ? "전분기 대비" : "전년도 대비";
     // YEAR
-    return selectedBucket ? "전연도 대비" : null;
+    return selectedBucket ? "전년도 대비" : null;
   })();
 
   // 항목 선택 시 해당 방향의 합계만 계산

@@ -58,7 +58,7 @@ export default async function FinanceReportListPage({
             교회가 작성한 주간 재정보고서를 업로드·조회합니다.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center gap-2">
           <FinanceTemplateDownloadButton />
           <Link
             href="/admin/finance/upload"

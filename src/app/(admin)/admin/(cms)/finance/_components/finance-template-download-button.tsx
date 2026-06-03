@@ -36,16 +36,19 @@ export default function FinanceTemplateDownloadButton() {
   }
 
   return (
-    <div className="flex flex-col items-end gap-1">
+    <>
       <button
         type="button"
         onClick={handleDownload}
         disabled={downloading}
         className="rounded-lg border border-[#d5deea] px-4 py-2 text-[13px] font-semibold text-[#3f74c7] hover:bg-[#f4f7fb] disabled:opacity-50"
+        title={error ?? undefined}
       >
         {downloading ? "다운로드 중…" : "양식 다운로드"}
       </button>
-      {error && <p className="text-[12px] text-[#b91c1c]">{error}</p>}
-    </div>
+      {error && (
+        <p className="absolute right-0 top-full mt-1 whitespace-nowrap text-[12px] text-[#b91c1c]">{error}</p>
+      )}
+    </>
   );
 }
