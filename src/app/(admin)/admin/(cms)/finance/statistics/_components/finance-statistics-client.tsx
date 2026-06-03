@@ -520,7 +520,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                   fill="url(#gradIncomeStat)"
                   connectNulls={false}
                   dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={INCOME_COLOR} strokeWidth={0} />}
-                  activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={INCOME_COLOR} strokeWidth={0} />}
+                  activeDot={(props) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={INCOME_COLOR} strokeWidth={0} />}
                 />
               )}
               {(!selectedItem || selectedItem.direction === "EXPENSE") && (
@@ -533,7 +533,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                   fill="url(#gradExpenseStat)"
                   connectNulls={false}
                   dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={EXPENSE_COLOR} strokeWidth={0} />}
-                  activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={EXPENSE_COLOR} strokeWidth={0} />}
+                  activeDot={(props) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={EXPENSE_COLOR} strokeWidth={0} />}
                 />
               )}
               {showYoy && (!selectedItem || selectedItem.direction === "INCOME") && (
@@ -646,7 +646,7 @@ export default function FinanceStatisticsClient({ data }: { data: FinanceStatRes
                 fill="url(#gradCumBalance)"
                 connectNulls={false}
                 dot={(props) => props.value == null || props.cy == null ? <g key={props.key} /> : <circle key={props.key} cx={props.cx} cy={props.cy} r={3} fill={BALANCE_COLOR} strokeWidth={0} />}
-                activeDot={(props: any) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={BALANCE_COLOR} strokeWidth={0} />}
+                activeDot={(props) => props.value == null ? <g /> : <circle cx={props.cx} cy={props.cy} r={5} fill={BALANCE_COLOR} strokeWidth={0} />}
               />
               {showYoy && (
                 <Line
