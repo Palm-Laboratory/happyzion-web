@@ -59,7 +59,7 @@ export default async function FinanceReportListPage({
           </p>
         </div>
         <div className="relative flex items-center gap-2">
-          <FinanceTemplateDownloadButton />
+          {/* <FinanceTemplateDownloadButton /> */}
           <Link
             href="/admin/finance/upload"
             className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#3461ad]"
