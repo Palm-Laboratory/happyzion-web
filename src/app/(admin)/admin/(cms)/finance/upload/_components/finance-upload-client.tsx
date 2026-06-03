@@ -12,6 +12,16 @@ import {
 
 type Step = "idle" | "parsing" | "preview" | "confirming" | "saving";
 
+/** 해당 연·월에 포함된 주일(일요일) 수 — 보고서 week 번호의 상한. */
+function sundayCountInMonth(year: number, month: number): number {
+  const daysInMonth = new Date(year, month, 0).getDate();
+  let count = 0;
+  for (let day = 1; day <= daysInMonth; day++) {
+    if (new Date(year, month - 1, day).getDay() === 0) count++;
+  }
+  return count;
+}
+
 export default function FinanceUploadClient() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("idle");
@@ -63,7 +73,10 @@ export default function FinanceUploadClient() {
     const { year, month, week } = period;
     if (!year || !month || !week) return "연/월/주를 모두 입력해주세요.";
     if (month < 1 || month > 12) return "월은 1~12 사이여야 합니다.";
-    if (week < 1 || week > 5) return "주는 1~5 사이여야 합니다.";
+    if (week < 1) return "주는 1 이상이어야 합니다.";
+    // week는 그 달의 N번째 주일(일요일) 기준 — 달력상 주일 수를 초과하면 통계에서 누락된다.
+    const maxWeek = sundayCountInMonth(year, month);
+    if (week > maxWeek) return `${year}년 ${month}월은 ${maxWeek}주까지입니다.`;
     return null;
   }
 

@@ -5,6 +5,7 @@ import { listFinanceReports } from "@/lib/admin-finance-api";
 import type { FinanceReportListQuery } from "@/lib/admin-finance-types";
 import AdminBreadcrumb from "../../components/admin-breadcrumb";
 import FinanceReportListClient from "../_components/finance-report-list-client";
+import FinanceTemplateDownloadButton from "../_components/finance-template-download-button";
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50] as const;
 type PageSize = (typeof PAGE_SIZE_OPTIONS)[number];
@@ -57,12 +58,15 @@ export default async function FinanceReportListPage({
             교회가 작성한 주간 재정보고서를 업로드·조회합니다.
           </p>
         </div>
-        <Link
-          href="/admin/finance/upload"
-          className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#3461ad]"
-        >
-          엑셀 업로드
-        </Link>
+        <div className="flex items-center gap-2">
+          <FinanceTemplateDownloadButton />
+          <Link
+            href="/admin/finance/upload"
+            className="rounded-lg bg-[#3f74c7] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#3461ad]"
+          >
+            엑셀 업로드
+          </Link>
+        </div>
       </div>
 
       <FinanceReportListClient data={data} query={query} basePath="/admin/finance/reports" />
