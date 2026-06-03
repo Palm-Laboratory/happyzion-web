@@ -8,6 +8,16 @@ export type ChurchMemberStatus =
   | "TRANSFERRED_OUT"
   | "DECEASED"
   | "REMOVED";
+
+export const CHURCH_MEMBER_STATUSES: ChurchMemberStatus[] = [
+  "ACTIVE",
+  "NEW",
+  "RESTING",
+  "LONG_ABSENT",
+  "TRANSFERRED_OUT",
+  "DECEASED",
+  "REMOVED",
+];
 export type ChurchMemberOffice =
   | "LAY"
   | "DEACON_TEMP"
@@ -75,6 +85,7 @@ export interface CreateChurchMemberPayload {
 export interface ChurchMemberListQuery {
   name?: string;
   phone?: string;
+  status?: ChurchMemberStatus;
   includeInactive?: boolean;
   page: number;
   size: number;

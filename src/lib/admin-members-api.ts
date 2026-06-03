@@ -14,6 +14,7 @@ export async function getChurchMembers(q: ChurchMemberListQuery): Promise<Church
   const params = new URLSearchParams();
   if (q.name?.trim()) params.set("name", q.name.trim());
   if (q.phone?.trim()) params.set("phone", q.phone.trim());
+  if (q.status) params.set("status", q.status);
   if (q.includeInactive) params.set("includeInactive", "true");
   params.set("page", String(q.page));
   params.set("size", String(q.size));

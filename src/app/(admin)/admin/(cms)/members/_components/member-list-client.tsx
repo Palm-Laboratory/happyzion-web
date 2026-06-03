@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { ChurchMemberPageResponse, ChurchMemberListQuery } from "@/lib/admin-members-types";
+import type { ChurchMemberPageResponse, ChurchMemberListQuery, ChurchMemberStatus } from "@/lib/admin-members-types";
 import { maskName, maskPhone } from "@/lib/admin-members-mask";
 import { STATUS_LABELS, STATUS_BADGE_COLORS } from "./member-enums";
 
@@ -17,6 +17,8 @@ function formatDate(value: string) {
 }
 
 type PaginationItem = number | "ellipsis-start" | "ellipsis-end";
+type StatusFilterValue = ChurchMemberStatus | "ALL" | "";
+const STATUS_OPTIONS = Object.entries(STATUS_LABELS) as [ChurchMemberStatus, string][];
 
 export function getVisiblePageItems(currentPage: number, totalPages: number): PaginationItem[] {
   if (totalPages <= 7) return Array.from({ length: totalPages }, (_, index) => index);
@@ -53,7 +55,9 @@ export function getVisiblePageItems(currentPage: number, totalPages: number): Pa
 export default function MemberListClient({ data, query }: MemberListClientProps) {
   const [nameInput, setNameInput] = useState(query.name ?? "");
   const [phoneInput, setPhoneInput] = useState(query.phone ?? "");
-  const [includeInactiveInput, setIncludeInactiveInput] = useState(query.includeInactive ?? false);
+  const [statusInput, setStatusInput] = useState<StatusFilterValue>(
+    query.status ?? (query.includeInactive ? "ALL" : "ACTIVE"),
+  );
   const router = useRouter();
   const totalPages = Math.max(1, Math.ceil(data.total / query.size));
   const currentPage = Math.min(Math.max(query.page, 0), totalPages - 1);
@@ -65,6 +69,7 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
     const params = new URLSearchParams();
     if (query.name) params.set("name", query.name);
     if (query.phone) params.set("phone", query.phone);
+    if (query.status) params.set("status", query.status);
     if (query.includeInactive) params.set("includeInactive", "true");
     if (query.size !== 20) params.set("size", String(query.size));
     params.set("page", "0");
@@ -79,7 +84,8 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
     const params = new URLSearchParams();
     if (nameInput.trim()) params.set("name", nameInput.trim());
     if (phoneInput.trim()) params.set("phone", phoneInput.trim());
-    if (includeInactiveInput) params.set("includeInactive", "true");
+    if (statusInput === "ALL") params.set("includeInactive", "true");
+    else if (statusInput && statusInput !== "ACTIVE") params.set("status", statusInput);
     if (query.size !== 20) params.set("size", String(query.size));
     params.set("page", "0");
     router.push(`/admin/members?${params}`);
@@ -88,7 +94,7 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
   function handleReset() {
     setNameInput("");
     setPhoneInput("");
-    setIncludeInactiveInput(false);
+    setStatusInput("ACTIVE");
     router.push("/admin/members");
   }
 
@@ -130,15 +136,19 @@ export default function MemberListClient({ data, query }: MemberListClientProps)
               className="h-9 rounded-lg border border-[#d5deea] px-3 text-[13px] focus:border-[#3f74c7] focus:outline-none"
             />
           </label>
-          {/* includeInactive checkbox */}
-          <label className="flex cursor-pointer items-center gap-2 pb-1">
-            <input
-              type="checkbox"
-              checked={includeInactiveInput}
-              onChange={(e) => setIncludeInactiveInput(e.target.checked)}
-              className="accent-[#3f74c7]"
-            />
-            <span className="text-[13px] text-[#374151]">비활성 포함</span>
+          {/* Status select */}
+          <label className="flex min-w-0 flex-col gap-1.5" style={{ minWidth: "150px" }}>
+            <span className="text-[11px] font-semibold text-[#55697f]">상태</span>
+            <select
+              value={statusInput}
+              onChange={(e) => setStatusInput(e.target.value as StatusFilterValue)}
+              className="h-9 rounded-lg border border-[#d5deea] bg-white px-3 text-[13px] text-[#374151] focus:border-[#3f74c7] focus:outline-none"
+            >
+              <option value="ALL">전체 상태</option>
+              {STATUS_OPTIONS.map(([value, label]) => (
+                <option key={value} value={value}>{label}</option>
+              ))}
+            </select>
           </label>
           {/* Search button */}
           <button

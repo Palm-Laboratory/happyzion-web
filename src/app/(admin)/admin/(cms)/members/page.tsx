@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getAdminSession, isAdminSession } from "@/auth";
 import { getChurchMembers } from "@/lib/admin-members-api";
+import { CHURCH_MEMBER_STATUSES, type ChurchMemberStatus } from "@/lib/admin-members-types";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 import MemberListClient from "./_components/member-list-client";
 
@@ -10,10 +11,16 @@ type MemberPageSize = typeof PAGE_SIZE_OPTIONS[number];
 type RawSearchParams = {
   name?: string;
   phone?: string;
+  status?: string;
   includeInactive?: string;
   page?: string;
   size?: string;
 };
+
+function parseStatus(value: string | undefined): ChurchMemberStatus | undefined {
+  if (!value) return undefined;
+  return (CHURCH_MEMBER_STATUSES as string[]).includes(value) ? value as ChurchMemberStatus : undefined;
+}
 
 function parseQuery(sp: RawSearchParams) {
   const page = Number.isFinite(Number(sp.page)) ? Math.max(0, Number(sp.page)) : 0;
@@ -21,8 +28,9 @@ function parseQuery(sp: RawSearchParams) {
   const size: MemberPageSize = (PAGE_SIZE_OPTIONS as readonly number[]).includes(rawSize) ? rawSize as MemberPageSize : 20;
   const name = sp.name?.trim() || undefined;
   const phone = sp.phone?.replace(/[^0-9-]/g, "").trim() || undefined;
+  const status = parseStatus(sp.status);
   const includeInactive = sp.includeInactive === "true";
-  return { name, phone, includeInactive, page, size };
+  return { name, phone, status, includeInactive, page, size };
 }
 
 export default async function MembersPage({
