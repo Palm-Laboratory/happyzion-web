@@ -73,6 +73,10 @@ export interface EducationCourseDetail {
 
 export interface EducationCourseListResponse {
   courses: EducationCourseSummary[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
 }
 
 // ── Enrollment ──────────────────────────────────────────────────────────────
@@ -140,4 +144,6 @@ export interface EducationCourseListQuery {
   year?: number;
   status?: EducationCourseStatus;
   category?: EducationCategory;
+  page?: number;
+  size?: number;
 }

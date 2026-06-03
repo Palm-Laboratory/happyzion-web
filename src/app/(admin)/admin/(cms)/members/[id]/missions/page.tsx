@@ -18,7 +18,7 @@ export default async function MemberMissionsPage({
   try {
     [participations, allTrips] = await Promise.all([
       getMemberMissions(id),
-      getMissionTrips(),
+      getMissionTrips({ size: 100 }),
     ]);
   } catch (error) {
     if (error instanceof AdminApiError && error.status === 404) notFound();

@@ -25,11 +25,6 @@ export interface MissionTripFormState {
   success?: boolean;
 }
 
-function requireAdminSession() {
-  // auth check happens inside lib functions via adminApiFetch; this is just a guard
-  return;
-}
-
 function hasInvalidDateRange(startDate: string, endDate: string | null): boolean {
   return endDate != null && endDate < startDate;
 }

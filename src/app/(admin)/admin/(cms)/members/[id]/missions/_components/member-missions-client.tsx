@@ -3,8 +3,6 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import {
-  MISSION_TRIP_TYPE_LABELS,
-  MISSION_TRIP_STATUS_LABELS,
   PARTICIPANT_ROLE_LABELS,
   PARTICIPATION_STATUS_LABELS,
   type MemberMissionParticipation,

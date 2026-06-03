@@ -17,7 +17,7 @@ export default async function MemberEducationPage({
   try {
     [enrollments, allCourses] = await Promise.all([
       getMemberEducation(id),
-      getEducationCourses(),
+      getEducationCourses({ size: 100 }),
     ]);
   } catch (error) {
     if (error instanceof AdminApiError && error.status === 404) notFound();

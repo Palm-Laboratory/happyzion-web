@@ -66,6 +66,10 @@ export interface MissionTripDetail {
 
 export interface MissionTripListResponse {
   trips: MissionTripSummary[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
 }
 
 // ── Participant ───────────────────────────────────────────────────────────────
@@ -134,4 +138,6 @@ export interface MissionTripListQuery {
   year?: number;
   status?: MissionTripStatus;
   country?: string;
+  page?: number;
+  size?: number;
 }

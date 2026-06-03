@@ -18,9 +18,20 @@ export async function getMissionTrips(q: MissionTripListQuery = {}): Promise<Mis
   if (q.year) params.set("year", String(q.year));
   if (q.status) params.set("status", q.status);
   if (q.country?.trim()) params.set("country", q.country.trim());
+  if (q.page != null) params.set("page", String(q.page));
+  if (q.size != null) params.set("size", String(q.size));
   const qs = params.toString();
   const res = await adminApiFetch(`/api/v1/admin/mission-trips${qs ? `?${qs}` : ""}`);
-  return res.json() as Promise<MissionTripListResponse>;
+  const data = (await res.json()) as Partial<MissionTripListResponse>;
+  const trips = data.trips ?? [];
+
+  return {
+    trips,
+    page: data.page ?? q.page ?? 0,
+    size: data.size ?? q.size ?? trips.length,
+    totalElements: data.totalElements ?? trips.length,
+    totalPages: data.totalPages ?? 1,
+  };
 }
 
 export async function getMissionTrip(id: number): Promise<MissionTripDetail> {
