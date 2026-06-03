@@ -150,17 +150,10 @@ function AddParticipantPanel({ tripId, onAdded, onCancel, onError }: AddPanelPro
       });
       if (result.message) {
         onError(result.message);
+      } else if (!result.participant) {
+        onError("참가자 추가 결과를 확인할 수 없습니다. 새로고침 후 다시 확인해 주세요.");
       } else {
-        onAdded({
-          id: Date.now(),
-          churchMemberId,
-          displayName: selectedMember?.name ?? extName ?? "",
-          externalName: extName,
-          role,
-          participationStatus,
-          note: note.trim() || null,
-          createdAt: new Date().toISOString(),
-        });
+        onAdded(result.participant);
       }
     });
   }

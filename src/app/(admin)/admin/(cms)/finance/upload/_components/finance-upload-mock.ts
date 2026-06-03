@@ -17,7 +17,7 @@ export function mockParsePreview(filename: string): FinanceParsePreview {
     { major: "특별헌금", minor: "꽃헌금", amount: 100_000 },
     { major: "특별헌금", minor: "목적헌금", amount: 0 },
     { major: "찬조헌금", minor: "행사찬조", amount: 200_000 },
-  ].map((l) => ({ ...l, direction: "INCOME" as const }));
+  ].map((l) => ({ ...l, direction: "INCOME" as const, detail: null }));
 
   const expenseLines = [
     { major: "목회자", minor: "십일조", amount: 0 },
@@ -61,7 +61,7 @@ export function mockParsePreview(filename: string): FinanceParsePreview {
     { major: "경비", minor: "선물비", amount: 0 },
     { major: "경비", minor: "심방비", amount: 0 },
     { major: "경비", minor: "경조비", amount: 0 },
-  ].map((l) => ({ ...l, direction: "EXPENSE" as const }));
+  ].map((l) => ({ ...l, direction: "EXPENSE" as const, detail: null }));
 
   const incomeTotal = incomeLines.reduce((s, l) => s + l.amount, 0);
   const expenseTotal = expenseLines.reduce((s, l) => s + l.amount, 0);
@@ -70,6 +70,7 @@ export function mockParsePreview(filename: string): FinanceParsePreview {
     sourceFilename: filename,
     period: { year: 2026, month: 5, week: 3 },
     periodSourceText: "2026년 5월 3주",
+    isDuplicate: false,
     lines: [...incomeLines, ...expenseLines],
     unexecutedItems: [
       { content: "음향 장비 수리", amount: 300_000, executedDate: null, note: "견적 대기중" },

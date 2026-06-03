@@ -5,19 +5,18 @@ import { getFinanceBalance, getFinanceReport, getFinanceStatistics, listFinanceR
 import type { FinanceStatSummary } from "@/lib/admin-finance-types";
 import FinanceTrendMiniChart, { type TrendPoint } from "./_components/finance-trend-mini-chart";
 import FinanceBreakdownAccordion, { type MajorGroup } from "./_components/finance-breakdown-accordion";
+import FinanceReportDashboardRow from "./_components/finance-report-dashboard-row";
 import AdminBreadcrumb from "../components/admin-breadcrumb";
 
 const WON = (n: number) => `${n.toLocaleString("ko-KR")}원`;
 
-function formatUploadedAt(iso: string) {
-  return new Date(iso).toLocaleString("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+const EMPTY_FINANCE_SUMMARY: FinanceStatSummary = {
+  incomeTotal: 0,
+  expenseTotal: 0,
+  balance: 0,
+  incomeByMajor: [],
+  expenseByMajor: [],
+};
 
 function DeltaBadge({ current, previous }: { current: number; previous: number | null }) {
   if (previous == null || previous === 0) {
@@ -74,7 +73,7 @@ export default async function FinanceDashboardPage() {
   const latestPage = await listFinanceReports({ page: 0, size: 1 }).catch(() => null);
   const latest = latestPage?.items[0] ?? null;
 
-  let currentSummary: FinanceStatSummary = { incomeTotal: 0, expenseTotal: 0, balance: 0 };
+  let currentSummary: FinanceStatSummary = EMPTY_FINANCE_SUMMARY;
   let prevSummary: FinanceStatSummary | null = null;
   let periodLabel = "데이터 없음";
   let recentFourWeeks: TrendPoint[] = [];
@@ -87,7 +86,7 @@ export default async function FinanceDashboardPage() {
     const prevYear = latest.month === 1 ? latest.year - 1 : latest.year;
 
     const [fetchedBalance, currentStats, prevStats] = await Promise.all([
-    getFinanceBalance().catch(() => null),
+      getFinanceBalance().catch(() => null),
       getFinanceStatistics({ granularity: "WEEK", year: latest.year, month: latest.month }).catch(() => null),
       getFinanceStatistics({ granularity: "WEEK", year: prevYear, month: prevMonth }).catch(() => null),
     ]);
@@ -95,7 +94,13 @@ export default async function FinanceDashboardPage() {
     totalBalance = fetchedBalance;
     const currentBucket = currentStats?.buckets.find((b) => b.label === `${latest.week}주`) ?? null;
     if (currentBucket) {
-      currentSummary = { incomeTotal: currentBucket.incomeTotal, expenseTotal: currentBucket.expenseTotal, balance: currentBucket.balance };
+      currentSummary = {
+        incomeTotal: currentBucket.incomeTotal,
+        expenseTotal: currentBucket.expenseTotal,
+        balance: currentBucket.balance,
+        incomeByMajor: currentBucket.incomeByMajor,
+        expenseByMajor: currentBucket.expenseByMajor,
+      };
       prevSummary = currentBucket.previousSummary;
     }
     periodLabel = `${latest.year}년 ${latest.month}월 ${latest.week}주`;
@@ -223,27 +228,7 @@ export default async function FinanceDashboardPage() {
             </thead>
             <tbody>
               {recentReports.items.map((r) => (
-                <Link key={r.id} href={`/admin/finance/${r.id}`} className="contents">
-                  <tr className={`cursor-pointer border-b border-[#f1f5fb] transition-colors last:border-b-0 hover:bg-[#f8fafd] ${r.checksumMismatch ? "bg-[#fef4f4] hover:bg-[#fce8e8]" : ""}`}>
-                    <td className="px-5 py-4">
-                      <span className="font-semibold text-[#0f1c2e]">
-                        {r.year}년 {r.month}월 {r.week}주
-                      </span>
-                      {r.checksumMismatch && (
-                        <span className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#fee2e2] text-[11px] font-bold text-[#b91c1c]" title="합계 불일치">!</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-4 text-right tabular-nums text-[#1d6f42]">{WON(r.incomeTotal)}</td>
-                    <td className="px-5 py-4 text-right tabular-nums text-[#B73838]">{WON(r.expenseTotal)}</td>
-                    <td className={`px-5 py-4 text-right tabular-nums font-semibold ${r.balance < 0 ? "text-[#B73838]" : "text-[#0f1c2e]"}`}>{WON(r.balance)}</td>
-                    <td className="px-5 py-4 tabular-nums text-[#5d6f86]">{formatUploadedAt(r.uploadedAt)}</td>
-                    <td className="px-5 py-4 text-[#c8d6e8]">
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                        <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </td>
-                  </tr>
-                </Link>
+                <FinanceReportDashboardRow key={r.id} report={r} />
               ))}
             </tbody>
           </table>

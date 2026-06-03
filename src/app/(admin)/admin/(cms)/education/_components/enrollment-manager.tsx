@@ -150,17 +150,10 @@ function AddEnrollmentPanel({ courseId, onAdded, onCancel, onError }: AddPanelPr
       });
       if (result.message) {
         onError(result.message);
+      } else if (!result.enrollment) {
+        onError("교육생 추가 결과를 확인할 수 없습니다. 새로고침 후 다시 확인해 주세요.");
       } else {
-        onAdded({
-          id: Date.now(),
-          churchMemberId,
-          displayName: selectedMember?.name ?? extName ?? "",
-          externalName: extName,
-          role,
-          enrollmentStatus,
-          note: note.trim() || null,
-          createdAt: new Date().toISOString(),
-        });
+        onAdded(result.enrollment);
       }
     });
   }

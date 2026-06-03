@@ -15,6 +15,7 @@ import {
 import type {
   EducationCategory,
   EducationCourseStatus,
+  Enrollment,
   EnrollmentRole,
   EnrollmentStatus,
 } from "@/lib/admin-education-types";
@@ -22,6 +23,10 @@ import type {
 export interface EducationCourseFormState {
   message?: string;
   success?: boolean;
+}
+
+function hasInvalidDateRange(startDate: string, endDate: string | null): boolean {
+  return endDate != null && endDate < startDate;
 }
 
 // ── Course CRUD ─────────────────────────────────────────────────────────────
@@ -44,6 +49,7 @@ export async function createEducationCourseAction(
 
   if (!title) return { message: "제목을 입력해 주세요." };
   if (!startDate) return { message: "시작일을 입력해 주세요." };
+  if (hasInvalidDateRange(startDate, endDate)) return { message: "종료일은 시작일보다 빠를 수 없습니다." };
 
   try {
     const course = await createEducationCourse({ title, category, startDate, endDate, status, instructorLabel, location, description });
@@ -74,6 +80,7 @@ export async function updateEducationCourseAction(
 
   if (!title) return { message: "제목을 입력해 주세요." };
   if (!startDate) return { message: "시작일을 입력해 주세요." };
+  if (hasInvalidDateRange(startDate, endDate)) return { message: "종료일은 시작일보다 빠를 수 없습니다." };
 
   try {
     await updateEducationCourse(courseId, { title, category, startDate, endDate, status, instructorLabel, location, description });
@@ -104,6 +111,7 @@ export async function deleteEducationCourseAction(courseId: number): Promise<Edu
 export interface EnrollmentFormState {
   message?: string;
   success?: boolean;
+  enrollment?: Enrollment;
 }
 
 export async function addEnrollmentAction(
@@ -120,9 +128,9 @@ export async function addEnrollmentAction(
   if (!isAdminSession(session)) return { message: "로그인이 필요합니다." };
 
   try {
-    await addEnrollment(courseId, payload);
+    const enrollment = await addEnrollment(courseId, payload);
     revalidatePath(`/admin/education/${courseId}`);
-    return { success: true };
+    return { success: true, enrollment };
   } catch (error) {
     return { message: toFriendlyEducationMessage(error, "교육생 추가 중 오류가 발생했습니다.") };
   }

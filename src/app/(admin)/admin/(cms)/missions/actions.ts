@@ -13,6 +13,7 @@ import {
   toFriendlyMissionMessage,
 } from "@/lib/admin-missions-api";
 import type {
+  MissionParticipant,
   MissionTripType,
   MissionTripStatus,
   ParticipantRole,
@@ -27,6 +28,10 @@ export interface MissionTripFormState {
 function requireAdminSession() {
   // auth check happens inside lib functions via adminApiFetch; this is just a guard
   return;
+}
+
+function hasInvalidDateRange(startDate: string, endDate: string | null): boolean {
+  return endDate != null && endDate < startDate;
 }
 
 // ── Trip CRUD ─────────────────────────────────────────────────────────────────
@@ -52,6 +57,7 @@ export async function createMissionTripAction(
   if (!title) return { message: "제목을 입력해 주세요." };
   if (!country) return { message: "나라/지역을 입력해 주세요." };
   if (!startDate) return { message: "출발일을 입력해 주세요." };
+  if (hasInvalidDateRange(startDate, endDate)) return { message: "도착일은 출발일보다 빠를 수 없습니다." };
 
   try {
     const trip = await createMissionTrip({ title, country, startDate, endDate, type, status, leaderLabel, budget, description });
@@ -85,6 +91,7 @@ export async function updateMissionTripAction(
   if (!title) return { message: "제목을 입력해 주세요." };
   if (!country) return { message: "나라/지역을 입력해 주세요." };
   if (!startDate) return { message: "출발일을 입력해 주세요." };
+  if (hasInvalidDateRange(startDate, endDate)) return { message: "도착일은 출발일보다 빠를 수 없습니다." };
 
   try {
     await updateMissionTrip(tripId, { title, country, startDate, endDate, type, status, leaderLabel, budget, description });
@@ -115,6 +122,7 @@ export async function deleteMissionTripAction(tripId: number): Promise<MissionTr
 export interface ParticipantFormState {
   message?: string;
   success?: boolean;
+  participant?: MissionParticipant;
 }
 
 export async function addParticipantAction(
@@ -131,9 +139,9 @@ export async function addParticipantAction(
   if (!isAdminSession(session)) return { message: "로그인이 필요합니다." };
 
   try {
-    await addMissionParticipant(tripId, payload);
+    const participant = await addMissionParticipant(tripId, payload);
     revalidatePath(`/admin/missions/${tripId}`);
-    return { success: true };
+    return { success: true, participant };
   } catch (error) {
     return { message: toFriendlyMissionMessage(error, "참가자 추가 중 오류가 발생했습니다.") };
   }
