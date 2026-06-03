@@ -68,8 +68,8 @@ function LinesTable({ title, majors, showDetail }: { title: string; majors: Majo
                 </td>
                 {showDetail && <td />}
               </tr>
-              {g.lines.map((l) => (
-                <tr key={l.minor} className="border-b border-[#f1f5fb] last:border-b-0">
+              {g.lines.map((l, i) => (
+                <tr key={`${g.major}-${l.minor}-${i}`} className="border-b border-[#f1f5fb] last:border-b-0">
                   <td className="px-5 py-1.5 pl-9 text-[#5d6f86]">{l.minor}</td>
                   <td
                     className={`px-5 py-1.5 text-right tabular-nums ${
