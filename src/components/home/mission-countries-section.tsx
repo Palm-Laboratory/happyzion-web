@@ -46,12 +46,12 @@ function MissionCountriesHeading({ className = "" }: { className?: string }) {
         </div>
       </div>
       <div className="type-body-md lg:type-body-lg text-[#FDF8FF]">
-        <p>필리핀부터 미얀마, 태국과 말레이시아까지,</p>
+        <p>다양한 나라와 민족을 섬기며 우리는 하나님의 사랑이 모든 사람을 향해 동일하게 흐르고 있음을 보았습니다.</p>
         <p>
-          우리는 다양한 땅에서 복음을 전하며
+          열방을 향한 하나님의 마음을 품고,
           <br className="min-[501px]:hidden" />
           <span className="hidden min-[501px]:inline"> </span>
-          선교의 사명을 이어가고 있습니다.
+          그 사랑이 모든 땅에 흘러가도록 오늘도 선교의 사명을 이어가고 있습니다.
         </p>
       </div>
     </div>
@@ -212,9 +212,8 @@ function MissionCountriesDesktop() {
             className="absolute right-[var(--countries-copy-right)] top-1/2 z-10"
             style={hydrated ? { transform: `translateY(calc(-50% + ${headingTranslate}px))` } : undefined}
           >
-            <p className="max-w-[360px] text-right type-body-md lg:type-body-lg text-[#FDF8FF]">
-              필리핀부터 미얀마, 태국과 말레이시아까지, 우리는 다양한 땅에서 복음을 전하며
-              선교의 사명을 이어가고 있습니다.
+            <p className="max-w-[480px] text-right type-body-md lg:type-body-lg text-[#FDF8FF]">
+              다양한 나라와 민족을 섬기며 우리는 하나님의 사랑이 모든 사람을 향해 동일하게 흐르고 있음을 보았습니다. 열방을 향한 하나님의 마음을 품고, 그 사랑이 모든 땅에 흘러가도록 오늘도 선교의 사명을 이어가고 있습니다.
             </p>
           </div>
 

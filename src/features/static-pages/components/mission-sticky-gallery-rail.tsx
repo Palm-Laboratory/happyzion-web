@@ -64,13 +64,13 @@ function MissionGalleryCard({
       </div>
       <div className="grid h-[calc(100%_-_40px)] grid-cols-2 grid-rows-[minmax(0,2.5fr)_minmax(0,1fr)] gap-layout-xs">
         <div className="relative col-span-2 min-h-0 w-full">
-          <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 400px, 300px" />
+          <Image className="object-cover" src={gallery.images[0]} alt={`${gallery.countries.join(", ")} 선교 사진`} fill sizes="(min-width: 1024px) 800px, 600px" quality={100} />
         </div>
         <div className="relative min-h-0 w-full">
-          <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
+          <Image className="object-cover" src={gallery.images[1]} alt="" fill sizes="(min-width: 1024px) 400px, 300px" quality={100} />
         </div>
         <div className="relative min-h-0 w-full">
-          <Image className="object-cover" src={gallery.images[2]} alt="" fill sizes="(min-width: 1024px) 200px, 150px" />
+          <Image className="object-cover object-[20%_center]" src={gallery.images[2]} alt="" fill sizes="(min-width: 1024px) 400px, 300px" quality={100} />
         </div>
       </div>
     </figure>

@@ -13,25 +13,25 @@ const MISSION_GALLERIES: MissionGallery[] = [
   {
     countries: ["Philippines", "Malaysia", "Thailand"],
     images: [
-      "/images/mission-history/philippines-main.jpg",
-      "/images/mission-history/philippines-detail-1.jpg",
-      "/images/mission-history/philippines-detail-2.jpg",
+      "/images/mission-history/philippines.jpeg",
+      "/images/mission-history/malaysia.jpeg",
+      "/images/mission-history/thailand.jpeg",
     ],
   },
   {
-    countries: ["Cambodia", "Indonesia", "China"],
+    countries: ["Indonesia", "China", "Cambodia"],
     images: [
-      "/images/mission-history/cambodia-main.jpg",
-      "/images/mission-history/cambodia-detail-1.jpg",
-      "/images/mission-history/cambodia-detail-2.jpg",
+      "/images/mission-history/indonesia.jpeg",
+      "/images/mission-history/china.jpg",
+      "/images/mission-history/cambodia.jpg",
     ],
   },
   {
     countries: ["Myanmar", "Paraguay", "Mongolia"],
     images: [
-      "/images/mission-history/myanmar-main.jpg",
-      "/images/mission-history/myanmar-detail-1.jpg",
-      "/images/mission-history/myanmar-detail-2.jpg",
+      "/images/mission-history/myanmar.jpeg",
+      "/images/mission-history/paraguay.jpeg",
+      "/images/mission-history/mongolia.jpeg",
     ],
   },
 ];

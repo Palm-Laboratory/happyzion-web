@@ -36,23 +36,24 @@ export const missionStories = [
   {
     id: "01",
     country: "Philippines",
-    image: "/images/mission/philippines.jpg",
+    image: "/images/mission/philippines.jpeg",
+    imagePosition: "85% center",
     message:
-      "가장 오래 함께한 땅에서 우리는 복음이 사람을 변화시키고 공동체를 세워가는 과정을 깊이 경험했습니다.",
+      "낯선 땅에서 만난 사람들과의 작은 만남 속에서, 하나님의 사랑이 전해지는 모습을 보며 복음이 언어와 문화를 넘어 사람의 마음을 잇는 사랑의 언어임을 경험했습니다.",
   },
   {
     id: "02",
     country: "Thailand",
-    image: "/images/mission/thailand.jpg",
+    image: "/images/mission/thailand.jpeg",
     message:
-      "낯선 환경 속에서도 성령께서 길을 여시고, 작은 순종이 큰 열매로 이어짐을 보았습니다.",
+      "따뜻한 환대와 밝은 미소 속에서, 우리는 하나님께서 이미 이곳에서 일하고 계심을 보았습니다. 우리가 전하기 전에 먼저 역사하시는 하나님의 손길이 이 공동체 곳곳에 스며들어 있었습니다.",
   },
   {
     id: "03",
     country: "Malaysia",
-    image: "/images/mission/malaysia.png",
+    image: "/images/mission/malaysia.jpeg",
     message:
-      "다양한 문화 속에서 복음이 경계를 넘어 사람들을 하나로 묶는 힘을 배웠습니다.",
+      "어려운 현실 속에서도 미소를 잃지 않는 사람들을 만나며, 우리는 작은 사랑의 나눔이 희망의 씨앗이 되어 삶을 변화시키는 모습을 보았습니다.",
   },
 ];
 
@@ -65,5 +66,5 @@ export const missionCountries = [
   "China",
   "Myanmar",
   "Paraguay",
-  "Mongol",
+  "Mongolia",
 ];

@@ -10,12 +10,12 @@ const galleryImages = [
     aspectClassName: "aspect-[539/359]",
   },
   {
-    src: "/images/vision/vision-mission.png",
+    src: "/images/vision/vision-mission.jpeg",
     alt: "Mission vision",
     aspectClassName: "aspect-[380/260]",
   },
   {
-    src: "/images/vision/vision-community.png",
+    src: "/images/vision/vission-community.jpeg",
     alt: "Community vision",
     aspectClassName: "aspect-[2048/1365]",
   },

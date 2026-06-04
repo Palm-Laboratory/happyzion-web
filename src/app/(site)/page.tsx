@@ -376,7 +376,7 @@ export default async function HomePage() {
                   >
                     <div className="relative aspect-[380/260] w-full overflow-hidden">
                       <Image
-                        src="/images/vision/vision-mission.png"
+                        src="/images/vision/vision-mission.jpeg"
                         alt="Mission vision"
                         fill
                         sizes="(min-width: 1024px) 32vw, 72vw"
@@ -395,7 +395,7 @@ export default async function HomePage() {
                   >
                     <div className="relative aspect-[2048/1365] w-full overflow-hidden">
                       <Image
-                        src="/images/vision/vision-community.png"
+                        src="/images/vision/vission-community.jpeg"
                         alt="Community vision"
                         fill
                         sizes="(min-width: 1024px) 32vw, 72vw"
