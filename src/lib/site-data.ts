@@ -55,6 +55,20 @@ export const missionStories = [
     message:
       "어려운 현실 속에서도 미소를 잃지 않는 사람들을 만나며, 우리는 작은 사랑의 나눔이 희망의 씨앗이 되어 삶을 변화시키는 모습을 보았습니다.",
   },
+  {
+    id: "04",
+    country: "Indonesia",
+    image: "/images/mission/indonesia.jpeg",
+    message:
+      "수천 개의 섬으로 이루어진 땅에서, 복음은 파도처럼 퍼져나갔습니다. 각기 다른 언어와 문화를 가진 이들이 한 하나님 앞에 모이는 모습은 천국의 예표였습니다.",
+  },
+  {
+    id: "05",
+    country: "Myanmar",
+    image: "/images/mission/myanmar.jpeg",
+    message:
+      "고난 속에서도 믿음을 붙잡고 살아가는 이들 곁에서, 우리는 오히려 더 큰 위로와 도전을 받았습니다. 그들의 기도와 찬양 속에서 하나님의 임재를 깊이 경험했습니다.",
+  },
 ];
 
 export const missionCountries = [

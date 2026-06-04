@@ -207,7 +207,7 @@ function MissionStorySectionMobile() {
             </div>
 
             <div className="mt-10 w-full text-left">
-              <p className="type-body-md lg:type-body-lg text-[#FDF8FF]">{activeStory.message}</p>
+              <p className="type-body-md text-[#FDF8FF]">{activeStory.message}</p>
             </div>
           </div>
         </div>
@@ -285,6 +285,8 @@ function MissionStorySectionDesktop() {
     "낯선 땅에서 만난 사람들과의 작은 만남 속에서, 하나님의 사랑이 전해지는 모습을 보며 복음이 언어와 문화를 넘어 사람의 마음을 잇는 사랑의 언어임을 경험했습니다.",
     "따뜻한 환대와 밝은 미소 속에서, 우리는 하나님께서 이미 이곳에서 일하고 계심을 보았습니다. 우리가 전하기 전에 먼저 역사하시는 하나님의 손길이 이 공동체 곳곳에 스며들어 있었습니다.",
     "어려운 현실 속에서도 미소를 잃지 않는 사람들을 만나며, 우리는 작은 사랑의 나눔이 희망의 씨앗이 되어 삶을 변화시키는 모습을 보았습니다.",
+    "수천 개의 섬으로 이루어진 땅에서, 복음은 파도처럼 퍼져나갔습니다. 각기 다른 언어와 문화를 가진 이들이 한 하나님 앞에 모이는 모습은 천국의 예표였습니다.",
+    "고난 속에서도 믿음을 붙잡고 살아가는 이들 곁에서, 우리는 오히려 더 큰 위로와 도전을 받았습니다. 그들의 기도와 찬양 속에서 하나님의 임재를 깊이 경험했습니다.",
   ];
   const headingExit = clamp(progress / 0.24, 0, 1);
   const slideReveal = clamp((progress - 0.14) / 0.12, 0, 1);
@@ -376,7 +378,7 @@ function MissionStorySectionDesktop() {
                 return (
                   <p
                     key={`desktop-story-message-${index + 1}`}
-                    className="type-body-md lg:type-body-lg absolute inset-0 transition-opacity duration-500 ease-out"
+                    className="type-body-md absolute inset-0 transition-opacity duration-500 ease-out"
                     style={{
                       lineHeight: "36px",
                       opacity: visible ? 1 : 0,
