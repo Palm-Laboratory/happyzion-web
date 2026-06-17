@@ -237,6 +237,7 @@ function PastorSection() {
                 fill
                 sizes="(min-width: 768px) 340px, 300px"
                 className="object-cover object-top"
+                quality={100}
               />
             </div>
             <figcaption className="flex flex-col gap-comp-xxs">
