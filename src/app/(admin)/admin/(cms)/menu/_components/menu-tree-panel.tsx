@@ -105,7 +105,7 @@ export function MenuTreePanel({
           onClick={onAddMenu}
           className="rounded-lg border border-[#d7e3f4] bg-[#f7fbff] px-3 py-2 text-[12px] font-semibold text-[#2d5da8]"
         >
-          + 메뉴 추가
+          상단 메뉴 추가
         </button>
       </div>
 

@@ -192,12 +192,15 @@ export function MenuDetailPanel({
             </div>
           </div>
 
-          {/* 공개 경로 */}
-          <div className="space-y-4 rounded-xl border border-[#eef2f7] bg-[#fbfdff] p-4">
+          {/* 홈페이지 주소 */}
+          <div
+            hidden={selectedNode.type === "EXTERNAL_LINK"}
+            className="space-y-4 rounded-xl border border-[#eef2f7] bg-[#fbfdff] p-4"
+          >
             <div>
-              <h3 className="text-[12px] font-bold text-[#132033]">공개 경로</h3>
+              <h3 className="text-[12px] font-bold text-[#132033]">홈페이지 주소</h3>
               <p className="mt-1 text-[11px] text-[#6d7f95]">
-                사이트에서 접근할 URL 경로를 확인하고 조정합니다.
+                사용자가 홈페이지에서 이 메뉴에 접속할 때 사용되는 주소입니다.
               </p>
             </div>
 
@@ -295,20 +298,20 @@ export function MenuDetailPanel({
             </div>
 
             <div className="space-y-1.5">
-              <span className="text-[12px] font-semibold text-[#334155]">공개 주소</span>
+              <span className="text-[12px] font-semibold text-[#334155]">접속 주소</span>
               <div className="flex flex-wrap items-center gap-2 rounded-lg border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2">
                 <code className="min-w-0 flex-1 break-all text-[13px] text-[#475569]">
                   {selectedPreviewPublicRoute}
                 </code>
               </div>
-              <p className="text-[11px] leading-5 text-[#6d7f95]">
-                저장 전 자동 생성 경로는 저장 후 서버에서 확정됩니다.
-              </p>
             </div>
           </div>
 
           {/* 연결 대상 */}
-          <div className="space-y-4 rounded-xl border border-[#eef2f7] bg-[#fbfdff] p-4">
+          <div
+            hidden={selectedNode.type === "BOARD"}
+            className="space-y-4 rounded-xl border border-[#eef2f7] bg-[#fbfdff] p-4"
+          >
             <div>
               <h3 className="text-[12px] font-bold text-[#132033]">연결 대상</h3>
               <p className="mt-1 text-[11px] text-[#6d7f95]">

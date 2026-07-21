@@ -17,8 +17,8 @@ export function MenuAddModal({ onAddRoot, onClose }: Props) {
         className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-[15px] font-bold text-[#0f1c2e]">메뉴 그룹 추가</h3>
-        <p className="mt-1 text-[12px] text-[#6d7f95]">추가할 메뉴의 종류를 선택해 주세요.</p>
+        <h3 className="text-[15px] font-bold text-[#0f1c2e]">상단 메뉴 추가</h3>
+        <p className="mt-1 text-[12px] text-[#6d7f95]">추가할 상단 메뉴의 종류를 선택하세요</p>
         <div className="mt-4 space-y-3">
           <button
             type="button"

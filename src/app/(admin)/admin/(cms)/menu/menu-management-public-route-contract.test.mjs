@@ -158,6 +158,31 @@ test("menu management client labels slug as a URL path field", async () => {
   );
 });
 
+test("EXTERNAL_LINK detail panel hides the internal homepage address editor", async () => {
+  const contents = await readDetailPanel();
+
+  assert.match(
+    contents,
+    /hidden=\{selectedNode\.type\s*===\s*["']EXTERNAL_LINK["']\}[\s\S]{0,300}<h3[^>]*>\s*홈페이지 주소\s*<\/h3>/,
+    "Expected external-link menus to hide the internal homepage address editor.",
+  );
+  assert.match(
+    contents,
+    /selectedNode\.type\s*===\s*["']EXTERNAL_LINK["'][\s\S]{0,300}외부 URL/,
+    "Expected external-link menus to keep the external URL editor visible.",
+  );
+});
+
+test("BOARD detail panel hides the connection target section", async () => {
+  const contents = await readDetailPanel();
+
+  assert.match(
+    contents,
+    /hidden=\{selectedNode\.type\s*===\s*["']BOARD["']\}[\s\S]{0,300}<h3[^>]*>\s*연결 대상\s*<\/h3>/,
+    "Expected board menus to hide the connection target section because their boards are connected automatically.",
+  );
+});
+
 test("parent dropdown reparenting expands the newly selected parent menu", async () => {
   const useMenuTree = await readUseMenuTree();
   const detailPanel = await readDetailPanel();
