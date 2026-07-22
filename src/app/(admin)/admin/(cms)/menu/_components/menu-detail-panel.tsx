@@ -12,6 +12,33 @@ import {
   moveNodeWithinSiblings,
 } from "./menu-tree-utils";
 
+const CONNECTION_SECTION_COPY: Record<MenuType, { title: string; description: string }> = {
+  FOLDER: {
+    title: "하위 메뉴 추가",
+    description: "이 메뉴 그룹 아래에 게시판 또는 외부 링크 메뉴를 추가합니다.",
+  },
+  STATIC: {
+    title: "연결 페이지 정보",
+    description: "이 메뉴에 연결된 코드 관리 페이지를 확인합니다.",
+  },
+  BOARD: {
+    title: "",
+    description: "",
+  },
+  EXTERNAL_LINK: {
+    title: "외부 링크 설정",
+    description: "메뉴를 클릭했을 때 이동할 외부 주소와 열기 방식을 설정합니다.",
+  },
+  YOUTUBE_PLAYLIST_GROUP: {
+    title: "영상 그룹 안내",
+    description: "유튜브 재생목록의 동기화와 그룹 배정 방식을 안내합니다.",
+  },
+  YOUTUBE_PLAYLIST: {
+    title: "영상 정보",
+    description: "유튜브에서 동기화된 재생목록 정보를 확인합니다.",
+  },
+};
+
 type Props = {
   selectedNode: EditorNode;
   items: EditorNode[];
@@ -83,6 +110,7 @@ export function MenuDetailPanel({
       : isStatusSwitchOn
         ? STATUS_LABEL.PUBLISHED
         : STATUS_LABEL.HIDDEN;
+  const connectionSectionCopy = CONNECTION_SECTION_COPY[selectedNode.type];
 
   const updateManagedStatus = (nextStatus: Extract<MenuStatus, "PUBLISHED" | "HIDDEN">) => {
     onUpdateNode((node) => ({
@@ -307,15 +335,17 @@ export function MenuDetailPanel({
             </div>
           </div>
 
-          {/* 연결 대상 */}
+          {/* 메뉴 타입별 상세 설정 */}
           <div
             hidden={selectedNode.type === "BOARD"}
             className="space-y-4 rounded-xl border border-[#eef2f7] bg-[#fbfdff] p-4"
           >
             <div>
-              <h3 className="text-[12px] font-bold text-[#132033]">연결 대상</h3>
+              <h3 className="text-[12px] font-bold text-[#132033]">
+                {connectionSectionCopy.title}
+              </h3>
               <p className="mt-1 text-[11px] text-[#6d7f95]">
-                메뉴가 열어야 할 페이지, 게시판, 외부 링크 또는 영상 정보를 설정합니다.
+                {connectionSectionCopy.description}
               </p>
             </div>
 
@@ -340,8 +370,7 @@ export function MenuDetailPanel({
 
             {selectedNode.type === "YOUTUBE_PLAYLIST_GROUP" && (
               <div className="rounded-xl border border-[#eef2f7] bg-white p-4">
-                <p className="text-[12px] font-semibold text-[#334155]">영상 그룹 안내</p>
-                <p className="mt-2 text-[12px] leading-5 text-[#5d6f86]">
+                <p className="text-[12px] leading-5 text-[#5d6f86]">
                   유튜브 재생목록은 수동으로 추가하지 않고, 영상 관리에서 동기화하고 그룹에
                   배정합니다.
                 </p>

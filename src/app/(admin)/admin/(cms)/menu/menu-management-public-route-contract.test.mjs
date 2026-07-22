@@ -178,9 +178,20 @@ test("BOARD detail panel hides the connection target section", async () => {
 
   assert.match(
     contents,
-    /hidden=\{selectedNode\.type\s*===\s*["']BOARD["']\}[\s\S]{0,300}<h3[^>]*>\s*연결 대상\s*<\/h3>/,
+    /hidden=\{selectedNode\.type\s*===\s*["']BOARD["']\}/,
     "Expected board menus to hide the connection target section because their boards are connected automatically.",
   );
+});
+
+test("detail panel labels each connection section by its actual purpose", async () => {
+  const contents = await readDetailPanel();
+
+  assert.match(contents, /FOLDER:[\s\S]{0,100}title:\s*["']하위 메뉴 추가["']/);
+  assert.match(contents, /STATIC:[\s\S]{0,100}title:\s*["']연결 페이지 정보["']/);
+  assert.match(contents, /EXTERNAL_LINK:[\s\S]{0,100}title:\s*["']외부 링크 설정["']/);
+  assert.match(contents, /YOUTUBE_PLAYLIST_GROUP:[\s\S]{0,100}title:\s*["']영상 그룹 안내["']/);
+  assert.match(contents, /YOUTUBE_PLAYLIST:[\s\S]{0,100}title:\s*["']영상 정보["']/);
+  assert.doesNotMatch(contents, />\s*연결 대상\s*</);
 });
 
 test("parent dropdown reparenting expands the newly selected parent menu", async () => {
